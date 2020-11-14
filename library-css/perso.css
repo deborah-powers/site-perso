@@ -1,0 +1,23 @@
+/* ajouter de la couleur à mes pages
+dépend de structure
+*/
+:root {
+	--text-color: #603;
+	--fond-color: #C362;
+	--bord-color: #C36;
+	--button-color: ivory;
+	--button-color-hover: var(--button-color);
+	--button-bg: #C36;
+	--button-bg-hover: #399;
+	--button-border: none;
+	--foldable-border: solid;
+}
+body {
+	max-width: 36cm;
+	background-color: ivory;
+	min-height: 100vh;
+	padding: 2%;
+}
+html { background-color: var(--button-bg); }
+h1, h2, p { margin-bottom: 1em; }
+code { margin-bottom: 1em; }

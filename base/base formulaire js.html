@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='.css'/>
+	<base target='_blank'>
+	<style type='text/css'></style>
+</head>
+<body>
+	<form>
+		<p>Votre nom</p>
+		<input type='text' id='Lname' value='Carroussi'/>
+		<p>Votre prénom</p>
+		<input type='text' id='Fname' value='Claudia'/>
+		<input type='submit' onmouseleave='printName()'/>
+		<input type='reset'/>
+	</form>
+	<p id='showLname'>Votre nom est:</p>
+	<p id='showFname'>Votre prénom est:</p>
+</body>
+<script type='text/javascript' src='.js'></script>
+<script type='text/javascript'>
+	var Fname = document.getElementById ('Fname');
+	var Lname = document.getElementById ('Lname');
+			var showFname = document.getElementById ('showFname');
+			var showLname = document.getElementById ('showLname');
+	function printName(){
+		var txtFname = Fname.value;
+		var txtLname = Lname.value;
+		showFname.innerHTML = 'Votre prénom est: '+ txtFname;
+		showLname.innerHTML = 'Votre nom est: '+ txtLname;
+	}
+</script>
+</html>

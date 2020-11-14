@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg version='1.1' width='900' height='500' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+	<title>mes formes</title>
+<style type='text/css'><![CDATA[
+	/* défaut */
+	svg { border: double 6px maroon; }
+	* { fill: deeppink; }
+	/* fleurs */
+	.petal { fill: darkcyan; }
+	.petal-bis { fill: purple; }
+	.petal-ter { fill: seagreen; }
+	polygon { fill: deeppink; }
+	g { stroke: maroon; }
+	circle.rosace-a { fill: red; }		circle.rosace-b { fill: orange; }	circle.rosace-c { fill: yellow; }
+	circle.rosace-d { fill: green; }	circle.rosace-e { fill: blue; }		circle.rosace-f { fill: purple; }
+	/* nounours */
+	.oeil { fill: white; }
+	.pupille { fill: black; }
+]]></style><defs>
+	<info name='root(2)' value='1.414214'/>
+	<info name='root(3)' value='1.732051'/>
+	<pattern id='quadrillage' x='0' y='0' width='120' height='120' patternUnits='userSpaceOnUse' stroke='grey' style='stroke-width:2px'>
+		<line y1='0' y2='150' x1='5' x2='5'/>
+		<line y1='0' y2='150' x1='45' x2='45' style='stroke-width:4px'/>
+		<line y1='0' y2='150' x1='85' x2='85'/>
+		<line x1='0' x2='150' y1='5' y2='5'/>
+		<line x1='0' x2='150' y1='45' y2='45' style='stroke-width:4px'/>
+		<line x1='0' x2='150' y1='85' y2='85'/>
+	</pattern>
+</defs>
+	<g id='nounours' transform='translate(790,110)'>
+		<circle r='20' cx='20' cy='20' id='oreille-ext-gh'/>
+		<circle r='10' cx='20' cy='20' class='oeil' id='oreille-int-gh'/>
+		<circle r='20' cx='84' cy='20' id='oreille-ext-dt'/>
+		<circle r='10' cx='84' cy='20' class='oeil' id='oreille-int-dt'/>
+		<circle r='40' cx='52' cy='52' id='tete'/>
+		<circle r='14' cx='52' cy='68' class='oeil' id='museau'/>
+		<circle r='4.8' cx='52' cy='69.2' class='pupille' id='truffe'/>
+		<ellipse rx='8' ry='10' cx='68' cy='40' transform='rotate(12,68,40)' class='oeil' id='oeil-dt'/>
+		<circle r='4' cx='66.2' cy='42' class='pupille' id='pupille-dt'/>
+		<ellipse rx='8' ry='10' cx='36' cy='40' transform='rotate(-12,36,40)' class='oeil' id='oeil-gh'/>
+		<circle r='4' cx='37.2' cy='42' class='pupille' id='pupille-gh'/>
+	</g>
+	<g id='smiley' transform='translate(810,210)'>
+		<circle r='40' cx='40' cy='40' id='tete'/>
+		<ellipse rx='8' ry='10' cx='56' cy='28' transform='rotate(12,56,28)' class='oeil' id='oeil-dt'/>
+		<circle r='4' cx='54.8' cy='30' class='pupille' id='pupille-dt'/>
+		<ellipse rx='8' ry='10' cx='24' cy='28' transform='rotate(-12,24,28)' class='oeil' id='oeil-gh'/>
+		<circle r='4' cx='25.2' cy='30' class='pupille' id='pupille-gh'/>
+		<circle r='4' cx='40' cy='46' id='nez'/>
+		<path d='M20,56 c 8,20 32,20 40,0 c -8,4 -32,4 -40,0z' id='bouche' class='oeil'/>
+	</g>
+	<g id='flower-square-2p' transform='translate(450,90)'>
+		<path d='M75 75 c 120 -100, -120 -100, 0 0 c 120 100, -120 100, 0 0'/>
+		<path d='M75 75 c 100 -120, 100 120, 0 0 c -100 -120, -100 120, 0 0' class='petal'/>
+		<circle r='30' cx='75' cy='75'/>
+	</g>
+	<g id='flower-square-4p' transform='translate(610,90)'>
+		<path d='M75 75 c 120 -100, -120 -100, 0 0'/>
+		<path d='M75 75 c 100 -120, 100 120, 0 0' class='petal'/>
+		<path d='M75 75 c 120 100, -120 100, 0 0' class='petal-bis'/>
+		<path d='M75 75 c -100 -120, -100 120, 0 0' class='petal-ter'/>
+		<circle r='30' cx='75' cy='75'/>
+	</g>
+	<g id='rosace-horizontal' transform='translate(546,200)'>
+		<circle r='30' class='rosace-a' cx='30' cy='55.98'/><circle r='30' class='rosace-b' cx='45' cy='81.96'/>
+		<circle r='30' class='rosace-c' cx='75' cy='81.96'/><circle r='30' class='rosace-d' cx='90' cy='55.98'/>
+		<circle r='30' class='rosace-e' cx='75' cy='30'/><circle r='30' class='rosace-f' cx='45' cy='30'/>
+	</g>
+	<g id='rosace-vertical' transform='translate(546,0)'>
+		<circle r='30' class='rosace-a' cy='30' cx='55.98'/><circle r='30' class='rosace-b' cy='45' cx='81.96'/>
+		<circle r='30' class='rosace-c' cy='75' cx='81.96'/><circle r='30' class='rosace-d' cy='90' cx='55.98'/>
+		<circle r='30' class='rosace-e' cy='75' cx='30'/><circle r='30' class='rosace-f' cy='45' cx='30'/>
+	</g>
+	<polygon id='hexagon-verticlal' points='0,20 0,60 34.64,80 69.28,60 69.28,20 34.64,0' transform='translate(450,0)'/>
+	<polygon id='hexagon-horizontal' points='20,0 60,0 80,34.64 60,69.28 20,69.28 0,34.64' transform='translate(450,240)'/>
+	<polygon id='trisocele-haut' points='0,0 40,0 20,34.64' transform='translate(750,50)'/>
+	<polygon id='trisocele-bas' points='0,34.64 40,34.64 20,0' transform='translate(780,50)'/>
+	<polygon id='trisocele-droit' points='0,0 0,40 34.64,20' transform='translate(770,170)'/>
+	<polygon id='trisocele-gauche' points='34.64,0 34.64,40 0,20' transform='translate(770,200)'/>
+	<polygon id='octogon' points='20,0 48.3,0 68.3,20 68.3,48.3 48.3,68.3 20,68.3 0,48.3 0,20' transform='translate(825,40)'/>
+	<polygon id='pentagon' points='0,47.5 15.5,0 65.5,0 80.9,47.5 40.5,80' transform='translate(800,410)'/>
+
+	<path id='heart' d='m0,38 c 0,50 50,50 50,80 c 0,-30 50,-30 50,-80 c 0,-50 -50,-50 -50,0 c 0,-50 -50,-50 -50,0 z' transform='scale(1,0.8) translate(650,350)'/>
+	<path id='cloud-cross' d='M 38,88 c 0,50 50,50 50,0 c 50,0 50,-50 0,-50 c 0,-50 -50,-50 -50,0 c -50,0 -50,50 0,50 z' transform='translate(720,320)'/>
+	<path id='cloud' d='M 38,88 c 0,50 50,50 50,0 c 0,50 50,50 50,0 c 0,50 50,50 50,0 c 50,0 50,-50 0,-50 c 0,-50 -50,-50 -50,0 c 0,-50 -50,-50 -50,0 c 0,-50 -50,-50 -50,0 c -50,0 -50,50 0,50 z' transform='translate(450,320)'/>
+
+	<path id='path-line-simple' d='m0,0 h40 v40 h-40 z' transform='translate(670,400)'/>
+	<path id='path-line-coord' d='m40,0 l40,40 l-40,40 l-40,-40 z' transform='translate(710,210)'/>
+	<path id='path-curve-quadratic' d='m0,0 q 40,80 80,0 z' transform='translate(720,90)'/>
+	<path id='path-curve-bezier' d='m6,0 c -40,60 120,60 80,0 z' transform='translate(760,0)'/>
+	<path id='path-arc' d='m0,0 a 20,40 -20 1 0 60,40 z' transform='translate(780,270)'/>
+	<path id='path-hole' fill-rule='evenodd' d='m220,0 h80 v80 h-80 z m20,20 h40 v40 h-40 z' transform='translate(450,0)'/>
+
+	<path id='path-curve-bezier-bis' d='m0,0 c 10,60 70,60 80,0 s 80,120 80,0 z' transform='translate(0,300)'/>
+	<path id='path-curve-quadratic' d='m0,0 q 40,80 80,0 t 80,-60 z' transform='translate(0,100)'/>
+</svg>

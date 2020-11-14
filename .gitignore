@@ -1,0 +1,12 @@
+data/
+library-js-ext/
+liens/
+login/
+module*/
+portfolio/
+*cv.*
+index.html
+*.ico
+library-*/*.txt
+library-php/crossOrigin.php
+library-php/test.php

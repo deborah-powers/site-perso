@@ -1,0 +1,57 @@
+/* donner une forme aux balises
+<p class='shape cloud'>
+dépend de structure.css
+*/
+.shape {
+	width: 3em;
+	height: 3em;
+	margin-left: 1em;
+	z-index: 2;
+	position: relative;
+	background-color: var(--bord-color, #AAA);
+	text-align: center;
+}
+.shape:before, .shape:after {
+	content: "";
+	position: absolute;
+	z-index: -2;
+	width: inherit;
+	height: inherit;
+	background-color: inherit;
+	border-style: inherit;
+	border-width: inherit;
+	border-color: inherit;
+}
+.cloud {
+	margin-left: 2em;
+	margin-top: 1em;
+	padding-top: 1em;
+	border-radius: 100% 100% 0 0;
+}
+.cloud:before, .cloud:after {	bottom: 0;	border-radius: 100%;	}
+.cloud:before {	width: 4em;	height: 75%;	left: -2em;	}
+.cloud:after {	width: 3em;	height: 60%;	right: -1.5em;	}
+.heart {	margin-top: 2em;	margin-bottom: 1em;	transform: rotate(45deg);	}
+.heart:before, .heart:after {	border-radius: 50%;	}
+.heart:before {	left: 0%;	top: -50%;	}
+.heart:after {	left: -50%;	}
+.moon {
+	background-color: transparent;
+	border-radius: 50%;	padding-top: 1em;
+	box-shadow: -1em 0 0 0 var(--bord-color, #AAA);
+}
+.moon:before, .moon:after {	content: none;	}
+.arrow-left {
+	background-image:
+		linear-gradient(0deg, var(--bg-color) 10%, transparent 10%, transparent 90%, var(--bg-color) 90%),
+		linear-gradient(135deg, var(--bg-color) 45%, transparent 45%),
+		linear-gradient(45deg, var(--bg-color) 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%),
+		linear-gradient(135deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%);
+		}
+.arrow-right {
+	background-image:
+		linear-gradient(0deg, var(--bg-color) 10%, transparent 10%, transparent 90%, var(--bg-color) 90%),
+		linear-gradient(135deg, transparent 55%, var(--bg-color) 55%),
+		linear-gradient(45deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, var(--bg-color) 55%),
+		linear-gradient(135deg, transparent 45%, var(--text-color) 45%);
+}

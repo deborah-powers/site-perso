@@ -1,0 +1,35 @@
+/*
+css pour les fichiers svg.
+*/
+* {
+	/* rotation centrée */
+	transform-box: fill-box;
+	transform-origin: center;
+}
+/* cacher des formes */
+.hidden { display: none; }
+/* guides pour tracer des formes */
+.default {
+	fill: ivory;
+	stroke: brown;
+	stroke-width: 2px;
+}
+svg {
+	border-style: solid;
+	border-color: brown;
+	background-color: ivory;
+}
+svg.grid { background: url(/home/lenovo/Bureau/html/quadrillage.svg#quadrillage-r); }
+text {
+	fill: brown;
+	stroke: none;
+	stroke-width: 2px;
+	font-size: 2em;
+	alignment-baseline: before-edge;
+	font-family: serif;
+}
+circle.marker {
+	r: 4px;
+	stroke: none;
+	fill: green;
+}

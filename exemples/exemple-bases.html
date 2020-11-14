@@ -1,0 +1,383 @@
+<!doctype html><html><head>
+	<title>notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/png' href='icone.bmp'>
+	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/perso.css' media='screen'/>
+	<!-- base target='_blank' href='C:/Users/deborah.powers/Desktop/articles/'/ -->
+<style>
+	section {
+		border: solid 4px #3C3;
+		padding: 1em;
+	}
+	h3 {
+		font-weight: bold;
+		text-align: center;
+	}
+	ul { border: dashed 2px var(--input-bg); }
+	table {
+		width: 100%;
+		margin-bottom: 1em;
+	}
+	caption { background-color: var(--input-bg); }
+	caption, th, td { border: solid 2px var(--button-bg); }
+	th { font-weight: bold; }
+	img, a { display: block; }
+	img.img-resize {
+		width: 400px;
+		height: 200px;
+	}
+	p.img { background: url('exemple-img.bmp'); }
+	p.svg {
+		background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 400 100' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' fill='lightgreen' stroke-width='2mm'><polygon points='50,0 350,0 400,50 350,100 50,100 0,50'/></svg>");
+	}
+	p.info { border-style: none; }
+	fieldset.table {
+		display: grid;
+		grid-template-columns: 2em 1fr;
+		border-bottom: dashed 2px var(--button-bg);
+		margin-bottom: 1em;
+	}
+	section#summary, section#list, section#border, section#mathml { column-count: 3; }
+	section#background, section#spacing { column-count: 2; }
+	h2 { column-span: all; }
+	section#background p, section#border p, section#spacing p, math { border: solid 4px var(--button-bg); }
+	section#background p, section#border p { margin-bottom: 1em; }
+	section#background p { height: 6em; }
+	section#grid div, section#flex div {
+		border: solid 4px var(--button-bg);
+		height: 6em;
+	}
+	section#grid div p, section#flex div p { border: solid 6px var(--button-bg-hover); }
+	section#grid div {
+		display: grid;
+		grid-template-columns: 1fr 50% 1fr;
+		justify-items: stretch;
+		align-items: stretch;
+	}
+	section#flex div {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: stretch;
+	}
+	div.grow p { flex-grow: 1; }
+	section#flex div.column {
+		height: 12em;
+		width: 6em;
+		flex-direction: column;
+	}
+	div.column p { height: 3em; }
+	section#summary a {
+		border-radius: 1em;
+		background-color: var(--input-bg);
+		margin-bottom: 1em;
+	}
+	math {
+		display: block;
+		padding: 1em;
+		margin-bottom: 1em;
+	}
+	/* affichage pour les tablettes */
+	@media (max-width: 992px){
+		body, head, head > title { background-color: #FF9; }
+	}
+	/* affichage pour les smartphones */
+	@media (max-width: 768px){
+		body, head, head > title { background-color: #CF9; }
+	}
+	@media print{}
+	/* les annimations */
+	#moving-heart {
+		animation-name: moving-heart;
+		animation-duration: 10s;
+		animation-iteration-count: 2;
+	}
+	@keyframes moving-heart {
+		from {
+			margin-left: 50%;
+			margin-top: 20%;
+		}
+		to {}
+		0% { background-color: red; }
+		50% { background-color: pink; }
+	}
+</style></head><body>
+	<header>
+		<h1>page de référence pour démontrer des styles css basiques</h1>
+		<p>rappel: un grand titre par page</p>
+		<p>les feuilles de style: structure.css et css-notes.css</p>
+		<p>structure apporte l'affichage de base, perso les couleurs de la page.</p>
+		<section id='summary' style='border:none;text-align:center;'>
+			<a href='#grid'>le framework grid</a>
+			<a href='#flex'>le framework flex</a>
+			<a href='#form'>les formulaire</a>
+			<a href='#spacing'>l'espace entre les boîtes</a>
+			<a href='#border'>les bordures</a>
+			<a href='#background'>les fonds</a>
+			<a href='#table'>les tables</a>
+			<a href='#list'>les listes</a>
+			<a href='#image'>les images</a>
+			<a href='#mathml'>le framework mathml</a>
+			<a href='#media-queries'>les media queries</a>
+			<a href='#shapes'>les formes</a>
+			<a href='#animations'>les animations</a>
+		</section>
+	</header>
+	<main>
+		<section id='grid'>
+			<h2>grid</h2>
+			<div><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>display: grid; grid-template-columns: 1fr 50% 1fr; trois colonnes. également grid-template-rows. 1fr représente une fraction de l'espace restant.</p>
+			<div style='grid-gap:1em 1em'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>grid-gap: 1em 1em; grid-row-gap + grid-column-gap</p>
+			<div style='justify-items:end'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>justify-items: end; start, center. stretch est la valeur par défaut si les éléments n'ont pas de largeur.</p>
+			<div style='height:4em;align-items:end'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>align-items: end; start, center. stretch est la valeur par défaut si les éléments n'ont pas de largeur.</p>
+			<div style='grid-template-areas: "a a b" "c c b"'>
+				<p style='grid-area:a'></p><p style='grid-area:b'></p><p style='grid-area:c'></p></div>
+			<p>pour le conteneur: grid-template-areas: "a a b" "c c b"; pour les carrés: grid-area: a;</p>
+			<div><p style='grid-column:1/4'></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>pour un carré: grid-column: 1/4; grid-column-start + grid-column-end. également avec row.</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='flex'>
+			<h2>flex-box</h2>
+			<div><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>display: flex; flex-direction: row; justify-content: space-around; align-items: stretch; fd column, row-reverse, column-reverse; ne pas préciser de height pour les éléments interne afin que stretch fonctionne.</p>
+			<div style='justify-content:space-between'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>justify-content:space-between</p>
+			<div style='justify-content:space-evenly'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>justify-content:space-evenly</p>
+			<div style='justify-content:center'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>justify-content:center; flex-start et flex-end (carré collé à gauche ou à droite de la boîte) existent aussi.</p>
+			<div style='align-items:center'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>align-items: center; flex-start et flex-end (carré collé au haut ou au bas de la boîte) existent aussi. préciser une hauteur pour les éléments internes vides.</p>
+			<div class='grow'><p></p><p style='flex-grow:2'></p><p></p><p></p><p></p><p></p></div>
+			<p>flex-grow: 1; pour les carrés internes.</p>
+			<div class='column' style='flex-wrap:no-wrap'><p></p><p style='flex-shrink:2'></p><p></p><p></p><p></p><p></p></div>
+			<p>flex-direction: column; flex-wrap: no-wrap; pour le petit carré: flex-shrink: 2;</p>
+			<div class='column' style='flex-wrap:wrap'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+			<p>flex-direction: column; flex-wrap: wrap; également wrap-reverse.</p>
+			<div><p></p><p></p><p></p><p></p><p></p><p style='height:1em;align-self:flex-end'></p></div>
+			<p>align-self: flex-end; pour un carré interne ayant une hauteur.</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='form'>
+			<h2>les formulaires</h2>
+			<form method='get' action=none>
+				<p>les attributs name et value permettent de traiter les données du formulaire.</p>
+				<fieldset id='table'>
+					<span>date, type='date'</span><input type='date'>
+					<span>heure, type='time'</span><input type='time'>
+					<p>les champs date et heure sont difficilement stylisables.</p>
+				</fieldset>
+				<fieldset>
+					<input type='hidden'/>
+					<input type='text' name='ip-line' placeholder='input texte' required/>
+					<textarea name='ip-text' placeholder='textarea' disabled></textarea>
+				</fieldset>
+				<fieldset class='table'>
+					<input type='radio' name='bt-radio' value=''/><span>type='radio'</span>
+					<input type='radio' name='bt-radio' value=''/><span>un seul name pour tous les éléments d'un même block.</span>
+					<input type='radio' name='bt-radio' value='' checked/><span>attribut checked afin de cocher une valeur par défaut.</span>
+					<input type='radio' name='bt-radio' value=''/><span>attribut required afin de rendre la saisie du champ obligatoire.</span>
+					<input type='radio' name='bt-radio' value='' disabled/><span>attribut disabled afin d'empêcher le remplissage par l'utilisateur.</span>
+					<input type='radio' name='bt-radio' value=''/><span>un seul champ sélectionnable à la fois.</span>
+					<input type='radio' name='bt-radio' value=''/><span>type='hidden' afin de passer des infos à l'action sans prévenir l'utilisateur.</span>
+				</fieldset>
+				<fieldset class='table'>
+					<input type='checkbox' name='bt-checkbox' value=''/><span>type='checkbox'</span>
+					<input type='checkbox' name='bt-checkbox' value=''/><span>mêmes infos que pour radio.</span>
+					<input type='checkbox' name='bt-checkbox' value=''/><span>plusieurs champs sélectionnables à la fois.</span>
+				</fieldset>
+				<fieldset>
+					<input type='submit'/>
+					<input type='reset' style='border:solid 4px var(--input-bg);outline:solid 2px var(--button-bg-hover);margin-left:3em'/>
+					<p>type='submit' ou reset. l'attribut value permet de choisir ce que le bouton affiche.</p>
+					<p>input:hover {background-color: #399; } input { border: solid 2px orange; outline: solid 4px #6F6; } outline est une sorte de border autour des input, button, select, textarea.</p>
+				</fieldset>
+			</form>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='list'>
+			<h2>les listes</h2>
+			<ul><li>display: list-item; list-style-type: disc;</li><li>valeur par défaut.</li></ul>
+			<ul style='list-style-type:circle'><li>list-style-type: circle;</li><li>b</li></ul>
+			<ul style='list-style-type:none'><li>list-style-type: none;</li><li>b</li></ul>
+			<ul style='list-style-type:square'><li>list-style-type: square;</li><li>b</li></ul>
+			<ul style='list-style-type:decimal'><li>list-style-type: decimal;</li><li>valble pour les ol et les ul.</li></ul>
+			<ul style='list-style-type:lower-roman'><li>list-style-type: lower-roman;</li><li>existe avec upper-roman</li></ul>
+			<ul style='list-style-type:lower-latin'><li>list-style-type: lower-latin;</li><li>b</li></ul>
+			<ul style='list-style-type:lower-greek'><li>list-style-type: lower-greek;</li><li>b</li></ul>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='table'>
+			<h2>les tableaux</h2>
+			<table>
+				<caption>table, tr, border-collapse: collapse;</caption>
+				<tr><th>aa</th><td>a1</td><td>a2</td></tr>
+				<tr><th>bb</th><td>b1</td><td>b2</td></tr>
+			</table>
+			<table>
+				<caption>table, tr, border-collapse: not; des espaces sont sensés séparer les cases.</caption>
+				<tr><th>aa</th><td>a1</td><td>a2</td></tr>
+				<tr><th>bb</th><td>b1</td><td>b2</td></tr>
+			</table>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='spacing'>
+			<h2>l'espace autour des éléments</h2>
+			<p>margin: 0; padding: 0;</p>
+			<p style='padding:2em'>padding: 2em;</p>
+			<p style='margin:2em'>margin: 2em;</p>
+			<p style='margin-left:2em'>margin-left: 2em;</p>
+			<p style='margin-right:2em'>margin-right: 2em;</p>
+			<p style='margin-top:2em'>margin-top: 2em;</p>
+			<p style='margin-bottom:2em'>margin-bottom: 2em;</p>
+			<p style='padding:2em 4em 2em 4em'>padding: 2em 4em 2em 4em; haut, droite, bas, gauche</p>
+			<p style='padding:2em 4em'>padding: 2em 1em; haut-bas et gauche-droite</p>
+			<p class='info'>les variantes de padding existent chez margin, et vice-versa.</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='background'>
+			<h2>les fonds</h2>
+			<p style='background-color:orange'>background-color: orange;</p>
+			<p style='background-color:transparent'>background-color: transparent;</p>
+			<h3>les dégradés</h3>
+			<a href='https://developer.mozilla.org/fr/docs/Web/CSS/Utilisation_de_dégradés_CSS'>plus d'infos</a>
+			<p style='background:linear-gradient(45deg, deeppink, orange, deeppink)'>background: linear-gradient(45deg, deeppink, orange, deeppink);</p>
+			<p style='background:linear-gradient(45deg, deeppink, 10%, orange, 90%, deeppink)'>background: linear-gradient(45deg, deeppink, 10%, orange, 90%, deeppink); emplacement de la couleur médiane</p>
+			<p style='background:linear-gradient(45deg, deeppink 10%, orange 90%, deeppink)'>background: linear-gradient(45deg, deeppink 10%, orange 90%, deeppink); centre de la couleur</p>
+			<p style='background:linear-gradient(45deg, deeppink 30%, orange 30%, deeppink)'>background: linear-gradient(45deg, deeppink 30%, orange 30%, deeppink);</p>
+			<p style='background:repeating-linear-gradient(45deg, deeppink, orange)'>background: repeating-linear-gradient(45deg, deeppink, orange, deeppink);</p>
+			<p style='background:radial-gradient(deeppink, orange, deeppink)'>background: radial-gradient(deeppink, orange, deeppink);</p>
+			<p style='background:radial-gradient(at 10% 50%, deeppink, orange, deeppink)'>background: radial-gradient(at 10% 50%, deeppink, orange, deeppink);</p>
+			<p style='background:conic-gradient(deeppink, orange, deeppink)'>background: conic-gradient(deeppink, orange, deeppink);</p>
+			<p style='background: linear-gradient(0deg,rgba(255,150,150,0.8),rgba(200,150,150,0)), linear-gradient(120deg,rgba(150,255,150,0.8),rgba(150,255,150,0)), linear-gradient(240deg,rgba(150,150,255,0.8),rgba(150,150,255,0));'>trois gradients semi-transparents superposés</p>
+			<h3>les images</h3>
+			<p class='img'>background-image: url('...'); pas d'espace entre url et (</p>
+			<p class='img' style='background-repeat:no-repeat'>background-image: url(...); background-repeat:no-repeat;</p>
+			<p class='img' style='background-repeat:repeat'>background-image: url(...); background-repeat:repeat;</p>
+			<p class='img' style='background-repeat:repeat-x'>background-image: url(...); background-repeat:repeat-x;</p>
+			<p class='img' style='background-repeat:repeat-y'>background-image: url(...); background-repeat:repeat-y;</p>
+			<p class='img' style='background-size:cover'>background-image: url(...); background-size: cover;</p>
+			<p class='img' style='background-size:contain'>background-image: url(...); background-size: contain;</p>
+			<p class='svg'>background-image: url("data:image/svg+xml;utf8,< svg >...< /svg>")</p>
+			<p class='info'>les variables css ne sont pas prises en compte, ainsi que les valeurs d'un css externe.</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='border'>
+			<h2>les bordures</h2>
+			<p>border-color: #0CC; border-width: 4px; border-style: solid;</p>
+			<p style='border-style:none'>border-style: none;</p>
+			<p style='border-style:dashed'>border-style: dashed;</p>
+			<p style='border-style:dotted'>border-style: dotted;</p>
+			<p style='border-style:double'>border-style: double;</p>
+			<p style='border-radius:4px'>border-radius: 4px;</p>
+			<p style='border-radius:50%'>border-radius: 50%;</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='image'>
+			<h2>les images et les liens</h2>
+			<img src='exemple-img.bmp' alt='une forme géométrique'>
+			<p>les attributs src et alt sont obligatoire. par défaut, laisser alt vide.</p>
+			<img src='exemple-img.bmp' class='img-resize' style='object-fit:fill'>
+			<p>width, height, object-fit: fill. ajuster l'image à son cadre, en la déformant. affichage par défaut si width et heigth sont précisés.</p>
+			<img src='exemple-img.bmp' class='img-resize' style='object-fit:contain'>
+			<p>width, height, object-fit: contain. ajuster l'image dans son cadre, en gardant ses proportions. elle peut être plus petite que son cadre.</p>
+			<img src='exemple-img.bmp' class='img-resize' style='object-fit:cover;object-position:left top;'>
+			<p>width, height, object-fit: cover, object-position:left top. ajuster l'image à son cadre, en gardant ses proportions. elle est rognée si elle dépasse de son cadre.</p>
+			<a href='http://www.deborah-powers.fr/'>lien</a>
+			<p>l'attribut href est obligatoire, même s'il est vide. # permet de désactiver la redirection.</p>
+			<p>< base target='_blank' href='C:/Users/deborah.powers/Desktop/articles/'/></p>
+			<p>base pré-écrit des infos pour les liens et les images. on le met dans le head.</p>
+			<p>valeurs de href: # désactiver le lien, #id un élément de la page qui a pour id id, http://www.truc.fr/ une page web, c://truc/machin.html un fichier (ou un dossier) local.</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='mathml'>
+			<h2>math ml</h2>
+			<a href='https://developer.mozilla.org/fr/docs/Web/MathML/Element/math'>source</a>
+			<p>un mrow représente une expression. ici, j'ai rangé chaque équation dans sa propre balise math, mais je peux en mettre plusieurs dans la même balise.</p>
+			<math id='racine'><mi>a</mi><mo>=</mo><msqrt><mn>2</mn><mo>&InvisibleTimes;</mo><mi>b</mi></msqrt></math>
+			<math id='fraction'><mi>a</mi><mo>=</mo><mfrac>
+				<mrow><mi>b</mi><mo>&PlusMinus;</mo><mn>5</mn></mrow>
+				<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+			</mfrac></math>
+			<math id='exposant'><mi>a</mi><mo>=</mo><msup>
+				<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+			</msup></math>
+			<math id='sub'><mi>a</mi><mo>=</mo><msub>
+				<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+			</msub></math>
+			<math id='parentheses'><mrow><mi>a</mi><mo>=</mo><mo>(</mo><mfrac>
+				<mrow><mi>b</mi><mo>&PlusMinus;</mo><mn>5</mn></mrow>
+				<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+			</mfrac><mo>)</mo><mo>*</mo><mi>d</mi></mrow></math>
+			<math id='dessous'><mi>a</mi><mo>=</mo><munder>
+				<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+			</munder></math>
+			<math id='dessus'><mi>a</mi><mo>=</mo><mover>
+				<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+			</mover></math>
+			<math id='matrice'><mrow><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>=</mo><mo>{</mo><mtable>
+				<mtr><mtd>b</mtd><mtd>c</mtd></mtr><mtr><mtd>d</mtd><mtd>e</mtd></mtr>
+			</mtable><mo>}</mo></mrow></math>
+			<math id='subsup'><mi>a</mi><mo>=</mo><msubsup>
+				<mi>b</mi>
+				<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+				<mrow><mn>4</mn><mo>&InvisibleTimes;</mo><mi>d</mi></mrow>
+			</msubsup></mrow></math>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='media-queries'>
+			<h2>les media queries</h2>
+			<p>@media print {</p>
+			<p>body { color: red; }</p>
+			<p>p { color: blue; }</p>
+			<p>}</p>
+			<p>affichage pour les tablettes</p>
+			<p>@media (max-width: 992px){}</p>
+			<p>affichage pour les smartphones</p>
+			<p>@media (max-width: 768px){}</p>
+		</section>
+		<section id='shapes'>
+			<h2>les formes</h2>
+			<p>.shape .heart</p><p class='shape heart'></p>
+			<p>.shape .cloud</p><p class='shape cloud'></p>
+			<p>.shape .moon</p><p class='shape moon'></p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+		<section id='animations'>
+			<h2>les animations</h2>
+			<p class='shape heart' id='moving-heart'></p>
+			<h3>id= animated</h3>
+			<p>animation-name: movement;</p>
+			<p>animation-duration: 10s;</p>
+			<p>animation-iteration-count: 3; infinite</p>
+			<p>animation-direction: alternate; normal, reverse</p>
+			<h3>@keyframes movement</h3>
+			<p>from {...} to {...}</p>
+			<p>0% {...} 50% {...} 100% {...}</p>
+			<h3>bonus</h3>
+			<p>animation-delay: 1s;</p>
+			<p>animated:hover { animation-play-state: paused; } running</p>
+			<a href=''>revenir au sommaire</a>
+		</section>
+	</main>
+	<footer>
+		<p>pied de page</p>
+		<a href=''>revenir au sommaire</a>
+	</footer>
+</body>
+<!-- script>
+	var sectionList = document.getElementsByTagName ('section');
+	var idList =[];
+	for (var i=0; i< sectionList.length; i++){
+		idList.push (sectionList[i].id);
+	}
+	console.log (idList);
+</script -->
+</html>
