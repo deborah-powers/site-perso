@@ -1,0 +1,428 @@
+
+______________________________
+______ apparté sur gulp ______
+
+______ présentation ______
+
+boîte à outils pour simplifier le développement, automatisation de certaines tâches
+inclure les js, les css
+
+les navigateur ne reconnaissent ni sass ni less, que le css
+gulp fait la transformation sass, less --> css
+https://github.com/dlmanning/gulp-sass
+
+marche avec npm
+
+______ installer ______
+https://gulpjs.com/
+npm install gulp-cli -g
+npm install gulp -D
+gulp --help
+erreurs
+sudo npm install gulp-cli -g
+sudo npm install gulp -D
+ou
+sudo npm install -g gulp
+
+______ utilisation quotidienne ______
+
+installer gulp dans le dossier ou je travaille
+création de package.json
+npm init
+création par npm de la bibliothèque pour gulp, nom générique de node_module
+npm install gulp
+touch gulpfile.js
+npm install module-externe
+
+créer des tâches dans gulpfile
+pour que gulp les exécute
+gulp task_name
+executer la tâche default
+gulp
+
+__________________
+______ node ______
+
+______ présentation ______
+
+https://nodejs.org/fr/
+https://nodejs.org/api/
+version 4.2.6
+"environnement d'execution js" = framework js
+conçu avec moteur v8 de Chrome. V8 à été développé par google
+nombreux modules
+orienté evt --> assynchrone, comme avec les apis
+inspiré de la librairie python twisted
+js coté serveur, créer des api !
+js dans la console
+bdd: on peut gérer des bdd, gestion de bdd grâce à des modules
+
+convertir sass en css: sass meister
+https://www.sassmeister.com/
+http://sass-lang.com/guide
+
+
+______ le faire marcher ______
+
+sudo apt install nodejs-legacy
+le lancer: taper node dans la ligne de commande
+emplacement de la commande: /usr/bin/node
+
+
+______ live coding ______
+console.log()
+elements = liste.splice (1,2)
+
+_________________________
+______ live coding ______
+
+______ component contenant une liste de component ______
+
+date: 10/25
+fichiers:
+	angular live coding 10-25.html
+	profils-facebook.html
+	profils-facebook-list.html
+objets / fichiers js à créer:
+	application
+	item component
+	item controller
+	list component
+	list controler
+	list service
+
+item component
+	bindings: { content: '<' }
+	nécéssaire pour mettre {{ $ctrl.content.machin }} dans la vue
+list controller
+	$scope.listFromScope = service.func();
+list service
+	var listOfThings =[];
+	return{
+		func: function(){
+			return listOfThings
+		}
+	};
+base.html
+	<list></list>
+vue-item.html
+	<p>Nom: {{ $ctrl.content.Lname }}</p>
+	<p>Prénom: {{ $ctrl.content.Fname }}</p>
+vue-list.html
+	<div ng-repeat='item in listFromScope'>
+		<profil content='item'></profil>
+	</div>
+les services contiennent toujours une fonction.
+
+______ todo list ______
+
+date: 10/19
+fichiers: angular 10-19 projet.html
+
+<body ng-app='myApp'>
+	<div ng-controller='myCtl'>
+		<!-- Tâche à ajouter -->
+		<form ng-submit='addTask()'>
+			<input type='text' ng-model='todoInput'/>
+			<input type='submit'/>
+		</form>
+		<!-- Supprimer les tâches
+		ng-repeat='task in todoList': le couple (input + span) sera affiche plusieur fois, une pour chaque tache dans la liste
+		ng-bind='task.todoText': le texte de la tache sera inscrit dans le span
+		-->
+		<div ng-repeat='task in todoList'>
+			<input type='checkbox' ng-model='task.done'/>
+			<span ng-bind='task.todoText'></span>
+		</div>
+		<button ng-click='delTask()'>éffacer</button>
+	</div>
+</body>
+<script>
+	var myApp = angular.module ('clockApp', []);
+	myApp.controller ('myCtl', function ($scope){
+		// creer la liste des taches. done:false indique que la tache est a accomplir
+		$scope.todoList =[{ todoText:"une tache", done:false }];
+		// rajouter des taches. cette fonction est appelee par le formulaire
+		$scope.addTask = function(){
+			$scope.todoList.push ({ todoText:$scope.todoInput, done:false });
+			$scope.todoInput ="";
+		};
+		$scope.delTask = function(){
+			// vider la liste, qui contient des taches accomplies ou encore a faire
+			var oldList = $scope.todoList;
+			$scope.todoList =[];
+			// recuperer les taches de oldList qui n'ont pas encore ete accomplies
+			angular.forEach (oldList, function (task){
+				if (! task.done){					// task.done = false, la tache n'a pas ete executee
+					$scope.todoList.push (task);
+				}
+			});
+		};
+	});
+</script>
+
+
+______ 10/18 ______
+
+toutes les actions qui utilisent les donnees
+scope fait le lien entre le html et le controleur
+le contenu du body et l'application sont lies. si l'application est dans un .js, mettre <script src='' comme d'habitude
+indiquer qu'on utilise homeController. on aurait put le mettre dans le h1, mais pas dans le body, il y a incompatibilité avec nb-app.
+robot est une donnée, un modèle, appelé service. injecter le service dans le contrôleur, le passer en argument en même temps que scope.
+
+
+_____________________________
+______ bases d'angular ______
+
+--- présentation ---
+
+Angular est un framework pour javascript. cela veut dire qu'angular est une version simplifiée du langage javascript.
+Il possède une grammaire spéciale, des mots spéciaux, (les controllers, les app, ...). Il est possible d'utiliser le javascript de base  (document.getElementById, ...) dans du code en angular.
+
+https://angularjs.org/
+https://www.lynda.com/AngularJS-tutorials/What-AngularJS/154414/167518-4.html
+html n'est pas fait pour rendre des pages de façon dynamique.
+angular est une librairie pour construire un framework. il fonctionne avec d'autres librairies.
+il sert à construire des applications tenant en une page web, Single Page Application.
+son concurent est react.js
+travail en front-end, selon le desing pattern MVC.
+data-binding: lien entre html et js, plut de document.getElementBy...
+component: vue + contrôleur. bout de code réutilisable.
+
+--- Appeler angular ---
+
+On appel angular à partir d'une page html.
+<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.js'></script>
+Mieux vaut l'appeler au début du fichier, dans le <head>, ou alors dans le body avant tous les script utilisant angular.
+
+Les scripts utilisant angular sont appellés dans la même page, de deux façons
+	<script src='dossier/mon-code.js'></script>
+Ou
+	<script>
+	var text ='mon code est ecris entre les balises';
+	</script>
+Ces balises doivent impérativement être placées EN-DESSOUS de celle appelant angular pour qu'elles la prennent en compte.
+
+--- Organisation du code ---
+
+Le code est réparti en objets:
+
+
+Commencer en créant un objet module
+	var myApp = angular.module ('appName', []);
+
+
+Nous auront souvent besoin d'un controleur
+	myApp.controller ('ctlName', function ($scope){});
+Ou
+	angular.module ('appName').controller ('ctlName', function ($scope){});
+
+
+Les components s'avéreront utiles quand nous seront plus loins dans le cours
+	myApp.component ('cpnName', {
+				templateUrl: 'fichier-du-component.html',
+				controller: 'ctlName',
+			});
+Le component relie
+	un fichier html externe, que l'on souhaite afficher directement dans notre page principale (templateUrl)
+	le contrôleur (controller)
+	le html de la page principale, grâce aux balises <cpn-name></cpn-name>
+
+
+Les données sont pour l'instant stoquées dans des services.
+	myApp.service ('serviceName', function(){
+		var myObject = 'un objet quelquonque';
+		return myObject;
+	});
+myObject peut être n'importe quel type d'objet, un nombre, du texte ou même des objets à construire soi-même.
+
+
+--- Construire un objet ---
+myObject ={
+	name: 'toto',
+	age: '26',
+	speak: function(){
+		alert ('coucou !');
+	}
+};
+myObject est comme une liste, sauf que chaque case à un nom, ici name, age et speak. il peut même contenir des fonctions.
+
+--- divers ---
+
+on peut injecter $http dans un modèle, comme dans un controlleur
+
+
+
+______________________
+______ exemples ______
+
+<body ng-app='myApp'>
+	<h1 ng-controller='myController'>{{ welcomeMessage }}</h1>
+</body>
+<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.js'></script>
+<script type='text/javascript'>
+	// creer l'application
+	angular.module ('myApp', []);
+	// controleur
+	angular.module ('myApp').controller ('myController', function ($scope){
+		$scope.welcomeMessage = 'Bonjour'; });
+lier le body ou un div à l'application, ng-app='app-name'
+lier un div (ou un h1) au controlleur, ng-controller='ctl-name'
+
+____________
+
+<input type='text' ng-model='Lname'/>
+$scope.Lname = 'Powers';
+ng-model et la variable de $scope doivent avoir le même nom
+____________
+
+<button ng-click='display()'>Afficher</button>
+$scope.display = function(){
+	alert ("Coucou c'est moi !");
+	}
+on peut créer des fonctions dans le scope. ng-click remplace onclick
+
+____________
+
+
+angular.module ('myApp', []);
+// modele, donnee, service
+angular.module ('myApp').service ('robot', function(){
+	// on peut creer une varible myrobot et la retourner. il faut parfois accomplir des actions autres que renvoyer myRobot
+	return{
+		id: '1407',
+		color: 'pink',
+		type: 'cleaner',
+		fabricationDate: '01/09/1996',
+		clean: function(){ console.log ('je nettoie la piece.'); }
+	}
+});
+// controleur
+angular.module ('myApp').controller ('homeController', function ($scope, robot){
+	$scope.cleanRoom = robot.clean;		// la fonction est attribuee a une propriete de scope
+	$scope.displayId = afficheId;
+	function afficheId(){
+		console.log (robot.id);			// afficher dans la console web
+//		return robot.id;				// afficher dans le html
+		}
+});
+si on créer un objet, le passer en argument avec le scope
+
+
+
+
+
+_________________________________
+______ desing pattern, MVC ______
+
+angular utilise ce desing. architecture de script.
+
+bonne pratique, méthode de développement pour résoudre facilement les problèmes récurrents. architecture du code.
+modèle MVC: modèle vue-controleur
+le code est découpé en trois parties
+	la vue: ce que l'utilisateur voit.
+	le modèle: les données utilisées, sur lesquelles les actions sont appliquées. infos sur un livre vendu à la fnac.
+	le contrôleur: lien entre l'application et l'utilisateur. fait les action, par exemple placer un article dans mon pannier sur la fnac. traîte les requettes. lien entre la vue et le modèle.
+
+
+__________________
+______ ajax ______
+
+
+http call = donner un ordre au serveur
+http code = réponse du serveur (erreur 404)
+
+
+___________________________
+______ les fonctions ______
+document.getElementById(id)
+document.getElementsByTagName(name)
+document.getElementsByClassName(name)
+element.innerHTML = 'nouveau texte'
+element.attribute = new value
+element.setAttribute(attribute, value)
+element.style.property = new style
+document.createElement(element)
+document.removeChild(element)
+document.appendChild(element)
+document.replaceChild(element)	remplace par quoi ?
+document.write(text)
+document.querySelectorAll("p.classe");	sélection par sélecteur css
+
+______________________________
+______ exemples de code ______
+var tab_form = document.forms
+var mon_form = tab_forms['frm1'];
+tab_forms est un tableau contenant tous les formulaires de la page.
+mon_form est le formulaire qui a pour id frm1.
+var i=0;
+for (i=0; i<12; i++){}
+
+______ afficher proprement les messages ______
+function affiche (phrase){
+	var newP = document.createElement ('p');
+	document.body.appendChild (newP);
+	newP.innerHTML = phrase;
+}
+
+_________________________
+______ les classes ______
+
+______ une variable peut en contenir d'autres ______
+var pierre ={
+	name: 'Pierre',
+	age: 23,
+	gender: 'man',
+	apparence:{
+		eyes: 'blue',
+		hair: 'maroon',
+	},
+	parole: function parle(nb){ alert ('coucou, je tiens '+nb+' bonbons dans ma main'); },
+};
+alert (pierre.apparence.eyes);
+pierre.parole(5);
+
+______ créer une classe ______
+function human (name, age, gender, col_eyes, col_hair){
+	this.name = name;
+	this.age = age;
+	this.gender = gender;
+	this.apparence ={
+		eyes: col_eyes,
+		hair: col_hair,
+	}
+	this.parole = function parle (){ alert ('coucou'); }
+}
+var pierre = new human ('Pierre', 23, 'man', 'blue', 'maroon');
+alert (pierre.apparence.eyes);
+pierre.parole();
+
+
+_________________________
+______ les taleaux ______
+
+var tab =[1, 'coucou', true];
+tab.push (23);	// ajoute a la fin du tableau
+tab.pop();		// suprime a la fin du tableau
+tab.shift();	// suprime au debut du tableau
+tab.slice (2)	// suprime l'objet dans la case 2
+alert (tab[3]);
+
+_______________________
+______ les bases ______
+
+langage non typé, pas besoin de préciser le type d'une variable lors de sa création.
+function ma_fonc (arg){}
+les noms de variables, de fonction doivent être explicites. lisibilité du code, code qui parle de lui-même.
+on ne peut renvoyer qu'une variable, renvoyer plusieurs variables sous la forme d'un tableau.
+
+les variables: int, chaine, tableau, booléen, objet
+les opérateurs logiques: &&, ||
+
+__________________________
+______ présentation ______
+
+https://www.w3schools.com/js/js_htmldom_document.asp
+https://www.w3schools.com/html/html_form_input_types.asp
+prof hanas, travail en freelance
+un back-end, plusieur front-end pour jouer en ligne.
