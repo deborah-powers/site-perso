@@ -32,7 +32,7 @@ class database{
 		$this->setDb ($DBname, $DBhost, $DBuser, $DBpassword);
 	}
 	public function __construct(){
-		$this->setDbOvh();
+		$this->setDbLocal();
 		$this->connect();
 	}
 	//								fonctions utilisees par les autres

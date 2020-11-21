@@ -34,10 +34,12 @@ String.prototype.replace = function (wordOld, wordNew){
 	if (! wordNew) wordNew ="";
 	var tabText = this.split (wordOld);
 	return tabText.join (wordNew);
-}/*
+}
+/*
 String.prototype.slice = function (start, end){
 	if (! end) end = this.length -1;
 	else if (end <0) end = this.length +end;
+	if (start <0) start = this.length + start;
 	var text ="";
 	while (start <= end){
 		text = text + this[start];

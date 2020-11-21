@@ -6,7 +6,7 @@ function fromFile (fileName){
 	var xhttp = new XMLHttpRequest();
 	xhttp.open ('GET', fileName, false);
 	xhttp.send();
-	var textRes ="";
+	var textRes = null;
 	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
 	return textRes;
 }
@@ -61,7 +61,8 @@ paramFromUrl = function (url){
 function useBackend (url, params){
 	var url = paramToUrl (url, params);
 	var textRes = fromFile (url);
-	var value = JSON.parse (textRes);
+	var value = null;
+	if (textRes) value = JSON.parse (textRes);
 	return value;
 }
 function useBackendAssync (url, callback, params){
