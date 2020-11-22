@@ -249,19 +249,19 @@ HTMLElement.prototype.setInput = function(){
 	var inputList = this.getElementsByTagName ('input');
 	for (var i=0; i< inputList.length; i++){
 		if (inputList[i].getAttribute ('model') && inputList[i].getAttribute ('model').contain ('$value:'))
-			inputList[i].addEventListener ('mouseleave', loadInput);
+			inputList[i].addEventListener ('click', loadInput);
 	}
 	inputList = this.getElementsByTagName ('textarea');
 	for (var i=0; i< inputList.length; i++){
 		if (inputList[i].getAttribute ('model') && inputList[i].getAttribute ('model').contain ('$value:'))
-			inputList[i].addEventListener ('mouseleave', loadInput);
+			inputList[i].addEventListener ('click', loadInput);
 }}
 function loadInput (event){
 	var varName = event.target.getAttribute ('model').slice (9,-2);
 	debbyPlay[varName] = event.target.value;
 	var nodeList = document.body.findContainerModel (varName);
 	for (var n=0; n< nodeList.length; n++) nodeList[n].loadInputValue (varName, debbyPlay[varName]);
-	event.target.addEventListener ('mouseleave', loadInput);
+	event.target.addEventListener ('click', loadInput);
 }
 HTMLElement.prototype.loadInputValue = function (varName, value){
 	this.getModel();
@@ -274,6 +274,7 @@ HTMLElement.prototype.clean = function(){
 	this.innerHTML = this.innerHTML.replace (' ))', '))');
 }
 HTMLElement.prototype.printVar = function (varName, value){
+	if (! value) value ="";
 	var varType = value.constructor.name;
 	// les variables simple
 	if (varType == 'String' || varType == 'Number'){

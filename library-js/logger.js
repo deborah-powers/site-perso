@@ -1,6 +1,6 @@
 // dépend de text.js
 // niveaux de logs
-var logState = 'info';
+var logState = 'debug';
 const logStates =[ 'debug', 'info', 'warn', 'error'];
 // mise en forme des lignes
 
@@ -77,7 +77,6 @@ function logObject (object){
 }
 function logCommon(){
 	var message ="";
-	console.log (arguments[0]);
 	for (var a=0; a< arguments[0].length; a++) message = message +'\t'+ logObject (arguments[0][a]);
 	logStack (message);
 }
