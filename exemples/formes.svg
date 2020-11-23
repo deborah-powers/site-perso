@@ -3,7 +3,6 @@
 	<title>mes formes</title>
 <style type='text/css'><![CDATA[
 	/* défaut */
-	svg { border: double 6px maroon; }
 	* { fill: deeppink; }
 	/* fleurs */
 	.petal { fill: darkcyan; }

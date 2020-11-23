@@ -19,7 +19,9 @@ svg {
 	border-color: brown;
 	background-color: ivory;
 }
-.grid { background: url(C:/Users/deborah.powers/html/exemples/grid#grid); }
+svg.grid {
+	background: url('C:/Users/deborah.powers/html/exemples/grid.svg');
+}
 text {
 	fill: brown;
 	stroke: none;
