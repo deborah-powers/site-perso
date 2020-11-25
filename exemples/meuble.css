@@ -1,0 +1,10 @@
+* 			{	fill: #F99;	stroke: #630;	stroke-width: 1px;	}
+.wood		{	fill: #960;	}
+.curtain	{	fill: #F99;	stroke: #933;	}
+.sheet		{	fill: #FCC;	}
+.torsade	{	fill: url(#pole-motif);		stroke: none;	}
+.email		{	fill: ivory;	stroke: maroon;	}
+.silver, .silver *
+			{	fill: grey;	stroke: none;	}
+path.silver, .silver path
+			{	fill: none;	stroke: grey;	stroke-width: 6;	}
