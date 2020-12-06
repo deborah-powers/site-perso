@@ -1,17 +1,13 @@
 <?php
-function printP ($message){ if ($message) echo "<p>$message</p>"; }
-function printCouou(){ echo "<p>coucou</p>"; }
 // choisir la bdd locale ou ovh: dans le constucteur
 class database{
 	public $DBhost = 'localhost';
 	public $DBuser = 'root';
 	public $DBpassword = 'root';
 	public $DBname = 'site';
-	public $tableName = Null;
 	public $mysqli = Null;
 	// choix d'une bdd et connection
-	public function connect ($tableName){
-		$this->tableName = $tableName;
+	public function connect(){
 		$this->mysqli = new mysqli ($this->DBhost, $this->DBuser, $this->DBpassword, $this->DBname) or die ($this->mysqli->error);
 		// indiquer que les elements envoyes sont en utf8, adapte a la langue francaise
 		$this->mysqli->set_charset ('utf8');
@@ -35,9 +31,9 @@ class database{
 		$DBpassword = 'Noisette416';
 		$this->setDb ($DBname, $DBhost, $DBuser, $DBpassword);
 	}
-	public function __construct ($tableName){
+	public function __construct(){
 		$this->setDbLocal();
-		$this->connect ($tableName);
+		$this->connect();
 	}
 	//								fonctions utilisees par les autres
 	// transforme une liste d'array simple (et le nom des colonnes) en liste d'arrays associatifs
@@ -53,15 +49,8 @@ class database{
 		}
 		return $listArrays;
 	}
-	// executer une requête qui ne renvoi rien
-	public function execRequest ($request){
-		$nb =1;
-		$response = $this->mysqli->query ($request);
-		if (! $response) $nb =0;
-		return $nb;
-	}
 	// recuperer les infos recherchees a partir d'une string request
-	public function fromSelect ($request){
+	public function fromRequest ($request){
 		$response = $this->mysqli->query ($request);
 		if (! $response) return Null;
 		$tableData = mysqli_fetch_all ($response);
@@ -95,99 +84,105 @@ class database{
 	//								fonctions essentielles
 	// recuperer le contenu de la table
 	public function getAll ($tableName){
-		$request = "SELECT * FROM ". $this->tableName;
-		echo $request;
-		/*
-		$listArrays = $this->fromSelect ($request);
-		var_dump ($listArrays);
-		*/
-		return Null;
+		$request = "SELECT * FROM $tableName";
+		$listArrays = $this->fromRequest ($request);
+		return $listArrays;
 	}
 	// recuperer une liste d'objets par une liste de valeurs
 	// arrayValues est un array associatif (champ:valeur)
-	public function getList ($arrayValues){
+	public function getList ($tableName, $arrayValues){
 		$listValues = $this->createListValues ($arrayValues);
-		$request = "SELECT * FROM $this->tableName WHERE $listValues";
-		$listArrays = $this->fromSelect ($request);
+		$request = "SELECT * FROM $tableName WHERE $listValues";
+		$listArrays = $this->fromRequest ($request);
 		return $listArrays;
 	}
 	// recuperer un objet
-	public function getObjById ($idObj){
-		$request = "SELECT * FROM $this->tableName WHERE id=$idObj";
-		$listArrays = $this->fromSelect ($request);
+	public function getObjById ($tableName, $idObj){
+		$request = "SELECT * FROM $tableName WHERE id=$idObj";
+		$listArrays = $this->fromRequest ($request);
 		$object =[];
 		$nbObj = count ($listArrays);
 		if ($nbObj >0) $object = $listArrays[0];
 		return $object;
 	}
-	public function getObjByValues ($arrayValues){
-		$listArrays = $this->getList ($this->tableName, $arrayValues);
+	public function getObjByValues ($tableName, $arrayValues){
+		$listArrays = $this->getList ($tableName, $arrayValues);
 		$object =[];
 		$nbObj = count ($listArrays);
 		if ($nbObj >0) $object = $listArrays[0];
 		return $object;
 	}
 	// enregistrer un nouvel objet
-	public function postObj ($arrayObj){
+	public function postObj ($tableName, $arrayObj){
 		// liste des champs
 		$listFields = array_keys ($arrayObj);
 		$strFields = implode (', ', $listFields);
 		// liste des valeurs. echapper, mettre entre guillemets les strings
 		$listValues =[];
-		foreach ($arrayObj as $key => $value){
+		foreach ($arrayObj as $value){
 			$newValue = $this->mysqli->escape_string ($value);
 			array_push ($listValues, $newValue);
 		}
 		$strValues = implode ("', '", $listValues);
 		$strValues = "'". $strValues ."'";
 		// la requete
-		$request = "INSERT INTO $this->tableName ($strFields) VALUES ($strValues)";
-		$nb = $this->execRequest ($request);
-		return $nb;
+		$request = "INSERT INTO $tableName ($strFields) VALUES ($strValues)";
+		$result =1;
+		$resultList = $this->fromRequest ($request);
+		if ($resultList ==Null) $result =0;
+		return $result;
 	}
 	// supprimer un objet
-	public function deleteObjById ($idObj){
-		$request = "DELETE FROM $this->tableName WHERE id=$idObj";
-		$nb = $this->execRequest ($request);
-		return $nb;
+	public function deleteObjById ($tableName, $idObj){
+		$request = "DELETE FROM $tableName WHERE id=$idObj";
+		$result =1;
+		$resultList = $this->fromRequest ($request);
+		if ($resultList ==Null) $result =0;
+		return $result;
 	}
-	public function deleteObjByValues ($arrayObj){
+	public function deleteObjByValues ($tableName, $arrayObj){
 		$listValues = $this->createListValues ($arrayObj);
-		$request = "DELETE FROM $this->tableName WHERE $listValues";
-		$nb = $this->execRequest ($request);
-		return $nb;
+		$request = "DELETE FROM $tableName WHERE $listValues";
+		$result =1;
+		$resultList = $this->fromRequest ($request);
+		if ($resultList ==Null) $result =0;
+		return $result;
 	}
 	// modifier un objet
-	public function updateObjById ($arrayObj, $idObj){
+	public function updateObjById ($tableName, $arrayObj, $idObj){
 		$strToset = $this->createListValues ($arrayObj, ', ');
-		$request = "UPDATE $this->tableName SET $strToset WHERE id=$idObj";
-		$nb = $this->execRequest ($request);
-		return $nb;
+		$request = "UPDATE $tableName SET $strToset WHERE id=$idObj";
+		$result =1;
+		$resultList = $this->fromRequest ($request);
+		if ($resultList ==Null) $result =0;
+		return $result;
 	}
-	public function updateObjByValues ($arrayObj, $arrayValues){
+	public function updateObjByValues ($tableName, $arrayObj, $arrayValues){
 		$strToset = $this->createListValues ($arrayObj, ', ');
 		$listValues = $this->createListValues ($arrayValues);
-		$request = "UPDATE $this->tableName SET $strToset WHERE $listValues";
-		$nb = $this->execRequest ($request);
-		return $nb;
+		$request = "UPDATE $tableName SET $strToset WHERE $listValues";
+		$result =1;
+		$resultList = $this->fromRequest ($request);
+		if ($resultList ==Null) $result =0;
+		return $result;
 	}
 	// echanger avec un fichier json
-	public function toJson(){
+	public function toJson ($tableName){
 		// bel affichage, enregistrer le resultat au format json
 		header ('Content-Type: application/json');
 		// recuperer les objets
-		$listArrays = $this->getAll ($this->tableName);
+		$listArrays = $this->getAll ($tableName);
 		$listObj = json_encode ($listArrays);
 		echo $listObj;
 	}
-	public function fromJson(){}
-	public function createTable ($pkName, $fieldList){
+	public function fromJson ($tableName){}
+	public function createTable ($tableName, $pkName, $fieldList){
 		// fieldList: [ 'name' => 'varchar(200) not null,' ];
-		$request = "select * FROM $this->tableName limit 1;";
+		$request = "select * from $tableName limit 1;";
 		$response = $this->mysqli->query ($request);
 		if ($response) $response =2;
 		else{
-			$request = "create table `$this->tableName` (";
+			$request = "create table `$tableName` (";
 			foreach ($fieldList as $key => $value) $request = $request. " `$key` $value,";
 			$request = $request. " primary key (`$pkName`)) engine=InnoDB default charset=utf8;";
 			$response = $this->mysqli->query ($request);
