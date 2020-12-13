@@ -57,6 +57,7 @@ créer un répertoire sous github
 	faire le lien. origin est un nom par défaut, comme master en locale
 	git remote add origin https://github.com/nom-github/dossier.git
 	git remote add origin https://github.com/deborah-powers/dossier.git
+	git config credential.helper store
 vérifier que le lien a été fait. renvoi origin normalement
 	git remote
 déposer le contenu de la branche master dans origin
