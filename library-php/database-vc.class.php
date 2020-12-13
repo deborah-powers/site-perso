@@ -183,7 +183,7 @@ class database{
 		echo $listObj;
 	}
 	public function fromJson(){}
-	public function createTable ($fieldList, $pkName){
+	public function createTable ($pkName, $fieldList){
 		// fieldList: [ 'name' => 'varchar(200) not null,' ];
 		$request = "select * FROM $this->tableName limit 1;";
 		$response = $this->mysqli->query ($request);
@@ -191,7 +191,7 @@ class database{
 		else{
 			$request = "create table `$this->tableName` (";
 			foreach ($fieldList as $key => $value) $request = $request. " `$key` $value,";
-			if ($pkName) $request = $request. " primary key (`$pkName`)) engine=InnoDB default charset=utf8;";
+			$request = $request. " primary key (`$pkName`)) engine=InnoDB default charset=utf8;";
 			$response = $this->mysqli->query ($request);
 			if ($response) $response =1;
 			else $response =0;

@@ -47,4 +47,4 @@ Array.prototype.shuffle = function(){
 	}
 	return newList;
 }
-Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
+// Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }

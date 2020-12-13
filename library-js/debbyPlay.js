@@ -160,7 +160,7 @@ HTMLElement.prototype.useTemplate = function (idInsert, idTemplate){
 	else{
 		var templateList = this.getElementsByTagName ('template');
 		var template;
-		for (var t in templateList) if (templateList[t].id == idTemplate) template = templateList[t];
+		for (var t=0; t< templateList.length; t++) if (templateList[t].id == idTemplate) template = templateList[t];
 		insert.innerHTML = template.innerHTML;
 	}
 	insert.load();
@@ -284,7 +284,7 @@ HTMLElement.prototype.printVar = function (varName, value){
 		var keyTag = '(('+ varName +'))';
 		if (! this.innerHTML.contain (keyTag)) keyTag = '(())';
 		this.innerHTML = this.innerHTML.replace (keyTag, value);
-		for (var a in this.attributes){
+		for (var a=0; a< this.attributes.length; a++){
 			if (typeof (this.attributes[a].value) == 'string' && this.attributes[a].value.contain (keyTag))
 				this.setAttribute (this.attributes[a].name, this.attributes[a].value.replace (keyTag, value));
 	}}
@@ -331,7 +331,7 @@ HTMLElement.prototype.useTemplates = function(){
 				insertList[f].innerHTML = responseText;
 				insertList[f] = insertList[f].children[0];			
 		}}
-		else for (var t in templateList) if (templateList[t].id == insertList[f].id) insertList[f].innerHTML = templateList[t].innerHTML;
+		else for (var t=0; t< templateList.length; t++) if (templateList[t].id == insertList[f].id) insertList[f].innerHTML = templateList[t].innerHTML;
 }}
 useTemplateAssync = function (tagName, id){
 	var tagDst = document.getElementsByTagName (tagName)[0];
@@ -409,7 +409,7 @@ HTMLElement.prototype.findContainerModel = function (varName){
 		if (this.children[c].getAttribute ('model') && this.children[c].getAttribute ('model').contain ('{{'+ varName +'}}')){
 			nodeListTmp = this.children[c].findContainerModel (varName);
 			if (nodeListTmp && nodeListTmp.length >0){
-				for (var l in nodeListTmp) nodeList.push (nodeListTmp[l]);
+				for (var l=0; l< nodeListTmp.length; l++) nodeList.push (nodeListTmp[l]);
 				nbOcurencies -= this.children[c].getAttribute ('model').count ('{{'+ varName +'}}');
 	}} c++; }
 	if (nbOcurencies) nodeList.push (this);
