@@ -1,5 +1,4 @@
 // dépendence: text.js
-
 // les fichiers
 function fromFile (fileName){
 	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
@@ -32,11 +31,14 @@ function useTsv (tsvFile){
 }
 // les url
 charToEncode =[ ['=', 'xxx'], ['?', 'qqq'], ['&', 'ddd'] ];
+charToEncodePlus =[ ['%20', ' '] ];
 paramToUrl = function (url, params){
 	if (params){
 		url = url +'?';
 		for (p in params){
-			for (var c=0; c< charToEncode.length; c++) params[p] = params[p].replace (charToEncode[c][0], charToEncode[c][1]);
+			if (typeof (params[p]) == 'string') for (var c=0; c< charToEncode.length; c++)
+				params[p] = params[p].replace (charToEncode[c][0], charToEncode[c][1]);
+			else params[p] = params[p].toString();
 			url = url +p+'='+ params[p] +'&';
 		}
 		url = url.slice (0,-1);
@@ -59,7 +61,7 @@ paramFromUrl = function (url){
 	return params;
 }
 function useBackend (url, params){
-	var url = paramToUrl (url, params);
+	url = paramToUrl (url, params);
 	var textRes = fromFile (url);
 	var value = null;
 	if (textRes) value = JSON.parse (textRes);

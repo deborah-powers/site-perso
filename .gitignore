@@ -7,6 +7,8 @@ portfolio/
 divers/
 *cv.*
 *.ico
+*.json
+*.log
 *-va.*
 *-vb.*
 * va.*

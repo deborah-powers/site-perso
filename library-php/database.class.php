@@ -10,8 +10,7 @@ class database{
 	public $tableName = Null;
 	public $mysqli = Null;
 	// choix d'une bdd et connection
-	public function connect ($tableName){
-		$this->tableName = $tableName;
+	public function connect(){
 		$this->mysqli = new mysqli ($this->DBhost, $this->DBuser, $this->DBpassword, $this->DBname) or die ($this->mysqli->error);
 		// indiquer que les elements envoyes sont en utf8, adapte a la langue francaise
 		$this->mysqli->set_charset ('utf8');
@@ -37,7 +36,8 @@ class database{
 	}
 	public function __construct ($tableName){
 		$this->setDbLocal();
-		$this->connect ($tableName);
+		$this->tableName = $tableName;
+		$this->connect();
 	}
 	//								fonctions utilisees par les autres
 	// transforme une liste d'array simple (et le nom des colonnes) en liste d'arrays associatifs
@@ -94,14 +94,10 @@ class database{
 	}
 	//								fonctions essentielles
 	// recuperer le contenu de la table
-	public function getAll ($tableName){
+	public function getAll(){
 		$request = "SELECT * FROM ". $this->tableName;
-		echo $request;
-		/*
 		$listArrays = $this->fromSelect ($request);
-		var_dump ($listArrays);
-		*/
-		return Null;
+		return $listArrays;
 	}
 	// recuperer une liste d'objets par une liste de valeurs
 	// arrayValues est un array associatif (champ:valeur)
@@ -117,14 +113,20 @@ class database{
 		$listArrays = $this->fromSelect ($request);
 		$object =[];
 		$nbObj = count ($listArrays);
-		if ($nbObj >0) $object = $listArrays[0];
+		if ($nbObj >0){
+			$object = $listArrays[0];
+			$object['id'] = intval ($object['id']);
+		}
 		return $object;
 	}
 	public function getObjByValues ($arrayValues){
 		$listArrays = $this->getList ($this->tableName, $arrayValues);
 		$object =[];
 		$nbObj = count ($listArrays);
-		if ($nbObj >0) $object = $listArrays[0];
+		if ($nbObj >0){
+			$object = $listArrays[0];
+			$object['id'] = intval ($object['id']);
+		}
 		return $object;
 	}
 	// enregistrer un nouvel objet

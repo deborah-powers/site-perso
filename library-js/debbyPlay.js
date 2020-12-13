@@ -10,11 +10,14 @@ ________________________ fonctions utilisable par vous ________________________ 
 
 // affichage de base
 var debbyPlay ={
-	// constantes pour afficher un popup de calendrier
-	yearList: [ '2018', '2019', '2020' ],
-	monthList: [ 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre' ],
-	dayList: [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ]
+	tmpList: ['a', 'b', 'c']
 };
+function useDate(){
+	// constantes pour afficher un popup de calendrier
+	debbyPlay.yearList =[ '2018', '2019', '2020' ];
+	debbyPlay.monthList =[ 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre' ];
+	debbyPlay.dayList =[ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ];
+}
 HTMLElement.prototype.init = function(){
 	this.useTemplates();
 	this.clean();
@@ -356,7 +359,7 @@ HTMLElement.prototype.printList = function (varName, value){
 	var nodeList = this.findContainerParenthesis (varName);
 	if (! nodeList) nodeList =[];
 	var nodeListTmp = this.findContainerFor (varName);
-	if (nodeListTmp) for (var c in nodeListTmp) nodeList.push (nodeListTmp[c]);
+	if (nodeListTmp) for (var c=0; c< nodeListTmp.length; c++) nodeList.push (nodeListTmp[c]);
 	if (! nodeList) return;
 	// récupérer les conteneurs parents, pour les listes imbriquées
 	var container;
@@ -390,7 +393,7 @@ HTMLElement.prototype.findContainerFor = function (varName){
 	var nodeListTmp =[];
 	for (var c=0; c< this.children.length; c++){
 		nodeListTmp = this.children[c].findContainerFor (varName);
-		if (nodeListTmp) for (var l in nodeListTmp) nodeList.push (nodeListTmp[l]);
+		if (nodeListTmp) for (var l=0; l< nodeListTmp.length; l++) nodeList.push (nodeListTmp[l]);
 	}
 	if (nodeList.length ==0) nodeList =null;
 	else if (nodeList[0].tagName == 'SELECTION' || nodeList[0].tagName == 'CAROUSEL') nodeList =null;
@@ -424,7 +427,7 @@ HTMLElement.prototype.findContainerParenthesis = function (varName){
 		if (this.children[c].outerHTML.contain ('(('+ varName +'))') || this.children[c].outerHTML.contain ('(('+ varName +'.')){
 			nodeListTmp = this.children[c].findContainerParenthesis (varName);
 			if (nodeListTmp && nodeListTmp.length >0){
-				for (var l in nodeListTmp) nodeList.push (nodeListTmp[l]);
+				for (var l=0; l< nodeListTmp.length; l++) nodeList.push (nodeListTmp[l]);
 				nbOcurencies -= this.children[c].outerHTML.count ('(('+ varName +'))');
 				nbOcurencies -= this.children[c].outerHTML.count ('(('+ varName +'.');
 	}} c++; }
