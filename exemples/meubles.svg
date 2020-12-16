@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <?xml-stylesheet type='text/css' href='../library-css/svg.css'?>
-<?xml-stylesheet type='text/css' href='meuble.css'?>
+<?xml-stylesheet type='text/css' href='../exemples/meuble.css'?>
 <svg version='1.1' width='1000' height='320' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
 	<title>garde-meuble</title>
 <style type='text/css'><![CDATA[]]></style><defs>
@@ -54,8 +54,13 @@
 </g>
 <g id='table' transform='translate(310,0)'>
 	<rect class='torsade' x='32' y='160' width='16' height='160'/><rect class='torsade' x='144' y='160' width='16' height='160'/><rect class='wood' x='0' y='160' width='200' height='10'/></g>
-<g id='lavabo' transform='translate(500,0)'>
-	<g id='robinet' class='silver'><path d='m 56,140 q 15,-80 30,-40'/><polygon points='56,140 76,110 86,120 56,140 26,120 36,110'/></g>
+<g id='bathub' transform='translate(500,0)'>
+	<polygon class='wood' points='26,230 10,320 26,320 36,250 288,250 298,320 314,320 298,230'/>
+	<path class='silver' d='m 46,190 q -30,-200 30,-180'/><use xlink:href='#robinet-poignees' x='-10' y='50'/>
+	<use xlink:href='#cuvette' transform='scale(3,2)' x='36' y='40'/>
+</g>
+<g id='sink' transform='translate(540,0)'>
+	<g id='robinet' class='silver'><path d='m 56,140 q 15,-80 30,-40'/><polygon id='robinet-poignees' points='56,140 76,110 86,120 56,140 26,120 36,110'/></g>
 	<polygon class='email' points='40,150 72,150 87,320 25,320'/>
 	<path id='cuvette' class='email' d='m 0,130 q 6,0 6,7.5 c 0,60 100,60 100,0 q 0,-7.5 6,-7.5 z'/>
 </g>
