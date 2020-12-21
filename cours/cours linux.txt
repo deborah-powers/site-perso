@@ -1,0 +1,43 @@
+Sujet:	programmation
+Auteur:	deborah powers et consort
+Lien:	o
+Laut:	o
+
+____________________
+______ divers ______
+
+echo $JAVA_HOME
+	/home/lenovo/programmes/jdk-12.0.1
+readlink -f $(which java)
+	/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+java --version
+	openjdk 11.0.2 2019-01-15
+	OpenJDK Runtime Environment (build 11.0.2+9-Ubuntu-3ubuntu118.04.3)
+	OpenJDK 64-Bit Server VM (build 11.0.2+9-Ubuntu-3ubuntu118.04.3, mixed mode, sharing)
+
+_____________________________________________________
+______ changer la version de python par défaut ______
+
+quand j'ai deux versions sur mon ordi.
+
+# Remove python 2
+sudo apt purge -y python2.7
+sudo apt purge -y python2.7-minimal
+# You already have Python 3 but 
+sudo ln -s /usr/bin/python3 /usr/bin/python
+# Same for pip
+sudo apt install -y python3-pip
+sudo ln -s /usr/bin/pip3 /usr/bin/pip
+# Confirm the new version of Python: 3
+python --version
+
+______ seconde méthode ______
+
+# try following to see all instances of python
+whereis python
+which python
+
+# Then remove all instances using:
+sudo apt autoremove python
+
+# repeat sudo apt autoremove python(for all versions) that should do it, then install Anaconda and manage Pythons however you like if you need to reinstall it.

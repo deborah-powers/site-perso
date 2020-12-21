@@ -1,13 +1,3 @@
-____________________
-______ docker ______
-
-user	deborahpowers
-https://hub.docker.com/
-https://docs.docker.com/engine/reference/commandline/
-
-l'installer
-	sudo apt install docker.io
-	docker --version
 
 _________________
 ______ git ______
@@ -79,6 +69,39 @@ récupérer les données de distant/random à local/deborah
 	merger local/random dans local/deborah
 		checkout deborah
 		git merge random
+
+________________________________
+____________ divers ____________
+
+____________ accéder aux json dans chrome ____________
+
+fermer toutes les fenêtres de chrome
+
+dans la console
+C:\Program Files (x86)\Google\Chrome\Application\chrome.exe --allow-file-access-from-files
+
+modification permanente qui nécessite les droits d'admin
+raccourci chrome du bureau /propriétés/target
+rajouter --allow-file-access-from-files en fin de ligne
+
+____________ autoriser l'accès à mutu dans chrome ____________
+
+dans chrome/paramètres/paramètres avancés
+dans système/ouvrir les paramètres proxy/sécurité
+boutons "sites de confiance" et "site"
+"ajouter ce site web à la zone" accepte les *
+
+____________ commande window ____________
+
+dir:				affiche la liste de fichiers dans le répertoire courant
+copy con myfile:	modifier le contenu d'un fichier
+
+____________ racourcis clavier ____________
+
+console js	f12 = ctl+shift+c
+rafraîchir	f5
+commenter	ctl+shift+/
+annuler		ctl+z
 
 ______________________
 ______ mongo db ______
@@ -173,3 +196,15 @@ méthode pour mettre des trucs dans une collection, du terminal et pas de mongo
 sudo mongoimport --jsonArray --db projet10 --collection docs --file /chemin/absolu/users.json
 
 sudo mongoimport --jsonArray --db projet_12_13 --collection test --file /home/deborah/Bureau/node/node-12-06-deborah-loic-matthieu-karim/api/listUsers.json
+
+____________________
+______ docker ______
+
+user	deborahpowers
+https://hub.docker.com/
+https://docs.docker.com/engine/reference/commandline/
+
+l'installer
+	sudo apt install docker.io
+	docker --version
+
