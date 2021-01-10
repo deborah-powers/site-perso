@@ -4,6 +4,7 @@
 <?xml-stylesheet type='text/css' href='notes-css.css'?>
 <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='800' height='150'>
 	<title>ma figure</title>
+	<script xlink:href='../library-js/svg.js'/>
 	<style type='text/css'><![CDATA[
 		svg {
 			border-style: solid;

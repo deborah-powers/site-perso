@@ -473,3 +473,5 @@ HTMLElement.prototype.copy = function (bind){
 	if (this.parentNode && bind) this.parentNode.insertBefore (newNode, this);
 	return newNode;
 }
+Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
+

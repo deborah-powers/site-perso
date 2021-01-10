@@ -11,6 +11,19 @@ function createShape (tag, parent, clazz, id){
 	if (id) shape.id = id;
 	return shape;
 }
+SVGElement.prototype.copy = function(){
+	var parent = null;
+	var className = null;
+	var id = null;
+	if (this.parent) parent = this.parent;
+	if (this.className) className = this.className;
+	if (this.id) id = this.id +'-2';
+	var newShape = createShape (this.tagName, parent, className, id);
+	var facuAttr =[ 'points', 'd','x','y','cx','cy','rx','ry','r', 'width', 'height', 'transform', 'fill' ];
+	for (var a=0; a< facuAttr.length; a++)
+		if (this.getAttribute (facuAttr[a])) newShape.setAttribute (facuAttr[a], this.getAttribute (facuAttr[a]));
+	return newShape;
+}
 SVGElement.prototype.getAttribute = function (name){ return this.getAttributeNS (null, name); }
 SVGElement.prototype.getAttributeNb = function (name){
 	var attributeStr = this.getAttribute (name);
@@ -22,14 +35,14 @@ SVGElement.prototype.setAttributeNb = function (name, value){ this.setAttributeN
 SVGElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
 
 // SVGPolygonElement
-SVGAnimatedPoints.prototype.setPoints = function (pointList){
+SVGPolygonElement.prototype.setPoints = function (pointList){
 	if (pointList.constructor.name == 'String') this.setAttribute ('points', pointList);
 	else if (pointList.constructor.name == 'Array'){
 		for (var p=0; p< pointList.length; p++) pointList[p] = pointList[p][0] +','+ pointList[p][1]
 		var pointListStr = pointList.join (' ');
 		this.setAttribute ('points', pointListStr);
 }}
-SVGAnimatedPoints.prototype.getPoints = function(){
+SVGPolygonElement.prototype.getPoints = function(){
 	var pointListStr = this.getAttribute ('points');
 	var pointList = pointListStr.split (' ');
 	for (var p=0; p< pointList.length; p++){

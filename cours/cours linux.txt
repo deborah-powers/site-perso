@@ -8,12 +8,36 @@ ______ divers ______
 
 echo $JAVA_HOME
 	/home/lenovo/programmes/jdk-12.0.1
-readlink -f $(which java)
+readlink -f $(which subl)
 	/usr/lib/jvm/java-11-openjdk-amd64/bin/java
 java --version
 	openjdk 11.0.2 2019-01-15
 	OpenJDK Runtime Environment (build 11.0.2+9-Ubuntu-3ubuntu118.04.3)
 	OpenJDK 64-Bit Server VM (build 11.0.2+9-Ubuntu-3ubuntu118.04.3, mixed mode, sharing)
+
+__________________________________________
+______ désinstaller une application ______
+
+______ retrouver les infos sur une commande ______
+
+which myapp
+whereis myapp
+myapp --version
+
+______ retrouver les infos sur une appli ______
+
+dpkg --listfiles my-app
+
+______ suppression
+
+sudo rm -R /opt/my-app/
+sudo rm /usr/share/applications/my-app.desktop
+sudo rm /usr/share/icons/hicolor/16x16/apps/my-app.png
+sudo rm /usr/share/icons/hicolor/32x32/apps/my-app.png
+sudo rm /usr/share/icons/hicolor/48x48/apps/my-app.png
+sudo rm /usr/share/icons/hicolor/128x128/apps/my-app.png
+sudo rm /usr/share/icons/hicolor/256x256/apps/my-app.png
+sudo rm /usr/bin/myapp
 
 _____________________________________________________
 ______ changer la version de python par défaut ______

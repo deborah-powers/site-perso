@@ -20,7 +20,7 @@ svg {
 	background-color: ivory;
 }
 svg.grid {
-	background: url('/home/lenovo/Bureau/site-dp/exemples/grid.svg');
+	background: url('/var/www/html/site-dp/exemples/grid.svg');
 /*	background: url('C:/Users/deborah.powers/html/exemples/grid.svg'); */
 }
 text {
