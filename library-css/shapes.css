@@ -8,7 +8,7 @@ dépend de structure.css
 	margin-left: 1em;
 	z-index: 2;
 	position: relative;
-	background-color: var(--bord-color, #AAA);
+	background-color: var(--fond-color, #AAA);
 	text-align: center;
 }
 .shape:before, .shape:after {
@@ -38,20 +38,24 @@ dépend de structure.css
 .moon {
 	background-color: transparent;
 	border-radius: 50%;	padding-top: 1em;
-	box-shadow: -1em 0 0 0 var(--bord-color, #AAA);
+	box-shadow: -1em 0 0 0 var(--fond-color, #AAA);
 }
 .moon:before, .moon:after {	content: none;	}
 .arrow-left {
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' height='20' width='20' style='border:solid 2px black'><polygon points='0,0 10,0 20,10 10,20 0,20 10,10'/></svg>");
+	background-size: cover;
+}/*
+.arrow-left {
 	background-image:
-		linear-gradient(0deg, var(--bg-color) 10%, transparent 10%, transparent 90%, var(--bg-color) 90%),
-		linear-gradient(135deg, var(--bg-color) 45%, transparent 45%),
-		linear-gradient(45deg, var(--bg-color) 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%),
+		linear-gradient(0deg, var(--fond-color) 10%, transparent 10%, transparent 90%, var(--fond-color) 90%),
+		linear-gradient(135deg, var(--fond-color) 45%, transparent 45%),
+		linear-gradient(45deg, var(--fond-color) 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%),
 		linear-gradient(135deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%);
-		}
+}*/
 .arrow-right {
 	background-image:
-		linear-gradient(0deg, var(--bg-color) 10%, transparent 10%, transparent 90%, var(--bg-color) 90%),
-		linear-gradient(135deg, transparent 55%, var(--bg-color) 55%),
-		linear-gradient(45deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, var(--bg-color) 55%),
+		linear-gradient(0deg, var(--fond-color) 10%, transparent 10%, transparent 90%, var(--fond-color) 90%),
+		linear-gradient(135deg, transparent 55%, var(--fond-color) 55%),
+		linear-gradient(45deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, var(--fond-color) 55%),
 		linear-gradient(135deg, transparent 45%, var(--text-color) 45%);
 }
