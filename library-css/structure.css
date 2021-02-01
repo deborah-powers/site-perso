@@ -45,8 +45,7 @@ body {
 *:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
 /* nouveauté, les blocs de code */
-code {
-	display: block;
+xmp {
 	margin: 0 2%;
 	padding: 1%;
 	border-style: dotted;

@@ -20,7 +20,7 @@ body {
 }
 html { background-color: var(--button-bg); }
 h1, h2, h3, h4, p { margin-bottom: 1em; }
-code { margin-bottom: 1em; }
+xmp { margin-bottom: 1em; }
 circle, ellipse {
 	fill: pink;
 	stroke: red;
