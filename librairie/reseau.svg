@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<?xml-stylesheet type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/svg.css'?>
+<svg version='1.1' width='800' height='600' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='grid'>
+	<title>réseau de trois points</title>
+	<script xlink:href='/home/lenovo/Bureau/site-dp/library-js/svg.js'/>
+<style type='text/css'><![CDATA[
+	circle {
+		r: 1.2em;
+		cx: 0.7em;
+		cy: -0.6em;
+	}
+]]></style><defs>
+</defs>
+	<g id='letter-base' transform='translate(30,30)'><circle class='default'/><text x='0' y='0'>R</text></g>
+	<script xlink:href='reseau.js'/>
+</svg>
