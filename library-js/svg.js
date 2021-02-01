@@ -15,13 +15,14 @@ SVGElement.prototype.copy = function(){
 	var parent = null;
 	var className = null;
 	var id = null;
-	if (this.parent) parent = this.parent;
+	if (this.parentNode) parent = this.parent;
 	if (this.className) className = this.className;
 	if (this.id) id = this.id +'-2';
 	var newShape = createShape (this.tagName, parent, className, id);
 	var facuAttr =[ 'points', 'd','x','y','cx','cy','rx','ry','r', 'width', 'height', 'transform', 'fill' ];
 	for (var a=0; a< facuAttr.length; a++)
 		if (this.getAttribute (facuAttr[a])) newShape.setAttribute (facuAttr[a], this.getAttribute (facuAttr[a]));
+	if ('gG'.indexOf (this.tagName) >=0) newShape.innerHTML = this.innerHTML;
 	return newShape;
 }
 SVGElement.prototype.getAttribute = function (name){ return this.getAttributeNS (null, name); }
