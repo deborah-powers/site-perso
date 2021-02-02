@@ -9,16 +9,26 @@ sudo apt-get install git
 git != github
 git --version
 git status
-______ bases, utilisation locale ______
+
+______ installer git dans un dossier ______
+
 dans mon dossier projet
 git init
-cd .git
 git config user.name "deborah-powers"
 git config user.pasword "noisette416"
 git config user.email "deborah.powers.dev@gmail.com"
-cd ..
+
+______ commiter des fichiers ______
+
 git add .
 git commit -m 'message de création (date et heure)'
+git show --name-only --pretty=""
+git pull origin master
+git push origin master
+
+
+______ bases, utilisation locale ______
+
 selectionner un fichier
 	git add doc.html
 le mettre sur le git
@@ -40,6 +50,7 @@ supprimer une branche
 	git branch -d new-branch
 conflit lors d'un meging
 	git status#Unmerged paths
+
 
 ______ utilisation à distance ______
 
