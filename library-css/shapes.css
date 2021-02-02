@@ -8,7 +8,10 @@ dépend de structure.css
 	margin-left: 1em;
 	z-index: 2;
 	position: relative;
-	background-color: var(--bord-color, #AAA);
+	background-color: var(--fond-color, #AAA);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
 	text-align: center;
 }
 .shape:before, .shape:after {
@@ -31,27 +34,31 @@ dépend de structure.css
 .cloud:before, .cloud:after {	bottom: 0;	border-radius: 100%;	}
 .cloud:before {	width: 4em;	height: 75%;	left: -2em;	}
 .cloud:after {	width: 3em;	height: 60%;	right: -1.5em;	}
-.heart {	margin-top: 2em;	margin-bottom: 1em;	transform: rotate(45deg);	}
-.heart:before, .heart:after {	border-radius: 50%;	}
-.heart:before {	left: 0%;	top: -50%;	}
-.heart:after {	left: -50%;	}
 .moon {
 	background-color: transparent;
 	border-radius: 50%;	padding-top: 1em;
-	box-shadow: -1em 0 0 0 var(--bord-color, #AAA);
+	box-shadow: -1em 0 0 0 var(--fond-color, #AAA);
 }
 .moon:before, .moon:after {	content: none;	}
-.arrow-left {
+.picto {
+	width: 3em;
+	height: 3em;
+	text-align: center;
+	background-color: var(--fond-color);
+	border: dotted 2px red;
+}
+.arrow {
+	clip-path: polygon(0% 50%, 50% 0%, 100% 0%, 50% 50%, 100% 100%, 50% 100%);
+}
+.arrow.right { transform: scaleX(-1); }
+.cross {
 	background-image:
-		linear-gradient(0deg, var(--bg-color) 10%, transparent 10%, transparent 90%, var(--bg-color) 90%),
-		linear-gradient(135deg, var(--bg-color) 45%, transparent 45%),
-		linear-gradient(45deg, var(--bg-color) 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%),
-		linear-gradient(135deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, transparent 55%);
-		}
-.arrow-right {
-	background-image:
-		linear-gradient(0deg, var(--bg-color) 10%, transparent 10%, transparent 90%, var(--bg-color) 90%),
-		linear-gradient(135deg, transparent 55%, var(--bg-color) 55%),
-		linear-gradient(45deg, transparent 45%, var(--text-color) 45%, var(--text-color) 55%, var(--bg-color) 55%),
-		linear-gradient(135deg, transparent 45%, var(--text-color) 45%);
+		linear-gradient(45deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%),
+		linear-gradient(135deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%);
+}
+.trash {
+	-webkit-clip-path: url("#cross");
+	clip-path: path('m0,42% c 0,62% 62%,62% 62%,100% c 0,-38% 62%,-38% 62%,-100% c 0,-62% -62%,-62% -62%,0 c 0,-62% -62%,-62% -62%,0 z');
+	clip-path: url("C:\\Users\\deborah.powers\\html\\divers\\heart.svg#heart");
+	clip-path: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0,0 500,800'><path d='m0,38 c 0,50 50,50 50,80 c 0,-30 50,-30 50,-80 c 0,-50 -50,-50 -50,0 c 0,-50 -50,-50 -50,0 z'/></svg>");
 }
