@@ -2,38 +2,45 @@
 	<title></title>
 	<meta name='viewport' content='width=device-width,initial-scale=1'/>
 	<meta charset='utf-8'/>
-	<base href='C:\Users\deborah.powers\html\' target='_blank'>
+	<base target='_blank'>
 	<link rel='icon' type='image/svg+xml' href='divers/nounours-bonbon-rose.svg'>
-	<link rel='stylesheet' type='text/css' href='library-css/structure.css'/>
-	<link rel='stylesheet' type='text/css' href='library-css/perso.css' media='screen'/>
-	<link rel='stylesheet' type='text/css' href='library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/shapes.css'/>
 <style type='text/css'>
 	svg {
 		position: absolute;
 		width: 0;
 		height: 0;
 	}
-
-.heart {
-	-webkit-clip-path: url(#heart);
-	clip-path: url(#heart);
-	height: 8em;
-}
+	.big {
+		width: 18em;
+		height: 18em;
+	}
+	.heart {
+		-webkit-clip-path: url(#heart);
+		clip-path: url(#heart);
+	}
 </style></head><body>
-<svg><clipPath id="my-clip-path" clipPathUnits="objectBoundingBox"><path d="M0.375,0 l-0.375,0.5 h0.375 l-0.25,0.5,0.875,-0.625 h-0.5 l0.375,-0.375"></path></clipPath></svg>
-<div class="clipped"></div>
+	<svg><clipPath id='my-clip-path' clipPathUnits='objectBoundingBox'>
+	<path d='M0.375,0 l-0.375,0.5 h0.375 l-0.25,0.5,0.875,-0.625 h-0.5 l0.375,-0.375'></path></clipPath></svg>
+	<div class='clipped'></div>
 	<svg preserveAspectRatio='none'>
 		<clipPath clipPathUnits='objectBoundingBox' id='heart'>
-			<path d='m 0,0.47 c 0,0.62 0.62,0.62 0.62,1 c 0,-0.38 0.62,-0.38 0.62,-1 c 0,-0.62 -0.62,-0.62 -0.62,0 c 0,-0.62 -0.62,-0.62 -0.62,0 z'/>
+			<path d='m 0,0.5
+				c	0,0.3	0.5,0.5		0.5,0.5
+				c	0,-0	0.5,0	0.5,-0.5
+				c	0,-0.62	-0.5,-0.62	-0.5,-0.2
+				c	0,-0.42	-0.5,-0.42	-0.5,0.2 z'/>
 		</clipPath>
 	</svg>
 	<h1>les formes</h1>
 	<p class='shape cloud'></p>
 	<p class='shape moon'></p>
-	<p class='picto heart'></p>
+	<p class='picto big heart'></p>
+	<p class='picto big'></p>
 	<p class='picto cross'></p>
 	<p class='picto arrow'></p>
-	<p class='picto arrow' style='width:9em'>coucou</p>
+	<p class='picto arrow'>coucou</p>
 	<p class='picto arrow right'></p>
-	<h1>les couleurs</h1>
 </body></html>
