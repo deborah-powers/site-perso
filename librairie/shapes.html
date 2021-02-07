@@ -25,16 +25,21 @@
 		-webkit-clip-path: url(C:\\Users\\deborah.powers\\html\\librairie\\shape-clip.svg#heart);
 		clip-path: url(C:\\Users\\deborah.powers\\html\\librairie\\shape-clip.svg#heart);
 	}
+	.test {
+		width: 3cm;
+		height: 3cm;
+		mask: url(mask-heart.svg);
+	}
 </style></head><body>
 	<svg><clipPath id='my-clip-path' clipPathUnits='objectBoundingBox'>
 	<path d='M0.375,0 l-0.375,0.5 h0.375 l-0.25,0.5,0.875,-0.625 h-0.5 l0.375,-0.375'></path></clipPath></svg>
 	<div class='clipped'></div>
 	<svg preserveAspectRatio='none'><clipPath clipPathUnits='objectBoundingBox' id='heart-2'><path d='m 0,0.5 q 0,0.2 0.5,0.5 q 0.5,-0.3 0.5,-0.5 c 0,-0.6 -0.5,-0.6 -0.5,-0.1 c 0,-0.5 -0.5,-0.5 -0.5,0.1'/></clipPath></svg>
 	<h1>les formes</h1>
-	<p class='shape cloud'></p>
-	<p class='shape moon'></p>
 	<p class='shape heart'></p>
-	<p class='picto cross'></p>
-	<p class='picto arrow'></p>
-	<p class='picto arrow right'></p>
+	<p class='shape cloud'></p>
+	<p class='outline moon'></p>
+	<p class='outline cross'></p>
+	<p class='outline arrow'></p>
+	<p class='outline arrow right'></p>
 </body></html>

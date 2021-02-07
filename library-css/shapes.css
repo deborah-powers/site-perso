@@ -38,19 +38,14 @@ dépend de structure.css
 .heart:before, .heart:after {	border-radius: 50%;	}
 .heart:before {	left: 0%;	top: -50%;	}
 .heart:after {	left: -50%;	}
-.moon {
-	background-color: transparent;
-	border-radius: 50%;	padding-top: 1em;
-	box-shadow: -1em 0 0 0 var(--fond-color, #AAA);
-}
-.moon:before, .moon:after {	content: none;	}
-/* ------ */
-.picto {
+.outline {
 	width: 3em;
 	height: 3em;
 	text-align: center;
 	background-color: var(--fond-color);
-	border: dotted 2px red;
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: contain;
 }
 .arrow { clip-path: polygon(0% 50%, 50% 0%, 100% 0%, 50% 50%, 100% 100%, 50% 100%); }
 .arrow.right { transform: scaleX(-1); }
@@ -58,4 +53,16 @@ dépend de structure.css
 	background-image:
 		linear-gradient(45deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%),
 		linear-gradient(135deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%);
+}
+.moon {
+	background-color: transparent;
+	border-radius: 50%;	padding-top: 1em;
+	box-shadow: -1em 0 0 0 var(--fond-color, #AAA);
+	margin-left: 1em;
+}
+.outline.heart {
+	mask-image: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg');
+	/*
+	-webkit-mask: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg') no-repeat center;
+	*/
 }
