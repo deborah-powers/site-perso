@@ -61,8 +61,9 @@ dépend de structure.css
 	margin-left: 1em;
 }
 .outline.heart {
-	mask-image: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg');
+	mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0,0 100,100'><path id='heart-a' d='m 0,50 q 0,20 50,50 q 50,-30 50,-50 c 0,-60 -50,-60 -50,-10 c 0,-50 -50,-50 -50,10'/></svg>");
 	/*
+	mask-image: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg');
 	-webkit-mask: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg') no-repeat center;
 	*/
 }
