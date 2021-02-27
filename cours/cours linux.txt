@@ -15,6 +15,10 @@ java --version
 	OpenJDK Runtime Environment (build 11.0.2+9-Ubuntu-3ubuntu118.04.3)
 	OpenJDK 64-Bit Server VM (build 11.0.2+9-Ubuntu-3ubuntu118.04.3, mixed mode, sharing)
 
+sudo chmod -R 744 .
+sudo chmod -R 744 /usr/local/lib/python3.6/dist-packages/
+
+
 __________________________________________
 ______ désinstaller une application ______
 
