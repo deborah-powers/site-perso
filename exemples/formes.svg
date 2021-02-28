@@ -67,6 +67,10 @@
 		<path d='M75 75 c -100 -120, -100 120, 0 0' class='petal-ter'/>
 		<circle r='30' cx='75' cy='75'/>
 	</g>
+	<g id='flower-five' transform='translate(300,350)'>
+		<path id='petales' d='m 93,51 c 54,-60 90,51 11,33 75,33 -21,102 -30,21 -7.5,78 -102,11 -30,-21 -78,17 -44,-93 11,-34 -40,-67 75,-70 36,0 z'/>
+		<circle r='30' cx='72.5' cy='75'/>
+	</g>
 	<g id='rosace-horizontal' transform='translate(546,200)'>
 		<circle r='30' class='rosace-a' cx='30' cy='55.98'/><circle r='30' class='rosace-b' cx='45' cy='81.96'/>
 		<circle r='30' class='rosace-c' cx='75' cy='81.96'/><circle r='30' class='rosace-d' cx='90' cy='55.98'/>

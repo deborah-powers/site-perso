@@ -11,10 +11,6 @@ const pathShortcut ={
 	'b/': pathDesktop,
 	'a/': pathArticles,
 };
-const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
-const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
-	.concat (extentionsImg);
-
 String.prototype.shortcut = function(){
 	if (this.contain (pathRoot)) return this;
 	var start = this.slice (0,2);

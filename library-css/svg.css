@@ -36,3 +36,15 @@ circle.marker {
 	stroke: none;
 	fill: green;
 }
+.skin {
+	fill: #FC9;
+	stroke: #DA7;
+}
+.hair {
+	fill: #963;
+	stroke: #741;
+}
+.shadow {
+	fill: #2226;
+	stroke: #2226;
+}
