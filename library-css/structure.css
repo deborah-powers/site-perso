@@ -138,6 +138,9 @@ nav >* {
 	flex-grow: 1;
 	flex-shrink: 1;
 }
+/* les formules mathématiques */
+math { display: block; }
+mrow { font-size: 1em; }
 /* affichage pour les tablettes */
 @media (max-width: 992px){}
 /* affichage pour les smartphones */
