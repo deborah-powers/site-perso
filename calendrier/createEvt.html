@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>formulaire de création d'événement</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' href='front/css/basic-print.css'/>
+	<link rel='stylesheet' href='front/css/basic-screen.css'/>
+	<link rel='stylesheet' href='front/css/site.css'/>
+	<script src='front/library/angular.js'></script>
+</head>
+<body ng-app='events' ng-controller='controllerCreateEvt'>
+	<div class='row'>
+		<a class='button' href='index.html'>Revenir à la page d'acceuil</a>
+		<a class='button' href='updateEvt.html'>Modifier un événement</a>
+	</div>
+	<form>
+		<date date='date'></date>
+		<place place='place'></place>
+		<contact contact='contact'></contact>
+		<message message='message'></message>
+		<button ng-click='createEvt()'>Créer l'événement</button>
+	</form>
+</body>
+<script type='text/javascript' src='front/library/appEvt.js'></script>
+<script type='text/javascript' src='front/createEvt/createEvtController.js'></script>
+<script type='text/javascript' src='front/library/serviceDate.js'></script>
+<script type='text/javascript' src='front/library/serviceEvent.js'></script>
+<script type='text/javascript' src='front/createEvt/createEvtComponents.js'></script>
+</html>
