@@ -1,0 +1,52 @@
+<!DOCTYPE html><html><head>
+	<title>exemple angularjs simple</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<base target='_blank'>
+	<link rel='icon' type='image/svg+xml' href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='16' height='16'><circle cx='8' cy='8' r='6' stroke='#603' fill='#C36' stroke-width='4'/></svg>">
+	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='local.css'/>
+	<script type='text/javascript' src='/home/lenovo/Bureau/site-dp/library-js-ext/angular.js'></script>
+	<script type='text/javascript' src='/home/lenovo/Bureau/site-dp/library-js-ext/angular-ui-router.js'></script>
+</head><body ng-app='bookApp'>
+	<div ng-controller='myCtl'><h1>{{ title }}</h1></div>
+	<ui-view></ui-view>
+</body>
+<script type='text/javascript'>
+	angular.module ('bookApp', ['ui.router']);
+	angular.module ('bookApp').controller ('libCtl', function ($scope, bookList){
+		$scope.listBooks = bookList;
+	});
+	angular.module ('bookApp').controller ('bookCtl', function ($scope, $stateParams){
+		$scope.name = $stateParams.name;
+		$scope.author = $stateParams.author;
+		$scope.price = $stateParams.price;
+		$scope.currency = $stateParams.currency;
+	});
+	angular.module ('bookApp').component ('library', {
+		template: "<div><h2>liste des livres</h2><section><div ng-repeat='Abook in listBooks'><a ui-sref='book({ name:Abook.name, author:Abook.author, price:Abook.price, currency:Abook.currency })'>{{ Abook.name }}</a></div></section></div>",
+		controller: 'libCtl',
+		bindings: { content: '<' }
+	});
+	angular.module ('bookApp').component ('book', {
+		template: "<div><h2>{{ name }}</h2><p>author: {{ author }}</p><p>price: {{ price }} {{ currency }}</p><a ui-sref='books()'>revenir à la liste</a></div>",
+		controller: 'bookCtl',
+		bindings: { content: '<' }
+	});
+	angular.module ('bookApp').config (function ($stateProvider, $urlRouterProvider, $locationProvider){
+		var bookList ={ name: 'books', url: '/books', template: '<library></library>' };
+		var book ={
+			name: 'book', url: '/book/:name', template: '<book></book>',
+			params: { name: null, author: null, price: null, currency: null }
+		};
+		$stateProvider.state (bookList);
+		$stateProvider.state (book);
+		$urlRouterProvider.otherwise ('/books');
+		$locationProvider.hashPrefix ('');
+		// $locationProvider.html5Mode (true);
+		// $locationProvider.html5Mode({ enabled: true, requireBase: false });
+	});
+</script>
+<script type='text/javascript' src='angularjs-action.js'></script>
+</html>
