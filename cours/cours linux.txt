@@ -3,8 +3,13 @@ Auteur:	deborah powers et consort
 Lien:	o
 Laut:	o
 
-____________________
-______ divers ______
+====== créer un racourci ======
+
+
+
+
+
+====== divers ======
 
 echo $JAVA_HOME
 	/home/lenovo/programmes/jdk-12.0.1
@@ -19,20 +24,19 @@ sudo chmod -R 744 .
 sudo chmod -R 744 /usr/local/lib/python3.6/dist-packages/
 
 
-__________________________________________
-______ désinstaller une application ______
+====== désinstaller une application ======
 
-______ retrouver les infos sur une commande ______
+****** retrouver les infos sur une commande ******
 
 which myapp
 whereis myapp
 myapp --version
 
-______ retrouver les infos sur une appli ______
+****** retrouver les infos sur une appli ******
 
 dpkg --listfiles my-app
 
-______ suppression
+****** suppression
 
 sudo rm -R /opt/my-app/
 sudo rm /usr/share/applications/my-app.desktop
@@ -43,8 +47,7 @@ sudo rm /usr/share/icons/hicolor/128x128/apps/my-app.png
 sudo rm /usr/share/icons/hicolor/256x256/apps/my-app.png
 sudo rm /usr/bin/myapp
 
-_____________________________________________________
-______ changer la version de python par défaut ______
+====== changer la version de python par défaut ======
 
 quand j'ai deux versions sur mon ordi.
 
@@ -59,7 +62,7 @@ sudo ln -s /usr/bin/pip3 /usr/bin/pip
 # Confirm the new version of Python: 3
 python --version
 
-______ seconde méthode ______
+****** seconde méthode ******
 
 # try following to see all instances of python
 whereis python
