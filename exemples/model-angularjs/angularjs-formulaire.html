@@ -4,56 +4,59 @@
 	<meta charset='utf-8'/>
 	<base target='_blank'>
 	<link rel='icon' type='image/svg+xml' href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='16' height='16'><circle cx='8' cy='8' r='6' stroke='#603' fill='#C36' stroke-width='4'/></svg>">
-	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/structure.css'/>
-	<link rel='stylesheet' type='text/css' href='/home/lenovo/Bureau/site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
 	<link rel='stylesheet' type='text/css' href='local.css'/>
-	<script type='text/javascript' src='/home/lenovo/Bureau/site-dp/library-js-ext/angular.js'></script>
-<style type='text/css'></style></head><body ng-app='myApp'>
+	<script type='text/javascript' src='../../library-js-ext/angular.js'></script>
+<style type='text/css'>
+	form {
+		display: grid;
+		grid-template-columns: 30% 1fr;
+	}
+	form h2, form button {
+		grid-column: 1/3;
+	}
+</style></head><body ng-app='myApp'>
 	<div ng-controller='myCtl'>
 		<h1>{{ title }}</h1>
 		<form>
 			<h2>formulaire simple</h2>
-			<input type='text' ng-model='lName' placeholder='nom de famille'>
-			<input type='text' ng-model='fName' placeholder='prénom'>
+			<p>votre nom</p>
+			<input type='text' ng-model='name' placeholder='nom de famille'>
 			<button ng-click='resetSimple()'>valeur par défaut</button>
 		</form>
-		<h2>bonjour {{ fName }} {{ lName }}</h2>
-		<p>- {{ question }} ?</p><p>- {{ reponse }}</p>
-		<formulaire fName='fName' lName='lName' reponse='reponse'></formulaire>
+		<h3>bonjour {{ name }}</h3>
+		<formulaire pa='pa' pe='toto' pi='pi'></formulaire>
+		<p>les variables (body): {{ pa }}, {{ pe }}, {{ pi }}</p>
 	</div>
 </body>
 <script type='text/javascript'>
 	angular.module ('myApp', []);
 	angular.module ('myApp').controller ('myCtl', function ($scope){
 		$scope.title = 'application angular-js';
-		$scope.lName = 'caroussi';
-		$scope.fName = 'david';
-		$scope.question = "les parents Térieur ont un fils, comment s'appelle-t-il";
-		$scope.reponse = 'Alain';
+		$scope.name = 'david caroussi';
+		$scope.pa = 'a';
+		$scope.pe = 'e';
+		$scope.pi = 'i';
 
-		$scope.resetSimple = function(){
-			$scope.lName = 'powers';
-			$scope.fName = 'deborah';
-		}
+		$scope.resetSimple = function(){ $scope.name = 'deborah powers'; }
 		$scope.resetComponent = function(){
-			$scope.lName = 'powers';
-			$scope.fName = 'deborah';
-			$scope.question = "les parents Térieur ont un fils, quel est son nom";
-			$scope.reponse = 'Alex';
+			$scope.pa = 'b';
+			$scope.pe = 'f';
+			$scope.pi = 'j';
 		}
 	});
 	angular.module ('myApp').component ('formulaire', {
-		template: `<form>
+		template: `<form id='fcomponent'>
 			<h2>formulaire component</h2>
-			<p>bonjour {{ $ctrl.fName }} {{ $ctrl.lName }}</p>
-			<p>- {{ question }} ?</p><p>- {{ $ctrl.reponse }}</p>
-			<input type='text' ng-model='$ctrl.lName' placeholder='nom de famille'>
-			<input type='text' ng-model='$ctrl.fName' placeholder='prénom'>
-			<input type='text' ng-model='$ctrl.reponse' placeholder='votre réponse'>
+			<p>binding =</p><input type='text' ng-model='$ctrl.pa' placeholder='pa'>
+			<p>binding @</p><input type='text' ng-model='$ctrl.pe' placeholder='pe'>
+			<p>binding <</p><input type='text' ng-model='$ctrl.pi' placeholder='pi'>
 			<button ng-click='resetComponent()'>valeur par défaut</button>
-		</form>`,
+		</form>
+		<p>les variables (component): {{ $ctrl.pa }}, {{ $ctrl.pe }}, {{ $ctrl.pi }}</p>`,
 		controller: 'myCtl',
-		bindings: { lName: '=', fName: '@', reponse: '<' }
+		bindings: { pa: '=', pe: '@', pi: '<' }
 	});
 /* les bindings:
 <	one way	le plus rapide. récupérer le texte du scope

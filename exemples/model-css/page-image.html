@@ -1,0 +1,21 @@
+<style type='text/css'>
+	img.img-resize {
+		width: 400px;
+		height: 200px;
+	}
+</style><section>
+	<h2>les images et les liens</h2>
+	<img src='exemple-img.bmp' alt='une forme géométrique'>
+	<p>les attributs src et alt sont obligatoire. par défaut, laisser alt vide.</p>
+	<img src='exemple-img.bmp' class='img-resize' style='object-fit:fill'>
+	<p>width, height, object-fit: fill. ajuster l'image à son cadre, en la déformant. affichage par défaut si width et heigth sont précisés.</p>
+	<img src='exemple-img.bmp' class='img-resize' style='object-fit:contain'>
+	<p>width, height, object-fit: contain. ajuster l'image dans son cadre, en gardant ses proportions. elle peut être plus petite que son cadre.</p>
+	<img src='exemple-img.bmp' class='img-resize' style='object-fit:cover;object-position:left top;'>
+	<p>width, height, object-fit: cover, object-position:left top. ajuster l'image à son cadre, en gardant ses proportions. elle est rognée si elle dépasse de son cadre.</p>
+	<a href='http://www.deborah-powers.fr/'>lien</a>
+	<p>l'attribut href est obligatoire, même s'il est vide. # permet de désactiver la redirection.</p>
+	<p>< base target='_blank' href='C:/Users/deborah.powers/Desktop/articles/'/></p>
+	<p>base pré-écrit des infos pour les liens et les images. on le met dans le head.</p>
+	<p>valeurs de href: # désactiver le lien, #id un élément de la page qui a pour id id, http://www.truc.fr/ une page web, c://truc/machin.html un fichier (ou un dossier) local.</p>
+</section>
