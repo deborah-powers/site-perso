@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+	<title>Parcours de Deborah Powers</title>
+	<link rel='icon' type='image/x-icon' href='favicon.ico'/>
+	<!-- link rel='icon' type='image/svg' href='data/logo-java.svg'/ -->
+	<link rel='stylesheet' type='text/css' href='library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='library-css/color.css' media='screen'/>
+	<meta charset='utf-8'/>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta name='author' value='Deborah Powers'/>
+	<meta name='description' value='Développeuse junior, je vous présente mon parcours'/>
+	<base target='_blank'>
+	<script src='library-js/config.js'></script>
+	<script src='library-js-ext/angular.js'></script>
+	<script src='library-js-ext/angular-ui-router.js'></script>
+	<script src='library-js/angular-text.js'></script>
+	<style type='text/css'>
+		body { background-image: url('data/banniere.jpg'); }
+		img.photo { float: right; }
+	</style>
+</head>
+<body class='banner' ng-app='appWelcome'>
+	<!-- img id='banniere' src='data/banniere.jpg' -->
+	<ui-view></ui-view>
+</body>
+<script type='text/javascript' src='module-news/news.js'></script>
+<script type='text/javascript' src='module-welcome/welcome.js'></script>
+</html>
