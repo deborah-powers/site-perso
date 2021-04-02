@@ -14,7 +14,8 @@ divers/
 *-vb.*
 * va.*
 * vb.*
-/index.html
+*copie*
+index.html
 library-*/*.txt
 library-php/crossOrigin.php
 library-php/test.php
