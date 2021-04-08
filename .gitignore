@@ -6,8 +6,10 @@ portfolio/
 divers/
 *cv.*
 *.ico
+*.jpg
 *.json
 *.log
+*.pdf
 *.zip
 *-va.*
 *-vb.*
