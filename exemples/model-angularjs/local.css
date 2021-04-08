@@ -1,7 +1,0 @@
-section { column-count: 3; }
-book {
-	display: block;
-	border: dotted 2px #C36;
-	margin: 1em;
-	padding: 0.4em;
-}

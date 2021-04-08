@@ -1,9 +1,0 @@
-le 2021/04/07
-https://support.google.com/chrome/a/answer/2714278?hl=fr
-
-quand mon application est codée
-chrome://extensions/
-activer le mode développeur
-charger l'extension non empaquetée
-
-erreur: L'extension indiquée est déjà associée à une clé privée. Utilisez cette clé ou supprimez-la.

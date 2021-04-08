@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0,0 100,100' width='100%' heigth='100%'>
-	<title>coeur</title>
-	<desc>masque pour shape.css</desc>
-	<path id='heart' d='m 0,50 q 0,20 50,50 q 50,-30 50,-50 c 0,-60 -50,-60 -50,-10 c 0,-50 -50,-50 -50,10'/>
-</svg>
