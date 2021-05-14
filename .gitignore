@@ -19,5 +19,6 @@ divers/
 index.html
 library-*/*.txt
 library-php/crossOrigin.php
+library-php/database*.php
 library-php/test.php
 library-js/config.js
