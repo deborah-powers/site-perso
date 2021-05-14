@@ -18,7 +18,4 @@ divers/
 *copie*
 index.html
 library-*/*.txt
-library-php/crossOrigin.php
-library-php/database*
-library-php/test.php
 library-js/config.js
