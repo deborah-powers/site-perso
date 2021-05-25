@@ -1,11 +1,11 @@
 /*
 css pour les fichiers svg.
 */
-* {
-	/* rotation centrée */
+/* {
+	/ rotation centrée /
 	transform-box: fill-box;
 	transform-origin: center;
-}
+}*/
 /* cacher des formes */
 .hidden { display: none; }
 /* guides pour tracer des formes */
@@ -19,10 +19,7 @@ svg {
 	border-color: brown;
 	background-color: ivory;
 }
-svg.grid {
-/*	background: url('/var/www/html/site-dp/exemples/grid.svg'); */
-	background: url('C:/Users/deborah.powers/site-perso/data/grid.svg');
-}
+svg.grid { background-image: url('/var/www/html/site-dp/data/grid.svg'); }
 text {
 	fill: brown;
 	stroke: none;

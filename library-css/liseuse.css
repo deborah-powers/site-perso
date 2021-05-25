@@ -1,0 +1,23 @@
+/* mise en forme de base sans couleurs */
+
+* { outline: none; }
+*:first-letter { text-transform: uppercase; }
+xmp {
+	margin: 0 2%;
+	padding: 1%;
+	border-style: dotted;
+	background-color: #EEE;
+	white-space: pre;
+}h1 {
+	text-align: center;
+	font-size: 2em;
+}
+h2 {
+	text-align: center;
+	font-size: 1.5em;
+}
+h3, th { font-weight: bold; }
+th, td { border: solid 2px #EEE; }
+.hidden { display: none; }
+math { display: block; }
+mrow { font-size: 1em; }
