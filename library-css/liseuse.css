@@ -1,6 +1,10 @@
 /* mise en forme de base sans couleurs */
-
-* { outline: none; }
+* {
+	outline: none;
+	text-decoration: none;
+	font-size: 1em;
+	color: black;
+}
 *:first-letter { text-transform: uppercase; }
 xmp {
 	margin: 0 2%;
@@ -8,7 +12,8 @@ xmp {
 	border-style: dotted;
 	background-color: #EEE;
 	white-space: pre;
-}h1 {
+}
+h1 {
 	text-align: center;
 	font-size: 2em;
 }
@@ -19,5 +24,42 @@ h2 {
 h3, th { font-weight: bold; }
 th, td { border: solid 2px #EEE; }
 .hidden { display: none; }
+/* formules mathématiques */
 math { display: block; }
 mrow { font-size: 1em; }
+f {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	margin: 0 0.2em;
+	vertical-align: middle;
+}
+f >*:last-child {
+	border-top-style: solid;
+	border-top-width: 0.1em;
+}
+r {
+	display: inline-block;
+	transform: skew(-15deg);
+	transform-origin: bottom left;
+	padding-left: 0.1em;
+	margin-left: 0.7em;
+	margin-right: 0.2em;
+	border-width: 0.1em;
+	border-top-style: solid;
+	border-left-style: solid;
+}
+r:before {
+	content: "";
+	position: absolute;
+	height: 60%;
+	width: 0.5em;
+	left: -0.5em;
+	bottom: 0;
+	border-width: 0.1em;
+	border-right-style: solid;
+	border-top-style: inherit;
+	transform: skew(30deg);
+	transform-origin: bottom right;
+}
