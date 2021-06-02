@@ -25,17 +25,16 @@ h3, th { font-weight: bold; }
 th, td { border: solid 2px #EEE; }
 .hidden { display: none; }
 /* formules mathématiques */
-math { display: block; }
-mrow { font-size: 1em; }
 f {
-	display: inline-flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
 	margin: 0 0.2em;
 	vertical-align: middle;
+	display: inline-block;
 }
-f >*:last-child {
+f >* {
+	display: block;
+	text-align: center;
+}
+f >*.d, f>*:last-child, f>d {
 	border-top-style: solid;
 	border-top-width: 0.1em;
 }
@@ -51,7 +50,7 @@ r {
 	border-left-style: solid;
 }
 r:before {
-	content: "";
+	content: "\\";
 	position: absolute;
 	height: 60%;
 	width: 0.5em;
