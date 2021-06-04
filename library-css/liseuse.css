@@ -23,7 +23,7 @@ h2 {
 	font-size: 1.5em;
 }
 h3, th { font-weight: bold; }
-th, td { border: solid 2px #EEE; }
+th, td { border: solid 2px #777; }
 .hidden { display: none; }
 /* les symboles mathématiques */
 f {

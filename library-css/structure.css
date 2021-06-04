@@ -141,6 +141,41 @@ nav >* {
 /* les formules mathématiques */
 math { display: block; }
 mrow { font-size: 1em; }
+f {
+	margin: 0 0.2em;
+	vertical-align: middle;
+	display: inline-block;
+	text-align: center;
+}
+f >* { display: block; }
+f >*.d, f>*:last-child, f>d {
+	border-top-style: solid;
+	border-top-width: 0.1em;
+}
+r {
+	display: inline-block;
+	transform: skew(-15deg);
+	transform-origin: bottom left;
+	padding-left: 0.1em;
+	margin-left: 0.7em;
+	margin-right: 0.2em;
+	border-width: 0.1em;
+	border-top-style: solid;
+	border-left-style: solid;
+}
+r:before {
+	content: "";
+	position: absolute;
+	height: 60%;
+	width: 0.5em;
+	left: -0.5em;
+	bottom: 0;
+	border-width: 0.1em;
+	border-right-style: solid;
+	border-top-style: inherit;
+	transform: skew(30deg);
+	transform-origin: bottom right;
+}
 /* affichage pour les tablettes */
 @media (max-width: 992px){}
 /* affichage pour les smartphones */
