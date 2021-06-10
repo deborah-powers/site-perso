@@ -2,16 +2,15 @@
 je me suis inspirée de la foncionnalité de base d'angularjs.
 display-test démontre son utilisation.
 
-dépendence:
+dépendences:
 	display.css
 	text.js
 
 ________________________ fonctions utilisable par vous ________________________ */
 
 // affichage de base
-var debbyPlay ={
-	tmpList: ['a', 'b', 'c']
-};
+var bodyRef =""
+var debbyPlay ={};
 function useDate(){
 	// constantes pour afficher un popup de calendrier
 	debbyPlay.yearList =[ '2018', '2019', '2020' ];
@@ -19,12 +18,21 @@ function useDate(){
 	debbyPlay.dayList =[ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ];
 }
 HTMLElement.prototype.init = function(){
+	bodyRef = document.body.innerHTML;
 	this.useTemplates();
 	this.clean();
-	this.setModel();
+	for (var v in debbyPlay) this.printVar (v, debbyPlay[v]);
+	this.setInput();
+	printLink();
+	this.createCalendar();
+	this.createSelection();
+	this.createCarousel();
+	conditionnal();
 }
 HTMLElement.prototype.load = function(){
-	this.getModel();
+	document.body.innerHTML = bodyRef;
+	this.useTemplates();
+	this.clean();
 	for (var v in debbyPlay) this.printVar (v, debbyPlay[v]);
 	this.setInput();
 	printLink();
@@ -167,50 +175,6 @@ HTMLElement.prototype.useTemplate = function (idInsert, idTemplate){
 }
 // ________________________ fonctions appelées dans les précédentes ________________________
 
-// conserver le template de la page afin de la recharger
-HTMLElement.prototype.setModel = function(){
-	if (this.tagName == 'SCRIPT') return;
-	else if (this.outerHTML.contain ('))')){
-		var attributeList ="";
-		var modelTmp;
-		if (this.innerHTML.contain ('))')){
-			modelTmp = this.innerHTML.copy();
-			modelTmp = modelTmp.replace ('((', '{{');
-			modelTmp = modelTmp.replace ('))', '}}');
-			attributeList = attributeList +'$body:'+ modelTmp;
-		}
-		for (var a in this.attributes) if (typeof (this.attributes[a].value) == 'string' && this.attributes[a].name != 'model'
-				&& this.attributes[a].value.contain ('))')){
-			modelTmp = this.attributes[a].value.copy();
-			modelTmp = modelTmp.replace ('((', '{{');
-			modelTmp = modelTmp.replace ('))', '}}');
-			attributeList = attributeList +'$'+ this.attributes[a].name +':'+ modelTmp;
-		}
-		this.setAttribute ('model', attributeList);
-		for (var c=0; c< this.children.length; c++) if (this.tagName != 'SCRIPT') this.children[c].setModel();
-}}
-HTMLElement.prototype.getModel = function(){
-	if (this.getAttribute ('model')){
-		var modelTmp ="";
-		var d=0;
-		var attributeList = this.getAttribute ('model').split ('$');
-		var trash = attributeList.shift();
-		if (attributeList[0].slice (0,5) == 'body:'){
-			modelTmp = attributeList[0].slice (5);
-			modelTmp = modelTmp.replace ('{{', '((');
-			modelTmp = modelTmp.replace ('}}', '))');
-			this.innerHTML = modelTmp;
-			trash = attributeList.shift();
-		}
-		for (var a=0; a< attributeList.length; a++){
-			d= attributeList[a].index (':');
-			modelTmp = attributeList[a].slice (d+1);
-			modelTmp = modelTmp.replace ('{{', '((');
-			modelTmp = modelTmp.replace ('}}', '))');
-			this.setAttribute (attributeList[a].slice (0,d), modelTmp);
-		}
-		this.setModel();
-}}
 // fonctions gérant mes sélecteurs
 updateSelection = function (event){
 	var title = event.target.parentElement.getElementsByTagName ('p')[0];
@@ -263,12 +227,8 @@ function loadInput (event){
 	var varName = event.target.getAttribute ('model').slice (9,-2);
 	debbyPlay[varName] = event.target.value;
 	var nodeList = document.body.findContainerModel (varName);
-	for (var n=0; n< nodeList.length; n++) nodeList[n].loadInputValue (varName, debbyPlay[varName]);
+	for (var n=0; n< nodeList.length; n++) nodeList[n].printVar (varName, debbyPlay[varName]);
 	event.target.addEventListener ('click', loadInput);
-}
-HTMLElement.prototype.loadInputValue = function (varName, value){
-	this.getModel();
-	this.printVar (varName, value);
 }
 // affichage de base
 HTMLElement.prototype.clean = function(){
