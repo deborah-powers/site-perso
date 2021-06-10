@@ -9,7 +9,6 @@ dépendences:
 ________________________ fonctions utilisable par vous ________________________ */
 
 // affichage de base
-var bodyRef =""
 var debbyPlay ={};
 function useDate(){
 	// constantes pour afficher un popup de calendrier
@@ -17,26 +16,19 @@ function useDate(){
 	debbyPlay.monthList =[ 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre' ];
 	debbyPlay.dayList =[ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ];
 }
-function init(){
-	document.body.useTemplates();
-	document.body.clean();
-	bodyRef = document.body.innerHTML;
-	for (var v in debbyPlay) document.body.printVar (v, debbyPlay[v]);
-	initInput();
-	printLink();
-	document.body.createCalendar();
-	document.body.createSelection();
-	document.body.createCarousel();
-	conditionnal();
+HTMLElement.prototype.init = function(){
+	this.useTemplates();
+	this.clean();
+	this.setModel();
 }
-function load(){
-	document.body.innerHTML = bodyRef;
-	for (var v in debbyPlay) document.body.printVar (v, debbyPlay[v]);
-	initInput()
+HTMLElement.prototype.load = function(){
+	this.getModel();
+	for (var v in debbyPlay) this.printVar (v, debbyPlay[v]);
+	this.setInput();
 	printLink();
-	document.body.createCalendar();
-	document.body.createSelection();
-	document.body.createCarousel();
+	this.createCalendar();
+	this.createSelection();
+	this.createCarousel();
 	conditionnal();
 }
 HTMLElement.prototype.finish = function (fieldList){
@@ -169,10 +161,54 @@ HTMLElement.prototype.useTemplate = function (idInsert, idTemplate){
 		for (var t=0; t< templateList.length; t++) if (templateList[t].id == idTemplate) template = templateList[t];
 		insert.innerHTML = template.innerHTML;
 	}
-	load();
+	insert.load();
 }
 // ________________________ fonctions appelées dans les précédentes ________________________
 
+// conserver le template de la page afin de la recharger
+HTMLElement.prototype.setModel = function(){
+	if (this.tagName == 'SCRIPT') return;
+	else if (this.outerHTML.contain ('))')){
+		var attributeList ="";
+		var modelTmp;
+		if (this.innerHTML.contain ('))')){
+			modelTmp = this.innerHTML.copy();
+			modelTmp = modelTmp.replace ('((', '{{');
+			modelTmp = modelTmp.replace ('))', '}}');
+			attributeList = attributeList +'$body:'+ modelTmp;
+		}
+		for (var a in this.attributes) if (typeof (this.attributes[a].value) == 'string' && this.attributes[a].name != 'model'
+				&& this.attributes[a].value.contain ('))')){
+			modelTmp = this.attributes[a].value.copy();
+			modelTmp = modelTmp.replace ('((', '{{');
+			modelTmp = modelTmp.replace ('))', '}}');
+			attributeList = attributeList +'$'+ this.attributes[a].name +':'+ modelTmp;
+		}
+		this.setAttribute ('model', attributeList);
+		for (var c=0; c< this.children.length; c++) if (this.tagName != 'SCRIPT') this.children[c].setModel();
+}}
+HTMLElement.prototype.getModel = function(){
+	if (this.getAttribute ('model')){
+		var modelTmp ="";
+		var d=0;
+		var attributeList = this.getAttribute ('model').split ('$');
+		var trash = attributeList.shift();
+		if (attributeList[0].slice (0,5) == 'body:'){
+			modelTmp = attributeList[0].slice (5);
+			modelTmp = modelTmp.replace ('{{', '((');
+			modelTmp = modelTmp.replace ('}}', '))');
+			this.innerHTML = modelTmp;
+			trash = attributeList.shift();
+		}
+		for (var a=0; a< attributeList.length; a++){
+			d= attributeList[a].index (':');
+			modelTmp = attributeList[a].slice (d+1);
+			modelTmp = modelTmp.replace ('{{', '((');
+			modelTmp = modelTmp.replace ('}}', '))');
+			this.setAttribute (attributeList[a].slice (0,d), modelTmp);
+		}
+		this.setModel();
+}}
 // fonctions gérant mes sélecteurs
 updateSelection = function (event){
 	var title = event.target.parentElement.getElementsByTagName ('p')[0];
@@ -210,22 +246,27 @@ setAfter = function (event, funcRes){
 	if (funcRes) funcRes (title.value);
 }
 // rendre les inputs interractifs
-function initInput(){
-	var inputList = document.getElementsByTagName ('input');
+HTMLElement.prototype.setInput = function(){
+	var inputList = this.getElementsByTagName ('input');
 	for (var i=0; i< inputList.length; i++){
-		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
-		inputList[i].addEventListener ('mouseleave', modifInput);
+		if (inputList[i].getAttribute ('model') && inputList[i].getAttribute ('model').contain ('$value:'))
+			inputList[i].addEventListener ('click', loadInput);
 	}
-	inputList = document.getElementsByTagName ('textarea');
+	inputList = this.getElementsByTagName ('textarea');
 	for (var i=0; i< inputList.length; i++){
-		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
-		inputList[i].addEventListener ('mouseleave', modifInput);
-	}
-}
-function modifInput (event){
-	var varName = event.target.getAttribute ('name');
+		if (inputList[i].getAttribute ('model') && inputList[i].getAttribute ('model').contain ('$value:'))
+			inputList[i].addEventListener ('click', loadInput);
+}}
+function loadInput (event){
+	var varName = event.target.getAttribute ('model').slice (9,-2);
 	debbyPlay[varName] = event.target.value;
-	load();
+	var nodeList = document.body.findContainerModel (varName);
+	for (var n=0; n< nodeList.length; n++) nodeList[n].loadInputValue (varName, debbyPlay[varName]);
+	event.target.addEventListener ('click', loadInput);
+}
+HTMLElement.prototype.loadInputValue = function (varName, value){
+	this.getModel();
+	this.printVar (varName, value);
 }
 // affichage de base
 HTMLElement.prototype.clean = function(){
@@ -241,12 +282,10 @@ HTMLElement.prototype.printVar = function (varName, value){
 		var keyTag = '(('+ varName +'))';
 		if (! this.innerHTML.contain (keyTag)) keyTag = '(())';
 		this.innerHTML = this.innerHTML.replace (keyTag, value);
-		/*
-		for (var a=0; a< this.attributes.length; a++)
+		for (var a=0; a< this.attributes.length; a++){
 			if (typeof (this.attributes[a].value) == 'string' && this.attributes[a].value.contain (keyTag))
 				this.setAttribute (this.attributes[a].name, this.attributes[a].value.replace (keyTag, value));
-		*/
-	}
+	}}
 	else if (varType == 'Array') this.printList (varName, value);
 	else if (varType == 'Object') for (var v in value) this.printVar (varName +'.'+v, value[v]);
 }
@@ -302,7 +341,8 @@ useTemplateAssync = function (tagName, id){
 			if (this.readyState == 4){
 				tagDst.innerHTML = this.responseText;
 				tagDst = tagDst.children[0];
-				load();
+				tagDst.init();
+				tagDst.load();
 		}};
 		xhttp.open ('GET', id, true);
 		xhttp.send();
