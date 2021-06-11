@@ -1,0 +1,128 @@
+<!DOCTYPE html><html><head><title>démo de debby play</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<base target='_blank'>
+	<link rel='icon' type='image/svg' href='../data/nounours-bonbon.svg'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/debbyPlay.css'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/color.css' media='screen'/>
+	<script type='text/javascript' src='../library-js/text.js'></script>
+	<script type='text/javascript' src='../library-js/debbyPlay.js'></script>
+<style type='text/css'>
+	.list, .list * {
+		display: flex;
+		justify-content: space-between;
+		border: solid 1px #603;
+		padding: 0.5em;
+	}
+	.colored { color: #033; }
+</style></head><body>
+<h1>démo du framework debby play</h1>
+<p>je veux pouvoir afficher les objets simples, les liste, les dictionnaires, ainsi que les sous-listes et sous-dictionnaires dans un template.</p>
+	<h2>affichage conditionnel</h2>
+	<p if='"(( condition ))"=="dodo"'>je suis la première condition</p>
+	<p if='"(( condition ))"=="coco"'>je suis la deuxième condition</p>
+	<h2>les variables</h2>
+<p class='list'>
+	<span>du texte: (( texte ))</span>
+	<a href='(( link ))' target='blank'>un lien: (())</a>
+	<span>un nombre entier: (( entier ))</span>
+	<span>un nombre à virgule: (( flottant ))</span>
+</p>
+<p>une liste:</p><div class='list'><p><span><em>(( listeSimple )),</em>;</span>.</p></div>
+<p>un objet:</p>
+<div><p class='list'><span>(( objet.prenom ))</span><span>(( objet.nom ))</span> a comme pouvoir <span>(( objet.infos.pouvoir ))</span>,</p></div>
+<p>une liste d'objets: a)</p><div class='list'><p>(( listeObjet.prenom )) (( listeObjet.nom )),</p></div>
+<p>et b)</p><div class='list'><p for='listeObjet'>(( prenom )) (( nom )),</p></div>
+<p>et c)</p><div class='list'><span for='listeObjet' id='imbrique'><em>(( prenom ))</em><em class='colored'> (( nom )),</em>;</span></div>
+<p>liste imbriquée d'objets: d)</p>
+<div class='list'><p><span for='listeObjetDb'><em>(( prenom ))</em><em class='colored'> (( nom )),</em>;</span></p></div>
+<p>et e)</p><div class='list'><p><span for='listeObjetTp'><em>(( prenom ))</em><em class='colored'> (( nom )),</em>;</span></p></div>
+	<h2>l'interractivité</h2>
+<input type='text' value='(( testEchange ))'>
+<p>vous avez entré la valeur: (( testEchange ))</p>
+<button onclick='changeColor()' style='background-color:(( color ));color:ivory'>changer ma couleur: (( color ))</button>
+<selection callback='chooseOption'>optionList</selection>
+<selection callback='chooseOptionBis'>optionListBis</selection>
+<carousel callback='chooseOption'>optionList</carousel>
+<carousel callback='chooseOption'>optionListBis</carousel>
+<p id='choix'>option choisie: (( choix ))</p>
+<calendar callback='chooseDate'></calendar><p id='date'>date: (( date ))</p>
+<!--
+<selection for='optionList' callback='chooseOption'></selection>
+<carousel for='optionList' callback='chooseOption'></carousel>
+-->
+	<h2>les templates</h2>
+<p>json: (( json.prenom )) (( json.nom ))</p>
+<div id='test-load-file'></div>
+<insert id='tplt-local'>template locale</insert>
+<insert id='debbyPlay-template.html'>template externe</insert>
+<template id='tplt-local'><p>je suis le template interne</p><p>hello (( objet.prenom )) (( objet.nom ))</p></template>
+<template id='tplt-local-bis'>
+	<p>je suis le template interne, deuxième version</p><p>bojour (( objet.prenom )) (( objet.nom ))</p>
+</template>
+<button onclick='chooseTag("tplt-local")'>template n°1</button>
+<button onclick='chooseTag("tplt-local-bis")'>template n°2</button>
+</body><script type='text/javascript'>
+// afficher des variables
+init();
+debbyPlay.testEchange = 'coucou';
+debbyPlay.link = 'http://deborah-powers.fr/';
+debbyPlay.texte = 'bonjour';
+debbyPlay.entier = 12;
+debbyPlay.flottant = 12.6;
+debbyPlay.objet ={
+	'prenom': 'jean', 'nom': 'grey',
+	'infos': { 'alias': 'phénix', 'pouvoir': 'télépathie' }
+};
+debbyPlay.listeSimple =[
+	[['aaa','aab','aac'],['aba','abb','abc']],
+	[['baa','bab'],['bba','bbb'],['bca','bcb']]
+];
+debbyPlay.listeObjet =[{ 'prenom': 'jean', 'nom': 'grey' }, { 'prenom': 'scott', 'nom': 'summers' }];
+debbyPlay.listeObjetDb =[
+[{ 'prenom': 'ororo', 'nom': 'munroe' }, { 'prenom': 'hank', 'nom': 'mc coy' }],
+[{ 'prenom': 'jean', 'nom': 'grey' }, { 'prenom': 'scott', 'nom': 'summers' }]
+];
+debbyPlay.listeObjetTp =[[
+[{ 'prenom': 'kitty', 'nom': 'pride' }, { 'prenom': 'kurt', 'nom': 'wagner' }],
+[{ 'prenom': 'anna', 'nom': 'marie' }, { 'prenom': 'charles', 'nom': 'xavier' }]
+], [
+[{ 'prenom': 'ororo', 'nom': 'munroe' }, { 'prenom': 'hank', 'nom': 'mc coy' }],
+[{ 'prenom': 'jean', 'nom': 'grey' }, { 'prenom': 'scott', 'nom': 'summers' }]
+]];
+// affichage conditionnel
+debbyPlay.condition = 'dodo';
+// modifier la couleur du bouton
+debbyPlay.color = '#903';
+function changeColor(){
+	if (debbyPlay.color === '#903') debbyPlay.color = '#033';
+	else debbyPlay.color = '#903';
+	document.getElementsByTagName ('button')[0].load();
+}
+// récupérer le dossier contennant mes fichiers de test
+var path = document.URL.slice (7,-9);
+// utiliser des templates et des json
+debbyPlay.json = useJson ('debbyPlay-test.json');
+function chooseTag (tagid){ document.body.useTemplate ('tplt-local', tagid); }
+// afficher des sélecteurs
+debbyPlay.choix = 'poire';
+debbyPlay.optionList =[ 'pêche', 'pomme', 'poire', 'abricot' ];
+debbyPlay.optionListBis =[ 'choux', 'carotte', 'navet', 'oignon' ];
+function chooseOption (option){
+	console.log ('uno', option);
+	debbyPlay.choix = option;
+	document.getElementById ('choix').load();
+}
+function chooseOptionBis (option){
+	console.log ('bis', option);
+	debbyPlay.choix = option;
+	document.getElementById ('choix').load();
+}
+debbyPlay.date = 'coucou';
+function chooseDate (year, month, monthNb, day){
+	debbyPlay.date = year +'/'+ month +'/'+ monthNb +'/'+ day;
+	document.getElementById ('date').load();
+}
+document.body.load();
+</script></html>

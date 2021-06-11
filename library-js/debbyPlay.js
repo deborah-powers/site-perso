@@ -152,11 +152,14 @@ HTMLElement.prototype.createCalendar = function(){
 			window[callback] (year, month, monthId, day);
 });}}
 // utiliser un template
-HTMLElement.prototype.useTemplate = function (idInsert, idTemplate){
+useTemplate = function (idInsert, idTemplate){
 	// utiliser un template html
-	var insertList = this.getElementsByTagName ('insert');
-	var insert;
-	for (i in insertList) if (insertList[i].id == idInsert) insert = insertList[i];
+	var insert = document.querySelector ('insert#' + idInsert);
+	console.log (insert);
+	insert.id = idTemplate;
+	bodyRef = document.body.innerHTML;
+	load();
+	/*
 	if (idTemplate.contain ('.html')){
 		var responseText = fromFileSync (idTemplate);
 		if (responseText){
@@ -164,12 +167,11 @@ HTMLElement.prototype.useTemplate = function (idInsert, idTemplate){
 			insert = insert.children[0];			
 	}}
 	else{
-		var templateList = this.getElementsByTagName ('template');
+		var templateList = document.getElementsByTagName ('template');
 		var template;
 		for (var t=0; t< templateList.length; t++) if (templateList[t].id == idTemplate) template = templateList[t];
 		insert.innerHTML = template.innerHTML;
-	}
-	load();
+	}*/
 }
 // ________________________ fonctions appelées dans les précédentes ________________________
 
@@ -239,7 +241,7 @@ HTMLElement.prototype.printVar = function (varName, value){
 	// les variables simple
 	if (varType == 'String' || varType == 'Number'){
 		var keyTag = '(('+ varName +'))';
-		if (! this.innerHTML.contain (keyTag)) keyTag = '(())';
+	//	if (! this.innerHTML.contain (keyTag)) keyTag = '(())';
 		this.innerHTML = this.innerHTML.replace (keyTag, value);
 		/*
 		for (var a=0; a< this.attributes.length; a++)
@@ -255,11 +257,8 @@ printLink = function(){
 	var link = null, d;
 	for (var l=0; l< linkList.length; l++){
 		link = linkList[l].getAttribute ('href');
-		d= link.rindex ('/');
-		if (d == link.length -1){
-			link = link.slice (0,d);
-			d= link.rindex ('/');
-		}
+		if (link.slice (link.length -1) =='/') link = link.slice (0, link.length -1);
+		var d= link.rindex ('/');
 		link = link.slice (d+1);
 		if (link.contain ('.')){
 			d= link.rindex ('.');
@@ -282,15 +281,15 @@ printLink = function(){
 HTMLElement.prototype.useTemplates = function(){
 	// utiliser un template html
 	var templateList = this.getElementsByTagName ('template');
-	var insertList = this.getElementsByTagName ('insert');
-	for (var f=0; f< insertList.length; f++){
-		if (insertList[f].id.contain ('.html')){
-			var responseText = fromFileSync (insertList[f].id);
-			if (responseText){
-				insertList[f].innerHTML = responseText;
-				insertList[f] = insertList[f].children[0];			
+	for (var t=0; t< templateList.length; t++){
+		var insertList = document.querySelectorAll ('insert#' + templateList[t].id);
+		if (templateList[t].id.contain ('.html')){
+			var responseText = fromFileSync (templateList[t].id);
+			if (responseText) for (var i=0; i< insertList.length; i++){
+				insertList[i].innerHTML = responseText;
+				insertList[i] = insertList[i].children[0];
 		}}
-		else for (var t=0; t< templateList.length; t++) if (templateList[t].id == insertList[f].id) insertList[f].innerHTML = templateList[t].innerHTML;
+		else for (var i=0; i< insertList.length; i++) insertList[i].innerHTML = templateList[t].innerHTML;
 }}
 useTemplateAssync = function (tagName, id){
 	var tagDst = document.getElementsByTagName (tagName)[0];
@@ -432,4 +431,21 @@ HTMLElement.prototype.copy = function (bind){
 	return newNode;
 }
 Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
-
+function fromFileSync (fileName){
+	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
+	var xhttp = new XMLHttpRequest();
+	xhttp.open ('GET', fileName, false);
+	xhttp.send();
+	var textRes = null;
+	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
+	return textRes;
+}
+function fromFileAssync (fileName, callback){
+	if (callback){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
+		xhttp.open ('GET', jsonFile, true);
+		xhttp.send();
+	}
+	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
+}
