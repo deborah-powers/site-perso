@@ -18,10 +18,13 @@
 	.colored { color: #033; }
 </style></head><body>
 <h1>démo du framework debby play</h1>
+<selection name='choix'>optionList</selection><p>option choisie: (( choix ))</p>
+<carousel name='choix'>optionList</carousel>
+<calendar callback='chooseDate'></calendar><p id='date'>date: (( date ))</p>
 <p>je veux pouvoir afficher les objets simples, les liste, les dictionnaires, ainsi que les sous-listes et sous-dictionnaires dans un template.</p>
 	<h2>affichage conditionnel</h2>
-	<p if='"(( condition ))"=="dodo"'>je suis la première condition</p>
-	<p if='"(( condition ))"=="coco"'>je suis la deuxième condition</p>
+	<p if='"(( conditionAffichage ))"=="dodo"'>je suis la première condition</p>
+	<p if='"(( conditionAffichage ))"=="coco"'>je suis la deuxième condition</p>
 	<h2>les variables</h2>
 <p class='list'>
 	<span>du texte: (( texte ))</span>
@@ -41,13 +44,15 @@
 	<h2>l'interractivité</h2>
 <input type='text' name='testEchange'>
 <p>vous avez entré la valeur: (( testEchange ))</p>
-<button onclick='changeColor()' style='background-color:(( color ));color:ivory'>changer ma couleur: (( color ))</button>
+<button onclick='changeColor()' style='background-color:(( buttonColor ));color:ivory'>changer ma couleur: (( buttonColor ))</button>
+<selection name='choixBis'>optionListBis</selection><p>option choisie: (( choixBis ))</p>
 	<h2>les templates</h2>
 <insert id='tplt-local'>template locale</insert>
 <template id='tplt-local'><p>je suis le template interne</p><p>hello (( objet.prenom )) (( objet.nom ))</p></template>
 <template id='tplt-local-bis'><p>je suis le template interne, deuxième version</p><p>bojour (( objet.prenom )) (( objet.nom ))</p></template>
 <button onclick='chooseTag("tplt-local")'>template n°1</button>
 <button onclick='chooseTag("tplt-local-bis")'>template n°2</button>
+<insert id='debbyPlay-template.html'>template externe</insert>
 </body><script type='text/javascript'>
 // afficher des variables
 debbyPlay.testEchange = 'coucou';
@@ -75,16 +80,31 @@ debbyPlay.listeObjetTp =[[
 [{ 'prenom': 'ororo', 'nom': 'munroe' }, { 'prenom': 'hank', 'nom': 'mc coy' }],
 [{ 'prenom': 'jean', 'nom': 'grey' }, { 'prenom': 'scott', 'nom': 'summers' }]
 ]];
-// affichage conditionnel
-debbyPlay.condition = 'dodo';
-// modifier la couleur du bouton
-debbyPlay.color = '#903';
+debbyPlay.conditionAffichage = 'dodo';
+debbyPlay.buttonColor = '#903';
+// afficher des sélecteurs
+debbyPlay.optionList =[ 'pêche', 'pomme', 'poire', 'abricot' ];
+debbyPlay.choix = debbyPlay.optionList[0];
+debbyPlay.optionListBis =[ 'choux', 'carotte', 'navet', 'oignon' ];
+debbyPlay.choixBis = debbyPlay.optionListBis[0];
+debbyPlay.date = 'coucou';
+useDate();
 init();
+// chooseOption (debbyPlay.choix);
 function changeColor(){
-	if (debbyPlay.color === '#903') debbyPlay.color = '#033';
-	else debbyPlay.color = '#903';
+	if (debbyPlay.buttonColor === '#903') debbyPlay.buttonColor = '#033';
+	else debbyPlay.buttonColor = '#903';
 	load();
 }
 // utiliser des templates et des json
 function chooseTag (tagid){ useTemplate ('tplt-local', tagid); }
+function chooseOption (option){
+	console.log ('uno', option);
+	debbyPlay.choix = option;
+	load();
+}
+function chooseDate (year, month, monthNb, day){
+	debbyPlay.date = year +'/'+ month +'/'+ monthNb +'/'+ day;
+	load();
+}
 </script></html>

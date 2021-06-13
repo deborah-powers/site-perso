@@ -32,7 +32,7 @@ function init(){
 function load(){
 	document.body.innerHTML = bodyRef;
 	for (var v in debbyPlay) document.body.printVar (v, debbyPlay[v]);
-	initInput()
+	initInput();
 	printLink();
 	document.body.createCalendar();
 	document.body.createSelection();
@@ -55,57 +55,36 @@ function conditionnal(){
 	for (var t=0; t< tagList.length; t++) if (tagList[t].getAttribute ('if') &&! eval (tagList[t].getAttribute ('if')))
 		tagList[t].className = 'hidden';
 }
-// afficher des sélecteurs. la target de funcRes est une string
+// afficher des sélecteurs
 HTMLElement.prototype.createSelection = function(){
 	var selectList = this.getElementsByTagName ('selection');
-	var title, option, varName, callback;
+	var title, option, varName, titleName;
 	for (var s=0; s< selectList.length; s++){
 		varName = selectList[s].innerText[0].toLowerCase() + selectList[s].innerText.slice (1);
 		selectList[s].innerHTML ="";
-	//	varName = selectList[s].getAttribute ('for');
 		title = createNode ('p', "", selectList[s]);
 		for (var v in debbyPlay[varName]){
 			option = createNode ('option', debbyPlay[varName][v], selectList[s], null, null, v);
 			option.addEventListener ('click', updateSelection);
-			if (window [selectList[s].getAttribute ('callback')]) option.addEventListener ('click', function (event){
-				var callback = event.target.parentElement.getAttribute ('callback');
-				window[callback] (event.target.innerText.toLowerCase());
-		});}
-		title.innerHTML = debbyPlay[varName][0];
-		title.id =0;
+		}
+		titleName = selectList[s].getAttribute ('name');
+		title.innerText = debbyPlay [titleName];
 }}
 HTMLElement.prototype.createCarousel = function(){
 	var selectList = this.getElementsByTagName ('carousel');
-	var title, varName, callback, before, after, option;
+	var title, varName, titleName, before, after;
 	for (var s=0; s< selectList.length; s++){
 		varName = selectList[s].innerText[0].toLowerCase() + selectList[s].innerText.slice (1);
 		selectList[s].innerHTML ="";
 		selectList[s].setAttribute ('for', varName);
-	//	varName = selectList[s].getAttribute ('for');
+		titleName = selectList[s].getAttribute ('name');
 		before = createNode ('p', '<', selectList[s]);
-		title = createInput ('text', debbyPlay[varName][0], selectList[s]);
+		title = createInput ('text', debbyPlay[titleName], selectList[s]);
 		after = createNode ('p', '>', selectList[s]);
-		callback = null;
-		title.addEventListener ('click', function (event){
-			if (event.target.parentElement.getAttribute ('callback')) callback = window [event.target.parentElement.getAttribute ('callback')];
-			setCurrent (event, callback);
-		});
-		before.addEventListener ('click', function (event){
-			if (event.target.parentElement.getAttribute ('callback')) callback = window [event.target.parentElement.getAttribute ('callback')];
-			setBefore (event, callback);
-		});
-		after.addEventListener ('click', function (event){
-			if (event.target.parentElement.getAttribute ('callback')) callback = window [event.target.parentElement.getAttribute ('callback')];
-			setAfter (event, callback);
-		});
+		title.addEventListener ('mouseleave', setCurrent);
+		before.addEventListener ('click', setBefore);
+		after.addEventListener ('click', setAfter);
 }}
-showSelectionTitle = function (selection, option){
-	/* lorsque le changement d'option necéssite de recharger le conteneur de la sélection,
-	le titre affiché reprend la valeur par défaut, et non celle de l'option sélectionnée.
-	showTitle est appelée après le rechargement (load) et permet d'afficher la bonne option.
-	*/
-	selection.children[0].innerHTML = option;
-}
 // fonction pour afficher un calendrier
 HTMLElement.prototype.createCalendar = function(){
 	// le callback a pour arguments: int year, string month, int monthId, int day
@@ -151,15 +130,8 @@ HTMLElement.prototype.createCalendar = function(){
 			var callback = event.target.parentElement.parentElement.getAttribute ('callback');
 			window[callback] (year, month, monthId, day);
 });}}
-// utiliser un template
 useTemplate = function (idInsert, idTemplate){
-	// utiliser un template html
 	var insert = document.querySelector ('insert#' + idInsert);
-	console.log (insert);
-	insert.id = idTemplate;
-	bodyRef = document.body.innerHTML;
-	load();
-	/*
 	if (idTemplate.contain ('.html')){
 		var responseText = fromFileSync (idTemplate);
 		if (responseText){
@@ -167,49 +139,44 @@ useTemplate = function (idInsert, idTemplate){
 			insert = insert.children[0];			
 	}}
 	else{
-		var templateList = document.getElementsByTagName ('template');
-		var template;
-		for (var t=0; t< templateList.length; t++) if (templateList[t].id == idTemplate) template = templateList[t];
+		var template = document.querySelector ('template#' + idTemplate);
 		insert.innerHTML = template.innerHTML;
-	}*/
-}
+}}
 // ________________________ fonctions appelées dans les précédentes ________________________
 
 // fonctions gérant mes sélecteurs
 updateSelection = function (event){
 	var title = event.target.parentElement.getElementsByTagName ('p')[0];
+	var varName = event.target.parentElement.getAttribute ('name');
+	debbyPlay[varName] = event.target.innerText;
 	title.innerText = event.target.innerText;
-	title.id = event.target.value;
+	load();
 }
-setCurrent = function (event, funcRes){
-	var title = event.target.parentElement.getElementsByTagName ('input')[0];
-	var list = debbyPlay [title.value, event.target.parentElement.getAttribute ('for')];
-	var currentPos = list.indexOf (title.value);
-	if (currentPos <0){
-		currentPos = list.length -1;
-		title.value = list[currentPos];
-	}
-	if (funcRes) funcRes (title.value);
+setCurrent = function (event){
+	var list = debbyPlay [event.target.parentElement.getAttribute ('for')];
+	var pos = list.indexOf (event.target.parentElement.getElementsByTagName ('input')[0].value);
+	if (pos <0) pos =0;
+	var titleName = event.target.parentElement.getAttribute ('name');
+	debbyPlay[titleName] = list[pos];
+	load();
 }
-setBefore = function (event, funcRes){
-	var title = event.target.parentElement.getElementsByTagName ('input')[0];
-	var list = debbyPlay [title.value, event.target.parentElement.getAttribute ('for')];
-	var currentPos = list.indexOf (title.value);
-	currentPos -=1;
-	if (currentPos <0) currentPos = list.length -1;
-	else if (currentPos >= list.length) currentPos =0;
-	title.value = list[currentPos];
-	if (funcRes) funcRes (title.value);
+setBefore = function (event){
+	var list = debbyPlay [event.target.parentElement.getAttribute ('for')];
+	var pos = list.indexOf (event.target.parentElement.getElementsByTagName ('input')[0].value);
+	pos -=1;
+	if (pos <0) pos = list.length -1;
+	var titleName = event.target.parentElement.getAttribute ('name');
+	debbyPlay[titleName] = list[pos];
+	load();
 }
-setAfter = function (event, funcRes){
-	var title = event.target.parentElement.getElementsByTagName ('input')[0];
-	var list = debbyPlay [title.value, event.target.parentElement.getAttribute ('for')];
-	var currentPos = list.indexOf (title.value);
-	currentPos +=1;
-	if (currentPos <0) currentPos = list.length -1;
-	else if (currentPos >= list.length) currentPos =0;
-	title.value = list[currentPos];
-	if (funcRes) funcRes (title.value);
+setAfter = function (event){
+	var list = debbyPlay [event.target.parentElement.getAttribute ('for')];
+	var pos = list.indexOf (event.target.parentElement.getElementsByTagName ('input')[0].value);
+	pos +=1;
+	if (pos >= list.length) pos =0;
+	var titleName = event.target.parentElement.getAttribute ('name');
+	debbyPlay[titleName] = list[pos];
+	load();
 }
 // rendre les inputs interractifs
 function initInput(){
@@ -279,6 +246,20 @@ printLink = function(){
 		linkList[l].innerHTML = linkList[l].innerHTML.replace ('(())', link);
 }}
 HTMLElement.prototype.useTemplates = function(){
+	// utiliser un template html
+	var insertList = document.getElementsByTagName ('insert');
+	for (var i=0; i< insertList.length; i++){
+		if (insertList[i].id.contain ('.html')){
+			var responseText = fromFileSync (insertList[i].id);
+			if (responseText){
+				insertList[i].innerHTML = responseText;
+				insertList[i] = insertList[i].children[0];
+		}}
+		else{
+			var template = document.querySelector ('template#' + insertList[i].id);
+			insertList[i].innerHTML = template.innerHTML;
+}}}
+HTMLElement.prototype.useTemplates_va = function(){
 	// utiliser un template html
 	var templateList = this.getElementsByTagName ('template');
 	for (var t=0; t< templateList.length; t++){
