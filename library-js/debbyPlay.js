@@ -11,9 +11,11 @@ ________________________ fonctions utilisable par vous ________________________ 
 // affichage de base
 var bodyRef =""
 var debbyPlay ={};
+// constantes pour afficher un popup de calendrier
+const month31 = 'janvier mars mai juillet aout octobre decembre';
+const month30 = 'avril juin septembre novembre';
 function useDate(){
-	// constantes pour afficher un popup de calendrier
-	debbyPlay.yearList =[ '2018', '2019', '2020' ];
+	debbyPlay.yearList =[ '2018', '2019', '2020', '2021', '2022' ];
 	debbyPlay.monthList =[ 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre' ];
 	debbyPlay.dayList =[ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ];
 }
@@ -68,7 +70,8 @@ HTMLElement.prototype.createSelection = function(){
 			option.addEventListener ('click', updateSelection);
 		}
 		titleName = selectList[s].getAttribute ('name');
-		title.innerText = debbyPlay [titleName];
+		titleValue = titleName.selGetValue()
+		title.innerText = titleValue;
 }}
 HTMLElement.prototype.createCarousel = function(){
 	var selectList = this.getElementsByTagName ('carousel');
@@ -78,8 +81,9 @@ HTMLElement.prototype.createCarousel = function(){
 		selectList[s].innerHTML ="";
 		selectList[s].setAttribute ('for', varName);
 		titleName = selectList[s].getAttribute ('name');
+		titleValue = titleName.selGetValue()
 		before = createNode ('p', '<', selectList[s]);
-		title = createInput ('text', debbyPlay[titleName], selectList[s]);
+		title = createInput ('text', titleValue, selectList[s]);
 		after = createNode ('p', '>', selectList[s]);
 		title.addEventListener ('mouseleave', setCurrent);
 		before.addEventListener ('click', setBefore);
@@ -88,48 +92,31 @@ HTMLElement.prototype.createCarousel = function(){
 // fonction pour afficher un calendrier
 HTMLElement.prototype.createCalendar = function(){
 	// le callback a pour arguments: int year, string month, int monthId, int day
-	const month31 = 'janvier mars mai juillet aout octobre decembre';
-	const month30 = 'avril juin septembre novembre';
 	var calList = this.getElementsByTagName ('calendar');
 	for (var s=0; s< calList.length; s++){
-		var years = createNode ('carousel', "", calList[s]);
-		years.innerHTML = 'yearList';
-	//	years.setAttribute ('for', 'yearList');
-		var months = createNode ('selection', "", calList[s]);
-		months.innerHTML = 'monthList';
-	//	months.setAttribute ('for', 'monthList');
-		var days = createNode ('selection', "", calList[s]);
-		days.innerHTML = 'dayList';
-	//	days.setAttribute ('for', 'dayList');
-		calList[s].addEventListener ('click', function (event){
-			var month = event.target.parentElement.parentElement.getElementsByTagName ('p')[2].innerText.toLowerCase();
+		var titleName = calList[s].getAttribute ('name');
+		var years = createNode ('carousel', "yearList", calList[s]);
+		years.setAttribute ('name', titleName + '.year');
+		var months = createNode ('selection', "monthList", calList[s]);
+		months.setAttribute ('name', titleName + '.month');
+		months.addEventListener ('click', function (event){
+			var monthId =1+ debbyPlay.monthList.indexOf (event.target.parentElement.getElementsByTagName ('p')[0].innerText.toLowerCase());
+			debbyPlay[titleName]['monthId'] = toString (monthId);
+			// gérer la durée du mois
 			var monthNb =28;
-			debbyPlay.dayList =[];
-			if (month31.indexOf (month) >=0) monthNb =31;
-			else if (month30.indexOf (month) >=0) monthNb =30;
+			if (month31.indexOf (debbyPlay[titleName].month) >=0) monthNb =31;
+			else if (month30.indexOf ((debbyPlay[titleName].month)) >=0) monthNb =30;
 			else{
 				var year = parseInt (event.target.parentElement.parentElement.getElementsByTagName ('input')[0].value);
 				if (year %400 ==0 || (year %100 >0 && year %4==0)) monthNb =29;
 			}
-			var dayList = event.target.parentElement.parentElement.lastChild;
-			var currentNb = parseInt (dayList.lastChild.innerText);
-			if (currentNb < monthNb){
-				currentNb = currentNb +1;
-				for (var currentNb; currentNb <= monthNb; currentNb ++)
-					var option = createNode ('option', currentNb, dayList, null, null, currentNb);
-			}
-			else if (currentNb > monthNb){
-				var strNb = monthNb.toString();
-				while (dayList.lastChild.innerText > strNb) dayList.removeChild (dayList.lastChild);
-		}});
-		if (calList[s].getAttribute ('callback')) calList[s].addEventListener ('click', function (event){
-			var year = parseInt (event.target.parentElement.parentElement.getElementsByTagName ('input')[0].value);
-			var month = event.target.parentElement.parentElement.getElementsByTagName ('p')[2].innerText.toLowerCase();
-			var monthId =1+ parseInt (event.target.parentElement.parentElement.getElementsByTagName ('p')[2].id);
-			var day = parseInt (event.target.parentElement.parentElement.getElementsByTagName ('p')[3].innerText);
-			var callback = event.target.parentElement.parentElement.getAttribute ('callback');
-			window[callback] (year, month, monthId, day);
-});}}
+			debbyPlay.dayList =[];
+			for (var d=1; d<= monthNb; d++) debbyPlay.dayList.push (toString (d));
+			load();
+		});
+		var days = createNode ('selection', "dayList", calList[s]);
+		days.setAttribute ('name', titleName + '.day');
+}}
 useTemplate = function (idInsert, idTemplate){
 	var insert = document.querySelector ('insert#' + idInsert);
 	if (idTemplate.contain ('.html')){
@@ -145,10 +132,32 @@ useTemplate = function (idInsert, idTemplate){
 // ________________________ fonctions appelées dans les précédentes ________________________
 
 // fonctions gérant mes sélecteurs
+String.prototype.selGetValue = function(){
+	var value = debbyPlay[this];
+	if (this.contain ('.')){
+		value = debbyPlay;
+		var list = this.split ('.');
+		for (var v=0; v< list.length; v++) value = value[list[v]];
+	}
+	return value;
+}
+String.prototype.selSetValue = function (value){
+	debbyPlay[this] = value;
+	if (this.contain ('.')){
+		var list = this.split ('.');
+		if (list.length ==2) debbyPlay[list[0]][list[1]] = value;
+		else if (list.length ==3) debbyPlay[list[0]][list[1]][list[2]] = value;
+}}
+function toString (nb){
+	var nbStr = nb.toString();
+	if (nbStr.length ==1) nbStr = '0'+ nbStr;
+	return nbStr;
+}
 updateSelection = function (event){
 	var title = event.target.parentElement.getElementsByTagName ('p')[0];
 	var varName = event.target.parentElement.getAttribute ('name');
-	debbyPlay[varName] = event.target.innerText;
+	varName.selSetValue (event.target.innerText);
+//	debbyPlay[varName] = event.target.innerText;
 	title.innerText = event.target.innerText;
 	load();
 }
@@ -157,7 +166,7 @@ setCurrent = function (event){
 	var pos = list.indexOf (event.target.parentElement.getElementsByTagName ('input')[0].value);
 	if (pos <0) pos =0;
 	var titleName = event.target.parentElement.getAttribute ('name');
-	debbyPlay[titleName] = list[pos];
+	titleName.selSetValue (list[pos]);
 	load();
 }
 setBefore = function (event){
@@ -166,7 +175,8 @@ setBefore = function (event){
 	pos -=1;
 	if (pos <0) pos = list.length -1;
 	var titleName = event.target.parentElement.getAttribute ('name');
-	debbyPlay[titleName] = list[pos];
+	titleName.selSetValue (list[pos]);
+//	debbyPlay[titleName] = list[pos];
 	load();
 }
 setAfter = function (event){
@@ -175,7 +185,7 @@ setAfter = function (event){
 	pos +=1;
 	if (pos >= list.length) pos =0;
 	var titleName = event.target.parentElement.getAttribute ('name');
-	debbyPlay[titleName] = list[pos];
+	titleName.selSetValue (list[pos]);
 	load();
 }
 // rendre les inputs interractifs
@@ -259,19 +269,6 @@ HTMLElement.prototype.useTemplates = function(){
 			var template = document.querySelector ('template#' + insertList[i].id);
 			insertList[i].innerHTML = template.innerHTML;
 }}}
-HTMLElement.prototype.useTemplates_va = function(){
-	// utiliser un template html
-	var templateList = this.getElementsByTagName ('template');
-	for (var t=0; t< templateList.length; t++){
-		var insertList = document.querySelectorAll ('insert#' + templateList[t].id);
-		if (templateList[t].id.contain ('.html')){
-			var responseText = fromFileSync (templateList[t].id);
-			if (responseText) for (var i=0; i< insertList.length; i++){
-				insertList[i].innerHTML = responseText;
-				insertList[i] = insertList[i].children[0];
-		}}
-		else for (var i=0; i< insertList.length; i++) insertList[i].innerHTML = templateList[t].innerHTML;
-}}
 useTemplateAssync = function (tagName, id){
 	var tagDst = document.getElementsByTagName (tagName)[0];
 	tagDst.style.display = 'block';
@@ -412,6 +409,10 @@ HTMLElement.prototype.copy = function (bind){
 	return newNode;
 }
 Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
+function useJson (jsonFile){
+	var textRes = fromFileSync (jsonFile);
+	return JSON.parse (textRes);
+}
 function fromFileSync (fileName){
 	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
 	var xhttp = new XMLHttpRequest();
