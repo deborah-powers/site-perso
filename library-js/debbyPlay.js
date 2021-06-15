@@ -19,41 +19,27 @@ function useDate(){
 	debbyPlay.monthList =[ 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre' ];
 	debbyPlay.dayList =[ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ];
 }
-function init(){
-	document.body.useTemplates();
-	document.body.clean();
-	bodyRef = document.body.innerHTML;
-	for (var v in debbyPlay) document.body.printVar (v, debbyPlay[v]);
-	initInput();
-	printLink();
-	document.body.createCalendar();
-	document.body.createSelection();
-	document.body.createCarousel();
-	conditionnal();
+HTMLElement.prototype.init = function(){
+	this.clean();
+	if (this.tagName == 'BODY') bodyRef = this.innerHTML;
+	this.printAll();
 }
-function load(){
-	document.body.innerHTML = bodyRef;
-	for (var v in debbyPlay) document.body.printVar (v, debbyPlay[v]);
-	initInput();
-	printLink();
-	document.body.createCalendar();
-	document.body.createSelection();
-	document.body.createCarousel();
-	conditionnal();
+HTMLElement.prototype.load = function(){
+	if (this.tagName == 'BODY') this.innerHTML = bodyRef;
+	this.printAll();
 }
-HTMLElement.prototype.finish = function (fieldList){
-	// fieldList =[ '((a))', '((b))' ]
-	if (this.tagName == 'SCRIPT') return;
-	if (fieldList && this.innerHTML.contain ('((')) for (var f=0; f< fieldList.length; f++)
-		this.innerHTML = this.innerHTML.replace (fieldList[f]);
-	else if (this.outerHTML.contain ('((')){
-		for (var c=0; c< this.children.length; c++) this.children[c].finish();
-		if (this.innerHTML.contain ('((')) this.innerHTML ="";
-	}
+HTMLElement.prototype.printAll = function(){
+	for (var v in debbyPlay) this.printVar (v, debbyPlay[v]);
+	this.initInput();
+	this.printLink();
+	this.createCalendar();
+	this.createSelection();
+	this.createCarousel();
+	this.conditionnal();
 }
 // affichage conditionnel de certaines balises
-function conditionnal(){
-	var tagList = document.getElementsByTagName ('*');
+HTMLElement.prototype.conditionnal = function(){
+	var tagList = this.getElementsByTagName ('*');
 	for (var t=0; t< tagList.length; t++) if (tagList[t].getAttribute ('if') &&! eval (tagList[t].getAttribute ('if')))
 		tagList[t].className = 'hidden';
 }
@@ -112,23 +98,23 @@ HTMLElement.prototype.createCalendar = function(){
 			}
 			debbyPlay.dayList =[];
 			for (var d=1; d<= monthNb; d++) debbyPlay.dayList.push (toString (d));
-			load();
+			document.body.load();
 		});
 		var days = createNode ('selection', "dayList", calList[s]);
 		days.setAttribute ('name', titleName + '.day');
 }}
-useTemplate = function (idInsert, idTemplate){
-	var insert = document.querySelector ('insert#' + idInsert);
-	if (idTemplate.contain ('.html')){
-		var responseText = fromFileSync (idTemplate);
-		if (responseText){
-			insert.innerHTML = responseText;
-			insert = insert.children[0];			
-	}}
-	else{
-		var template = document.querySelector ('template#' + idTemplate);
-		insert.innerHTML = template.innerHTML;
-}}
+HTMLElement.prototype.useTemplate = function (template){
+	/* template peut être
+		- du code html
+		- l'url d'un fichier html
+	*/
+	if (template.contain ('.html')){
+		var responseText = fromFileSync (template);
+		if (responseText) this.innerHTML = responseText;
+	}
+	else this.innerHTML = template;
+	this.init();
+}
 // ________________________ fonctions appelées dans les précédentes ________________________
 
 // fonctions gérant mes sélecteurs
@@ -159,7 +145,7 @@ updateSelection = function (event){
 	varName.selSetValue (event.target.innerText);
 //	debbyPlay[varName] = event.target.innerText;
 	title.innerText = event.target.innerText;
-	load();
+	document.body.load();
 }
 setCurrent = function (event){
 	var list = debbyPlay [event.target.parentElement.getAttribute ('for')];
@@ -167,7 +153,7 @@ setCurrent = function (event){
 	if (pos <0) pos =0;
 	var titleName = event.target.parentElement.getAttribute ('name');
 	titleName.selSetValue (list[pos]);
-	load();
+	document.body.load();
 }
 setBefore = function (event){
 	var list = debbyPlay [event.target.parentElement.getAttribute ('for')];
@@ -177,7 +163,7 @@ setBefore = function (event){
 	var titleName = event.target.parentElement.getAttribute ('name');
 	titleName.selSetValue (list[pos]);
 //	debbyPlay[titleName] = list[pos];
-	load();
+	document.body.load();
 }
 setAfter = function (event){
 	var list = debbyPlay [event.target.parentElement.getAttribute ('for')];
@@ -186,16 +172,16 @@ setAfter = function (event){
 	if (pos >= list.length) pos =0;
 	var titleName = event.target.parentElement.getAttribute ('name');
 	titleName.selSetValue (list[pos]);
-	load();
+	document.body.load();
 }
 // rendre les inputs interractifs
-function initInput(){
-	var inputList = document.getElementsByTagName ('input');
+HTMLElement.prototype.initInput = function(){
+	var inputList = this.getElementsByTagName ('input');
 	for (var i=0; i< inputList.length; i++){
 		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
 		inputList[i].addEventListener ('mouseleave', modifInput);
 	}
-	inputList = document.getElementsByTagName ('textarea');
+	inputList = this.getElementsByTagName ('textarea');
 	for (var i=0; i< inputList.length; i++){
 		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
 		inputList[i].addEventListener ('mouseleave', modifInput);
@@ -204,7 +190,7 @@ function initInput(){
 function modifInput (event){
 	var varName = event.target.getAttribute ('name');
 	debbyPlay[varName] = event.target.value;
-	load();
+	document.body.load();
 }
 // affichage de base
 HTMLElement.prototype.clean = function(){
@@ -229,8 +215,8 @@ HTMLElement.prototype.printVar = function (varName, value){
 	else if (varType == 'Array') this.printList (varName, value);
 	else if (varType == 'Object') for (var v in value) this.printVar (varName +'.'+v, value[v]);
 }
-printLink = function(){
-	var linkList = document.getElementsByTagName ('a');
+HTMLElement.prototype.printLink = function(){
+	var linkList = this.getElementsByTagName ('a');
 	var link = null, d;
 	for (var l=0; l< linkList.length; l++){
 		link = linkList[l].getAttribute ('href');
@@ -255,20 +241,6 @@ printLink = function(){
 		link = link.replace ('_', " ");
 		linkList[l].innerHTML = linkList[l].innerHTML.replace ('(())', link);
 }}
-HTMLElement.prototype.useTemplates = function(){
-	// utiliser un template html
-	var insertList = document.getElementsByTagName ('insert');
-	for (var i=0; i< insertList.length; i++){
-		if (insertList[i].id.contain ('.html')){
-			var responseText = fromFileSync (insertList[i].id);
-			if (responseText){
-				insertList[i].innerHTML = responseText;
-				insertList[i] = insertList[i].children[0];
-		}}
-		else{
-			var template = document.querySelector ('template#' + insertList[i].id);
-			insertList[i].innerHTML = template.innerHTML;
-}}}
 useTemplateAssync = function (tagName, id){
 	var tagDst = document.getElementsByTagName (tagName)[0];
 	tagDst.style.display = 'block';
@@ -279,7 +251,8 @@ useTemplateAssync = function (tagName, id){
 			if (this.readyState == 4){
 				tagDst.innerHTML = this.responseText;
 				tagDst = tagDst.children[0];
-				load();
+				tagDst.init();
+
 		}};
 		xhttp.open ('GET', id, true);
 		xhttp.send();

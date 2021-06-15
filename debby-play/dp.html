@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head>
+	<title></title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<!--
+	<base target='blank' href='../../'/>
+	-->
+	<link rel='icon' type='image/svg+xml' href='../data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../library-css/perso.css' media='screen'/>
+	<script type='text/javascript' src='../library-js/text.js'></script>
+	<script type='text/javascript' src='../library-js/debbyPlay.js'></script>
+	<style type='text/css'></style>
+</head><body>
+	<h1>bonjour</h1>
+	<p>(( message ))</p>
+	<button onclick='useTemplateInterne()'>utiliser un template interne</button>
+	<button onclick='useTemplateExterne()'>utiliser un template externe</button>
+	<div>div</div>
+</body>
+<script type='text/javascript'>
+	debbyPlay.message = 'coucou';
+	document.body.init();
+	function useTemplateInterne(){
+		debbyPlay.message = 'doudou';
+		var div = document.getElementsByTagName ('div')[0];
+		div.useTemplate ("<h1>je suis le template interne</h1><p>(( message ))</p><button onclick='useTemplateInterne()'>utiliser un template interne</button><button onclick='useTemplateExterne()'>utiliser un template externe</button>");
+	}
+	function useTemplateExterne(){
+		debbyPlay.message = 'toutou';
+		document.body.useTemplate ('template.html');
+	}
+//	for (var v in this) if ('object string number'.indexOf (typeof (this[v])) >=0 && this[v] != null) console.log (v, typeof (this[v]), this[v]);
+</script></html>
