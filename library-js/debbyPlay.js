@@ -48,7 +48,7 @@ HTMLElement.prototype.createSelection = function(){
 	var selectList = this.getElementsByTagName ('selection');
 	var title, option, varName, titleName;
 	for (var s=0; s< selectList.length; s++){
-		varName = selectList[s].innerText[0].toLowerCase() + selectList[s].innerText.slice (1);
+		varName = selectList[s].innerText.lowCase();
 		selectList[s].innerHTML ="";
 		title = createNode ('p', "", selectList[s]);
 		for (var v in debbyPlay[varName]){
@@ -56,14 +56,14 @@ HTMLElement.prototype.createSelection = function(){
 			option.addEventListener ('click', updateSelection);
 		}
 		titleName = selectList[s].getAttribute ('name');
-		titleValue = titleName.selGetValue()
+		titleValue = titleName.selGetValue();
 		title.innerText = titleValue;
 }}
 HTMLElement.prototype.createCarousel = function(){
 	var selectList = this.getElementsByTagName ('carousel');
 	var title, varName, titleName, before, after;
 	for (var s=0; s< selectList.length; s++){
-		varName = selectList[s].innerText[0].toLowerCase() + selectList[s].innerText.slice (1);
+		varName = selectList[s].innerText.lowCase();
 		selectList[s].innerHTML ="";
 		selectList[s].setAttribute ('for', varName);
 		titleName = selectList[s].getAttribute ('name');
@@ -77,7 +77,6 @@ HTMLElement.prototype.createCarousel = function(){
 }}
 // fonction pour afficher un calendrier
 HTMLElement.prototype.createCalendar = function(){
-	// le callback a pour arguments: int year, string month, int monthId, int day
 	var calList = this.getElementsByTagName ('calendar');
 	for (var s=0; s< calList.length; s++){
 		var titleName = calList[s].getAttribute ('name');
@@ -117,6 +116,10 @@ HTMLElement.prototype.useTemplate = function (template){
 }
 // ________________________ fonctions appelées dans les précédentes ________________________
 
+String.prototype.lowCase = function(){
+	var res = this[0].toLowerCase() + this.slice (1);
+	return res;
+}
 // fonctions gérant mes sélecteurs
 String.prototype.selGetValue = function(){
 	var value = debbyPlay[this];
@@ -128,7 +131,7 @@ String.prototype.selGetValue = function(){
 	return value;
 }
 String.prototype.selSetValue = function (value){
-	debbyPlay[this] = value;
+	debbyPlay[this] = value.lowCase();
 	if (this.contain ('.')){
 		var list = this.split ('.');
 		if (list.length ==2) debbyPlay[list[0]][list[1]] = value;
@@ -140,10 +143,13 @@ function toString (nb){
 	return nbStr;
 }
 updateSelection = function (event){
-	var title = event.target.parentElement.getElementsByTagName ('p')[0];
-	var varName = event.target.parentElement.getAttribute ('name');
+	var varName = event.target.parentElement.getAttribute ('name')
+	varName = varName.lowCase();
+	// debbyPlay[varName] = event.target.innerText;
 	varName.selSetValue (event.target.innerText);
-//	debbyPlay[varName] = event.target.innerText;
+	var callback = event.target.parentElement.getAttribute ('callback');
+	if (callback) window[callback] (event.target.innerText.lowCase());
+	var title = event.target.parentElement.getElementsByTagName ('p')[0];
 	title.innerText = event.target.innerText;
 	document.body.load();
 }
