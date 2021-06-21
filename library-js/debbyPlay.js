@@ -47,7 +47,7 @@ HTMLElement.prototype.conditionnal = function(){
 // afficher des sélecteurs
 HTMLElement.prototype.createSelection = function(){
 	var selectList = this.getElementsByTagName ('selection');
-	var title, option, varName, titleName;
+	var title, option, varName;
 	for (var s=0; s< selectList.length; s++){
 		varName = selectList[s].innerText.lowCase();
 		selectList[s].innerHTML ="";
@@ -56,7 +56,7 @@ HTMLElement.prototype.createSelection = function(){
 			option = createNode ('option', debbyPlay[varName][v], selectList[s], null, null, v);
 			option.addEventListener ('click', updateSelection);
 		}
-		titleName = selectList[s].getAttribute ('name');
+		var titleName = selectList[s].getAttribute ('name');
 		titleValue = titleName.selGetValue();
 		title.innerText = titleValue;
 }}

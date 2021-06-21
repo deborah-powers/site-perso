@@ -66,10 +66,30 @@ String.prototype.clean = function(){
 	while (text.contain ('  ')) text = text.replace ('  ', ' ');
 	text = text.replace ('\n ', '\n');
 	text = text.replace (' \n', '\n');
-	text = text.replace ('\t\n', '\n');
+	while (text.contain ('\t\n')) text = text.replace ('\t\n', '\n');
 	while (text.contain ('\n\n')) text = text.replace ('\n\n', '\n');
 	while (text.contain ('_______')) text = text.replace ('_______', '______');
 	while (text.contain ('-------')) text = text.replace ('-------', '------');
+	while (text.contain ('=======')) text = text.replace ('=======', '======');
+	while (text.contain ('*******')) text = text.replace ('*******', '******');
 	text = text.strip();
 	return text;
+}
+String.prototype.toHtml = function(){
+	var text = this.clean();
+	text = '<p>'+ text +'</p>';
+	var toReplace =[ ['\n', '</p><p>'], ['<p>====== ', '<h1>'], [' ======</p>', '</h1>'], ['<p>****** ', '<h2>'], [' ******</p>', '</h2>'], ['<p>------ ', '<h3>'], [' ------</p>', '</h3>' ], ['<p>http', "<p><a href='http"]];
+	for (var r=0; r< toReplace.length; r++) text = text.replace (toReplace[r][0], toReplace[r][1]);
+	var linkList = text.split ('<a href=');
+	console.log (linkList);
+	for (var r=1; r< linkList.length; r++){
+		d= linkList[r].index ('</');
+		linkList[r] = linkList[r].substring (0,d) +'>coucou</a>'+ linkList[r].substring (d);
+	}
+	text = linkList.join ('<a href=');
+	return text;
+}
+HTMLElement.prototype.fromText = function (text){
+	text = text.toHtml();
+	this.innerHTML = text;
 }
