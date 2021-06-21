@@ -5,6 +5,7 @@ const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
 const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
 	.concat (extentionsImg);
 
+
 function fromFile (fileName){
 	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
 	var xhttp = new XMLHttpRequest();
@@ -23,7 +24,10 @@ function fromFileAssync (fileName, callback){
 	}
 	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
 }
-function useJson (jsonFile){ return JSON.parse (fromFile (jsonFile)); }
+function useJson (jsonFile){
+	var textRes = fromFile (jsonFile);
+	return JSON.parse (textRes);
+}
 function useTsv (tsvFile){
 	var textRes = fromFile (tsvFile);
 	textRes = textRes.clean();

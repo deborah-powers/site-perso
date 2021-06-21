@@ -5,6 +5,7 @@ display-test démontre son utilisation.
 dépendences:
 	display.css
 	text.js
+	file.js
 
 ________________________ fonctions utilisable par vous ________________________ */
 
@@ -108,7 +109,7 @@ HTMLElement.prototype.useTemplate = function (template){
 		- l'url d'un fichier html
 	*/
 	if (template.contain ('.html')){
-		var responseText = fromFileSync (template);
+		var responseText = fromFile (template);
 		if (responseText) this.innerHTML = responseText;
 	}
 	else this.innerHTML = template;
@@ -388,25 +389,3 @@ HTMLElement.prototype.copy = function (bind){
 	return newNode;
 }
 Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
-function useJson (jsonFile){
-	var textRes = fromFileSync (jsonFile);
-	return JSON.parse (textRes);
-}
-function fromFileSync (fileName){
-	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
-	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', fileName, false);
-	xhttp.send();
-	var textRes = null;
-	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
-	return textRes;
-}
-function fromFileAssync (fileName, callback){
-	if (callback){
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
-		xhttp.open ('GET', jsonFile, true);
-		xhttp.send();
-	}
-	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
-}
