@@ -5,7 +5,6 @@ const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
 const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
 	.concat (extentionsImg);
 
-
 function fromFile (fileName){
 	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
 	var xhttp = new XMLHttpRequest();
