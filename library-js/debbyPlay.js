@@ -41,8 +41,7 @@ HTMLElement.prototype.printAll = function(){
 // affichage conditionnel de certaines balises
 HTMLElement.prototype.conditionnal = function(){
 	var tagList = this.getElementsByTagName ('*');
-	for (var t=0; t< tagList.length; t++) if (tagList[t].getAttribute ('if') &&! eval (tagList[t].getAttribute ('if')))
-		tagList[t].className = 'hidden';
+	for (var t=0; t< tagList.length; t++) if (tagList[t].getAttribute ('if') &&! eval (tagList[t].getAttribute ('if'))) tagList[t].className = 'hidden';
 }
 // afficher des sélecteurs
 HTMLElement.prototype.createSelection = function(){
