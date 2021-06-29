@@ -143,7 +143,7 @@ nav >* {
 	width: 3em;
 	height: 3em;
 	background-color: var(--bord-color);
-	background-image: radial-gradient(var(--bord-color) 30%, var(--text-color) 30%);
+	background-image: radial-gradient(var(--bord-color) 25%, var(--text-color) 25%);
 	text-align: center;
 }
 .icon.modify {
