@@ -33,9 +33,8 @@ f {
 	text-align: center;
 }
 f >* { display: block; }
-f >*.d, f>*:last-child, f>d {
+f >*.d, f>d {
 	border-width: 0.1em;
-	border-color: black;
 	border-top-style: solid;
 }
 r {
@@ -43,24 +42,9 @@ r {
 	transform: skew(-15deg);
 	transform-origin: bottom left;
 	padding-left: 0.1em;
-	margin-left: 0.7em;
+	margin-left: 0.2em;
 	margin-right: 0.2em;
 	border-width: 0.1em;
-	border-color: black;
 	border-top-style: solid;
 	border-left-style: solid;
-}
-r:before {
-	content: "";
-	position: absolute;
-	height: 60%;
-	width: 0.5em;
-	left: -0.5em;
-	bottom: 0;
-	border-width: 0.1em;
-	border-color: black;
-	border-right-style: solid;
-	border-top-style: solid;
-	transform: skew(30deg);
-	transform-origin: bottom right;
 }

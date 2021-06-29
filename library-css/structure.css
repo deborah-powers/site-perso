@@ -165,8 +165,8 @@ f {
 }
 f >* { display: block; }
 f >*.d, f>*:last-child, f>d {
+	border-width: 0.1em;
 	border-top-style: solid;
-	border-top-width: 0.1em;
 }
 r {
 	display: inline-block;
@@ -188,7 +188,7 @@ r:before {
 	bottom: 0;
 	border-width: 0.1em;
 	border-right-style: solid;
-	border-top-style: inherit;
+	border-top-style: solid;
 	transform: skew(30deg);
 	transform-origin: bottom right;
 }
