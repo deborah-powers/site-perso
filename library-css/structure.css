@@ -163,8 +163,8 @@ f {
 	display: inline-block;
 	text-align: center;
 }
-f >* { display: block; }
 f >*.d, f>*:last-child, f>d {
+	display: block;
 	border-width: 0.1em;
 	border-top-style: solid;
 }
