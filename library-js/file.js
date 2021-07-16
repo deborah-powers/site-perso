@@ -23,11 +23,11 @@ function fromFileAssync (fileName, callback){
 	}
 	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
 }
-function useJson (jsonFile){
+function fromJson (jsonFile){
 	var textRes = fromFile (jsonFile);
 	return JSON.parse (textRes);
 }
-function useTsv (tsvFile){
+function fromTsv (tsvFile){
 	var textRes = fromFile (tsvFile);
 	textRes = textRes.clean();
 	var listRes =[];
@@ -68,14 +68,14 @@ paramFromUrl = function (url){
 	}
 	return params;
 }
-function useBackend (url, params){
+function fromBackend (url, params){
 	url = paramToUrl (url, params);
 	var textRes = fromFile (url);
 	var value = null;
 	if (textRes) value = JSON.parse (textRes);
 	return value;
 }
-function useBackendAssync (url, callback, params){
+function fromBackendAssync (url, callback, params){
 	var url = paramToUrl (url, params);
 	fromFileAssync (url, callback);
 }
