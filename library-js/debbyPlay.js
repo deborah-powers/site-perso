@@ -182,8 +182,9 @@ setAfter = function (event){
 }
 // rendre les inputs interractifs
 HTMLElement.prototype.initInput = function(){
+	// j'ai testé mouseleave au lieu de click
 	var inputList = this.getElementsByTagName ('input');
-	for (var i=0; i< inputList.length; i++){
+	for (var i=0; i< inputList.length; i++) if (inputList[i].getAttribute ('type') != 'checkbox'){
 		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
 		inputList[i].addEventListener ('mouseleave', modifInput);
 	}
