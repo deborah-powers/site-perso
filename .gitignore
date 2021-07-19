@@ -3,8 +3,9 @@ library-php/
 module*/
 portfolio/
 divers/
-*.html
+perso/
 *cv.*
+*.html
 *.ico
 *.jpg
 *.json
@@ -12,9 +13,9 @@ divers/
 *.pdf
 *.zip
 *-va.*
-*-vb.*
 * va.*
-* vb.*
+*vb.*
+*vc.*
 *copie*
 library-*/*.txt
 library-js/config.js
