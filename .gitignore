@@ -1,10 +1,9 @@
 library-js-ext/
 library-php/
-liens/
-login/
 module*/
 portfolio/
 divers/
+*.html
 *cv.*
 *.ico
 *.jpg
@@ -17,6 +16,5 @@ divers/
 * va.*
 * vb.*
 *copie*
-index.html
 library-*/*.txt
 library-js/config.js
