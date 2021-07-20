@@ -184,10 +184,15 @@ setAfter = function (event){
 HTMLElement.prototype.initInput = function(){
 	// j'ai testé mouseleave au lieu de click
 	var inputList = this.getElementsByTagName ('input');
-	for (var i=0; i< inputList.length; i++) if (inputList[i].getAttribute ('type') != 'checkbox'){
-		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
-		inputList[i].addEventListener ('mouseleave', modifInput);
-	}
+	for (var i=0; i< inputList.length; i++){
+		if (inputList[i].getAttribute ('type') == 'checkbox'){
+			inputList[i].checked = debbyPlay [inputList[i].getAttribute ('name')];
+			inputList[i].addEventListener ('click', modifCheckbox);
+		}
+		else{
+			inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
+			inputList[i].addEventListener ('mouseleave', modifInput);
+	}}
 	inputList = this.getElementsByTagName ('textarea');
 	for (var i=0; i< inputList.length; i++){
 		inputList[i].setAttribute ('value', debbyPlay [inputList[i].getAttribute ('name')]);
@@ -197,6 +202,11 @@ HTMLElement.prototype.initInput = function(){
 function modifInput (event){
 	var varName = event.target.getAttribute ('name');
 	debbyPlay[varName] = event.target.value;
+	document.body.load();
+}
+function modifCheckbox (event){
+	var varName = event.target.getAttribute ('name');
+	debbyPlay[varName] = event.target.checked;
 	document.body.load();
 }
 // affichage de base
