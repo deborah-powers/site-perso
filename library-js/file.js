@@ -5,7 +5,28 @@ const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
 const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
 	.concat (extentionsImg);
 
-function fromFile (fileName){
+function fromFile (fileName, callback){
+	if (callback){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
+		xhttp.open ('GET', fileName, true);
+		xhttp.send();
+	}
+	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
+}
+function fromJson (jsonFile, callback){
+	if (callback){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
+			jsonData = JSON.parse (this.responseText);
+			callback (jsonData);
+		}};
+		xhttp.open ('GET', jsonFile, true);
+		xhttp.send();
+	}
+	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
+}
+function fromFileSync (fileName){
 	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
 	var xhttp = new XMLHttpRequest();
 	xhttp.open ('GET', fileName, false);
@@ -14,16 +35,7 @@ function fromFile (fileName){
 	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
 	return textRes;
 }
-function fromFileAssync (fileName, callback){
-	if (callback){
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
-		xhttp.open ('GET', jsonFile, true);
-		xhttp.send();
-	}
-	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
-}
-function fromJson (jsonFile){
+function fromJsonSync (jsonFile){
 	var textRes = fromFile (jsonFile);
 	return JSON.parse (textRes);
 }
