@@ -67,3 +67,89 @@ dépend de structure.css
 	-webkit-mask: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg') no-repeat center;
 	*/
 }
+/* le cylindre contient deux éléments. préciser ses dimensions, l'angle */
+.cylindre {
+	border-radius: 50%/var(--angle);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	text-align: center;
+	--angle: 10%;
+}
+.cylindre >* {
+	border-radius: 50%;
+	width: inherit;
+	height: calc(2* var(--angle));
+	margin: 0;
+}
+.cylindre.couche {
+	border-radius: var(--angle)/50%;
+	flex-direction: row;
+}
+.cylindre.couche >* {
+	width: calc(2* var(--angle));
+	height: inherit;
+}
+/* la boule */
+.boule {
+	border-radius: 50%;
+	background-image: radial-gradient(circle at 20% 50%, transparent, #0003);
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 1em;
+	/* préciser width, height et background-color */
+	display: inline-block;
+}
+.boule.horizontal { animation-name: boule-spin-y; }
+.boule.vertical { animation-name: boule-spin-x; }
+@keyframes boule-spin-y {
+	0% { background-image: radial-gradient(circle at 0% 50%, transparent, #0003); }
+	5% { background-image: radial-gradient(circle at 5% 50%, transparent, #0003); }
+	10% { background-image: radial-gradient(circle at 10% 50%, transparent, #0003); }
+	15% { background-image: radial-gradient(circle at 15% 50%, transparent, #0003); }
+	20% { background-image: radial-gradient(circle at 20% 50%, transparent, #0003); }
+	25% { background-image: radial-gradient(circle at 25% 50%, transparent, #0003); }
+	30% { background-image: radial-gradient(circle at 30% 50%, transparent, #0003); }
+	35% { background-image: radial-gradient(circle at 35% 50%, transparent, #0003); }
+	40% { background-image: radial-gradient(circle at 40% 50%, transparent, #0003); }
+	45% { background-image: radial-gradient(circle at 45% 50%, transparent, #0003); }
+	50% { background-image: radial-gradient(circle at 50% 50%, transparent, #0003); }
+	55% { background-image: radial-gradient(circle at 55% 50%, transparent, #0003); }
+	60% { background-image: radial-gradient(circle at 60% 50%, transparent, #0003); }
+	65% { background-image: radial-gradient(circle at 65% 50%, transparent, #0003); }
+	70% { background-image: radial-gradient(circle at 70% 50%, transparent, #0003); }
+	75% { background-image: radial-gradient(circle at 75% 50%, transparent, #0003); }
+	80% { background-image: radial-gradient(circle at 80% 50%, transparent, #0003); }
+	85% { background-image: radial-gradient(circle at 85% 50%, transparent, #0003); }
+	90% { background-image: radial-gradient(circle at 90% 50%, transparent, #0003); }
+	95% { background-image: radial-gradient(circle at 95% 50%, transparent, #0003); }
+	100% { background-image: radial-gradient(circle at 100% 50%, transparent, #0003); }
+}
+@keyframes boule-spin-x {
+	0% { background-image: radial-gradient(circle at 50% 0%, transparent, #0003); }
+	5% { background-image: radial-gradient(circle at 50% 5%, transparent, #0003); }
+	10% { background-image: radial-gradient(circle at 50% 10%, transparent, #0003); }
+	15% { background-image: radial-gradient(circle at 50% 15%, transparent, #0003); }
+	20% { background-image: radial-gradient(circle at 50% 20%, transparent, #0003); }
+	25% { background-image: radial-gradient(circle at 50% 25%, transparent, #0003); }
+	30% { background-image: radial-gradient(circle at 50% 30%, transparent, #0003); }
+	35% { background-image: radial-gradient(circle at 50% 35%, transparent, #0003); }
+	40% { background-image: radial-gradient(circle at 50% 40%, transparent, #0003); }
+	45% { background-image: radial-gradient(circle at 50% 45%, transparent, #0003); }
+	50% { background-image: radial-gradient(circle at 50% 50%, transparent, #0003); }
+	55% { background-image: radial-gradient(circle at 50% 55%, transparent, #0003); }
+	60% { background-image: radial-gradient(circle at 50% 60%, transparent, #0003); }
+	65% { background-image: radial-gradient(circle at 50% 65%, transparent, #0003); }
+	70% { background-image: radial-gradient(circle at 50% 70%, transparent, #0003); }
+	75% { background-image: radial-gradient(circle at 50% 75%, transparent, #0003); }
+	80% { background-image: radial-gradient(circle at 50% 80%, transparent, #0003); }
+	85% { background-image: radial-gradient(circle at 50% 85%, transparent, #0003); }
+	90% { background-image: radial-gradient(circle at 50% 90%, transparent, #0003); }
+	95% { background-image: radial-gradient(circle at 50% 95%, transparent, #0003); }
+	100% { background-image: radial-gradient(circle at 50% 100%, transparent, #0003); }
+}
