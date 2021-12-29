@@ -5,18 +5,6 @@ const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
 const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
 	.concat (extentionsImg);
 
-<<<<<<< HEAD
-function fromFileSync (fileName){
-	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
-	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', fileName, false);
-	xhttp.send();
-	var textRes = null;
-	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
-	return textRes;
-}
-=======
->>>>>>> c03bba76727735939b2b8014b5a6b265d6492cb3
 function fromFile (fileName, callback){
 	if (callback){
 		var xhttp = new XMLHttpRequest();
@@ -26,19 +14,15 @@ function fromFile (fileName, callback){
 	}
 	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
 }
-function fromJson (jsonFile, callback){
-	if (callback){
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
-			jsonData = JSON.parse (this.responseText);
-			callback (jsonData);
-		}};
-		xhttp.open ('GET', jsonFile, true);
-		xhttp.send();
-	}
-	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
+function fromFileSync (fileName){
+	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
+	var xhttp = new XMLHttpRequest();
+	xhttp.open ('GET', fileName, false);
+	xhttp.send();
+	var textRes = null;
+	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
+	return textRes;
 }
-<<<<<<< HEAD
 function fromJson (jsonFile, callback){
 	if (callback){
 		var xhttp = new XMLHttpRequest();
@@ -49,21 +33,10 @@ function fromJson (jsonFile, callback){
 		}};
 		xhttp.open ('GET', jsonFile, true);
 		xhttp.send();
-	}
-=======
-function fromFileSync (fileName){
-	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
-	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', fileName, false);
-	xhttp.send();
-	var textRes = null;
-	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
-	return textRes;
-}
+}}
 function fromJsonSync (jsonFile){
 	var textRes = fromFile (jsonFile);
 	return JSON.parse (textRes);
->>>>>>> c03bba76727735939b2b8014b5a6b265d6492cb3
 }
 function fromTsv (tsvFile, callback){
 	if (callback){

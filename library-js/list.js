@@ -37,6 +37,11 @@ Array.prototype.slice = function (start, end){
 	return newList;
 }
 Array.prototype.pop = function (pos){ var trash = this.splice (pos, 1); }
+Array.prototype.popItem = function (item){
+	if (this.contain (item)){
+		var pos = this.index (item);
+		this.pop (pos);
+}}
 Array.prototype.shuffle = function(){
 	var pos =0;
 	var newList =[];
