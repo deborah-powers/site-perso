@@ -5,7 +5,7 @@ const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
 const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
 	.concat (extentionsImg);
 
-function fromFile (fileName){
+function fromFileSync (fileName){
 	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
 	var xhttp = new XMLHttpRequest();
 	xhttp.open ('GET', fileName, false);
@@ -14,7 +14,7 @@ function fromFile (fileName){
 	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
 	return textRes;
 }
-function fromFileAssync (fileName, callback){
+function fromFile (fileName, callback){
 	if (callback){
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
@@ -23,19 +23,34 @@ function fromFileAssync (fileName, callback){
 	}
 	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
 }
-function fromJson (jsonFile){
-	var textRes = fromFile (jsonFile);
-	return JSON.parse (textRes);
-}
-function fromTsv (tsvFile){
-	var textRes = fromFile (tsvFile);
-	textRes = textRes.clean();
-	var listRes =[];
-	if (textRes){
-		listRes = textRes.split ('\n');
-		for (var l=0; l< listTmp.length; l++) listRes[l] = listRes[l].split ('\t');
+function fromJson (jsonFile, callback){
+	if (callback){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if (this.readyState ==4){
+				var jsonRes = JSON.parse (this.responseText);
+				callback (jsonRes);
+		}};
+		xhttp.open ('GET', jsonFile, true);
+		xhttp.send();
 	}
-	return listRes;
+}
+function fromTsv (tsvFile, callback){
+	if (callback){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if (this.readyState ==4){
+				var textRes = this.responseText.clean();
+				var listRes =[];
+				if (textRes){
+					listRes = textRes.split ('\n');
+					for (var l=0; l< listTmp.length; l++) listRes[l] = listRes[l].split ('\t');
+				}
+				callback (listRes);
+		}};
+		xhttp.open ('GET', jsonFile, true);
+		xhttp.send();
+	}
 }
 // les url
 charToEncode =[ ['=', 'xxx'], ['?', 'qqq'], ['&', 'ddd'] ];
@@ -68,16 +83,16 @@ paramFromUrl = function (url){
 	}
 	return params;
 }
-function fromBackend (url, params){
+function fromBackendSync (url, params){
 	url = paramToUrl (url, params);
-	var textRes = fromFile (url);
+	var textRes = fromFileSync (url);
 	var value = null;
 	if (textRes) value = JSON.parse (textRes);
 	return value;
 }
-function fromBackendAssync (url, callback, params){
+function fromBackend (url, callback, params){
 	var url = paramToUrl (url, params);
-	fromFileAssync (url, callback);
+	fromFile (url, callback);
 }
 String.prototype.isFile = function(){
 	// pour les fichiers locaux ou en ligne

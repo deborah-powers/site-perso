@@ -67,3 +67,90 @@ dépend de structure.css
 	-webkit-mask: url('/home/lenovo/Bureau/site-dp/exemples/mask-heart.svg') no-repeat center;
 	*/
 }
+.tourne {
+	animation-duration: 6s;
+	animation-iteration-count: 3;
+}
+boule {
+	display: block;
+	border-radius: 50%;
+	width: 6em;
+	height: 6em;
+	background: radial-gradient(at 26% 50%, var(--fond-color), var(--bord-color));
+}
+boule.tourne { animation-name: tourne-boule; }
+@keyframes tourne-boule {
+	0% { background: radial-gradient(at 10% 50%, var(--fond-color), var(--bord-color)); }
+	10% { background: radial-gradient(at 18% 50%, var(--fond-color), var(--bord-color)); }
+	20% { background: radial-gradient(at 26% 50%, var(--fond-color), var(--bord-color)); }
+	30% { background: radial-gradient(at 34% 50%, var(--fond-color), var(--bord-color)); }
+	40% { background: radial-gradient(at 42% 50%, var(--fond-color), var(--bord-color)); }
+	50% { background: radial-gradient(at 50% 50%, var(--fond-color), var(--bord-color)); }
+	60% { background: radial-gradient(at 58% 50%, var(--fond-color), var(--bord-color)); }
+	70% { background: radial-gradient(at 66% 50%, var(--fond-color), var(--bord-color)); }
+	80% { background: radial-gradient(at 74% 50%, var(--fond-color), var(--bord-color)); }
+	90% { background: radial-gradient(at 82% 50%, var(--fond-color), var(--bord-color)); }
+	100% { background: radial-gradient(at 90% 50%, var(--fond-color), var(--bord-color)); }
+}
+cylindre {
+	display: block;
+	--inclinaison: 10%;
+	/* border-radius: 50%/var(--inclinaison); */
+	width: 6em;
+	height: 10em;
+	background: linear-gradient(90deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
+}
+cylindre >p {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	width: inherit;
+	height: calc(2* var(--inclinaison));
+	border-radius: 50%;
+	background-color: var(--button-bg);
+}/*
+cylindre >p:last-child {
+	top: calc(100% - 4* var(--inclinaison));
+}*/
+cylindre.tourne { animation-name: tourne-cylindre; }
+@keyframes tourne-cylindre {
+	0% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 20%, var(--bord-color)); }
+	10% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 27%, var(--bord-color)); }
+	20% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 34%, var(--bord-color)); }
+	30% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 41%, var(--bord-color)); }
+	40% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 48%, var(--bord-color)); }
+	50% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 55%, var(--bord-color)); }
+	60% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 62%, var(--bord-color)); }
+	70% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 69%, var(--bord-color)); }
+	80% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 76%, var(--bord-color)); }
+	90% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 83%, var(--bord-color)); }
+	100% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 90%, var(--bord-color)); }
+}
+cylindre.horizontal {
+	border-radius: var(--inclinaison)/50%;
+	width: 10em;
+	height: 6em;
+	background: linear-gradient(0deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
+}
+cylindre.horizontal >p {
+	width: calc(2* var(--inclinaison));
+	height: inherit;
+}
+cylindre.horizontal >p:last-child {
+	top: 0;
+	left: calc(100% - 4* var(--inclinaison));
+}
+cylindre.horizontal.tourne { animation-name: tourne-cylindre-horizontal; }
+@keyframes tourne-cylindre-horizontal {
+	0% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 20%, var(--bord-color)); }
+	10% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 27%, var(--bord-color)); }
+	20% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 34%, var(--bord-color)); }
+	30% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 41%, var(--bord-color)); }
+	40% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 48%, var(--bord-color)); }
+	50% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 55%, var(--bord-color)); }
+	60% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 62%, var(--bord-color)); }
+	70% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 69%, var(--bord-color)); }
+	80% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 76%, var(--bord-color)); }
+	90% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 83%, var(--bord-color)); }
+	100% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 90%, var(--bord-color)); }
+}
