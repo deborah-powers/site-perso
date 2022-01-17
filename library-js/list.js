@@ -12,7 +12,7 @@ Array.prototype.index = function (item, pos){
 Array.prototype.rindex = function (item){
 	return this.lastIndexOf (item);
 }
-Array.prototype.contain = function (item){
+Array.prototype.contains = function (item){
 	if (this.index (item) >=0) return true;
 	else return false;
 }
@@ -47,9 +47,14 @@ Array.prototype.shuffle = function(){
 	var newList =[];
 	while (this.length >0){
 		pos = Math.floor (Math.random() *(this.length));
-		console.log (pos);
 		newList.push (this.splice (pos, 1)[0]);
 	}
 	return newList;
+}
+Array.prototype.chooseRandomly = function() {
+	var pos = Math.random();
+	pos = pos * this.length;
+	pos = Math.floor (pos);
+	return this[pos];
 }
 // Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
