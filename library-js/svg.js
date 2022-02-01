@@ -1,12 +1,12 @@
 // dépend de text.js
 const svgNs = 'http://www.w3.org/2000/svg';
-const unitList =[ 'em', 'cm', 'mm', 'px' ];
+const unitList =[ '%', 'em', 'cm', 'mm', 'px' ];
 const unitCurrent = 'em';
 var svg = document.getElementsByTagName ('svg')[0];
 
 function createShape (tag, parent, clazz, id){
 	var shape = document.createElementNS (svgNs, tag);
-	if (clazz) shape.className = clazz;
+	if (clazz) shape.setAttribute ('class', clazz);
 	if (parent) parent.appendChild (shape);
 	if (id) shape.id = id;
 	return shape;
