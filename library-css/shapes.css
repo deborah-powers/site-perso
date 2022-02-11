@@ -129,7 +129,10 @@ boule.vertical { animation-name: boule-spin-x; }
 	100% { background-image: radial-gradient(circle at 50% 100%, transparent, #0003); }
 }
 cylindre {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
@@ -142,15 +145,22 @@ cylindre {
 	background-image: linear-gradient(90deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
 }
 cylindre >* {
-	position: relative;
-	display: inline-block;
-	margin: 0;
-	width: inherit;
 	height: calc(2* var(--inclinaison));
 	border-radius: 50%;
+	margin: 0;
 	background-color: var(--button-bg);
 }
-cylindre >*:last-child { top: calc(100% - 4* var(--inclinaison)); }
+cylindre.horizontal {
+	flex-direction: row;
+	border-radius: var(--inclinaison)/50%;
+	width: 10em;
+	height: 6em;
+	background: linear-gradient(0deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
+}
+cylindre.horizontal >* {
+	width: calc(2* var(--inclinaison));
+	height: 100%;
+}
 cylindre.tourne { animation-name: tourne-cylindre; }
 @keyframes tourne-cylindre {
 	0% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 20%, var(--bord-color)); }
@@ -164,20 +174,6 @@ cylindre.tourne { animation-name: tourne-cylindre; }
 	80% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 76%, var(--bord-color)); }
 	90% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 83%, var(--bord-color)); }
 	100% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 90%, var(--bord-color)); }
-}
-cylindre.horizontal {
-	border-radius: var(--inclinaison)/50%;
-	width: 10em;
-	height: 6em;
-	background: linear-gradient(0deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
-}
-cylindre.horizontal >* {
-	width: calc(2* var(--inclinaison));
-	height: inherit;
-}
-cylindre.horizontal >*:last-child {
-	top: 0;
-	left: calc(100% - 4* var(--inclinaison));
 }
 cylindre.horizontal.tourne { animation-name: tourne-cylindre-horizontal; }
 @keyframes tourne-cylindre-horizontal {
