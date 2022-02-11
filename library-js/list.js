@@ -57,4 +57,14 @@ Array.prototype.chooseRandomly = function() {
 	pos = Math.floor (pos);
 	return this[pos];
 }
+Array.prototype.posMin = function(){
+	var pos =0;
+	for (var i=1; i< this.length; i++) if (this[i] < this[pos]) pos =i;
+	return pos;
+}
+Array.prototype.posMax = function(){
+	var pos =0;
+	for (var i=1; i< this.length; i++) if (this[i] > this[pos]) pos =i;
+	return pos;
+}
 // Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }

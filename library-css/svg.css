@@ -1,7 +1,6 @@
 /*
 css pour les fichiers svg.
-*/
-/* {
+* {
 	/ rotation centrée /
 	transform-box: fill-box;
 	transform-origin: center;
@@ -13,20 +12,23 @@ css pour les fichiers svg.
 	fill: ivory;
 	stroke: brown;
 	stroke-width: 2px;
+	r: 1em;
 }
 svg {
 	border-style: solid;
 	border-color: brown;
 	background-color: ivory;
 }
-svg.grid { background-image: url('/var/www/html/site-dp/data/grid.svg'); }
+svg.grid {
+	background-image: url('file:///C:/Users/deborah.powers/Desktop/site-dp/data/grid.svg');
+/*	background-image: url('/var/www/html/site-dp/data/grid.svg'); */
+}
 text {
-	fill: brown;
 	stroke: none;
-	stroke-width: 2px;
-	font-size: 2em;
-	alignment-baseline: before-edge;
+	dominant-baseline: middle;
+	text-anchor: middle;
 	font-family: serif;
+	font-size: 1em;
 }
 circle.marker {
 	r: 4px;
