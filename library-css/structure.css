@@ -5,6 +5,7 @@
 	--bord-epaisseur: 2px;
 	--bord-style: none;
 	--text-color: black;
+	--page-color: white;
 	--button-height: 2em;
 	--button-bg: #DDD;
 	--button-bg-hover: var(--button-bg, #DDD);
@@ -19,7 +20,7 @@ body, head, head > title {}
 body {
 	margin: auto;
 	padding: 0 0 1em 0;
-	background-color: white;
+	background-color: var(--page-color, white);
 	color: var(--text-color, black);
 	font-family: serif;
 	font-size: 1em;
@@ -137,6 +138,36 @@ nav {
 nav >* {
 	flex-grow: 1;
 	flex-shrink: 1;
+}
+/* popup stylisable. utilise popup.js */
+popup {
+	display: grid;
+	grid-template-areas: 'a a a a a b' 'c c c c c c';
+	position: fixed;
+	margin: 15%;
+	width: 50%;
+	border-radius: 2em;
+	border-style: solid;
+	border-width: 4px;
+	background: linear-gradient(var(--bord-color) 3em, var(--page-color, white) 3em);
+}
+popup > h2 {
+	grid-area: a;
+	height: 3em;
+	margin: 0;
+	color: var(--page-color, white);
+}
+popup > button {
+	grid-area: b;
+	height: 3em;
+	border-top-right-radius: 2em;
+	color: var(--page-color, white);
+	background: none;
+}
+popup > button:hover { background-color: var(--text-color); }
+popup > div {
+	grid-area: c;
+	margin: 1em;
 }
 /* les icones */
 .icon {
