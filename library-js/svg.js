@@ -1,4 +1,6 @@
-// dépend de text.js
+/* dépend de text.js
+https://developer.mozilla.org/fr/docs/Web/API/Document_Object_Model
+*/
 const svgNs = 'http://www.w3.org/2000/svg';
 const unitList =[ '%', 'em', 'cm', 'mm', 'px' ];
 const unitCurrent = 'em';
@@ -11,7 +13,7 @@ function createShape (tag, parent, clazz, id){
 	if (id) shape.id = id;
 	return shape;
 }
-SVGElement.prototype.copy = function(){
+SVGGeometryElement.prototype.copy = function(){
 	var parent = null;
 	var className = null;
 	var id = null;
@@ -25,15 +27,15 @@ SVGElement.prototype.copy = function(){
 	if ('gG'.indexOf (this.tagName) >=0) newShape.innerHTML = this.innerHTML;
 	return newShape;
 }
-SVGElement.prototype.getAttribute = function (name){ return this.getAttributeNS (null, name); }
-SVGElement.prototype.getAttributeNb = function (name){
+SVGGeometryElement.prototype.getAttribute = function (name){ return this.getAttributeNS (null, name); }
+SVGGeometryElement.prototype.getAttributeNb = function (name){
 	var attributeStr = this.getAttribute (name);
 	attributeStr = attributeStr.replace (' ');
 	for (var u=0; u< unitList.length; u++) if (attributeStr.contain (unitList[u])) attributeStr = attributeStr.slice (0, -2);
 	return parseFloat (attributeStr);
 }
-SVGElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, value + unitCurrent); }
-SVGElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
+SVGGeometryElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, value + unitCurrent); }
+SVGGeometryElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
 
 // SVGPolygonElement
 SVGPolygonElement.prototype.setPoints = function (pointList){
