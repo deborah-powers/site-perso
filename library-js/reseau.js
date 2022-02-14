@@ -24,7 +24,10 @@ function creerGraphe (nomsPoints, relationsPoints){
 		for (var m=0; m<l; m++) if (relationsPoints[l][m] >0) freresListe.push (m);
 		if (freresListe.length >0){
 			point = randomPointRef (pointsListe[freresListe[0]][0], pointsListe[freresListe[0]][1]);
-			for (var m=0; m< freresListe.length; m++) dessinerLigne (point[0], point[1], pointsListe[freresListe[m]][0], pointsListe[freresListe[m]][1]);
+			for (var m=0; m< freresListe.length; m++){
+				if (relationsPoints[l][freresListe[m]] >1) dessinerLigne (point[0], point[1], pointsListe[freresListe[m]][0], pointsListe[freresListe[m]][1], true);
+				else dessinerLigne (point[0], point[1], pointsListe[freresListe[m]][0], pointsListe[freresListe[m]][1]);
+			}
 		}
 		else point = randomPoint10();
 		pointsListe.push (point);
