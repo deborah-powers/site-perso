@@ -1,5 +1,6 @@
 /* dépend de text.js
 https://developer.mozilla.org/fr/docs/Web/API/Document_Object_Model
+var circleList = svg.getElementsByTagNameNS (svgNs, 'circle');
 */
 const svgNs = 'http://www.w3.org/2000/svg';
 const unitList =[ '%', 'em', 'cm', 'mm', 'px' ];
@@ -46,6 +47,23 @@ SVGPolygonElement.prototype.setPoints = function (pointList){
 		this.setAttribute ('points', pointListStr);
 }}
 SVGPolygonElement.prototype.getPoints = function(){
+	var pointListStr = this.getAttribute ('points');
+	var pointList = pointListStr.split (' ');
+	for (var p=0; p< pointList.length; p++){
+		pointList[p] = pointList[p].split (',');
+		pointList[p][0] = parseFloat (pointList[p][0]);
+		pointList[p][1] = parseFloat (pointList[p][1]);
+	}
+	return pointList;
+}
+SVGPolylineElement.prototype.setPoints = function (pointList){
+	if (pointList.constructor.name == 'String') this.setAttribute ('points', pointList);
+	else if (pointList.constructor.name == 'Array'){
+		for (var p=0; p< pointList.length; p++) pointList[p] = pointList[p][0] +','+ pointList[p][1]
+		var pointListStr = pointList.join (' ');
+		this.setAttribute ('points', pointListStr);
+}}
+SVGPolylineElement.prototype.getPoints = function(){
 	var pointListStr = this.getAttribute ('points');
 	var pointList = pointListStr.split (' ');
 	for (var p=0; p< pointList.length; p++){
