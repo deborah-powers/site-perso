@@ -28,14 +28,28 @@ SVGGeometryElement.prototype.copy = function(){
 	if ('gG'.indexOf (this.tagName) >=0) newShape.innerHTML = this.innerHTML;
 	return newShape;
 }
-SVGGeometryElement.prototype.getAttribute = function (name){ return this.getAttributeNS (null, name); }
-SVGGeometryElement.prototype.getAttributeNb = function (name){
+SVGElement.prototype.getAttribute = function (name){
+	var attribute = this.getAttributeNS (null, name);
+	if (! attribute || attribute == undefined){
+		var styles = window.getComputedStyle (this, null);
+		attribute = styles[name];
+	}
+	if (! attribute || attribute == undefined) attribute = null;
+	return attribute;
+}
+SVGElement.prototype.getAttributeNbBase = function (name){
 	var attributeStr = this.getAttribute (name);
 	attributeStr = attributeStr.replace (' ');
-	for (var u=0; u< unitList.length; u++) if (attributeStr.contain (unitList[u])) attributeStr = attributeStr.slice (0, -2);
-	return parseFloat (attributeStr);
+	for (var u=0; u< unitList.length; u++) if (attributeStr.contain (unitList[u])) attributeStr = attributeStr.replace (unitList[u]);
+	return attributeStr;
 }
-SVGGeometryElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, value + unitCurrent); }
+SVGElement.prototype.getAttributeNb = function (name){
+	return parseInt (this.getAttributeNbBase (name));
+}
+SVGElement.prototype.getAttributeFloat = function (name){
+	return parseFloat (this.getAttributeNbBase (name));
+}
+SVGGeometryElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, str(value)); }
 SVGGeometryElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
 
 // SVGPolygonElement

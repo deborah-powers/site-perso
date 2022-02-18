@@ -7,24 +7,13 @@ obj { cursor: move; }
 var styles = window.getComputedStyle (document.getElementsByTagName ('svg')[0], null);
 for (var s=0; s< styles.length; s++) if (styles.hasOwnProperty (styles[s])) console.log (styles[s], styles[styles[s]]);
 */
-const svgWidth = svg.getAttributeNb ('width');
-const svgHeight = svg.getAttributeNb ('height');
-class DragLimit{
-	constructor(){
-		this.minX =0;
-		this.maxX =0;
-		this.minY =0;
-		this.maxY =0;
-}}
 var currentX =0;
 var currentY =0;
-var limit =null;
 
 function selectElement (evt){
 	currentX = evt.clientX;
 	currentY = evt.clientY;
 	console.log (evt.target.tagName);
-	limit = evt.target.getDragLimit();
 	evt.target.setAttributeNS (null, 'onmousemove', 'moveElement(evt)');
 	evt.target.setAttributeNS (null, 'onmouseup', 'deselectElement(evt.target)');
 }
@@ -45,26 +34,8 @@ SVGGeometryElement.prototype.drag = function (dx, dy){
 	if (this.tagName == 'circle' || this.tagName == 'ellipse'){ nameX = 'cx'; nameY = 'cy'; }
 	dx= parseInt (this.getAttribute (nameX)) +dx;
 	dy= parseInt (this.getAttribute (nameY)) +dy;
-	var toucheBord = false;
-	if (dx > limit.maxX){
-		toucheBord = true;
-		dx= limit.maxX;
-	}
-	else if (dx < limit.minX){
-		toucheBord = true;
-		dx= limit.minX;
-	}
-	if (dy > limit.maxY){
-		toucheBord = true;
-		dy= limit.maxY;
-	}
-	else if (dy < limit.minY){
-		toucheBord = true;
-		dy= limit.minY;
-	}
 	this.setAttribute (nameX, dx);
 	this.setAttribute (nameY, dy);
-	if (toucheBord) deselectElement (this);
 }
 SVGLineElement.prototype.drag = function (dx, dy){
 	var nb= dx+ parseInt (this.getAttribute ('x1'));
@@ -91,13 +62,4 @@ SVGPolylineElement.prototype.drag = function (dx, dy){
 		pointList[p][1] +=dy;
 	}
 	this.setPoints (pointList);
-}
-SVGCircleElement.prototype.getDragLimit = function(){
-	var rNbr = this.getAttributeNb ('r');
-	var limit = new DragLimit();
-	limit.minX = rNbr;
-	limit.maxX = svgWidth - rNbr;
-	limit.minY = rNbr;
-	limit.maxY = svgHeight - rNbr;
-	return limit;
 }
