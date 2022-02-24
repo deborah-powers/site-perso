@@ -14,7 +14,7 @@ function createShape (tag, parent, clazz, id){
 	if (id) shape.id = id;
 	return shape;
 }
-SVGGeometryElement.prototype.copy = function(){
+SVGGraphicsElement.prototype.copy = function(){
 	var parent = null;
 	var className = null;
 	var id = null;
@@ -28,7 +28,7 @@ SVGGeometryElement.prototype.copy = function(){
 	if ('gG'.indexOf (this.tagName) >=0) newShape.innerHTML = this.innerHTML;
 	return newShape;
 }
-SVGElement.prototype.getAttribute = function (name){
+SVGGraphicsElement.prototype.getAttribute = function (name){
 	var attribute = this.getAttributeNS (null, name);
 	if (! attribute || attribute == undefined){
 		var styles = window.getComputedStyle (this, null);
@@ -37,20 +37,18 @@ SVGElement.prototype.getAttribute = function (name){
 	if (! attribute || attribute == undefined) attribute = null;
 	return attribute;
 }
-SVGElement.prototype.getAttributeNbBase = function (name){
+SVGGraphicsElement.prototype.getAttributeNbBase = function (name){
 	var attributeStr = this.getAttribute (name);
 	attributeStr = attributeStr.replace (' ');
 	for (var u=0; u< unitList.length; u++) if (attributeStr.contain (unitList[u])) attributeStr = attributeStr.replace (unitList[u]);
 	return attributeStr;
 }
-SVGElement.prototype.getAttributeNb = function (name){
-	return parseInt (this.getAttributeNbBase (name));
-}
-SVGElement.prototype.getAttributeFloat = function (name){
+SVGGraphicsElement.prototype.getAttributeNb = function (name){ return parseInt (this.getAttributeNbBase (name)); }
+SVGGraphicsElement.prototype.getAttributeFloat = function (name){
 	return parseFloat (this.getAttributeNbBase (name));
 }
-SVGGeometryElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, str(value)); }
-SVGGeometryElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
+SVGGraphicsElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, value.toString()); }
+SVGGraphicsElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
 
 // SVGPolygonElement
 SVGPolygonElement.prototype.setPoints = function (pointList){

@@ -9,22 +9,14 @@ for (var s=0; s< styles.length; s++) if (styles.hasOwnProperty (styles[s])) cons
 */
 const svgWidth = svg.getAttributeNb ('width');
 const svgHeight = svg.getAttributeNb ('height');
-class DragLimit{
-	constructor(){
-		this.minX =0;
-		this.maxX =0;
-		this.minY =0;
-		this.maxY =0;
-}}
 var currentX =0;
 var currentY =0;
-var limit =null;
 
 function selectElement (evt){
 	currentX = evt.clientX;
 	currentY = evt.clientY;
-	console.log (evt.target.tagName);
-	limit = evt.target.getDragLimit();
+//	console.log (evt.target.tagName);
+	if (! evt.target.limit || evt.target.limit == undefined) evt.target.getDragLimit();
 	evt.target.setAttributeNS (null, 'onmousemove', 'moveElement(evt)');
 	evt.target.setAttributeNS (null, 'onmouseup', 'deselectElement(evt.target)');
 }
@@ -45,25 +37,31 @@ SVGGeometryElement.prototype.drag = function (dx, dy){
 	if (this.tagName == 'circle' || this.tagName == 'ellipse'){ nameX = 'cx'; nameY = 'cy'; }
 	dx= parseInt (this.getAttribute (nameX)) +dx;
 	dy= parseInt (this.getAttribute (nameY)) +dy;
-	var toucheBord = false;
-	if (dx > limit.maxX){
-		toucheBord = true;
-		dx= limit.maxX;
-	}
-	else if (dx < limit.minX){
-		toucheBord = true;
-		dx= limit.minX;
-	}
-	if (dy > limit.maxY){
-		toucheBord = true;
-		dy= limit.maxY;
-	}
-	else if (dy < limit.minY){
-		toucheBord = true;
-		dy= limit.minY;
-	}
+	if (dx > this.limit.maxX) dx= this.limit.maxX;
+	else if (dx < this.limit.minX) dx= this.limit.minX;
+	if (dy > this.limit.maxY) dy= this.limit.maxY;
+	else if (dy < this.limit.minY) dy= this.limit.minY;
 	this.setAttribute (nameX, dx);
 	this.setAttribute (nameY, dy);
+}
+SVGGeometryElement.prototype.dragToucheBord = function (dx, dy){
+	var toucheBord = false;
+	if (dx > this.limit.maxX){
+		toucheBord = true;
+		dx= this.limit.maxX;
+	}
+	else if (dx < this.limit.minX){
+		toucheBord = true;
+		dx= this.limit.minX;
+	}
+	if (dy > this.limit.maxY){
+		toucheBord = true;
+		dy= this.limit.maxY;
+	}
+	else if (dy < this.limit.minY){
+		toucheBord = true;
+		dy= this.limit.minY;
+	}
 	if (toucheBord) deselectElement (this);
 }
 SVGLineElement.prototype.drag = function (dx, dy){
@@ -92,12 +90,32 @@ SVGPolylineElement.prototype.drag = function (dx, dy){
 	}
 	this.setPoints (pointList);
 }
-SVGCircleElement.prototype.getDragLimit = function(){
+SVGGeometryElement.prototype.getDragLimit = function (minX, minY, maxX, maxY){
+	if (! minX || minX == undefined) minX =0;
+	if (! minY || minY == undefined) minY =0;
+	if (! maxX || maxX == undefined) maxX = svgWidth;
+	if (! maxY || maxY == undefined) maxY = svgHeight;
+	this.limit ={ minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+	this.getDragLimitShape();
+}
+SVGRectElement.prototype.getDragLimitShape = function(){
+	var rNbr = this.getAttributeNb ('width');
+	this.limit.maxX -= rNbr;
+	rNbr = this.getAttributeNb ('height');
+	this.limit.maxY -= rNbr;
+}
+SVGEllipseElement.prototype.getDragLimitShape = function(){
+	var rNbr = this.getAttributeNb ('rx');
+	this.limit.minX += rNbr;
+	this.limit.maxX -= rNbr;
+	rNbr = this.getAttributeNb ('ry');
+	this.limit.minY += rNbr;
+	this.limit.maxY -= rNbr;
+}
+SVGCircleElement.prototype.getDragLimitShape = function(){
 	var rNbr = this.getAttributeNb ('r');
-	var limit = new DragLimit();
-	limit.minX = rNbr;
-	limit.maxX = svgWidth - rNbr;
-	limit.minY = rNbr;
-	limit.maxY = svgHeight - rNbr;
-	return limit;
+	this.limit.minX += rNbr;
+	this.limit.maxX -= rNbr;
+	this.limit.minY += rNbr;
+	this.limit.maxY -= rNbr;
 }
