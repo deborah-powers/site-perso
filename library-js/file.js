@@ -10,6 +10,9 @@ function fromFile (fileName, callback){
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
 		xhttp.open ('GET', fileName, true);
+		xhttp.setRequestHeader ('Access-Control-Allow-Headers', '*');
+		xhttp.setRequestHeader ('Content-type', 'application/ecmascript');
+		xhttp.setRequestHeader ('Access-Control-Allow-Origin', '*');
 		xhttp.send();
 	}
 	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
