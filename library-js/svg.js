@@ -3,6 +3,7 @@ https://developer.mozilla.org/fr/docs/Web/API/Document_Object_Model
 var circleList = svg.getElementsByTagNameNS (svgNs, 'circle');
 */
 const svgNs = 'http://www.w3.org/2000/svg';
+const xlinkNs = 'http://www.w3.org/1999/xlink';
 const unitList =[ '%', 'em', 'cm', 'mm', 'px' ];
 const unitCurrent = 'em';
 var svg = document.getElementsByTagName ('svg')[0];
