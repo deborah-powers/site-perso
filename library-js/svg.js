@@ -50,18 +50,53 @@ SVGGraphicsElement.prototype.getAttributeFloat = function (name){
 }
 SVGGraphicsElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, value.toString()); }
 SVGGraphicsElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
-
+// les chemins
+SVGPathElement.prototype.getPoints = function(){
+	const alphabet = 'achlmqvz';
+	var pointStrg = this.getAttribute ('d');
+	for (var l=0; l< alphabet.length; l++){
+		pointStrg = pointStrg.replace (alphabet[l], alphabet[l] +" ");
+		pointStrg = pointStrg.replace (alphabet[l].toUpperCase(), alphabet[l].toUpperCase() +" ");
+	}
+	pointStrg = pointStrg.strip();
+	while (pointStrg.contain ("  ")) pointStrg = pointStrg.replace ("  "," ");
+	var pointList = pointStrg.split (' ');
+	for (var p=0; p< pointList.length; p++){
+		if (pointList[p].contain (',')){
+			pointList[p] = pointList[p].split (',');
+			pointList[p][0] = parseFloat (pointList[p][0]);
+			pointList[p][1] = parseFloat (pointList[p][1]);
+		}
+		else if (! alphabet.contain (pointList[p]) && ! alphabet.toUpperCase().contain (pointList[p])) pointList[p] = parseInt (pointList[p]);
+	}
+	return pointList;
+}
+SVGPathElement.prototype.getPointsObj = function(){
+	const alphabet = 'achlmqvz';
+	const pointList = this.getPoints();
+	var objList =[];
+	var objPos =-1;
+	for (var p=0; p< pointList.length; p++){
+		if (alphabet.contain (pointList[p]) || alphabet.toUpperCase().contain (pointList[p])){
+			objList.push ([ pointList[p], ]);
+			objPos +=1;
+		}
+		else objList[objPos].push (pointList[p]);
+	}
+	console.log (objList);
+	return objList;
+}
 // SVGPolygonElement
 SVGPolygonElement.prototype.setPoints = function (pointList){
 	if (pointList.constructor.name == 'String') this.setAttribute ('points', pointList);
 	else if (pointList.constructor.name == 'Array'){
 		for (var p=0; p< pointList.length; p++) pointList[p] = pointList[p][0] +','+ pointList[p][1]
-		var pointListStr = pointList.join (' ');
-		this.setAttribute ('points', pointListStr);
+		var pointStrg = pointList.join (' ');
+		this.setAttribute ('points', pointStrg);
 }}
 SVGPolygonElement.prototype.getPoints = function(){
-	var pointListStr = this.getAttribute ('points');
-	var pointList = pointListStr.split (' ');
+	var pointStrg = this.getAttribute ('points');
+	var pointList = pointStrg.split (' ');
 	for (var p=0; p< pointList.length; p++){
 		pointList[p] = pointList[p].split (',');
 		pointList[p][0] = parseFloat (pointList[p][0]);
@@ -73,12 +108,12 @@ SVGPolylineElement.prototype.setPoints = function (pointList){
 	if (pointList.constructor.name == 'String') this.setAttribute ('points', pointList);
 	else if (pointList.constructor.name == 'Array'){
 		for (var p=0; p< pointList.length; p++) pointList[p] = pointList[p][0] +','+ pointList[p][1]
-		var pointListStr = pointList.join (' ');
-		this.setAttribute ('points', pointListStr);
+		var pointStrg = pointList.join (' ');
+		this.setAttribute ('points', pointStrg);
 }}
 SVGPolylineElement.prototype.getPoints = function(){
-	var pointListStr = this.getAttribute ('points');
-	var pointList = pointListStr.split (' ');
+	var pointStrg = this.getAttribute ('points');
+	var pointList = pointStrg.split (' ');
 	for (var p=0; p< pointList.length; p++){
 		pointList[p] = pointList[p].split (',');
 		pointList[p][0] = parseFloat (pointList[p][0]);

@@ -36,6 +36,11 @@ Array.prototype.slice = function (start, end){
 	}
 	return newList;
 }
+Array.prototype.get = function (pos){
+	if (pos <0) pos += this.length;
+	else if (pos <= this.length) pos -= this.length;
+	return this[pos];
+}
 Array.prototype.pop = function (pos){ var trash = this.splice (pos, 1); }
 Array.prototype.popItem = function (item){
 	if (this.contain (item)){
