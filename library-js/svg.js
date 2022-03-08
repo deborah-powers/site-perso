@@ -83,7 +83,6 @@ SVGPathElement.prototype.getPointsObj = function(){
 		}
 		else objList[objPos].push (pointList[p]);
 	}
-	console.log (objList);
 	return objList;
 }
 // SVGPolygonElement
