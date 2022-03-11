@@ -13,6 +13,8 @@ css pour les fichiers svg.
 	stroke: brown;
 	stroke-width: 2px;
 	r: 1em;
+	rx: 2em;
+	ry: 1em;
 }
 svg {
 	border-style: solid;
@@ -20,8 +22,8 @@ svg {
 	background-color: ivory;
 }
 svg.grid {
-/*	background-image: url('file:///C:/Users/deborah.powers/Desktop/site-dp/data/grid.svg'); */
-	background-image: url('/var/www/html/site-dp/data/grid.svg');
+	background-image: url('file:///C:/Users/deborah.powers/Desktop/site-dp/data/grid.svg');
+/*	background-image: url('/var/www/html/site-dp/data/grid.svg'); */
 }
 text {
 	stroke: none;
