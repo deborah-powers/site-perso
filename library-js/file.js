@@ -38,7 +38,7 @@ function fromJson (jsonFile, callback){
 		xhttp.send();
 }}
 function fromJsonSync (jsonFile){
-	var textRes = fromFile (jsonFile);
+	var textRes = fromFileSync (jsonFile);
 	return JSON.parse (textRes);
 }
 function fromTsv (tsvFile, callback){

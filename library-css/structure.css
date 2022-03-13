@@ -223,24 +223,6 @@ r:before {
 	transform: skew(30deg);
 	transform-origin: bottom right;
 }
-/* affichage pour les tablettes */
-@media (max-width: 992px){}
-/* affichage pour les smartphones */
-@media (max-width: 768px){
-	body.banner {
-		background: none;
-		padding-top: 0;
- }
-	img { max-width: 100%; }
-	img +*, .right +* { clear: right }
-	nav { flex-wrap: wrap }
-}
-@media print{
-	body.banner {
-		background: none;
-		padding-top: 0;
- }
-}
 /* deux methodes pour faire une banniere */
 body.banner {
 /*	background-image: url('../data/banniere.jpg'); */
@@ -253,6 +235,24 @@ img#banner {
 	height: 10cm;
 	object-fit: cover;
 	margin: 0;
+}
+/* affichage pour les tablettes */
+@media (max-width: 992px){}
+/* affichage pour les smartphones */
+@media (max-width: 768px){
+	body.banner {
+		background-image: none;
+		padding-top: 0;
+	}
+	img { max-width: 100%; }
+	img +*, .right +* { clear: right }
+	nav { flex-wrap: wrap }
+}
+@media print{
+	body.banner {
+		background: none;
+		padding-top: 0;
+	}
 }
 /* pour mes pwa */
 button#install-pwa { display: none; }
