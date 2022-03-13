@@ -38,18 +38,6 @@ HTMLElement.prototype.printAll = function(){
 	this.createCarousel();
 	this.conditionnal();
 }
-function getUrlData (url, destName, callback, params){
-	url = paramToUrl (url, params);
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function(){
-		if (this.readyState ==4){
-			debbyPlay[destName] = JSON.parse (this.responseText);
-			if (callback) callback();
-		}
-	};
-	xhttp.open ('GET', url, true);
-	xhttp.send();
-}
 // affichage conditionnel de certaines balises
 HTMLElement.prototype.conditionnal = function(){
 	var tagList = this.getElementsByTagName ('*');
