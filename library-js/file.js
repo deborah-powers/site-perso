@@ -6,44 +6,47 @@ const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm
 	.concat (extentionsImg);
 
 function fromFile (fileName, callback){
+	var xhttp = new XMLHttpRequest();
 	if (callback){
-		var xhttp = new XMLHttpRequest();
+		// méthode assynchrone
 		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
 		xhttp.open ('GET', fileName, true);
-		xhttp.setRequestHeader ('Access-Control-Allow-Headers', '*');
-		xhttp.setRequestHeader ('Content-type', 'application/ecmascript');
-		xhttp.setRequestHeader ('Access-Control-Allow-Origin', '*');
 		xhttp.send();
+		return null;
 	}
-	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
-}
-function fromFileSync (fileName){
-	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
-	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', fileName, false);
-	xhttp.send();
-	var textRes = null;
-	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
-	return textRes;
+	else{
+		// méthode synchrone
+		xhttp.open ('GET', fileName, false);
+		xhttp.send();
+		var textRes = null;
+		if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
+		return textRes;
+	}
 }
 function fromJson (jsonFile, callback){
+	var xhttp = new XMLHttpRequest();
 	if (callback){
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function(){
-			if (this.readyState ==4){
-				var jsonRes = JSON.parse (this.responseText);
-				callback (jsonRes);
-		}};
-		xhttp.open ('GET', jsonFile, true);
+		// méthode assynchrone
+		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
+			var jsonRes = JSON.parse (this.responseText);
+			callback (jsonRes);
+		}
+		xhttp.open ('GET', fileName, true);
 		xhttp.send();
+		return null;
+	}
+	else{
+		// méthode synchrone
+		xhttp.open ('GET', fileName, false);
+		xhttp.send();
+		var jsonRes = null;
+		if (xhttp.status ==0 || xhttp.status ==200) jsonRes = JSON.parse (xhttp.responseText);
+		return jsonRes;
 }}
-function fromJsonSync (jsonFile){
-	var textRes = fromFileSync (jsonFile);
-	return JSON.parse (textRes);
-}
 function fromTsv (tsvFile, callback){
+	var xhttp = new XMLHttpRequest();
 	if (callback){
-		var xhttp = new XMLHttpRequest();
+		// méthode assynchrone
 		xhttp.onreadystatechange = function(){
 			if (this.readyState ==4){
 				var textRes = this.responseText.clean();
@@ -56,8 +59,21 @@ function fromTsv (tsvFile, callback){
 		}};
 		xhttp.open ('GET', jsonFile, true);
 		xhttp.send();
+		return null;
 	}
-}
+	else{
+		// méthode synchrone
+		xhttp.open ('GET', fileName, false);
+		xhttp.send();
+		var listRes =[];
+		if (xhttp.status ==0 || xhttp.status ==200){
+			var textRes = this.responseText.clean();
+			if (textRes){
+				listRes = textRes.split ('\n');
+				for (var l=0; l< listTmp.length; l++) listRes[l] = listRes[l].split ('\t');
+		}}
+		return listRes;
+}}
 // les url
 charToEncode =[ ['=', 'xxx'], ['?', 'qqq'], ['&', 'ddd'] ];
 charToEncodePlus =[ ['%20', ' '] ];
