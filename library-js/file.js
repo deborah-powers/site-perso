@@ -34,7 +34,7 @@ function fromJson (jsonFile, callback){
 		xhttp.open ('GET', fileName, true);
 		xhttp.send();
 		return null;
-	}
+	}}
 	else{
 		// méthode synchrone
 		xhttp.open ('GET', fileName, false);
