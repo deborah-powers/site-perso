@@ -30,14 +30,14 @@ function fromJson (jsonFile, callback){
 		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
 			var jsonRes = JSON.parse (this.responseText);
 			callback (jsonRes);
-		}
-		xhttp.open ('GET', fileName, true);
+		}};
+		xhttp.open ('GET', jsonFile, true);
 		xhttp.send();
 		return null;
-	}}
+	}
 	else{
 		// méthode synchrone
-		xhttp.open ('GET', fileName, false);
+		xhttp.open ('GET', jsonFile, false);
 		xhttp.send();
 		var jsonRes = null;
 		if (xhttp.status ==0 || xhttp.status ==200) jsonRes = JSON.parse (xhttp.responseText);
@@ -57,13 +57,13 @@ function fromTsv (tsvFile, callback){
 				}
 				callback (listRes);
 		}};
-		xhttp.open ('GET', jsonFile, true);
+		xhttp.open ('GET', tsvFile, true);
 		xhttp.send();
 		return null;
 	}
 	else{
 		// méthode synchrone
-		xhttp.open ('GET', fileName, false);
+		xhttp.open ('GET', tsvFile, false);
 		xhttp.send();
 		var listRes =[];
 		if (xhttp.status ==0 || xhttp.status ==200){
