@@ -67,10 +67,10 @@ function fromTsv (tsvFile, callback){
 		xhttp.send();
 		var listRes =[];
 		if (xhttp.status ==0 || xhttp.status ==200){
-			var textRes = this.responseText.clean();
+			var textRes = xhttp.responseText.clean();
 			if (textRes){
 				listRes = textRes.split ('\n');
-				for (var l=0; l< listTmp.length; l++) listRes[l] = listRes[l].split ('\t');
+				for (var l=0; l< listRes.length; l++) listRes[l] = listRes[l].split ('\t');
 		}}
 		return listRes;
 }}

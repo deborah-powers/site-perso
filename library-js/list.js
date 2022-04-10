@@ -12,8 +12,9 @@ Array.prototype.index = function (item, pos){
 Array.prototype.rindex = function (item){
 	return this.lastIndexOf (item);
 }
-Array.prototype.contains = function (item){
-	if (this.index (item) >=0) return true;
+Array.prototype.contain = function (item){
+	var pos = this.indexOf (item);
+	if (pos >=0) return true;
 	else return false;
 }
 Array.prototype.count = function (item) {

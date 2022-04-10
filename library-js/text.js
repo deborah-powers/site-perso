@@ -31,9 +31,12 @@ String.prototype.count = function (word){
 	return nb;
 }
 String.prototype.replace = function (wordOld, wordNew){
-	if (! wordNew) wordNew ="";
-	var tabText = this.split (wordOld);
-	return tabText.join (wordNew);
+	if (this.indexOf (wordOld) >=0){
+		if (! wordNew) wordNew ="";
+		var tabText = this.split (wordOld);
+		return tabText.join (wordNew);
+	}
+	else return this;
 }
 /*
 String.prototype.slice = function (start, end){
