@@ -1,5 +1,5 @@
 /* afficher une popup (alert) stylisée
-fonctionne avec la feuille de style structure.css et son objet popup
+fonctionne avec les feuilles de style structure.css et popup.css
 */
 const popupTemplate = "<popup><h2>message important</h2><button onclick='closePopup(this)'>X</button><div></div></popup>";
 

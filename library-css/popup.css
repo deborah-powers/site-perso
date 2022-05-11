@@ -1,0 +1,30 @@
+/* popup stylisable. dépend de structure.css et de popup.js */
+popup {
+	display: grid;
+	grid-template-areas: 'a a a a a b' 'c c c c c c';
+	position: fixed;
+	margin: 15%;
+	width: 50%;
+	border-radius: 2em;
+	border-style: solid;
+	border-width: 4px;
+	background: linear-gradient(var(--bord-color) 3em, var(--page-color, white) 3em);
+}
+popup > h2 {
+	grid-area: a;
+	height: 3em;
+	margin: 0;
+	color: var(--page-color, white);
+}
+popup > button {
+	grid-area: b;
+	height: 3em;
+	border-top-right-radius: 2em;
+	color: var(--page-color, white);
+	background: none;
+}
+popup > button:hover { background-color: var(--text-color); }
+popup > div {
+	grid-area: c;
+	margin: 1em;
+}

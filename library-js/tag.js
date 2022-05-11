@@ -1,4 +1,4 @@
-// fonctions à rajouter au type HTMLElement
+// fonctions à rajouter au type HTMLElement. dépend de text.js pour la gestion du style de la page.
 
 function createNode (tag, text, parent, id, clazz, value){
 	var newElement = document.createElement (tag);
@@ -43,4 +43,27 @@ HTMLElement.prototype.createInput = function (type, value, id, clazz, placeholde
 	newElement.type = type;
 	return newElement;
 }
-
+// le style de la page
+HTMLDocument.prototype.getStyle = function(){
+	var styleList = document.head.getElementsByTagName ('style');
+	var style = null;
+	if (exists (styleList)) style = styleList[0];
+	else{
+		style = document.head.createNode ('style');
+		style.setAttribute ('type', 'text/css');
+	}
+	style.innerHTML = style.innerHTML.clean();
+	return style;
+}
+HTMLDocument.prototype.setStyleNokey = function (cssCode){
+	var style = this.getStyle();
+	cssCode = cssCode.clean();
+	style.innerHTML = style.innerHTML +'\n'+ cssCode;
+}
+HTMLDocument.prototype.setStyle = function (cssCode){
+	console.log ('a');
+	var style = this.getStyle();
+	console.log ('b', style.innerHTML);
+	cssCode = cssCode.clean();
+	if (style.innerHTML.indexOf (cssCode) <0) style.innerHTML = style.innerHTML +'\n'+ cssCode;
+}

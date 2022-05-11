@@ -1,5 +1,15 @@
 // fonctions à rajouter au type String
 
+function exists (object){
+	if (object == null || object == undefined) return false;
+	else if ((object.constructor == Array || object.constructor == HTMLCollection) && object.length ==0) return false;
+	else if (typeof (object) == 'string'){
+		var objectBis = object.strip();
+		if (objectBis.length ==0) return false;
+		else return true;
+	}
+	else return true;
+}
 String.prototype.copy = function(){
 	var text ="";
 	for (var l=0; l< this.length; l++) text = text + this[l];
