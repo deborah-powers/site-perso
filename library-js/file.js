@@ -51,10 +51,7 @@ function fromTsv (tsvFile, callback){
 			if (this.readyState ==4){
 				var textRes = this.responseText.clean();
 				var listRes =[];
-				if (textRes){
-					listRes = textRes.split ('\n');
-					for (var l=0; l< listTmp.length; l++) listRes[l] = listRes[l].split ('\t');
-				}
+				if (textRes) listRes = textRes.fromTsv();
 				callback (listRes);
 		}};
 		xhttp.open ('GET', tsvFile, true);
@@ -68,10 +65,8 @@ function fromTsv (tsvFile, callback){
 		var listRes =[];
 		if (xhttp.status ==0 || xhttp.status ==200){
 			var textRes = xhttp.responseText.clean();
-			if (textRes){
-				listRes = textRes.split ('\n');
-				for (var l=0; l< listRes.length; l++) listRes[l] = listRes[l].split ('\t');
-		}}
+			if (textRes) listRes = textRes.fromTsv();
+		}
 		return listRes;
 }}
 // les url

@@ -89,6 +89,23 @@ String.prototype.clean = function(){
 	text = text.strip();
 	return text;
 }
+String.prototype.fromTsv = function(){
+	var text = this.strip();
+	var textList = text.split ('\n');
+	for (var l=0; l< textList.length; l++) textList[l] = textList[l].split ('\t');
+	return textList;
+}
+Array.prototype.toTsv = function(){
+	var text ="";
+	var textTmp ="";
+	for (var l=0; l< this.length; l++){
+		textTmp ="";
+		for (var c=0; c< this.length; c++) textTmp ='\t'+ textTmp;
+		textTmp = textTmp.slice (1);
+		text = text + textTmp +'\n';
+	}
+	return text;
+}
 String.prototype.toHtml = function(){
 	var text = this.clean();
 	text = '<p>'+ text +'</p>';
