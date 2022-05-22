@@ -23,7 +23,7 @@ String.prototype.rindex = function (word){
 	return this.lastIndexOf (word);
 }
 String.prototype.contain = function (word){
-	if (this.index (word) >=0) return true;
+	if (this.indexOf (word) >=0) return true;
 	else return false;
 }
 String.prototype.containList = function (list){
@@ -67,10 +67,10 @@ String.prototype.sliceWords = function (wordD, wordF){
 }
 String.prototype.strip = function(){
 	var toStrip = '\n \t/';
-	var text = this.copy();
+	var text = this;
 	var i=0, j=1;
-	while (toStrip.contain (text[0])) text = text.slice (1);
-	while (toStrip.contain (text [text.length -1])) text = text.slice (0, text.length -1);
+	while (toStrip.index (text[0]) >=0) text = text.slice (1);
+	while (toStrip.index (text [text.length -1]) >=0) text = text.slice (0, text.length -1);
 	return text;
 }
 String.prototype.clean = function(){

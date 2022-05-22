@@ -105,16 +105,10 @@ paramFromUrl = function (url){
 	}
 	return params;
 }
-function fromBackendSync (url, params){
+function fromBackend (url, params, callback){
 	url = paramToUrl (url, params);
-	var textRes = fromFileSync (url);
-	var value = null;
-	if (textRes) value = JSON.parse (textRes);
-	return value;
-}
-function fromBackend (url, callback, params){
-	var url = paramToUrl (url, params);
-	fromFile (url, callback);
+	var res = fromJson (url, callback);
+	return res;
 }
 String.prototype.isFile = function(){
 	// pour les fichiers locaux ou en ligne
