@@ -1,5 +1,16 @@
 // fonctions à rajouter au type Array
 
+Array.prototype.toTsv = function(){
+	var text ="";
+	var textTmp ="";
+	for (var l=0; l< this.length; l++){
+		textTmp ="";
+		for (var c=0; c< this.length; c++) textTmp ='\t'+ textTmp;
+		textTmp = textTmp.slice (1);
+		text = text + textTmp +'\n';
+	}
+	return text;
+}
 Array.prototype.copy = function(){
 	var newList =[];
 	for (var l=0; l< this.length; l++) newList.push (this[l]);
