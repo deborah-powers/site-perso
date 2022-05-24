@@ -50,6 +50,15 @@ String.prototype.replace = function (wordOld, wordNew){
 	}
 	else return this;
 }
+String.prototype.addZero = function(){
+	if (this.length >=2) return this;
+	else return '0'+ this;
+}
+Number.prototype.addZero = function(){
+	var nb= this.toString();
+	nb= nb.addZero();
+	return nb;
+}
 HTMLElement.prototype.createNode = function (tag, text, id, clazz, value){
 	var newElement = document.createElement (tag);
 	if (text) newElement.innerHTML = text;
