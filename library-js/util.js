@@ -1,9 +1,32 @@
-
+String.prototype.clean = function(){
+	tabText = this.split ('\r');
+	var text = tabText.join ("");
+	var tabText = null;
+	while (text.indexOf ('  ') >=0){
+		tabText = text.split ('  ');
+		text = tabText.join (' ');
+	}
+	tabText = text.split ('\n '); text = tabText.join ('\n');
+	tabText = text.split (' \n'); text = tabText.join ('\n');
+	while (text.indexOf ('\t\t') >=0){
+		tabText = text.split ('\t\t');
+		text = tabText.join ('\t');
+	}
+	tabText = text.split ('\t\n'); text = tabText.join ('\n');
+	while (text.indexOf ('\n\n') >=0){
+		tabText = text.split ('\n\n');
+		text = tabText.join ('\n');
+	}
+	var toStrip = '\n \t/';
+	while (toStrip.indexOf (text[0]) >=0) text = text.slice (1);
+	while (toStrip.indexOf (text [text.length -1]) >=0) text = text.slice (0, text.length -1);
+	return text;
+}
 function exists (object){
 	if (object == null || object == undefined) return false;
 	else if ((object.constructor == Array || object.constructor == HTMLCollection) && object.length ==0) return false;
 	else if (typeof (object) == 'string'){
-		var objectBis = object.strip();
+		var objectBis = object.clean();
 		if (objectBis.length ==0) return false;
 		else return true;
 	}
@@ -27,32 +50,6 @@ String.prototype.replace = function (wordOld, wordNew){
 	}
 	else return this;
 }
-String.prototype.clean = function(){
-	tabText = this.split ('\r');
-	var text = tabText.join ("");
-	var tabText = null;
-	text = text.strip();
-	while (text.indexOf ('  ') >=0){
-		tabText = text.split ('  ');
-		text = tabText.join (' ');
-	}
-	tabText = text.split ('\n '); text = tabText.join ('\n');
-	tabText = text.split (' \n'); text = tabText.join ('\n');
-	while (text.indexOf ('\t\t') >=0){
-		tabText = text.split ('\t\t');
-		text = tabText.join ('\t');
-	}
-	tabText = text.split ('\t\n'); text = tabText.join ('\n');
-	while (text.indexOf ('\n\n') >=0){
-		tabText = text.split ('\n\n');
-		text = tabText.join ('\n');
-	}
-	var toStrip = '\n \t/';
-	var i=0, j=1;
-	while (toStrip.indexOf (text[0]) >=0) text = text.slice (1);
-	while (toStrip.indexOf (text [text.length -1]) >=0) text = text.slice (0, text.length -1);
-	return text;
-}
 HTMLElement.prototype.createNode = function (tag, text, id, clazz, value){
 	var newElement = document.createElement (tag);
 	if (text) newElement.innerHTML = text;
@@ -62,7 +59,8 @@ HTMLElement.prototype.createNode = function (tag, text, id, clazz, value){
 	this.appendChild (newElement);
 	return this.children [this.children.length -1];
 }
-HTMLDocument.prototype.setStyle = function (cssCode){
+function setStyle (cssCode){
+	cssCode = cssCode.clean();
 	var styleList = document.head.getElementsByTagName ('style');
 	var style = null;
 	if (exists (styleList)){

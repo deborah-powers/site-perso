@@ -51,7 +51,7 @@ HTMLElement.prototype.createSelection = function(){
 		varName = selectList[s].innerText.lowCase();
 		selectList[s].innerHTML ="";
 		title = createNode ('p', "", selectList[s]);
-		for (var v in debbyPlay[varName]){
+		for (var v=0; v< debbyPlay[varName].length; v++){
 			option = createNode ('option', debbyPlay[varName][v], selectList[s], null, null, v);
 			option.addEventListener ('click', updateSelection);
 		}
