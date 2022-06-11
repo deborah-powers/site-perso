@@ -68,7 +68,7 @@ head > title, h1 {
 	text-align: center;
 	font-size: 2em;
 }
-h2 {
+h2, caption {
 	text-align: center;
 	font-size: 1.5em;
 }
