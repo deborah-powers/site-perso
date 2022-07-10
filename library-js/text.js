@@ -61,6 +61,15 @@ String.prototype.slice = function (start, end){
 	return text;
 }*/
 String.prototype.sliceWords = function (wordD, wordF){
+	var d=0;
+	if (wordD && wordD != undefined) d= this.index (wordD) + wordD.length;
+	if (wordF && wordF != undefined){
+		var f= this.index (wordF, d);
+		return this.slice (d,f);
+	}
+	else return this.slice (d);
+}
+String.prototype.sliceWords_va = function (wordD, wordF){
 	var d= this.index (wordD);
 	var f= this.index (wordF, d) + wordF.length;
 	return this.slice (d,f);
