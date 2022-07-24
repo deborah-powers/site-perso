@@ -51,6 +51,10 @@ xmp {
 	background-color: var(--fond-color, #EEE);
 	white-space: pre;
 }
+figure {
+	text-align: center;
+	margin-bottom: 1em;
+}
 p.indent-1 { margin-left: 2em; }
 p.indent-2 { margin-left: 4em; }
 p.indent-3 { margin-left: 6em; }
