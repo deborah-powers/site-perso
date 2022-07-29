@@ -19,8 +19,12 @@ String.prototype.index = function (word, pos){
 	if (! pos) pos =0;
 	return this.indexOf (word, pos);
 }
-String.prototype.rindex = function (word){
-	return this.lastIndexOf (word);
+String.prototype.rindex = function (word, pos){
+	if (pos == null || pos == undefined || pos <2) return this.lastIndexOf (word);
+	else{
+		var textTmp = this.slice (0, pos);
+		return textTmp.lastIndexOf (word);
+	}
 }
 String.prototype.contain = function (word){
 	if (this.indexOf (word) >=0) return true;
@@ -47,6 +51,10 @@ String.prototype.replace = function (wordOld, wordNew){
 		return tabText.join (wordNew);
 	}
 	else return this;
+}
+String.prototype.insert = function (word, pos){
+	var text = this.slice (0, pos) + word + this.slice (pos);
+	return text;
 }
 /*
 String.prototype.slice = function (start, end){
