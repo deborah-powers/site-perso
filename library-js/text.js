@@ -52,10 +52,6 @@ String.prototype.replace = function (wordOld, wordNew){
 	}
 	else return this;
 }
-String.prototype.insert = function (word, pos){
-	var text = this.slice (0, pos) + word + this.slice (pos);
-	return text;
-}
 /*
 String.prototype.slice = function (start, end){
 	if (! end) end = this.length -1;
@@ -68,6 +64,15 @@ String.prototype.slice = function (start, end){
 	}
 	return text;
 }*/
+String.prototype.insert = function (word, pos){
+	var text = this.slice (0, pos) + word + this.slice (pos);
+	return text;
+}
+String.prototype.pop = function (posD, posF){
+	// supprimer le bout de texte entre posD et posF
+	var text = this.slice (0, posD) + this.slice (posF);
+	return text;
+}
 String.prototype.sliceWords = function (wordD, wordF){
 	var d=0;
 	if (wordD && wordD != undefined) d= this.index (wordD) + wordD.length;
