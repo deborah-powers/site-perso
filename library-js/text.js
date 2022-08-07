@@ -16,8 +16,17 @@ String.prototype.copy = function(){
 	return text;
 }
 String.prototype.index = function (word, pos){
-	if (! pos) pos =0;
-	return this.indexOf (word, pos);
+	if (pos == null || pos == undefined) pos =0;
+	var posReal = this.indexOf (word, pos);
+	if (posReal <0 && word.contain ('"')){
+		word = word.replace ('"', "'");
+		posReal = this.indexOf (word, pos);
+	}
+	else if (posReal <0 && word.contain ("'")){
+		word = word.replace ("'", '"');
+		posReal = this.indexOf (word, pos);
+	}
+	return posReal;
 }
 String.prototype.rindex = function (word, pos){
 	if (pos == null || pos == undefined || pos <2) return this.lastIndexOf (word);
