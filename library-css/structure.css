@@ -120,7 +120,10 @@ textarea, input[type='text'], input[type='password'], input[type='email'], input
 	color: var(--text-color, black);
 	opacity: 0.6;
 }
-textarea { height: 3em; }
+textarea {
+	height: 3em;
+	max-width: 100%;
+}
 /* les boutons radio */
 input[type='radio'], input[type='checkbox'] {
 	width: 1em;
