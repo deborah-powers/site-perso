@@ -4,8 +4,7 @@ function exists (object){
 	if (object == null || object == undefined) return false;
 	else if ((object.constructor == Array || object.constructor == HTMLCollection) && object.length ==0) return false;
 	else if (typeof (object) == 'string'){
-		var objectBis = object.strip();
-		if (objectBis.length ==0) return false;
+		if (object.length ==0 || object =="" || object ==" " || object =="\n" || object =="\t" || object =="\r") return false;
 		else return true;
 	}
 	else return true;
@@ -120,6 +119,20 @@ String.prototype.clean = function(){
 	while (text.contain ('=======')) text = text.replace ('=======', '======');
 	while (text.contain ('*******')) text = text.replace ('*******', '******');
 	text = text.strip();
+	return text;
+}
+String.prototype.cleanHtml = function(){
+	var text = this.replace ('\n');
+	text = text.replace ('\t');
+	text = text.clean();
+	text = text.replace ('<br>', '<br/>');
+	text = text.replace ('<hr>', '<hr/>');
+	while (text.contain ('<br/><br/>')) text = text.replace ('<br/><br/>', '<br/>');
+	text = text.replace ('<br/><', '<');
+	text = text.replace ('><br/>', '>');
+	text = text.replace ('<span></span>');
+	text = text.replace ('<p></p>');
+	text = text.replace ('<div></div>');
 	return text;
 }
 String.prototype.fromTsv = function(){
