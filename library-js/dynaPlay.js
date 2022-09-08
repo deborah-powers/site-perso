@@ -130,6 +130,10 @@ function printAll(){
 	}
 	printInput ('input');
 	printInput ('textarea');
+	if (document.body.innerHTML.contain ('</dp-selector>')){
+		var selectorList = document.getElementsByTagName ('dp-selector');
+		for (var s=0; s< selectorList.length; s++) console.log (selectorList[s]);
+	}
 	document.body.printCondition();
 }
 function dpInit(){
