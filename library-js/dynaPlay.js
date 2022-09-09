@@ -1,6 +1,15 @@
 /*
 dépendence:		text.js
 utilisation:	dpInit();
+
+	la condition
+<p if='condiTrue'>coucou</p>
+<p if='1===2'>doudou</p>
+	le sélecteur
+<selector name='choix'>
+	<h3>choisir: (( choix ))</h3>
+	<p>(( selectList ))</p>
+</selector>
 */
 var dpVarList =[];
 var bodyTemplate ="";
@@ -115,6 +124,17 @@ function printInput (type){
 			else if (varValue.contain (inputList[i].value) && inputList[i].type === 'checkbox') inputList[i].checked = true;
 			inputList[i].addEventListener ('change', function (event){ event.target.reload(); });
 }}}
+function printSelector(){
+	var selectList = document.getElementsByTagName ('selector');
+	for (var i=0; i< selectList.length; i++){
+		for (var o=1; o< selectList[i].children.length; o++){
+			selectList[i].children[o].addEventListener ('click', function (event){
+				console.log (event.target);
+				setValueFromName (event.target.parentElement.getAttribute ('name'), event.target.innerHTML);
+				document.body.innerHTML = bodyTemplate;
+				printAll();
+			});
+}}}
 HTMLElement.prototype.printCondition = function(){
 	if (this.getAttribute ('if')){
 		var printBlock = eval (this.getAttribute ('if'));
@@ -130,10 +150,7 @@ function printAll(){
 	}
 	printInput ('input');
 	printInput ('textarea');
-	if (document.body.innerHTML.contain ('</dp-selector>')){
-		var selectorList = document.getElementsByTagName ('dp-selector');
-		for (var s=0; s< selectorList.length; s++) console.log (selectorList[s]);
-	}
+	printSelector();
 	document.body.printCondition();
 }
 function dpInit(){

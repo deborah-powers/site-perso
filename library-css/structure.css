@@ -97,6 +97,11 @@ button, a.button, nav a, input[type='button'], input[type='submit'], input[type=
 	background-color: var(--button-bg, #DDD);
 	border-style: var(--button-border, none);
 }
+select { width: 100%; }
+option {
+	background-color: var(--page-color, white);
+	color: var(--text-color, black);
+}
 button:hover, a.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
 	background-color: var(--button-bg-hover, #DDD);
 	color: var(--button-color-hover, black);
