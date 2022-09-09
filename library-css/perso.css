@@ -6,6 +6,7 @@ dépend de structure
 	--fond-color: #FBD;
 	--bord-color: #C36;
 	--button-color: ivory;
+	--page-color: ivory;
 	--button-color-hover: var(--button-color);
 	--button-bg: #C36;
 	--button-bg-hover: #399;
@@ -14,7 +15,6 @@ dépend de structure
 }
 body {
 	max-width: 36cm;
-	background-color: ivory;
 	min-height: 100vh;
 	padding: 2%;
 }
