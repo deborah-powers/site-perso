@@ -38,21 +38,12 @@ Array.prototype.deep = function(){
 	}
 	else return 1;
 }
-HTMLElement.prototype.copy = function (bind){
-	var newNode = this.cloneNode();
-	if (this.innerHTML) newNode.innerHTML = this.innerHTML;
-	if (this.value) newNode.value = this.value;
-	if (this.placeholder) newNode.placeholder = this.placeholder;
-	if (this.type) newNode.type = this.type;
-	if (this.parentNode && bind) this.parentNode.insertBefore (newNode, this);
-	return newNode;
-}
 /* ======================== fonctions d'affichage ======================== */
 
 String.prototype.printOne = function (varName, varValue){
 	var text = null;
-	if (! exists (varValue)) text = 'pas de valeur pour '+ varName;
-	else if (varValue.constructor.name == 'Array'){
+	console.log (varName, varValue);
+	if (varValue.constructor.name == 'Array'){
 		// récupérer le tag de premier niveau
 		var d= this.index ('(('+ varName +'))');
 		var f=d;
@@ -147,32 +138,6 @@ function printSelector(){
 HTMLElement.prototype.printCondition = function(){
 	if (this.getAttribute ('if')){
 		var printBlock = eval (this.getAttribute ('if'));
-		if (printBlock) for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
-		else this.style.display = 'none';
-	}
-	else for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
-}
-HTMLElement.prototype.printAll = function (varList){
-	if (! exists (varList))
-	for (var v=0; v< dpVarList.length; v++){
-		var varValue = getValueFromName (dpVarList[v]);
-		this.innerHTML = this.innerHTML.printOne (dpVarList[v], varValue);
-	}
-	printInput ('input');
-	printInput ('textarea');
-	printSelector();
-	this.printCondition();
-}
-HTMLElement.prototype.printFor = function(){
-	if (this.getAttribute ('for')){
-		var varName = this.getAttribute ('for');
-		var varValue = getValueFromName (varName);
-		this.removeAttribute ('for');
-		var nodeRef = this.copy (false);
-		this.printAll ()
-
-
-		var printBlock = eval (this.getAttribute ('for'));
 		if (printBlock) for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
 		else this.style.display = 'none';
 	}
