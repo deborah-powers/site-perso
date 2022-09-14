@@ -53,6 +53,19 @@ HTMLElement.prototype.createInput = function (type, value, id, clazz, placeholde
 	newElement.type = type;
 	return newElement;
 }
+HTMLElement.prototype.getByContent = function (word){
+	if (this.innerText.contain (word)){
+		var newNode = null;
+		var c=0;
+		while (c< this.children.length && newNode == null){
+			newNode = this.children[c].getNodeByContent (word);
+			c+=1;
+		}
+		if (exists (newNode)) return newNode;
+		else return this;
+	}
+	else return null;
+}
 // le style de la page
 HTMLDocument.prototype.getStyle = function(){
 	var styleList = document.head.getElementsByTagName ('style');

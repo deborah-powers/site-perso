@@ -11,7 +11,7 @@ utilisation:	dpInit();
 	<p>(( selectList ))</p>
 </selector>
 */
-var dpVarList =[];
+var dpVarList ={};
 var bodyTemplate ="";
 
 /* ======================== fonctions utilitaires ======================== */
@@ -47,41 +47,52 @@ HTMLElement.prototype.copy = function (bind){
 	if (this.parentNode && bind) this.parentNode.insertBefore (newNode, this);
 	return newNode;
 }
+HTMLElement.prototype.getByContent = function (word){
+	if (this.innerHTML.contain (word)){
+		var newNode = null;
+		var c=0;
+		while (c< this.children.length && newNode == null){
+			newNode = this.children[c].getByContent (word);
+			c+=1;
+		}
+		if (exists (newNode)) return newNode;
+		else return this;
+	}
+	else return null;
+}
 /* ======================== fonctions d'affichage ======================== */
 
-String.prototype.printOne = function (varName, varValue){
-	var text = null;
-	if (! exists (varValue)) text = 'pas de valeur pour '+ varName;
+HTMLElement.prototype.printOne = function (varName, varValue){
+	if (! exists (varValue)) this.innerHTML = this.innerHTML.replace ('(('+ varName +'))', " ");
 	else if (varValue.constructor.name == 'Array'){
-		// récupérer le tag de premier niveau
-		var d= this.index ('(('+ varName +'))');
-		var f=d;
+		var nodeRef = null;
+		var nodeNew = null;
 		var deep = varValue.deep();
-		while (deep >0){
-			f= this.index ('>',f) +1;
-			d= this.rindex ('<',d-1);
-			deep = deep -1;
-		}
-		var template = this.slice (d,f);
-		var message = null;
-		text = this.slice (0,d) + this.slice (f);
-		// gérer la profondeur
-		for (var l= varValue.length -1; l>=0; l--){
-			message = template.printOne (varName, varValue[l]);
-			text = text.insert (message, d);
+		var deepTmp = deep;
+		while (this.innerHTML.contain ('((' + varName + '))')){
+			deepTmp = deep;
+			nodeRef = this.getByContent ('((' + varName + '))');
+			while (deepTmp >1){
+				nodeRef = nodeRef.parentElement;
+				deepTmp = deepTmp -1;
+			}
+			var i=0;
+			for (; i< varValue.length -1; i++){
+				nodeNew = nodeRef.copy (true);
+				nodeNew.printOne (varName, varValue[i]);
+			}
+			nodeRef.printOne (varName, varValue[i]);
 	}}
 	else if (varValue.constructor.name == 'Object'){
-		var d= this.index ('(('+ varName +'))');
-		var f= this.index ('>',d) +1;
-		d= this.rindex ('<',d);
-		var template = this.slice (d,f);
-		var text = this.slice (0,d) + this.slice (f);
+		var nodeRef = this.getByContent ('((' + varName + '))');
+		var nodeNew = null;
 		for (var l in varValue) if (typeof (varValue[l]) != 'function'){
-			text = text.insert (template, d);
-			text = text.printOne (varName, varValue[l]);
-	}}
-	else text = this.replace ('(('+ varName +'))', varValue);
-	return text;
+			nodeNew = nodeRef.copy (true);
+			nodeNew.printOne (varName, varValue[l]);
+		}
+		nodeRef.remove();
+	}
+	else this.innerHTML = this.innerHTML.replace ('(('+ varName +'))', varValue);
 }
 function getValueFromName (varName){
 	var varValue = null;
@@ -116,12 +127,12 @@ HTMLInputElement.prototype.reload = function(){
 	}
 	else setValueFromName (this.name, this.value);
 	document.body.innerHTML = bodyTemplate;
-	printAll();
+	document.body.printAll (dpVarList);
 }
 HTMLTextAreaElement.prototype.reload = function(){
 	setValueFromName (this.name, this.value);
 	document.body.innerHTML = bodyTemplate;
-	printAll();
+	document.body.printAll (dpVarList);
 }
 function printInput (type){
 	var inputList = document.getElementsByTagName (type);
@@ -141,7 +152,7 @@ function printSelector(){
 			selectList[i].children[o].addEventListener ('click', function (event){
 				setValueFromName (event.target.parentElement.getAttribute ('name'), event.target.innerHTML);
 				document.body.innerHTML = bodyTemplate;
-				printAll();
+				document.body.printAll (dpVarList);
 			});
 }}}
 HTMLElement.prototype.printCondition = function(){
@@ -153,40 +164,36 @@ HTMLElement.prototype.printCondition = function(){
 	else for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
 }
 HTMLElement.prototype.printAll = function (varList){
-	if (! exists (varList))
-	for (var v=0; v< dpVarList.length; v++){
-		var varValue = getValueFromName (dpVarList[v]);
-		this.innerHTML = this.innerHTML.printOne (dpVarList[v], varValue);
-	}
+	if (! exists (varList)) varList = dpVarList;
+	this.printFor();
+	for (var v in varList) this.printOne (v, varList[v]);
 	printInput ('input');
 	printInput ('textarea');
 	printSelector();
 	this.printCondition();
 }
 HTMLElement.prototype.printFor = function(){
+	if (this.innerHTML.contain ('for=')) for (var c=0; c< this.children.length; c++) this.children[c].printFor();
 	if (this.getAttribute ('for')){
 		var varName = this.getAttribute ('for');
 		var varValue = getValueFromName (varName);
 		this.removeAttribute ('for');
-		var nodeRef = this.copy (false);
-		this.printAll ()
-
-
-		var printBlock = eval (this.getAttribute ('for'));
-		if (printBlock) for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
-		else this.style.display = 'none';
+		var nodeNew = null;
+		if (varValue.constructor.name == 'Array'){
+			for (var i= varValue.length -1; i>0; i--){
+				nodeNew = this.copy (true);
+				nodeNew.printAll (varValue[i]);
+			}
+			this.printAll (varValue[0]);
+		}
+		else if (varValue.constructor.name == 'Object'){
+			for (var l in varValue) if (typeof (varValue[l]) != 'function'){
+				nodeNew = this.copy (true);
+				nodeNew.printAll (varValue[l]);
+			}
+			this.remove();
+		}
 	}
-	else for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
-}
-function printAll(){
-	for (var v=0; v< dpVarList.length; v++){
-		var varValue = getValueFromName (dpVarList[v]);
-		document.body.innerHTML = document.body.innerHTML.printOne (dpVarList[v], varValue);
-	}
-	printInput ('input');
-	printInput ('textarea');
-	printSelector();
-	document.body.printCondition();
 }
 function dpInit(){
 	// nettoyer le texte
@@ -199,6 +206,10 @@ function dpInit(){
 	// récupérer les variables
 	var bodyText = document.body.innerHTML.replace ('))', '((');
 	var bodyList = bodyText.split ('((');
-	for (var v=1; v< bodyList.length; v=v+2) dpVarList.push (bodyList[v]);
-	printAll();
+	var varValue = null;
+	for (var v=1; v< bodyList.length; v=v+2){
+		varValue = getValueFromName (bodyList[v]);
+		if (exists (varValue)) dpVarList [bodyList[v]] = varValue;
+	}
+	document.body.printAll (dpVarList);
 }
