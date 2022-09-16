@@ -120,6 +120,7 @@ function setValueFromName (varName, varValue){
 		else if (listName.length ==6) this[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]][listName[5]] = varValue;
 }}
 HTMLInputElement.prototype.reload = function(){
+	console.log ('oui');
 	if (this.type === 'checkbox' && this.checked === false){
 		var varValue = getValueFromName (this.name);
 		varValue.popItem (this.value);
