@@ -108,19 +108,18 @@ function getValueFromName (varName){
 function setValueFromName (varName, varValue){
 	if (varValue == undefined) varValue = null;
 	if (! varName.contain ('.')){
-		if (varValue.constructor.name != 'Array' && this[varName].constructor.name == 'Array') this[varName].push (varValue);
-		else this[varName] = varValue;
+		if (varValue.constructor.name != 'Array' && dpVarList[varName].constructor.name == 'Array') dpVarList[varName].push (varValue);
+		else dpVarList[varName] = varValue;
 	}
 	else{
 		var listName = varName.split ('.');
-		if (listName.length ==2) this[listName[0]][listName[1]] = varValue;
-		else if (listName.length ==3) this[listName[0]][listName[1]][listName[2]] = varValue;
-		else if (listName.length ==4) this[listName[0]][listName[1]][listName[2]][listName[3]] = varValue;
-		else if (listName.length ==5) this[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]] = varValue;
-		else if (listName.length ==6) this[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]][listName[5]] = varValue;
+		if (listName.length ==2) dpVarList[listName[0]][listName[1]] = varValue;
+		else if (listName.length ==3) dpVarList[listName[0]][listName[1]][listName[2]] = varValue;
+		else if (listName.length ==4) dpVarList[listName[0]][listName[1]][listName[2]][listName[3]] = varValue;
+		else if (listName.length ==5) dpVarList[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]] = varValue;
+		else if (listName.length ==6) dpVarList[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]][listName[5]] = varValue;
 }}
 HTMLInputElement.prototype.reload = function(){
-	console.log ('oui');
 	if (this.type === 'checkbox' && this.checked === false){
 		var varValue = getValueFromName (this.name);
 		varValue.popItem (this.value);
@@ -187,15 +186,8 @@ HTMLElement.prototype.printFor = function(){
 			}
 			this.printAll (varValue[0]);
 		}
-		else if (varValue.constructor.name == 'Object'){
-			for (var l in varValue) if (typeof (varValue[l]) != 'function'){
-				nodeNew = this.copy (true);
-				nodeNew.printAll (varValue[l]);
-			}
-			this.remove();
-		}
-	}
-}
+		else if (varValue.constructor.name == 'Object') this.printAll (varValue);
+}}
 function dpInit(){
 	// nettoyer le texte
 	document.body.innerHTML = document.body.innerHTML.replace ('\n');
