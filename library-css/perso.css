@@ -25,3 +25,19 @@ circle, ellipse {
 	fill: pink;
 	stroke: red;
 }
+div.texto {
+	width: 10cm;
+	border: 4px solid lightgrey;
+	border-radius: 1em;
+	padding: 0.5em;
+}
+div.texto > p {
+	width: 70%;
+	border-radius: 1em;
+	padding: 0.5em;
+	background-color: lightgrey;
+}
+div.texto > p.lui {
+	margin-left: 30%;
+	background-color: #ABF;
+}
