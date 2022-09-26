@@ -1,64 +1,56 @@
 /* afficher une popup (alert) stylisée
-fonctionne avec les feuilles de style structure.css et popup.css
+fonctionne avec la feuille de style structure.css
 */
-const popupTemplate = "<h2>message important</h2><button onclick='closePopup(this)'>X</button><div></div>";
+const popupTemplate = "<popup><h2>message important</h2><button onclick='closePopup()'>X</button><div>coucou !!!</div></popup>";
 
-popup > h2 {
-	grid-area: a;
-	height: 3em;
-	margin: 0;
-	color: var(--page-color, white);
-}
-popup > button {
-	grid-area: b;
-	height: 3em;
-	border-top-right-radius: 2em;
-	color: var(--page-color, white);
-	background: none;
-}
-popup > button:hover { background-color: var(--text-color); }
-popup > div {
-	grid-area: c;
-	margin: 1em;
-}
-
-class Popup extends HTMLDivElement{
-	constructor(){
-		super();
-		this.title ="";
-		this.message = null;
+function exists (object){
+	if (object === null || object === undefined) return false;
+	else if ((object.constructor === Array || object.constructor === HTMLCollection) && object.length ===0) return false;
+	else if (typeof (object) == 'string'){
+		if (object.length ===0 || object ==="" || " \n\r\t".includes (object)) return false;
+		else return true;
 	}
-	connectedCallback(){
-		this.innerHTML + popupTemplate;
-		this.style.position = 'fixed';
-		this.style.display = 'grid';
-		console.log (this.style);
-	}
-	close = function(){ this.style.display = 'none'; }
-	open = function(){ this.style.display = 'grid'; }
+	else return true;
 }
-/*
-popup {
-	grid-template-areas: 'a a a a a b' 'c c c c c c';
-	margin: 15%;
-	width: 50%;
-	border-radius: 2em;
-	border-style: solid;
-	border-width: 4px;
-	background: linear-gradient(var(--bord-color) 3em, var(--page-color, white) 3em);
-}
-const popupTemplate = "<popup><h2>message important</h2><button onclick='closePopup(this)'>X</button><div></div></popup>";
-
-function closePopup (buttonClose){
-	buttonClose.parentElement.style.display = 'none';
+function closePopup(){
+	var popup = document.getElementsByTagName ('popup')[0];
+	popup.style.display = 'none';
 }
 function openPopup (message, title){
+	// récupérer la popup
 	var popup = document.getElementsByTagName ('popup')[0];
-	if (! popup || popup == undefined){
+	if (! exists (popup)){
 		document.body.innerHTML = popupTemplate + document.body.innerHTML;
 		popup = document.getElementsByTagName ('popup')[0];
+		// style de la popup
+		popup.style.position = 'fixed';
+		popup.style.display = 'none';
+		popup.style.gridTemplateAreas = "'a a a a a b' 'c c c c c c'";
+		popup.style.backgroundColor = 'var(--page-color, white)';
+		popup.style.borderStyle = 'solid';
+		popup.style.borderWidth = '4px';
+		popup.style.borderColor = 'var(--button-bg, #DDD)';
+		popup.style.width = '50%';
+		popup.style.margin = '20%';
+		popup.children[0].style.gridArea = 'a';
+		popup.children[0].style.padding = '0.4em';
+		popup.children[0].style.color = 'var(--page-color, white)';
+		popup.children[0].style.height = '2em';
+		popup.children[0].style.fontSize = '1em';
+		popup.children[0].style.lineHeight = '1em';
+		popup.children[0].style.backgroundColor = 'var(--button-bg, #DDD)';
+		popup.children[1].style.gridArea = 'b';
+		popup.children[1].style.height = '2em';
+		popup.children[1].style.fontSize = '1em';
+		popup.children[1].style.lineHeight = '1em';
+		popup.children[2].style.gridArea = 'c';
+		popup.children[2].style.padding = '0.4em';
 	}
-	if (! title || title == undefined) title = 'message important';
-	popup.children[0].innerHTML = title;
-	popup.children[2].innerHTML = message;
-}*/
+	if (exists (title)) popup.children[0].innerHTML = title;
+	if (exists (message)){
+		if (message.constructor.name === 'String') popup.children[2].innerHTML = message;
+		else if (message.constructor.name.substring (0,4) === 'HTML' && message.constructor.name.includes ('Element'))
+			popup.children[2].innerHTML = message.innerHTML;
+	}
+	popup.style.display = 'grid';
+}

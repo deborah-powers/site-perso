@@ -1,12 +1,9 @@
 // fonctions à rajouter au type String
 
 function exists (object){
-	if (object == null || object == undefined) return false;
-	else if ((object.constructor == Array || object.constructor == HTMLCollection) && object.length ==0) return false;
-	else if (typeof (object) == 'string'){
-		if (object.length ==0 || object =="" || object ==" " || object =="\n" || object =="\t" || object =="\r") return false;
-		else return true;
-	}
+	if (object === null || object === undefined) return false;
+	else if ((object.constructor === Array || object.constructor === HTMLCollection) && object.length ===0) return false;
+	else if (typeof (object) == 'string' && (object.length ===0 || object ==="" || " \n\r\t".includes (object))) return false;
 	else return true;
 }
 String.prototype.copy = function(){
