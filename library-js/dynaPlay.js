@@ -201,6 +201,7 @@ function dpInit(){
 	var bodyList = bodyText.split ('((');
 	var varValue = null;
 	for (var v=1; v< bodyList.length; v=v+2){
+		console.log (bodyList[v]);
 		varValue = getValueFromName (bodyList[v]);
 		if (exists (varValue)) dpVarList [bodyList[v]] = varValue;
 	}
