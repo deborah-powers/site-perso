@@ -16,6 +16,8 @@ var bodyTemplate ="";
 
 /* ======================== fonctions utilitaires ======================== */
 
+Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
+
 Array.prototype.contain = function (item){
 	var pos = this.indexOf (item);
 	if (pos >=0) return true;
@@ -48,7 +50,7 @@ HTMLElement.prototype.copy = function (bind){
 	return newNode;
 }
 HTMLElement.prototype.getByContent = function (word){
-	if (this.innerHTML.contain (word)){
+	if (this.innerHTML.includes (word)){
 		var newNode = null;
 		var c=0;
 		while (c< this.children.length && newNode == null){
@@ -69,7 +71,7 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 		var nodeNew = null;
 		var deep = varValue.deep();
 		var deepTmp = deep;
-		while (this.innerHTML.contain ('((' + varName + '))')){
+		while (this.innerHTML.includes ('((' + varName + '))')){
 			deepTmp = deep;
 			nodeRef = this.getByContent ('((' + varName + '))');
 			while (deepTmp >1){
@@ -96,7 +98,7 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 }
 function getValueFromName (varName){
 	var varValue = null;
-	if (! varName.contain ('.')) varValue = this[varName];
+	if (! varName.includes ('.')) varValue = this[varName];
 	else{
 		var listName = varName.split ('.');
 		varValue = this[listName[0]][listName[1]];
@@ -107,7 +109,7 @@ function getValueFromName (varName){
 }
 function setValueFromName (varName, varValue){
 	if (varValue == undefined) varValue = null;
-	if (! varName.contain ('.')){
+	if (! varName.includes ('.')){
 		if (varValue.constructor.name != 'Array' && dpVarList[varName].constructor.name == 'Array') dpVarList[varName].push (varValue);
 		else dpVarList[varName] = varValue;
 	}
@@ -139,7 +141,7 @@ function printInput (type){
 	for (var i=0; i< inputList.length; i++){
 		var varValue = getValueFromName (inputList[i].name);
 		if (varValue){
-			if (inputList[i].tagName === 'TEXTAREA' || ! 'radio checkbox'.contain (inputList[i].getAttribute ('type')))
+			if (inputList[i].tagName === 'TEXTAREA' || ! 'radio checkbox'.includes (inputList[i].getAttribute ('type')))
 				inputList[i].value = varValue;
 			else if (inputList[i].value === varValue && inputList[i].type === 'radio') inputList[i].checked = true;
 			else if (varValue.contain (inputList[i].value) && inputList[i].type === 'checkbox') inputList[i].checked = true;
@@ -173,7 +175,7 @@ HTMLElement.prototype.printAll = function (varList){
 	this.printCondition();
 }
 HTMLElement.prototype.printFor = function(){
-	if (this.innerHTML.contain ('for=')) for (var c=0; c< this.children.length; c++) this.children[c].printFor();
+	if (this.innerHTML.includes ('for=')) for (var c=0; c< this.children.length; c++) this.children[c].printFor();
 	if (this.getAttribute ('for')){
 		var varName = this.getAttribute ('for');
 		var varValue = getValueFromName (varName);
@@ -197,13 +199,12 @@ function dpInit(){
 	document.body.innerHTML = document.body.innerHTML.replace (' ))', '))');
 	bodyTemplate = document.body.innerHTML;
 	// récupérer les variables
-	var bodyText = document.body.innerHTML.replace ('))', '((');
-	var bodyList = bodyText.split ('((');
 	var varValue = null;
-	for (var v=1; v< bodyList.length; v=v+2){
-		console.log (bodyList[v]);
-		varValue = getValueFromName (bodyList[v]);
-		if (exists (varValue)) dpVarList [bodyList[v]] = varValue;
+	for (varName in window) if (exists (varName) && exists (window [varName])
+		&& 'String Number Boolean Object Array'.includes (window [varName].constructor.name)
+		&& bodyTemplate.includes ('(('+ varName +'))')){
+			varValue = getValueFromName (varName);
+			dpVarList [varName] = varValue;
 	}
 	document.body.printAll (dpVarList);
 }
