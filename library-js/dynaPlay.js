@@ -153,6 +153,8 @@ function printSelector(){
 		for (var o=1; o< selectList[i].children.length; o++){
 			selectList[i].children[o].addEventListener ('click', function (event){
 				setValueFromName (event.target.parentElement.getAttribute ('name'), event.target.innerHTML);
+				var callbackName = event.target.parentElement.getAttribute ('callback');
+				if (exists (callbackName)) window [callbackName] (event.target.innerHTML);
 				document.body.innerHTML = bodyTemplate;
 				document.body.printAll (dpVarList);
 			});
