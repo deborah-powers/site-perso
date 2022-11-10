@@ -33,6 +33,7 @@ function fromFile (fileName, callback){
 	else{
 		// méthode synchrone
 		xhttp.open ('GET', fileName, false);
+		console.log (xhttp);
 		xhttp.send();
 		var textRes = null;
 		if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
