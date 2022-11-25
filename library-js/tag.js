@@ -10,6 +10,14 @@ function exists (object){
 	}
 	else return true;
 }
+function createNodeSimple (tag, parent){
+	var newElement = document.createElement (tag);
+	if (exists (parent)){
+		parent.appendChild (newElement);
+		return parent.children [parent.children.length -1];
+	}
+	else return newElement;
+}
 function createNode (tag, text, parent, id, clazz, value){
 	var newElement = document.createElement (tag);
 	if (text) newElement.innerHTML = text;
@@ -37,6 +45,11 @@ HTMLElement.prototype.copy = function (bind){
 	if (this.type) newNode.type = this.type;
 	if (this.parentNode && bind) this.parentNode.insertBefore (newNode, this);
 	return newNode;
+}
+HTMLElement.prototype.createNodeSimple = function (tag){
+	var newElement = document.createElement (tag);
+	this.appendChild (newElement);
+	return this.children [this.children.length -1];
 }
 HTMLElement.prototype.createNode = function (tag, text, id, clazz, value){
 	var newElement = document.createElement (tag);
