@@ -55,6 +55,9 @@ figure {
 	text-align: center;
 	margin-bottom: 1em;
 }
+p.indent-1 { margin-left: 2em; }
+p.indent-2 { margin-left: 4em; }
+p.indent-3 { margin-left: 6em; }
 table, caption, tr {
 	/* width: 100%; */
 	border-collapse: collapse;
@@ -88,10 +91,8 @@ button, input, select, textarea { outline: none; }
 button, a.button, nav a, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'], select {
 	text-align: center;
 	display: inline-block;
-	/*
 	height: var(--button-height, 2em);
 	line-height: var(--button-height, 2em);
-	*/
 	color: var(--button-color, black);
 	background-color: var(--button-bg, #DDD);
 	border-style: var(--button-border, none);
@@ -132,9 +133,9 @@ textarea {
 input[type='radio'], input[type='checkbox'] {
 	width: 1em;
 	height: 1em;
-	border-style: solid;
+	border: solid 2px black;
 	border-color: var(--text-color, black);
-	/* margin-top: 1%; */
+	margin-top: 1%;
 }
 input[type='radio']:checked, input[type='checkbox']:checked { background-color: var(--button-bg, #DDD); }
 /* barre de navigation */
