@@ -40,7 +40,7 @@ String.prototype.containList = function (list){
 	else return false;
 }
 String.prototype.count = function (word){
-	if (! this.contain (word)) return 0;
+	if (! this.includes (word)) return 0;
 	var pos =0, nb=0;
 	while (pos >=0){
 		pos = this.index (word, pos);
