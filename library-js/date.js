@@ -30,3 +30,17 @@ class DateSimple{
 		return { day: this.day, month: this.month, year: this.year };
 	}
 }
+
+Date.prototype.toStringPerso = function(){
+//	const year = this.getFullYear();
+	const month =1+ this.getMonth();
+	const day = this.getDate();
+	console.log (month);
+//	var dateStr = year +'/';
+	var dateStr ="";
+	if (month <10) dateStr = '0';
+	dateStr = dateStr + month +'/';
+	if (day <10) dateStr = dateStr +'0';
+	dateStr = dateStr + day;
+	return dateStr;
+}
