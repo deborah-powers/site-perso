@@ -221,3 +221,18 @@ img#banner {
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }
+/* styles pour les scrollbar
+truc {
+	overflow: auto;
+	pour firefox
+	scrollbar-color: purple pink;
+	scrollbar-width: 10px;
+}
+pour chrome
+truc::-webkit-scrollbar { width: 10px; }
+truc::-webkit-scrollbar-track { background-color: pink; }
+truc::-webkit-scrollbar-thumb {
+	background-color: purple;
+	border-radius: 10px;
+}
+*/
