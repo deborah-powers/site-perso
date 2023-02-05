@@ -14,11 +14,11 @@ String.prototype.copy = function(){
 String.prototype.index = function (word, pos){
 	if (pos == null || pos == undefined) pos =0;
 	var posReal = this.indexOf (word, pos);
-	if (posReal <0 && word.contain ('"')){
+	if (posReal <0 && word.includes ('"')){
 		word = word.replace ('"', "'");
 		posReal = this.indexOf (word, pos);
 	}
-	else if (posReal <0 && word.contain ("'")){
+	else if (posReal <0 && word.includes ("'")){
 		word = word.replace ("'", '"');
 		posReal = this.indexOf (word, pos);
 	}
@@ -103,18 +103,18 @@ String.prototype.strip = function(){
 String.prototype.clean = function(){
 	var text = this.replace ('\r');
 	text = text.strip();
-	while (text.contain ('  ')) text = text.replace ('  ', ' ');
+	while (text.includes ('  ')) text = text.replace ('  ', ' ');
 	text = text.replace ('\n ', '\n');
 	text = text.replace (' \n', '\n');
 	text = text.replace ('\t ', '\t');
 	text = text.replace (' \t', '\t');
-	while (text.contain ('\t\t')) text = text.replace ('\t\t', '\t');
+	while (text.includes ('\t\t')) text = text.replace ('\t\t', '\t');
 	text = text.replace ('\t\n', '\n');
-	while (text.contain ('\n\n')) text = text.replace ('\n\n', '\n');
-	while (text.contain ('_______')) text = text.replace ('_______', '______');
-	while (text.contain ('-------')) text = text.replace ('-------', '------');
-	while (text.contain ('=======')) text = text.replace ('=======', '======');
-	while (text.contain ('*******')) text = text.replace ('*******', '******');
+	while (text.includes ('\n\n')) text = text.replace ('\n\n', '\n');
+	while (text.includes ('_______')) text = text.replace ('_______', '______');
+	while (text.includes ('-------')) text = text.replace ('-------', '------');
+	while (text.includes ('=======')) text = text.replace ('=======', '======');
+	while (text.includes ('*******')) text = text.replace ('*******', '******');
 	text = text.strip();
 	return text;
 }
@@ -124,7 +124,7 @@ String.prototype.cleanHtml = function(){
 	text = text.clean();
 	text = text.replace ('<br>', '<br/>');
 	text = text.replace ('<hr>', '<hr/>');
-	while (text.contain ('<br/><br/>')) text = text.replace ('<br/><br/>', '<br/>');
+	while (text.includes ('<br/><br/>')) text = text.replace ('<br/><br/>', '<br/>');
 	text = text.replace ('<br/><', '<');
 	text = text.replace ('><br/>', '>');
 	text = text.replace ('<span></span>');
@@ -164,7 +164,7 @@ String.prototype.toHtml = function(){
 		if (linkFull.substring (linkFull.length -1) =='/') linkFull = linkFull.substring (0, linkFull.length -1);
 		d= linkFull.rindex ('/') +1;
 		var linkTitle = linkFull.substring (d);
-		if (linkTitle.contain ('.')){
+		if (linkTitle.includes ('.')){
 			d= linkTitle.rindex ('.');
 			linkTitle = linkTitle.substring (0, d);
 		}
