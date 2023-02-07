@@ -31,8 +31,8 @@ function sendToOdbAdd (item){
 	var xhttp = new XMLHttpRequest();
 	xhttp.open ('GET', itemToUrl (pathAdd, item), false);
 	xhttp.send();
-	if (xhttp.status ==0 || xhttp.status ==200) console.log ("l'insertion de l'objet a réussi", item.id);
-	else console.log ("l'insertion de l'objet a réussi", item.id);
+	if (xhttp.status ==0 || xhttp.status ==200) console.log ("l'insertion de l'objet a réussi", item.id, xhttp);
+	else console.log ("l'insertion de l'objet a échoué", item.id, xhttp);
 }
 function sendToOdbUpd (backUrl, item){
 	var xhttp = new XMLHttpRequest();

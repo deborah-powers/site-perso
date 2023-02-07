@@ -8,6 +8,9 @@ $array =[
 	'message'	=> $_GET['message']
 ];
 $db= new database();
+/*
 $result = $db->postObj ('message', $array);
 echo $result;
+*/
+echo 'coucou';
 ?>
