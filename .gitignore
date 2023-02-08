@@ -19,6 +19,5 @@ perso/
 *copie*
 adminer.php
 library-*/*.txt
-library-js/config.js
 library-js/file-perso.js
 library-css/svg.css
