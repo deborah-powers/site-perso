@@ -1,15 +1,12 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: *');
-header('Access-Control-Allow-Methods: POST');
-include ('../../../site-dp/library-php/database.class.php');
+include ('../../library-php/common.php');
 
-$array =[
-	'id'		=> $_POST['id'],
-	'message'	=> $_POST['message'],
-];
-$id= intval ($_POST['id']);
-$db= new database();
-$result = $db->updateObjById ('message', $array, $id);
-echo $result;
+$id = $_GET['id'];
+$message = $_GET['message'];
+
+$sql = "update $base.message set message = '$message' where id= $id";
+$result = $dbConnection->query ($sql);
+
+if ($result == False) echo "la modification de l'élément $id à échoué";
+else echo "la modification de l'élément $id à réussi";
 ?>
