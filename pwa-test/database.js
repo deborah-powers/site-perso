@@ -26,6 +26,11 @@ function createConnectionOdb (pathApp){
 	pathAdd = pathApp + 'add.php?';
 	pathPut = pathApp + 'put.php?';
 	pathDel = pathApp + 'del.php?';
+	// ouvrir la bdd
+	var xhttp = new XMLHttpRequest();
+	xhttp.open ('GET', pathApp +'connect-open.php', false);
+	xhttp.send();
+	console.log (xhttp.responseText);
 }
 function sendToOdbAdd (item){
 	var xhttp = new XMLHttpRequest();
