@@ -8,7 +8,7 @@
 	],
 	"version": "1",
 	"lang": "fr",
-	"start_url": "/html/pwa-test/index.html",
+	"start_url": "/site-dp/pwa-test/index.html",
 	"display": "standalone",
 	"background_color": "ivory",
 	"theme_color": "#C29FC2"
