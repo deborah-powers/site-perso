@@ -5,8 +5,7 @@ portfolio/
 divers/
 perso/
 *cv.*
-*.html
-*.ico
+s*.ico
 *.jpg
 *.json
 *.log
@@ -14,7 +13,7 @@ perso/
 *.zip
 *-va.*
 * va.*
-*vb.*
+*vb.*s
 *vc.*
 *copie*
 adminer.php
