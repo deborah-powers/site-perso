@@ -1,12 +1,12 @@
 // gérer le cache
-const cacheName = 'pwa-test';
+const cacheName = 'depense';
 const filesToCache =[
-	'/pwa/pwa-test/index.html',
-	'/pwa/pwa-test/service-launcher.js',
-	'/pwa/pwa-test/database.js',
-	'/pwa/pwa-test/static/',
-	'/pwa/pwa-test/static/perso.css',
-	'/pwa/pwa-test/static/structure.css'
+	'/pwa/depense/index.html',
+	'/pwa/depense/service-launcher.js',
+	'/pwa/depense/database.js',
+	'/pwa/depense/static/',
+	'/pwa/depense/static/perso.css',
+	'/pwa/depense/static/structure.css'
 ];
 // mettre en cache le contenu de l'app
 self.addEventListener ('install', function (event){
