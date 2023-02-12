@@ -1,0 +1,67 @@
+<!doctype html><html><head>
+	<title>test pwa</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<base target='_blank'>
+	<link rel='manifest' href='manifest.webmanifest'/>
+	<link rel='icon' type='image/png' href='static/icone-192.png'/>
+	<link rel='apple-touch-icon' type='image/png' href='static/icone-192.png'/>
+	<meta name='msapplication-TileImage' content='static/icone-192.png'>
+	<meta name='theme-color' content='ivory'/>
+	<meta name='msapplication-TileColor' content='ivory'>
+	<meta name='apple-mobile-web-app-capable' content='yes'>
+	<meta name='apple-mobile-web-app-status-bar-style' content='black'>
+	<meta name='apple-mobile-web-app-title' content='test pwa'>
+	<link rel='stylesheet' type='text/css' href='static/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='static/perso.css'/>
+	<script type='text/javascript' src='database.js'></script>
+	<script type='text/javascript' src='../library-js/config.js'></script>
+</head><body>
+	<h1>liste des messages</h1>
+	<p id='connection-idb'>votre navigateur ne supporte pas indexed-db</p>
+	<p id='connection-odb'>la connection internet est fermée</p>
+	<input type='text' id='new-message'/>
+	<button onclick='saveNewMessage()'>entrez un message</button>
+	<button id='install-pwa'>installer l'application</button>
+	<button onclick='sauverModif()'>enregistrez vos modifications</button>
+	<div></div>
+	<script type='text/javascript' src='service-launcher.js'></script>
+	<script type='text/javascript'>
+// échanger avec indexed-db
+const databaseName = 'pwa-test';
+var msgList =[
+	{ message: 'message b' },
+	{ message: 'message c' },
+	{ message: 'message a' },
+	{ message: 'message d' }
+]
+var msgDiv = document.getElementsByTagName ('div')[0];
+var msgInput = document.getElementsByTagName ('input')[0];
+
+function printMessages (messageList){
+	msgList =[];
+	msgDiv.innerHTML ="";
+	for (var m=0; m< messageList.length; m++){
+		msgList.push (messageList[m]);
+		msgDiv.innerHTML = msgDiv.innerHTML +'<p>'+ messageList[m].message +'</p>';
+	}
+}
+getFromIdb (databaseName, printMessages);
+function saveNewMessage(){
+	msgList.push ({ message: msgInput.value });
+	printMessages (msgList);
+}
+function sauverModif(){
+	sendToIdb (databaseName, msgList,
+		function(){ sendToOdb (databaseName, msgList); });
+}
+if (window.indexedDB){
+	var p= document.getElementById ('connection-idb');
+	p.innerHTML = 'votre navigateur supporte indexed-db';
+}
+if (window.navigator.onLine){
+	var p= document.getElementById ('connection-odb');
+	p.innerHTML = 'la connection internet est ouverte';
+}
+	</script>
+</body></html>

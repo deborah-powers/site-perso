@@ -1,5 +1,5 @@
 <?php
-include ('../../library-php/dbCommon.php');
+include ('../../../library-php/dbCommon.php');
 
 $sql = "select id, message from $base.message";
 $result = $connection->query ($sql);

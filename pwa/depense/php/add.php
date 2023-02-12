@@ -1,5 +1,5 @@
 <?php
-include ('../../library-php/dbCommon.php');
+include ('../../../library-php/dbCommon.php');
 
 $id = $_GET['id'];
 $message = $_GET['message'];

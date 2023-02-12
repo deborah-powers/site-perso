@@ -18,6 +18,8 @@
 	<script type='text/javascript' src='../library-js/config.js'></script>
 </head><body>
 	<h1>liste des messages</h1>
+	<p id='connection-idb'>votre navigateur ne supporte pas indexed-db</p>
+	<p id='connection-odb'>la connection internet est fermée</p>
 	<input type='text' id='new-message'/>
 	<button onclick='saveNewMessage()'>entrez un message</button>
 	<button id='install-pwa'>installer l'application</button>
@@ -52,6 +54,14 @@ function saveNewMessage(){
 function sauverModif(){
 	sendToIdb (databaseName, msgList,
 		function(){ sendToOdb (databaseName, msgList); });
+}
+if (window.indexedDB){
+	var p= document.getElementById ('connection-idb');
+	p.innerHTML = 'votre navigateur supporte indexed-db';
+}
+if (window.navigator.onLine){
+	var p= document.getElementById ('connection-odb');
+	p.innerHTML = 'la connection internet est ouverte';
 }
 	</script>
 </body></html>
