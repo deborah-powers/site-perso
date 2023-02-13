@@ -1,5 +1,5 @@
 {
-	"name": "dépenses",
+	"name": "mes dépenses",
 	"short_name": "dépenses",
 	"description": "lister mes dépenses",
 	"icons": [
@@ -11,5 +11,5 @@
 	"start_url": "/pwa/depense/index.html",
 	"display": "standalone",
 	"background_color": "ivory",
-	"theme_color": "#C29FC2"
+	"theme_color": "#C36"
 }

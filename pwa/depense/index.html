@@ -1,21 +1,21 @@
 <!doctype html><html><head>
-	<title>test pwa</title>
+	<title>mes dépenses</title>
 	<meta name='viewport' content='width=device-width,initial-scale=1'/>
 	<meta charset='utf-8'/>
 	<base target='_blank'>
 	<link rel='manifest' href='manifest.webmanifest'/>
 	<link rel='icon' type='image/png' href='static/icone-192.png'/>
-	<link rel='apple-touch-icon' type='image/png' href='static/icone-192.png'/>
 	<meta name='msapplication-TileImage' content='static/icone-192.png'>
-	<meta name='theme-color' content='ivory'/>
-	<meta name='msapplication-TileColor' content='ivory'>
+	<meta name='msapplication-TileColor' content='#C36'>
+	<meta name='theme-color' content='#C36'/>
+	<link rel='apple-touch-icon' type='image/png' href='static/icone-192.png'/>
 	<meta name='apple-mobile-web-app-capable' content='yes'>
-	<meta name='apple-mobile-web-app-status-bar-style' content='black'>
-	<meta name='apple-mobile-web-app-title' content='test pwa'>
+	<meta name='apple-mobile-web-app-status-bar-style' content='#C36'>
+	<meta name='apple-mobile-web-app-title' content='mes dépenses'>
 	<link rel='stylesheet' type='text/css' href='static/structure.css'/>
 	<link rel='stylesheet' type='text/css' href='static/perso.css'/>
-	<script type='text/javascript' src='database.js'></script>
-	<script type='text/javascript' src='../library-js/config.js'></script>
+	<script type='text/javascript' src='static/database.js'></script>
+	<script type='text/javascript' src='../../library-js/config.js'></script>
 </head><body>
 	<h1>liste des messages</h1>
 	<p id='connection-idb'>votre navigateur ne supporte pas indexed-db</p>
@@ -28,7 +28,7 @@
 	<script type='text/javascript' src='service-launcher.js'></script>
 	<script type='text/javascript'>
 // échanger avec indexed-db
-const databaseName = 'pwa-test';
+const databaseName = 'depense';
 var msgList =[
 	{ message: 'message b' },
 	{ message: 'message c' },
