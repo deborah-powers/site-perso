@@ -17,17 +17,28 @@
 	<script type='text/javascript' src='static/database.js'></script>
 	<script type='text/javascript' src='../../library-js/config.js'></script>
 </head><body>
-	<h1>liste des messages</h1>
-	<p id='connection-idb'>votre navigateur ne supporte pas indexed-db</p>
-	<p id='connection-odb'>la connection internet est fermée</p>
-	<input type='text' id='new-message'/>
-	<button onclick='saveNewMessage()'>entrez un message</button>
+	<h1>enregistrer mes dépenses</h1>
+	<form>
+		<label for='champ-date'>date</label><input type='date' id='champ-date'/>
+		<input type='button' onclick='sauverDepense()' value='valider'/>
+	</form>
+	<button onclick='sauverModif()'>enregistrer vos modifs</button>
 	<button id='install-pwa'>installer l'application</button>
-	<button onclick='sauverModif()'>enregistrez vos modifications</button>
-	<div></div>
+	<section></section>
 	<script type='text/javascript' src='service-launcher.js'></script>
 	<script type='text/javascript'>
-// échanger avec indexed-db
+
+Date.prototype.toStringPerso = function(){
+	const year = this.getFullYear();
+	const month =1+ this.getMonth();
+	const day = this.getDate();
+	var dateStr = year +'-';
+	if (month <10) dateStr = dateStr +'0';
+	dateStr = dateStr + month +'-';
+	if (day <10) dateStr = dateStr +'0';
+	dateStr = dateStr + day;
+	return dateStr;
+}
 const databaseName = 'depense';
 var msgList =[
 	{ message: 'message b' },
@@ -35,33 +46,28 @@ var msgList =[
 	{ message: 'message a' },
 	{ message: 'message d' }
 ]
-var msgDiv = document.getElementsByTagName ('div')[0];
-var msgInput = document.getElementsByTagName ('input')[0];
+var depenseList = document.getElementsByTagName ('section')[0];
+var depenseDate = document.getElementById ('champ-date');
+depenseDate.value = new Date().toStringPerso();
 
 function printMessages (messageList){
 	msgList =[];
-	msgDiv.innerHTML ="";
+	depenseList.innerHTML ="";
 	for (var m=0; m< messageList.length; m++){
 		msgList.push (messageList[m]);
-		msgDiv.innerHTML = msgDiv.innerHTML +'<p>'+ messageList[m].message +'</p>';
+		depenseList.innerHTML = depenseList.innerHTML +'<p>'+ messageList[m].message +'</p>';
 	}
 }
 getFromIdb (databaseName, printMessages);
-function saveNewMessage(){
-	msgList.push ({ message: msgInput.value });
+function sauverDepense(){
+	var date = depenseDate.value;
+	console.dir (date);
+	msgList.push ({ date: date });
 	printMessages (msgList);
 }
 function sauverModif(){
 	sendToIdb (databaseName, msgList,
 		function(){ sendToOdb (databaseName, msgList); });
-}
-if (window.indexedDB){
-	var p= document.getElementById ('connection-idb');
-	p.innerHTML = 'votre navigateur supporte indexed-db';
-}
-if (window.navigator.onLine){
-	var p= document.getElementById ('connection-odb');
-	p.innerHTML = 'la connection internet est ouverte';
 }
 	</script>
 </body></html>
