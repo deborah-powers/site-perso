@@ -25,7 +25,7 @@ itemToUrl = function (url, item){
 function createConnectionOdb (pathApp){
 	// les fichiers php doivent être adaptés à l'application
 	if (pathApp [pathApp.length -1] !='/') pathApp = pathApp +'/';
-	pathApp = pathBackend + pathApp + 'php/';
+	pathApp = pathBackend + 'pwa/' + pathApp + 'php/';
 	pathAdd = pathApp + 'add.php?';
 	pathPut = pathApp + 'put.php?';
 	pathDel = pathApp + 'del.php?';

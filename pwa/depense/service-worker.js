@@ -3,8 +3,10 @@ const cacheName = 'depense';
 const filesToCache =[
 	'/pwa/depense/index.html',
 	'/pwa/depense/service-launcher.js',
-	'/pwa/depense/database.js',
 	'/pwa/depense/static/',
+	'/pwa/depense/static/database.js',
+	'/pwa/depense/static/library.js',
+	'/pwa/depense/static/dynaPlay.js',
 	'/pwa/depense/static/perso.css',
 	'/pwa/depense/static/structure.css'
 ];
