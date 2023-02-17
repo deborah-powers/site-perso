@@ -30,19 +30,21 @@
 	<form>
 		<label for='champ-date'>date</label><input type='date' id='champ-date' name='depDate'/>
 		<label for='champ-lieu'>lieu</label><input type='text' id='champ-lieu' name='depLieu' placeholder='nouvel endroit'/>
-		<select name='depLieuSel' id='select-lieu' onchange="nouvelleValeur('lieu')">
+		<select name='depLieuSel' onchange="nouvelleValeur('lieu')">
 			<option value='(( lieuList ))'>(( lieuList ))</option>
 			<option value='gdl'>gare de Lyon</option>
 			<option value='nouveau'>nouvel endroit</option>
 		</select>
 		<label for='champ-categ'>catégorie</label><input type='text' id='champ-categ' name='depCateg' placeholder='nouvelle catégorie'/>
-		<select name='depCategSel' id='select-categ' onchange="nouvelleValeur('categ')">
+		<select name='depCategSel' onchange="nouvelleValeur('categ')">
 			<option value='(( cateList ))'>(( cateList ))</option>
 			<option value='nouveau'>nouvelle catégorie</option>
 		</select>
 		<label for='champ-montant'>montant</label><input type='number' id='champ-montant' name='depMontant'/>
-		<input type='button' onclick='sauverDepense()' value='valider'/>
+		<input type='button' onclick='sauverDepense()' value='valider' class='dp-reload'/>
 	</form>
+	<h2>dépense en cours d'entrée</h2>
+	<p>(( depMontant )) de (( depCateg )) ou (( depCategSel )), à (( depLieu )) ou (( depLieuSel )), le (( depDate )).</p>
 	<button onclick='sauverModif()'>enregistrer vos modifs</button>
 	<button id='install-pwa'>installer l'application</button>
 	<section>
@@ -56,10 +58,10 @@ var lieuList =[ 'rueil', 'bnf', 'châtelet', 'auber', 'paris', 'avon', 'chateaud
 var cateList =[ 'courses', 'restaurant', 'transport', 'cadeau', 'ammeublement', 'divers', 'loisir', 'sortie', 'utile' ];
 
 var depDate = new Date().toStringPerso();
-var depLieu ="";
-var depLieuSel ="";
-var depCateg ="";
-var depCategSel ="";
+var depLieu ="o";
+var depLieuSel ="o";
+var depCateg ="o";
+var depCategSel ="o";
 var depMontant = '15.0';
 var depenseList =[];
 dpInit();
@@ -70,29 +72,17 @@ function nouvelleValeur (nom){
 		selector.style.display = 'none';
 		document.getElementById ('champ-' + nom).style.display = 'block';
 }}
-function afficherDepenseList (depList){
-	depenseList =[];
-	for (var m=0; m< depList.length; m++){
-		depenseList.push (depList[m]);
-	}
-}
 function sauverDepense(){
 	console.log (depCateg, depCategSel, depLieu, depLieuSel);
-/*
-	var cateContainer = document.getElementById ('select-categ');
-	if (cateContainer.style.display != 'none')
-		depCateg = cateContainer.options [cateContainer.selectedIndex].value;
-	var lieuContainer = document.getElementById ('select-lieu');
-	if (lieuContainer.style.display != 'none') depLieu = document.getElementById ('champ-lieu').value;
+	if (depCateg === 'o') depCateg = depCategSel;
+	if (depLieu === 'o') depLieu = depLieuSel;
 	depenseList.push ({ date: depDate, montant: depMontant, lieu: depLieu, categorie: depCateg });
 	console.log (depenseList);
 	depDate = new Date().toStringPerso();
-	dpInit();
-*/
-}
-function sauverModif(){
-	sendToIdb (databaseName, depenseList,
-		function(){ sendToOdb (databaseName, depenseList); });
+	depLieu ="o";
+	depCateg ="o";
+	document.body.innerHTML = bodyTemplate;
+	dpLoad();
 }
 	</script>
 </body></html>

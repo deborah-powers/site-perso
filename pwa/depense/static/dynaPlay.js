@@ -21,8 +21,11 @@ function getValueFromName (varName){
 function setValueFromName (varName, varValue){
 	if (varValue == undefined) varValue = null;
 	if (! varName.includes ('.')){
-		if (varValue.constructor.name != 'Array' && window[varName].constructor.name == 'Array') window[varName].push (varValue);
-		else window[varName] = varValue;
+		if (window[varName].constructor.name === 'Array' && varValue.constructor.name === window[varName][0].constructor.name)
+			window[varName].push (varValue);
+		else if (window[varName].constructor.name === varValue.constructor.name) window[varName] = varValue;
+		else if (! 'Object Array'.includes (window[varName].constructor.name) && ! 'Object Array'.includes (varValue.constructor.name))
+			window[varName] = varValue;
 	}
 	else{
 		var listName = varName.split ('.');
@@ -112,13 +115,12 @@ HTMLSelectElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
 		if (exists (varValue)){
-			if (varValue.constructor.name == 'Array') this.setAttribute ('value', varValue[0]);
-			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
+			setValueFromName (this.name, this.value);
 			this.addEventListener ('change', function (event){
-				setValueFromName (event.target.name, event.target.options [event.target.selectedIndex].value);
-				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.value);
+			/*	document.body.innerHTML = bodyTemplate;
 				dpLoad();
-			});
+			*/});
 }}}
 HTMLInputElement.prototype.printOne = function(){
 	if (exists (this.name)){
@@ -128,9 +130,9 @@ HTMLInputElement.prototype.printOne = function(){
 			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
 			this.addEventListener ('change', function (event){
 				setValueFromName (event.target.name, event.target.value);
-				document.body.innerHTML = bodyTemplate;
+			/*	document.body.innerHTML = bodyTemplate;
 				dpLoad();
-			});
+			*/});
 }}}
 function dpLoad(){
 	// affichage des listes
@@ -142,6 +144,8 @@ function dpLoad(){
 	}
 	// affichage des inputs
 	var inputList = document.getElementsByTagName ('input');
+	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
+	var inputList = document.getElementsByTagName ('select');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
 	inputList = document.getElementsByTagName ('textarea');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
@@ -194,5 +198,10 @@ function dpInit(){
 		varValue = getValueFromName (varName);
 		if (varListText.indexOf (varName) <0 && exists (varValue)) varListText.push (varName);
 	}
+	var reloadButtons = document.getElementsByClassName ('dp-reload');
+	for (var v=0; v< reloadButtons.length; v++) reloadButtons[v].addEventListener ('change', function (event){
+		document.body.innerHTML = bodyTemplate;
+		dpLoad();
+	});
 	dpLoad();
 }
