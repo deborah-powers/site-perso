@@ -28,19 +28,19 @@
 </style></head><body>
 	<h1>enregistrer mes dépenses</h1>
 	<form>
-		<label for='champ-date'>date</label><input type='date' id='champ-date'/>
-		<label for='champ-lieu'>lieu</label><input type='text' id='champ-lieu' placeholder='nouvel endroit'/>
-		<select id='select-lieu' onchange="nouvelleValeur('lieu')">
+		<label for='champ-date'>date</label><input type='date' id='champ-date' name='depDate'/>
+		<label for='champ-lieu'>lieu</label><input type='text' id='champ-lieu' name='depLieu' placeholder='nouvel endroit'/>
+		<select name='depLieuSel' id='select-lieu' onchange="nouvelleValeur('lieu')">
 			<option value='(( lieuList ))'>(( lieuList ))</option>
 			<option value='gdl'>gare de Lyon</option>
 			<option value='nouveau'>nouvel endroit</option>
 		</select>
-		<label for='champ-categ'>catégorie</label><input type='text' id='champ-categ' placeholder='nouvelle catégorie'/>
-		<select id='select-categ' onchange="nouvelleValeur('categ')">
+		<label for='champ-categ'>catégorie</label><input type='text' id='champ-categ' name='depCateg' placeholder='nouvelle catégorie'/>
+		<select name='depCategSel' id='select-categ' onchange="nouvelleValeur('categ')">
 			<option value='(( cateList ))'>(( cateList ))</option>
 			<option value='nouveau'>nouvelle catégorie</option>
 		</select>
-		<label for='champ-montant'>montant</label><input type='number' id='champ-montant' value='12'/>
+		<label for='champ-montant'>montant</label><input type='number' id='champ-montant' name='depMontant'/>
 		<input type='button' onclick='sauverDepense()' value='valider'/>
 	</form>
 	<button onclick='sauverModif()'>enregistrer vos modifs</button>
@@ -55,11 +55,14 @@ const databaseName = 'depense';
 var lieuList =[ 'rueil', 'bnf', 'châtelet', 'auber', 'paris', 'avon', 'chateaudun' ];
 var cateList =[ 'courses', 'restaurant', 'transport', 'cadeau', 'ammeublement', 'divers', 'loisir', 'sortie', 'utile' ];
 
+var depDate = new Date().toStringPerso();
+var depLieu ="";
+var depLieuSel ="";
+var depCateg ="";
+var depCategSel ="";
+var depMontant = '15.0';
 var depenseList =[];
 dpInit();
-var montant = document.getElementById ('champ-montant');
-var depenseDate = document.getElementById ('champ-date');
-depenseDate.value = new Date().toStringPerso();
 
 function nouvelleValeur (nom){
 	const selector = document.getElementById ('select-' + nom);
@@ -74,18 +77,18 @@ function afficherDepenseList (depList){
 	}
 }
 function sauverDepense(){
-	var categorie = 'rien';
+	console.log (depCateg, depCategSel, depLieu, depLieuSel);
+/*
 	var cateContainer = document.getElementById ('select-categ');
-	if (cateContainer.style.display === 'none') categorie = document.getElementById ('champ-categ').value;
-	else categorie = cateContainer.options [cateContainer.selectedIndex].value;
-	var lieu = 'nulle part';
+	if (cateContainer.style.display != 'none')
+		depCateg = cateContainer.options [cateContainer.selectedIndex].value;
 	var lieuContainer = document.getElementById ('select-lieu');
-	if (lieuContainer.style.display === 'none') lieu = document.getElementById ('champ-lieu').value;
-	else lieu = lieuContainer.options [lieuContainer.selectedIndex].value;
-	console.log (document.getElementById ('champ-montant'));
-	depenseList.push ({ date: depenseDate.value, montant: montant.value, lieu: lieu, categorie: categorie });
+	if (lieuContainer.style.display != 'none') depLieu = document.getElementById ('champ-lieu').value;
+	depenseList.push ({ date: depDate, montant: depMontant, lieu: depLieu, categorie: depCateg });
 	console.log (depenseList);
+	depDate = new Date().toStringPerso();
 	dpInit();
+*/
 }
 function sauverModif(){
 	sendToIdb (databaseName, depenseList,

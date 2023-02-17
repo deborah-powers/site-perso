@@ -119,8 +119,8 @@ String.prototype.clean = function(){
 	return text;
 }
 String.prototype.cleanHtml = function(){
-	var text = this.replace ('\n');
-	text = text.replace ('\t');
+	var text = this.replace ('\n'," ");
+	text = text.replace ('\t'," ");
 	text = text.clean();
 	text = text.replace ('<br>', '<br/>');
 	text = text.replace ('<hr>', '<hr/>');
