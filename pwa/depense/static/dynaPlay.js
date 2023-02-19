@@ -7,6 +7,7 @@ function exists (object){
 	else if (typeof (object) == 'string' && (object.length ===0 || object ==="" || " \n\r\t".includes (object))) return false;
 	else return true;
 }
+Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
 function getValueFromName (varName){
 	var varValue = null;
 	if (! varName.includes ('.')) varValue = window[varName];
@@ -141,6 +142,8 @@ HTMLSelectElement.prototype.printOne = function(){
 			this.addEventListener ('change', function (event){
 				document.body.innerHTML = bodyTemplate;
 				setValueFromName (event.target.name, event.target.options [event.target.selectedIndex].value);
+				var callback = this.getAttribute ('callback');
+				if (exists (callback)) window [callback] (event.target.options [event.target.selectedIndex].value);
 				dpLoad();
 			});
 }}}

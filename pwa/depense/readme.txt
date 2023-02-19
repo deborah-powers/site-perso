@@ -1,5 +1,5 @@
 CREATE TABLE depense (
-	id integer not null,
+	id character varying(7) not null,
 	date date,
 	lieu character varying(50),
 	categorie character varying(50),

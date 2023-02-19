@@ -1,6 +1,6 @@
 const pathLocal = 'http://localhost/site-dp/pwa/depense/php/';
 const pathOvh = 'https://deborah-powers.fr/pwa/depense/php/';
-const pathApp = pathLocal;
+const pathApp = pathOvh;
 
 const pathAdd = pathApp + 'add.php?';
 const pathPut = pathApp + 'put.php?';
@@ -19,7 +19,8 @@ function createItem (item){
 itemToUrl = function (url, item){
 	var urlItem = url;
 	for (p in item){
-		if (typeof (item[p]) != 'string') item[p] = item[p].toString();
+		if (item[p].constructor.name == 'Number') item[p] = item[p].toString();
+		else if (item[p].constructor.name != 'String') continue;
 		urlItem = urlItem +p+'='+ item[p] +'&';
 	}
 	urlItem = urlItem.slice (0,-1);

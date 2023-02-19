@@ -2,9 +2,13 @@
 include ('../../../library-php/dbCommon.php');
 
 $id = $_GET['id'];
-$message = $_GET['message'];
+$date = $_GET['date'];
+$lieu = $_GET['lieu'];
+$categorie = $_GET['categorie'];
+$montant = $_GET['montant'];
+$commentaire = $_GET['commentaire'];
 
-$sql = "update $base.message set message = '$message' where id= $id";
+$sql = "update $base.depense set date='$date', lieu='$lieu', categorie='$categorie', montant='$montant', commentaire='$commentaire' where id='$id';";
 $result = $connection->query ($sql);
 
 if ($result == False) echo "la modification de l'élément $id à échoué";

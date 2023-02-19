@@ -22,8 +22,11 @@ function getValueFromName (varName){
 function setValueFromName (varName, varValue){
 	if (varValue == undefined) varValue = null;
 	if (! varName.includes ('.')){
-		if (varValue.constructor.name != 'Array' && window[varName].constructor.name == 'Array') window[varName].push (varValue);
-		else window[varName] = varValue;
+		if (window[varName].constructor.name === 'Array' && varValue.constructor.name === window[varName][0].constructor.name)
+			window[varName].push (varValue);
+		else if (window[varName].constructor.name === varValue.constructor.name) window[varName] = varValue;
+		else if (! 'Object Array'.includes (window[varName].constructor.name) && ! 'Object Array'.includes (varValue.constructor.name))
+			window[varName] = varValue;
 	}
 	else{
 		var listName = varName.split ('.');
@@ -109,9 +112,41 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 		for (var a=0; a< this.attributes.length; a++) if (this.attributes[a].value.includes ('((' + varName + '))'))
 			this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', varValue);
 }}
-function modifInputValue (event){
-	console.log ('modif', event.target.value);
-}
+HTMLTextAreaElement.prototype.printOne = function(){
+	if (exists (this.name)){
+		var varValue = getValueFromName (this.name);
+		if (exists (varValue)){
+			console.log ('titti');
+			this.innerHTML ="";
+			if (varValue.constructor.name == 'Array')
+				for (var v=0; v< varValue.length; v++) this.innerHTML = this.innerHTML + varValue[v] +'\n';
+			else if (varValue.constructor.name == 'Object')
+				for (var v in varValue) this.innerHTML = this.innerHTML +v+': '+ varValue[v] +'\n';
+			else this.innerHTML = varValue;
+			this.addEventListener ('change', function (event){
+				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.innerHTML);
+				dpLoad();
+			});
+}}}
+HTMLSelectElement.prototype.printOne = function(){
+	if (exists (this.name)){
+		var varValue = getValueFromName (this.name);
+		if (exists (varValue)){
+			var valeurExist = false;
+			for (var o=0; o< this.options.length; o++) if (varValue === this.options[o].value){
+				this.selectedIndex = this.options[o].index;
+				valeurExist = true;
+			}
+			if (! valeurExist) setValueFromName (this.name, this.value);
+			this.addEventListener ('change', function (event){
+				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.options [event.target.selectedIndex].value);
+				var callback = this.getAttribute ('callback');
+				if (exists (callback)) window [callback] (event.target.options [event.target.selectedIndex].value);
+				dpLoad();
+			});
+}}}
 HTMLInputElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
@@ -119,8 +154,8 @@ HTMLInputElement.prototype.printOne = function(){
 			if (varValue.constructor.name == 'Array') this.setAttribute ('value', varValue[0]);
 			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
 			this.addEventListener ('change', function (event){
-				setValueFromName (event.target.name, event.target.value);
 				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.value);
 				dpLoad();
 			});
 }}}
@@ -134,6 +169,8 @@ function dpLoad(){
 	}
 	// affichage des inputs
 	var inputList = document.getElementsByTagName ('input');
+	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
+	var inputList = document.getElementsByTagName ('select');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
 	inputList = document.getElementsByTagName ('textarea');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
