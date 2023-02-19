@@ -1,7 +1,11 @@
-var pathAdd ="";
-var pathPut ="";
-var pathDel ="";
-var pathGet ="";
+const pathLocal = 'http://localhost/site-dp/pwa/depense/php/';
+const pathOvh = 'https://deborah-powers.fr/pwa/depense/php/';
+const pathApp = pathLocal;
+
+const pathAdd = pathApp + 'add.php?';
+const pathPut = pathApp + 'put.php?';
+const pathDel = pathApp + 'del.php?id=';
+const pathGet = pathApp + 'get.php';
 var idNew =1;
 
 function setIdNew (items){
@@ -22,19 +26,9 @@ itemToUrl = function (url, item){
 	urlItem = encodeURI (urlItem);
 	return urlItem;
 }
-function createConnectionOdb (pathApp){
-	// les fichiers php doivent être adaptés à l'application
-	if (pathApp [pathApp.length -1] !='/') pathApp = pathApp +'/';
-	pathApp = pathBackend + 'pwa/' + pathApp + 'php/';
-	pathAdd = pathApp + 'add.php?';
-	pathPut = pathApp + 'put.php?';
-	pathDel = pathApp + 'del.php?';
-	pathGet = pathApp + 'get.php';
-}
 function getFromOdb (pathApp){
 	// récupère une liste d'objets
 	if (window.navigator.onLine){
-		createConnectionOdb (pathApp);
 		var xhttp = new XMLHttpRequest();
 		xhttp.open ('GET', pathGet, false);
 		xhttp.send();
@@ -68,7 +62,7 @@ function sendToOdbAdd (item){
 }
 function sendToOdbUpd (backUrl, item){
 	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', itemToUrl (pathPut), false);
+	xhttp.open ('GET', itemToUrl (pathPut, item), false);
 	xhttp.send (item);
 	if (xhttp.status ==0 || xhttp.status ==200){
 		console.log ("la modification de l'objet a réussi", item.id);
@@ -78,7 +72,7 @@ function sendToOdbUpd (backUrl, item){
 }
 function sendToOdbDel (backUrl, itemId){
 	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', itemToUrl (pathDel), false);
+	xhttp.open ('GET', pathDel + itemId, false);
 	xhttp.send (item);
 	if (xhttp.status ==0 || xhttp.status ==200) console.log ("la suppression de l'objet a réussi", itemId);
 	else console.log ("la suppression de l'objet a réussi", itemId);
@@ -89,7 +83,6 @@ function sendToOdb (pathApp, items){
 	window.addEventListener ('offline', function(){ pConnection.innerHTML = 'la connection internet vient de se fermer'; });
 	*/
 	if (window.navigator.onLine){
-		createConnectionOdb (pathApp);
 		for (var i=0; i< items.length; i++){
 			if (items[i].etat == undefined){
 				createItem (items[i]);

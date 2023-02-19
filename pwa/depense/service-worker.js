@@ -8,7 +8,12 @@ const filesToCache =[
 	'/pwa/depense/static/library.js',
 	'/pwa/depense/static/dynaPlay.js',
 	'/pwa/depense/static/perso.css',
-	'/pwa/depense/static/structure.css'
+	'/pwa/depense/static/structure.css',
+	'/pwa/depense/php/',
+	'/pwa/depense/php/get.php',
+	'/pwa/depense/php/add.php',
+	'/pwa/depense/php/put.php',
+	'/pwa/depense/php/del.php',
 ];
 // mettre en cache le contenu de l'app
 self.addEventListener ('install', function (event){

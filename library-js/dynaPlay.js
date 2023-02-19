@@ -7,6 +7,7 @@ function exists (object){
 	else if (typeof (object) == 'string' && (object.length ===0 || object ==="" || " \n\r\t".includes (object))) return false;
 	else return true;
 }
+Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
 function getValueFromName (varName){
 	var varValue = null;
 	if (! varName.includes ('.')) varValue = window[varName];

@@ -111,16 +111,38 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 		for (var a=0; a< this.attributes.length; a++) if (this.attributes[a].value.includes ('((' + varName + '))'))
 			this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', varValue);
 }}
+HTMLTextAreaElement.prototype.printOne = function(){
+	if (exists (this.name)){
+		var varValue = getValueFromName (this.name);
+		if (exists (varValue)){
+			console.log ('titti');
+			this.innerHTML ="";
+			if (varValue.constructor.name == 'Array')
+				for (var v=0; v< varValue.length; v++) this.innerHTML = this.innerHTML + varValue[v] +'\n';
+			else if (varValue.constructor.name == 'Object')
+				for (var v in varValue) this.innerHTML = this.innerHTML +v+': '+ varValue[v] +'\n';
+			else this.innerHTML = varValue;
+			this.addEventListener ('change', function (event){
+				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.innerHTML);
+				dpLoad();
+			});
+}}}
 HTMLSelectElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
 		if (exists (varValue)){
-			setValueFromName (this.name, this.value);
+			var valeurExist = false;
+			for (var o=0; o< this.options.length; o++) if (varValue === this.options[o].value){
+				this.selectedIndex = this.options[o].index;
+				valeurExist = true;
+			}
+			if (! valeurExist) setValueFromName (this.name, this.value);
 			this.addEventListener ('change', function (event){
-				setValueFromName (event.target.name, event.target.value);
-			/*	document.body.innerHTML = bodyTemplate;
+				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.options [event.target.selectedIndex].value);
 				dpLoad();
-			*/});
+			});
 }}}
 HTMLInputElement.prototype.printOne = function(){
 	if (exists (this.name)){
@@ -129,10 +151,10 @@ HTMLInputElement.prototype.printOne = function(){
 			if (varValue.constructor.name == 'Array') this.setAttribute ('value', varValue[0]);
 			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
 			this.addEventListener ('change', function (event){
+				document.body.innerHTML = bodyTemplate;
 				setValueFromName (event.target.name, event.target.value);
-			/*	document.body.innerHTML = bodyTemplate;
 				dpLoad();
-			*/});
+			});
 }}}
 function dpLoad(){
 	// affichage des listes
@@ -198,10 +220,5 @@ function dpInit(){
 		varValue = getValueFromName (varName);
 		if (varListText.indexOf (varName) <0 && exists (varValue)) varListText.push (varName);
 	}
-	var reloadButtons = document.getElementsByClassName ('dp-reload');
-	for (var v=0; v< reloadButtons.length; v++) reloadButtons[v].addEventListener ('change', function (event){
-		document.body.innerHTML = bodyTemplate;
-		dpLoad();
-	});
 	dpLoad();
 }
