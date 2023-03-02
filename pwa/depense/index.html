@@ -61,7 +61,6 @@
 		<tr><th>date</th><th>lieu</th><th>catégorie</th><th>montant</th><th>commentaire</th></tr>
 		<tr list='depenseList'><td>(( date ))</td><td>(( lieu ))</td><td>(( categorie ))</td><td>(( montant ))</td><td class='large'>(( commentaire ))</td></tr>
 	</table -->
-	<button onclick='sauverModif()'>enregistrer vos modifs</button>
 	<button id='install-pwa'>installer l'application</button>
 	<script type='text/javascript' src='service-launcher.js'></script>
 	<script type='text/javascript'>
@@ -101,6 +100,7 @@ function nouvelleValeur (nom){
 function entrerDepense(){
 	if (depCateg === 'o') depCateg = depCategSel;
 	if (depLieu === 'o') depLieu = depLieuSel;
+	addToIdb ({ date: depDate, montant: depMontant, lieu: depLieu, categorie: depCateg, commentaire: depComm });
 	depenseList.push ({ date: depDate, montant: depMontant, lieu: depLieu, categorie: depCateg, commentaire: depComm });
 	depenseList.sort (trierDepenses);
 	depDate = new Date().toStringPerso();
@@ -109,16 +109,24 @@ function entrerDepense(){
 	document.body.innerHTML = bodyTemplate;
 	dpLoad();
 }
-function sauverModif(){
-	sendToIdb (databaseName, depenseList,
-		function(){ sendToOdb (databaseName, depenseList); });
-}
 function afficherDepenses (depList){
 	depenseList =[];
 	for (var d=0; d< depList.length; d++) depenseList.push (depList[d]);
 	document.body.innerHTML = bodyTemplate;
 	dpLoad();
 }
-getFromIdb (databaseName, afficherDepenses);
+function insererDepense (nvDepense){
+	if (nvDepense.etat === 'new') depenseList.push (nvDepense);
+	else if (nvDepense.etat === 'upd') for (var d=0; d< depenseList.length; d++) if (depenseList[d].id === nvDepense.id){
+		depenseList[d].date = nvDepense.date;
+		depenseList[d].lieu = nvDepense.lieu;
+		depenseList[d].categorie = nvDepense.categorie;
+		depenseList[d].montant = nvDepense.montant;
+		depenseList[d].commentaire = nvDepense.commentaire;
+	}
+	document.body.innerHTML = bodyTemplate;
+	dpLoad();
+}
+getFromIdb (afficherDepenses);
 	</script>
 </body></html>

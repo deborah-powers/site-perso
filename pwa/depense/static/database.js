@@ -1,20 +1,19 @@
-const pathLocal = 'http://localhost/site-dp/pwa/depense/php/';
-const pathOvh = 'https://deborah-powers.fr/pwa/depense/php/';
+const databaseName = 'depense';
+
+const pathLocal = 'http://localhost/site-dp/pwa/' + databaseName + '/php/';
+const pathOvh = 'https://deborah-powers.fr/pwa/' + databaseName + '/php/';
 const pathApp = pathOvh;
 
 const pathAdd = pathApp + 'add.php?';
-const pathPut = pathApp + 'put.php?';
 const pathDel = pathApp + 'del.php?id=';
 const pathGet = pathApp + 'get.php';
-var idNew =1;
 
-function setIdNew (items){
-	for (var i=0; i< items.length; i++) if (items[i].id > idNew) idNew = items[i].id;
-}
+const idbBase = databaseName + '_db';
+const idbStore = databaseName + '_store';
+
 function createItem (item){
 	item['etat'] = 'new';
-	item['id'] = idNew;
-	idNew = idNew +1;
+	item['id'] = new Date().getTime();
 }
 itemToUrl = function (url, item){
 	var urlItem = url;
@@ -100,14 +99,39 @@ function sendToOdb (pathApp, items){
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: 'readwrite'};
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+if (! window.indexedDB) console.log ('votre navigateur ne supporte pas indexedDB, vos données ne seront pas conservées dans votre téléphone');
+
+function addToIdb (item){
+	if (window.indexedDB){
+		const request = window.indexedDB.open (idbBase, 3);
+		request.onerror = function(){ console.log ('erreur de chargement de la base de donnée locale'); };
+		request.onsuccess = function (event){
+			const store = event.target.result.transaction ([idbStore], 'readwrite').objectStore (idbStore);
+			item['etat'] = 'new';
+			item['id'] = new Date().getTime();
+			const request = store.add (item);
+			request.onerror = function(){ console.log ("l'insertion de l'objet a échoué", item.id); };
+			request.onsuccess = function(){ console.log ("l'insertion de l'objet a réussi", item.id); };
+}}}
+function updToIdb (item){
+	if (window.indexedDB){
+		const request = window.indexedDB.open (idbBase, 3);
+		request.onerror = function(){ console.log ('erreur de chargement de la base de donnée locale'); };
+		request.onsuccess = function (event){
+			const store = event.target.result.transaction ([idbStore], 'readwrite').objectStore (idbStore);
+			item['etat'] = 'upd';
+			const request = store.put (item);
+			request.onerror = function(){ console.log ("la modification de l'objet a échouée", item.id); };
+			request.onsuccess = function(){ console.log ("la modification de l'objet a réussi", item.id); };
+}}}
 
 function sendToIdb (databaseName, items, callback){
 	// item ={ id: 0, etat: 'new (del, upd, get)', autresChamps }
 	if (window.indexedDB){
-		const request = window.indexedDB.open (databaseName +'_db', 3);
+		const request = window.indexedDB.open (idbBase, 3);
 		request.onerror = function(){ console.log ('erreur de chargement de la base de donnée locale'); };
 		request.onsuccess = function (event){
-			const store = event.target.result.transaction ([databaseName +'_store'], 'readwrite').objectStore (databaseName +'_store');
+			const store = event.target.result.transaction ([idbStore], 'readwrite').objectStore (idbStore);
 			for (var i=0; i< items.length; i++){
 				if (items[i].etat == undefined) createItem (items[i]);
 				const itemId = items[i].id;
@@ -131,21 +155,19 @@ function sendToIdb (databaseName, items, callback){
 		request.onupgradeneeded = function (event){
 			const database = event.target.result;
 			database.onerror = function(){ console.log ('erreur de chargement de la base de donnée locale'); };
-			const store = database.createObjectStore (databaseName +'_store', { keyPath: 'id' });
-	}}
-	else console.log ('votre navigateur ne supporte pas indexedDB');
-}
-function getFromIdb (databaseName, callback){
+			const store = database.createObjectStore (idbStore, { keyPath: 'id' });
+}}}
+function getFromIdb (callback){
 	var items =[];
 	if (window.indexedDB){
-		const request = window.indexedDB.open (databaseName +'_db', 3);
+		const request = window.indexedDB.open (idbBase, 3);
 		request.onerror = function (event){
 			console.log ('erreur de chargement de la base de donnée locale');
 			items = getFromOdb (databaseName);
 			callback (items);
 		};
 		request.onsuccess = function (event){
-			const store = event.target.result.transaction ([databaseName +'_store'], 'readonly').objectStore (databaseName +'_store');
+			const store = event.target.result.transaction ([idbStore], 'readonly').objectStore (idbStore);
 			store.onsuccess = function (event){ console.log ("la récupération de la liste objets à réussi"); };
 			store.onerror = function (event){ console.log ("la récupération de la liste objets à échouée"); };
 			store.openCursor().onsuccess = function (event){
@@ -166,7 +188,7 @@ function getFromIdb (databaseName, callback){
 		request.onupgradeneeded = function (event){
 			const database = event.target.result;
 			database.onerror = function(){ console.log ('erreur de chargement de la base de donnée locale'); };
-			const objectStore = database.createObjectStore (databaseName +'_store', { keyPath: 'id' });
+			const objectStore = database.createObjectStore (idbStore, { keyPath: 'id' });
 		//	getFromIdb (databaseName, callback);
 	}}
 	else{
