@@ -1,8 +1,7 @@
 <?php
 include ('../../../library-php/dbCommon.php');
 
-$id = $_GET['id'];
-$sql = "select * from $base.depense where id=$id;";
+$sql = "select * from $base.depense;";
 $result = $connection->query ($sql);
 
 $resJson =[];
@@ -14,5 +13,5 @@ while ($row = $result->fetch_assoc()) $resJson[] =[
 	'montant' => $row['montant'],
 	'commentaire' => $row['commentaire']
 ];
-echo json_encode ($resJson[0]);
+echo json_encode ($resJson);
 ?>
