@@ -45,17 +45,18 @@ if (! window.indexedDB) console.log ('votre navigateur ne supporte pas indexedDB
 function connectIdb (callback){
 	if (window.indexedDB){
 		const request = window.indexedDB.open (idbBase, 4);
-		request.onerror = function (event){ console.log ('erreur de chargement de la base de donnée locale'); };
+		request.onerror = function (event){ console.log ('erreur de chargement de la base de donnée locale:', event.target.error); };
 		request.onsuccess = function (event){ callback (event.target.result); };
 		request.onupgradeneeded = function (event){
 			const database = event.target.result;
-			database.onerror = function (event){ console.log ('erreur de chargement de la base de donnée locale'); };
+			database.onerror = function (event){ console.log ('erreur de chargement de la base de donnée locale:', event.target.error); };
 			// const objectStore = database.createObjectStore (idbStore, { autoIncrement: true });
 			const objectStore = database.createObjectStore (idbStore, {keyPath: 'id'});
 			const objectStoreDel = database.createObjectStore (idbStoreDeleted, {keyPath: 'id'});
 			connectIdb (callback);
 }}}
 function addToIdb (item, callback){
+	console.log (callback);
 	function connectionCallback (database){
 		if (! exists (item['id'])){
 			item['id'] = new Date().getTime();
@@ -80,12 +81,7 @@ function putToIdb (item, callback){
 }
 function delFromIdb (itemId){
 	function connectionCallback (database){
-		/*
-		const transaction = database.transaction ([idbStore, idbStoreDeleted], 'readwrite');
-		const request = transaction.objectStore (idbStore).delete (itemId);
-		const requestBis = transaction.objectStore (idbStoreDeleted).add ({ id: itemId });
-		*/
-		const request = database.transaction ([idbStore, idbStoreDeleted], 'readwrite').objectStore (idbStore).delete (itemId);
+		const request = database.transaction ([idbStore], 'readwrite').objectStore (idbStore).delete (itemId);
 		request.onerror = function (event){ console.log ("la suppression de l'objet "+ itemId +' à échouée'); };
 		request.onsuccess = function (event){ console.log ("la suppression de l'objet "+ itemId +' à réussie'); };
 		const requestBis = database.transaction ([idbStoreDeleted], 'readwrite').objectStore (idbStoreDeleted).add ({ id: itemId });
@@ -120,12 +116,12 @@ function get (itemId, callback){
 				if (xhttp.status ==0 || xhttp.status ==200){
 					var item = JSON.parse (this.responseText);
 					item['etat'] = 'get';
-					console.log (callback);
 					addToIdb (item, callback);
 			}}	else console.log ("la récupération de l'objet "+ itemId +' à échouée');
 	};}	connectIdb (connectionCallback);
 }
-function getList (callback){
+function getList (callback, sorter){
+	// sorter est une fonction permettant de sélectionner ou d'écarter certains items. elle renvoi un bouléen.
 	function connectionCallback (database){
 		var itemList =[];
 		var store = database.transaction (idbStore).objectStore (idbStore);
@@ -133,20 +129,22 @@ function getList (callback){
 		store.openCursor().onsuccess = function (event){
 			var cursor = event.target.result;
 			if (cursor){
-				itemList.push (cursor.value);
+				if (sorter && sorter (cursor.value)) itemList.push (cursor.value);
+				else if (! sorter) itemList.push (cursor.value);
 				cursor.continue();
 			}
-			else if (! exists (itemList)) if (window.navigator.onLine){
-				const xhttp = new XMLHttpRequest();
-				xhttp.open ('GET', pathList, false);
-				xhttp.send();
-				if (xhttp.status ==0 || xhttp.status ==200){
-					itemList = JSON.parse (this.responseText);
-					for (var i=0; i< itemList.length; i++){
-						itemList[i]['etat'] = 'get';
-						addToIdb (itemList[i], null);
-					}
-					if (callback) callback (itemList);
-			}}	else if (callback) callback (itemList);
+			else if (callback){
+				if (! exists (itemList) && window.navigator.onLine){
+					const xhttp = new XMLHttpRequest();
+					xhttp.open ('GET', pathList, false);
+					xhttp.send();
+					if (xhttp.status ==0 || xhttp.status ==200){
+						itemList = JSON.parse (this.responseText);
+						for (var i=0; i< itemList.length; i++){
+							itemList[i]['etat'] = 'get';
+							addToIdb (itemList[i], null);
+				}}}
+				callback (itemList);
+			}
 	}}	connectIdb (connectionCallback);
 }

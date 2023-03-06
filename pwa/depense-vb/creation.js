@@ -29,7 +29,7 @@ if (params['id']){
 	get (id, setData);
 }
 dpInit();
-sendOnline();
+// sendOnline();
 
 function nouvelleValeur (nom, affiche){
 	const selector = document.getElementById ('select-' + nom);
@@ -38,13 +38,16 @@ function nouvelleValeur (nom, affiche){
 		document.getElementById ('champ-' + nom).style.display = 'block';
 }}
 function entrerDepense(){
+	console.log ('coco', id);
 	if (depCateg === 'o' || ! exists (depCateg)) depCateg = depCategSel;
 	if (depLieu === 'o' || ! exists (depLieu)) depLieu = depLieuSel;
 	if (id) putToIdb ({ date: depDate, montant: depMontant, lieu: depLieu, categorie: depCateg, commentaire: depComm, id: id }, returnToPage);
 	else addToIdb ({ date: depDate, montant: depMontant, lieu: depLieu, categorie: depCateg, commentaire: depComm }, returnToPage);
+	/*
 	depDate = new Date().toStringPerso();
 	depLieu ="";
 	depCateg ="";
 	document.body.innerHTML = bodyTemplate;
 	dpLoad();
+	*/
 }
