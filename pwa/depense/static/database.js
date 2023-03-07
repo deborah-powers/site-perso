@@ -8,7 +8,7 @@ const pathOvh = 'https://deborah-powers.fr/pwa/' + databaseName + '/php/';
 const pathApp = pathLocal;
 
 const pathAdd = pathApp + 'add.php?';
-const pathDel = pathApp + 'del.php?id=';
+const pathDel = pathApp + 'del.php?ids=';
 const pathGet = pathApp + 'get.php?id=';
 const pathList = pathApp + 'list.php';
 
@@ -45,79 +45,118 @@ if (! window.indexedDB) console.log ('votre navigateur ne supporte pas indexedDB
 function connectIdb (callback){
 	if (window.indexedDB){
 		const request = window.indexedDB.open (idbBase, 4);
-		request.onerror = function (event){ console.log ('erreur de chargement de la base de donnée locale:', event.target.error); };
+		request.onerror = function (event){ console.log ('idb ko:', event.target.error); };
 		request.onsuccess = function (event){ callback (event.target.result); };
 		request.onupgradeneeded = function (event){
 			const database = event.target.result;
-			database.onerror = function (event){ console.log ('erreur de chargement de la base de donnée locale:', event.target.error); };
+			database.onerror = function (event){ console.log ('idb ko:', event.target.error); };
 			// const objectStore = database.createObjectStore (idbStore, { autoIncrement: true });
 			const objectStore = database.createObjectStore (idbStore, {keyPath: 'id'});
 			const objectStoreDel = database.createObjectStore (idbStoreDeleted, {keyPath: 'id'});
 			connectIdb (callback);
 }}}
 function addToIdb (item, callback){
-	console.log (callback);
 	function connectionCallback (database){
 		if (! exists (item['id'])){
 			item['id'] = new Date().getTime();
 			item['etat'] = 'new';
 		}
+		else if (typeof (item.id) === 'string') item.id = parseInt (item.id);
 		const request = database.transaction ([idbStore], 'readwrite').objectStore (idbStore).add (item);
-		request.onerror = function (event){ console.log ("l'insertion de l'objet à échouée", item); };
-		request.onsuccess = function(){ callback (request.result); };
+		request.onerror = function (event){ console.log ("idb create ko", item, event.target.error); };
+		request.onsuccess = function(){ if (callback) callback (request.result); };
 	}
 	connectIdb (connectionCallback);
 }
 function putToIdb (item, callback){
 	function connectionCallback (database){
 		const request = database.transaction ([idbStore], 'readwrite').objectStore (idbStore).put (item);
-		request.onerror = function (event){ console.log ("la modification de l'objet à échouée", item); };
+		request.onerror = function (event){ console.log ("idb update ko", item, event.target.error); };
 		request.onsuccess = function(){
 			request.result.etat = 'upd';
 			if (callback) callback (request.result);
-		};
-	}
+	};}
 	connectIdb (connectionCallback);
 }
 function delFromIdb (itemId){
 	function connectionCallback (database){
 		const request = database.transaction ([idbStore], 'readwrite').objectStore (idbStore).delete (itemId);
-		request.onerror = function (event){ console.log ("la suppression de l'objet "+ itemId +' à échouée'); };
-		request.onsuccess = function (event){ console.log ("la suppression de l'objet "+ itemId +' à réussie'); };
+		request.onerror = function (event){ console.log ("idb delete ko "+ itemId, event.target.error); };
+		request.onsuccess = function (event){
+			const requestBis = database.transaction ([idbStoreDeleted], 'readwrite').objectStore (idbStoreDeleted).add ({ id: itemId });
+			requestBis.onerror = function (event){ console.log ("idb delete ko "+ itemId, event.target.error); };
+			requestBis.onsuccess = function (event){ console.log ("idb delete ok "+ itemId); };
+		}; /*
 		const requestBis = database.transaction ([idbStoreDeleted], 'readwrite').objectStore (idbStoreDeleted).add ({ id: itemId });
-		requestBis.onerror = function (event){ console.log ("la suppression de l'objet "+ itemId +' à échouée'); };
-		requestBis.onsuccess = function (event){ console.log ("la suppression de l'objet "+ itemId +' à réussie'); };
+		requestBis.onerror = function (event){ console.log ("idb delete ko "+ itemId, event.target.error); };
+		requestBis.onsuccess = function (event){ console.log ("idb delete ok "+ itemId); };
+		*/
 	}
 	connectIdb (connectionCallback);
 }
 function sendOnline(){
+	if (! window.navigator.onLine){
+		console.log ('connection ko');
+		return;
+	}
 	function getDeletedId (database){
 		var itemList =[];
-		var store = database.transaction (idbStoreDeleted).objectStore (idbStoreDeleted);
-		store.onerror = function (event){ console.log ("la récupération de la liste objets à échouée"); };
+		const store = database.transaction ([idbStoreDeleted], 'readwrite').objectStore (idbStoreDeleted);
+		store.onerror = function (event){ console.log ("idb list ko", event.target.error); };
 		store.openCursor().onsuccess = function (event){
 			var cursor = event.target.result;
 			if (cursor){
 				itemList.push (cursor.value);
 				cursor.continue();
 			}
-			else console.log (itemList);
+			else if (itemList){
+				var ids ="";
+				for (var d=0; d< itemList.length; d++) ids = ids +','+ itemList[d].id;
+				ids = ids.slice (1);
+				const xhttp = new XMLHttpRequest();
+				xhttp.open ('GET', pathDel + ids, false);
+				xhttp.send();
+				const requestBis = database.transaction ([idbStoreDeleted], 'readwrite').objectStore (idbStoreDeleted).clear();
+				requestBis.onerror = function (event){ console.log ("odb delete ko", event.target.error); };
+				requestBis.onsuccess = function (event){ console.log ("odb delete ok"); };
+			}
 	}}	connectIdb (getDeletedId);
+	function addNewitems (database){
+		var itemList =[];
+		var store = database.transaction (idbStore).objectStore (idbStore);
+		store.onerror = function (event){ console.log ("idb retrieve list ko", event.target.error); };
+		store.openCursor().onsuccess = function (event){
+			var cursor = event.target.result;
+			if (cursor){
+				if ('new upd'.includes (cursor.value.etat)) itemList.push (cursor.value);
+				cursor.continue();
+			}
+			else{
+				const xhttp = new XMLHttpRequest();
+				var newUrl ="";
+				for (var i=0; i< itemList.length; i++){}
+				newUrl = itemToUrl (itemList[i], pathAdd);
+				xhttp.open ('GET', newUrl, false);
+				xhttp.send();
+				itemList[i].etat = 'get';
+				putToIdb (itemList[i], null);
+			}
+	}}	connectIdb (addNewitems);
 }
 function get (itemId, callback){
 	function connectionCallback (database){
 		const request = database.transaction ([idbStore], 'readonly').objectStore (idbStore).get (itemId);
-		request.onsuccess = function(){ callback (request.result); };
+		request.onsuccess = function (event){ if (callback) callback (event.target.result); };
 		request.onerror = function (event){
 			if (window.navigator.onLine){
 				const xhttp = new XMLHttpRequest();
 				xhttp.open ('GET', pathGet + itemId, false);
 				xhttp.send();
 				if (xhttp.status ==0 || xhttp.status ==200){
-					var item = JSON.parse (this.responseText);
+					var item = JSON.parse (xhttp.responseText);
 					item['etat'] = 'get';
 					addToIdb (item, callback);
-			}}	else console.log ("la récupération de l'objet "+ itemId +' à échouée');
+			}}	else console.log ("idb retrieve ko "+ itemId, event.target.error);
 	};}	connectIdb (connectionCallback);
 }
 function getList (callback, sorter){
@@ -125,7 +164,7 @@ function getList (callback, sorter){
 	function connectionCallback (database){
 		var itemList =[];
 		var store = database.transaction (idbStore).objectStore (idbStore);
-		store.onerror = function (event){ console.log ("la récupération de la liste objets à échouée"); };
+		store.onerror = function (event){ console.log ("idb retrieve list ko", event.target.error); };
 		store.openCursor().onsuccess = function (event){
 			var cursor = event.target.result;
 			if (cursor){
@@ -139,7 +178,7 @@ function getList (callback, sorter){
 					xhttp.open ('GET', pathList, false);
 					xhttp.send();
 					if (xhttp.status ==0 || xhttp.status ==200){
-						itemList = JSON.parse (this.responseText);
+						itemList = JSON.parse (xhttp.responseText);
 						for (var i=0; i< itemList.length; i++){
 							itemList[i]['etat'] = 'get';
 							addToIdb (itemList[i], null);
