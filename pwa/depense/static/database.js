@@ -179,6 +179,7 @@ function getList (callback, sorter){
 					xhttp.send();
 					if (xhttp.status ==0 || xhttp.status ==200){
 						itemList = JSON.parse (xhttp.responseText);
+						if (sorter) itemList = itemList.filter (sorter);
 						for (var i=0; i< itemList.length; i++){
 							itemList[i]['etat'] = 'get';
 							addToIdb (itemList[i], null);

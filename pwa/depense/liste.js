@@ -4,6 +4,8 @@ const today = mydate.toStringPerso();
 mydate.setDate (mydate.getDate() -7);
 const lastweek = mydate.toStringPerso();
 var depenseList =[{ date: '2023-02-14', montant: '12.4', lieu: 'paris', categorie: 'sortie', commentaire: 'ras' }];
+var total =0;
+var totalCategories ={};
 
 function trierDepenses (depenseA, depenseB){
 	if (depenseA.date < depenseB.date) return -1;
@@ -20,8 +22,17 @@ function trierDepenses (depenseA, depenseB){
 }
 function afficher (depList){
 	depenseList =[];
-	depList.sort (trierDepenses);
-	for (var d=0; d< depList.length; d++) depenseList.push (depList[d]);
+	total =0;
+	totalCategories ={}
+	if (exists (depList)){
+		depList.sort (trierDepenses);
+		for (var d=0; d< depList.length; d++){
+			depList[d].montant = parseFloat (depList[d].montant);
+			depenseList.push (depList[d]);
+			total = total + depList[d].montant;
+			if (totalCategories [depList[d].categorie]) totalCategories [depList[d].categorie] = totalCategories [depList[d].categorie] + depList[d].montant;
+			else totalCategories [depList[d].categorie] = depList[d].montant;
+	}}
 	dpInit();
 }
 function selecDay (depense){

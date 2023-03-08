@@ -49,6 +49,15 @@ HTMLElement.prototype.printList = function(){
 				for (var c in varValue[i]) nodeNew.printOne (c, varValue[i][c]);
 			}
 			for (var c in varValue[0]) this.printOne (c, varValue[0][c]);
+		}
+		else if (varValue.constructor.name == 'Object'){
+			var nodeNew = null;
+			for (var l in varValue) if (typeof (varValue[l]) != 'function'){
+				nodeNew = this.copy (true);
+				nodeNew.printOne ('key', l);
+				nodeNew.printOne ('value', varValue[l]);
+			}
+			this.remove();
 }}}
 Array.prototype.deep = function(){
 	if (this.length >0 && this[0].constructor.name == 'Array'){
@@ -79,7 +88,12 @@ HTMLElement.prototype.copy = function(){
 	return newNode;
 }
 HTMLElement.prototype.printOne = function (varName, varValue){
-	if (varValue.constructor.name == 'Array'){
+	if (! exists (varValue)){
+		this.innerHTML = this.innerHTML.replace ('(('+ varName +'))', "");
+		for (var a=0; a< this.attributes.length; a++) if (this.attributes[a].value.includes ('((' + varName + '))'))
+			this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', "");
+	}
+	else if (varValue.constructor.name == 'Array'){
 		var nodeRef = null;
 		var nodeNew = null;
 		var deep = varValue.deep();

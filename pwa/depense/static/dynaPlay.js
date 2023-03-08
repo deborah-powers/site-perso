@@ -43,12 +43,22 @@ HTMLElement.prototype.printList = function(){
 		var varValue = getValueFromName (varName);
 		this.removeAttribute ('list');
 		var nodeNew = null;
-		if (varValue.constructor.name == 'Array' && varValue[0].constructor.name == 'Object'){
+		if (! exists (varValue)) this.style.display = 'none';
+		else if (varValue.constructor.name == 'Array' && varValue[0].constructor.name == 'Object'){
 			for (var i= varValue.length -1; i>0; i--){
 				nodeNew = this.copy();
 				for (var c in varValue[i]) nodeNew.printOne (c, varValue[i][c]);
 			}
 			for (var c in varValue[0]) this.printOne (c, varValue[0][c]);
+		}
+		else if (varValue.constructor.name == 'Object'){
+			var nodeNew = null;
+			for (var l in varValue) if (typeof (varValue[l]) != 'function'){
+				nodeNew = this.copy (true);
+				nodeNew.printOne ('key', l);
+				nodeNew.printOne ('value', varValue[l]);
+			}
+			this.remove();
 }}}
 Array.prototype.deep = function(){
 	if (this.length >0 && this[0].constructor.name == 'Array'){
