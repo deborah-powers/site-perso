@@ -1,3 +1,10 @@
+/*
+utilisation: dpInit() ou dpLoad()
+
+la condition
+<p if='condiTrue'>coucou</p>
+<p if='1===2'>doudou</p>
+*/
 var bodyTemplate = "";
 var varListText =[];
 
@@ -43,7 +50,8 @@ HTMLElement.prototype.printList = function(){
 		var varValue = getValueFromName (varName);
 		this.removeAttribute ('list');
 		var nodeNew = null;
-		if (varValue.constructor.name == 'Array' && varValue[0].constructor.name == 'Object'){
+		if (! exists (varValue)) this.style.display = 'none';
+		else if (varValue.constructor.name == 'Array' && varValue[0].constructor.name == 'Object'){
 			for (var i= varValue.length -1; i>0; i--){
 				nodeNew = this.copy();
 				for (var c in varValue[i]) nodeNew.printOne (c, varValue[i][c]);
@@ -129,8 +137,6 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 HTMLTextAreaElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
-		if (exists (varValue)){
-			console.log ('titti');
 			this.innerHTML ="";
 			if (varValue.constructor.name == 'Array')
 				for (var v=0; v< varValue.length; v++) this.innerHTML = this.innerHTML + varValue[v] +'\n';
@@ -142,11 +148,10 @@ HTMLTextAreaElement.prototype.printOne = function(){
 				setValueFromName (event.target.name, event.target.innerHTML);
 				dpLoad();
 			});
-}}}
+}}
 HTMLSelectElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
-		if (exists (varValue)){
 			var valeurExist = false;
 			for (var o=0; o< this.options.length; o++) if (varValue === this.options[o].value){
 				this.selectedIndex = this.options[o].index;
@@ -160,11 +165,10 @@ HTMLSelectElement.prototype.printOne = function(){
 				if (exists (callback)) window [callback] (event.target.options [event.target.selectedIndex].value);
 				dpLoad();
 			});
-}}}
+}}
 HTMLInputElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
-		if (exists (varValue)){
 			if (varValue.constructor.name == 'Array') this.setAttribute ('value', varValue[0]);
 			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
 			this.addEventListener ('change', function (event){
@@ -172,8 +176,17 @@ HTMLInputElement.prototype.printOne = function(){
 				setValueFromName (event.target.name, event.target.value);
 				dpLoad();
 			});
-}}}
+}}
+HTMLElement.prototype.printCondition = function(){
+	if (this.getAttribute ('if')){
+		var printBlock = eval (this.getAttribute ('if'));
+		if (printBlock) for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
+		else this.style.display = 'none';
+	}
+	else if (this.innerHTML.includes ('if=')) for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
+}
 function dpLoad(){
+	document.body.printCondition();
 	// affichage des listes
 	for (var v=0; v< document.body.children.length; v++) document.body.children[v].printList();
 	// affichage basique
@@ -189,7 +202,6 @@ function dpLoad(){
 	inputList = document.getElementsByTagName ('textarea');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
 }
-
 String.prototype.replace = function (wordOld, wordNew){
 	if (this.indexOf (wordOld) >=0){
 		if (! wordNew) wordNew ="";
@@ -235,7 +247,7 @@ function dpInit(){
 		f= bodyTmp[v].indexOf ('))');
 		varName = bodyTmp[v].slice (0,f);
 		varValue = getValueFromName (varName);
-		if (varListText.indexOf (varName) <0 && exists (varValue)) varListText.push (varName);
+		if (varListText.indexOf (varName) <0) varListText.push (varName);
 	}
 	dpLoad();
 }
