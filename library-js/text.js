@@ -153,7 +153,7 @@ String.prototype.toHtml = function(){
 	var text = this.clean();
 	text = '<p>'+ text +'</p>';
 	var toReplace =[ ['\n', '</p><p>'], ['<p>====== ', '<h1>'], [' ======</p>', '</h1>'], ['<p>****** ', '<h2>'], [' ******</p>', '</h2>'], ['<p>------ ', '<h3>'], [' ------</p>', '</h3>' ],
-		['<p>http', "<p><a href='http"], ['<p>\t', '<li>'], ['<p>======</p>', '<hr>'], ['<p>******</p>', '<hr>']];
+		['<p>http', "<p><a href='http"], ['<p>\t', '<li>'], ['<p>======</p>', '<hr/>'], ['<p>******</p>', '<hr/>']];
 	for (var r=0; r< toReplace.length; r++) text = text.replace (toReplace[r][0], toReplace[r][1]);
 	// les liens
 	var linkList = text.split ('<a href=');
