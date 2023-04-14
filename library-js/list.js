@@ -28,8 +28,16 @@ Array.prototype.contain = function (item){
 	if (pos >=0) return true;
 	else return false;
 }
+Array.prototype.countAll = function(){
+	let dicoNb ={};
+	this.foreach (item =>{
+		if (! dicoNb[item] || dicoNb[item] === undefined) dicoNb[item] =1;
+		else dicoNb[item] = dicoNb[item] +1;
+	});
+	return dicoNb;
+}
 Array.prototype.count = function (item) {
-	if (! this.contain (item)) return 0;
+	if (! this.includes (item)) return 0;
 	var pos =-1, nb=-1;
 	while (pos >=0){
 		pos +=1; nb +=1;

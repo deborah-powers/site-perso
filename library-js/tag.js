@@ -10,6 +10,17 @@ function exists (object){
 	}
 	else return true;
 }
+HTMLElement.prototype.getById = function (id){
+	let pos =-1;
+	for (var i=0; i< this.children.lenght; i++) if (this.children[i].id === id) pos =i;
+	if (pos <0) return null;
+	else return this.children[pos];
+}
+HTMLElement.prototype.getByTag = function (tagName){
+	let items =[];
+	for (var i=0; i< this.children.lenght; i++) if (this.children[i].tagName === tagName) items.push (this.children[i]);
+	return items;
+}
 function createNodeSimple (tag, parent){
 	var newElement = document.createElement (tag);
 	if (exists (parent)){
