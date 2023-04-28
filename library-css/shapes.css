@@ -59,12 +59,15 @@ dépend de structure.css
 	height: 3em;
 	text-align: center;
 	background-color: var(--fond-color);
+	border-style: none;
 	mask-repeat: no-repeat;
 	mask-position: center;
 	mask-size: contain;
 }
-.arrow { clip-path: polygon(0% 50%, 50% 0%, 100% 0%, 50% 50%, 100% 100%, 50% 100%); }
-.arrow.right { transform: scaleX(-1); }
+.arrow-left { clip-path: polygon(0% 50%, 50% 0%, 100% 0%, 50% 50%, 100% 100%, 50% 100%); }
+.arrow-left.reverse { transform: scaleX(-1); }
+.outline.arrow-up { clip-path: polygon(50% 0%, 100% 30%, 70% 30%, 70% 100%, 30% 100%, 30% 30%, 0% 30%, 50% 0%); }
+.outline.arrow-up.reverse { transform: scaleX(-1); }
 .cross {
 	background-image:
 		linear-gradient(45deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%),
