@@ -117,6 +117,16 @@ paramFromUrl = function (url){
 	}
 	return params;
 }
+Location.prototype.getParams = function(){
+	let params ={};
+	if (this.search && this.search.length >1){
+		let queryStr = this.search.slice (1, this.search.length);
+		queryStr = queryStr.replace ('=', '&')
+		const queryLst = queryStr.split ('&');
+		for (var i=0; i< queryLst.length; i=i+2) params [queryLst[i]] = queryLst[i+1];
+	}
+	return params;
+}
 function fromBackend (url, params, callback){
 	url = paramToUrl (url, params);
 	var res = fromJson (url, callback);
