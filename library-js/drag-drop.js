@@ -4,70 +4,98 @@
 	width: 60px;
 	height: 60px;
 }
-p.parentElement.setBoundaries();
-<p onmousedown='selectElement(this)'></p>
-<p onmousedown='moveElementAuto(this)'></p>
+parentElement.isContainer();
+<p class='auto'></p>
+<p class='drag'></p>
 */
-// pour l'interractivité
 var currentX =0;
 var currentY =0;
 var boundaries =[];
 
-function selectElement (paragraph){
+HTMLElement.prototype.isContainer = function(){
+	this.setBoundaries();
+	for (var i=0; i< this.children.length; i++){
+		if (this.children[i].className.includes ('drag')) this.children[i].addEventListener ('mousedown', dragSelect);
+		else if (this.children[i].className.includes ('auto')) for (var n=0; n< 10; n++) this.children[i].autoMove();
+	//	else if (this.children[i].className.includes ('auto')) this.children[i].addEventListener ('mousedown', autoMove);
+}}
+
+/* ------------------------ drag-drop ------------------------ */
+
+function dragSelect (event){
 	currentX = event.screenX;
 	currentY = event.screenY;
-	paragraph.setAttribute ('onmousemove', 'moveElement(this)');
-	paragraph.setAttribute ('onmouseup', 'deselectElement(this)');
-	paragraph.setAttribute ('onmouseout', 'deselectElement(this)');
+	event.target.setAttribute ('onmousemove', 'dragMove(this)');
+	event.target.setAttribute ('onmouseup', 'dragDrop(this)');
+	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
 }
-function deselectElement (paragraph){
+function dragDrop (paragraph){
 	paragraph.removeAttribute ('onmousemove');
 	paragraph.removeAttribute ('onmouseup');
 	paragraph.removeAttribute ('onmouseout');
 }
-function moveElement (paragraph){
+function dragMove (paragraph){
 	var dx= event.screenX - currentX;
 	var dy= event.screenY - currentY;
-	paragraph.drag (dx, dy);
+	paragraph.move (dx, dy);
 	currentX = event.screenX;
 	currentY = event.screenY;
 }
-function moveElementAuto_vb (paragraph){
-	const posX = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0]));
-	const posY = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]);
-	var dx= (posX - paragraph.offsetLeft);
-	const secMax = Math.abs (dx);
-	const dy= (posY - paragraph.offsetTop) / secMax;
-	if (dx <0) dx =-1;
-	else if (dx >0) dx =1;
-	let secNb = 0;
+/* ------------------------ déplacement autonome ------------------------ */
+
+HTMLElement.prototype.autoMove = function(){
+	var dx = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0])) - this.offsetLeft;
+	var dy = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]) - this.offsetTop;
+	console.log (dx, this.offsetLeft, dy, this.offsetTop);
+	dx= dx /60;
+	dy= dy /60;
+	var secNb = 0;
+	var self = this;
 	function animate(){
 		secNb +=1;
-		paragraph.drag (dx, dy);
-		if (secNb < secMax) requestAnimationFrame (animate);
-	}
-	animate();
-}
-function moveElementAuto (paragraph){
-	const posX = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0]));
-	const posY = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]);
-	const dx= (posX - paragraph.offsetLeft) /60;
-	const dy= (posY - paragraph.offsetTop) /60;
-	let secNb = 0;
-	function animate(){
-		secNb +=1;
-		paragraph.drag (dx,dy);
+		self.move (dx,dy);
 		if (secNb <60) requestAnimationFrame (animate);
 	}
 	animate();
 }
-HTMLElement.prototype.drag = function (dx, dy){
+function autoMove (event){
+	var dx = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0])) - event.target.offsetLeft;
+	var dy = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]) - event.target.offsetTop;
+	const secMax = Math.abs (dx);
+	dy = dy / secMax;
+	if (dx <0) dx =-1;
+	else if (dx >0) dx =1;
+	var secNb = 0;
+	function animate(){
+		secNb +=1;
+		event.target.move (dx, dy);
+		if (secNb < secMax) requestAnimationFrame (animate);
+	}
+	animate();
+}
+function autoMove_va (event){
+	var dx = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0])) - event.target.offsetLeft;
+	var dy = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]) - event.target.offsetTop;
+	dx= dx /60;
+	dy= dy /60;
+	let secNb = 0;
+	function animate(){
+		secNb +=1;
+		event.target.move (dx,dy);
+		if (secNb <60) requestAnimationFrame (animate);
+	}
+	animate();
+}
+/* ------------------------ fonctions communes ------------------------ */
+
+HTMLElement.prototype.move = function (dx, dy){
 	dx = this.offsetLeft + dx;
 	dy = this.offsetTop + dy;
 	var pos = this.senseObstacle (dx, dy);
 	pos = this.senseBoundaries (pos[0], pos[1]);
 	this.style.left = pos[0] + 'px';
 	this.style.top = pos[1] + 'px';
+	this.style.animationName = 'moving-heart';
 }
 String.prototype.fromPxToNb = function(){
 	// nbStr = 12px
