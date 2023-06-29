@@ -17,7 +17,7 @@ HTMLElement.prototype.isContainer = function(){
 	for (var i=0; i< this.children.length; i++){
 		if (this.children[i].className.includes ('drag')) this.children[i].addEventListener ('mousedown', dragSelect);
 		else if (this.children[i].className.includes ('auto')) for (var n=0; n< 10; n++) this.children[i].autoMove();
-	//	else if (this.children[i].className.includes ('auto')) this.children[i].addEventListener ('mousedown', autoMove);
+		else if (this.children[i].className.includes ('click')) this.children[i].addEventListener ('mousedown', clickMove);
 }}
 
 /* ------------------------ drag-drop ------------------------ */
@@ -43,10 +43,9 @@ function dragMove (paragraph){
 }
 /* ------------------------ déplacement autonome ------------------------ */
 
-HTMLElement.prototype.autoMove = function(){
+HTMLElement.prototype.randoMove = function(){
 	var dx = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0])) - this.offsetLeft;
 	var dy = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]) - this.offsetTop;
-	console.log (dx, this.offsetLeft, dy, this.offsetTop);
 	dx= dx /60;
 	dy= dy /60;
 	var secNb = 0;
@@ -58,7 +57,9 @@ HTMLElement.prototype.autoMove = function(){
 	}
 	animate();
 }
-function autoMove (event){
+function clickMove (event){ event.target.randoMove(); }
+HTMLElement.prototype.autoMove = function(){ for (var i=0; i<50; i++) this.randoMove(); }
+function autoMove_vb (event){
 	var dx = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0])) - event.target.offsetLeft;
 	var dy = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]) - event.target.offsetTop;
 	const secMax = Math.abs (dx);
@@ -70,19 +71,6 @@ function autoMove (event){
 		secNb +=1;
 		event.target.move (dx, dy);
 		if (secNb < secMax) requestAnimationFrame (animate);
-	}
-	animate();
-}
-function autoMove_va (event){
-	var dx = boundaries[0] + Math.floor (Math.random() * (boundaries[2] - boundaries[0])) - event.target.offsetLeft;
-	var dy = boundaries[1] + Math.floor (Math.random() * boundaries[3] - boundaries[1]) - event.target.offsetTop;
-	dx= dx /60;
-	dy= dy /60;
-	let secNb = 0;
-	function animate(){
-		secNb +=1;
-		event.target.move (dx,dy);
-		if (secNb <60) requestAnimationFrame (animate);
 	}
 	animate();
 }
