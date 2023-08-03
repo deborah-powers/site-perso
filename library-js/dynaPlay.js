@@ -43,8 +43,8 @@ function setValueFromName (varName, varValue){
 		else if (listName.length ==5) window[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]] = varValue;
 		else if (listName.length ==6) window[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]][listName[5]] = varValue;
 }}
-HTMLElement.prototype.printList = function(){
-	if (this.innerHTML.includes ('list=')) for (var c=0; c< this.children.length; c++) this.children[c].printList();
+HTMLElement.prototype.printAll = function(){
+	if (this.innerHTML.includes ('list=')) for (var c=0; c< this.children.length; c++) this.children[c].printAll();
 	if (this.getAttribute ('list')){
 		var varName = this.getAttribute ('list');
 		var varValue = getValueFromName (varName);
@@ -92,6 +92,7 @@ HTMLElement.prototype.copy = function(){
 	var newNode = this.cloneNode();
 	if (this.innerHTML) newNode.innerHTML = this.innerHTML;
 	if (this.value) newNode.value = this.value;
+	if (this.className) newNode.className = this.className;
 	if (this.parentNode) this.parentNode.insertBefore (newNode, this);
 	return newNode;
 }
@@ -137,17 +138,16 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 HTMLTextAreaElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
-			this.innerHTML ="";
-			if (varValue.constructor.name == 'Array')
-				for (var v=0; v< varValue.length; v++) this.innerHTML = this.innerHTML + varValue[v] +'\n';
-			else if (varValue.constructor.name == 'Object')
-				for (var v in varValue) this.innerHTML = this.innerHTML +v+': '+ varValue[v] +'\n';
-			else this.innerHTML = varValue;
-			this.addEventListener ('change', function (event){
-				document.body.innerHTML = bodyTemplate;
-				setValueFromName (event.target.name, event.target.innerHTML);
-				dpLoad();
-			});
+		if (varValue.constructor.name == 'Array')
+			for (var v=0; v< varValue.length; v++) this.innerHTML = this.innerHTML + varValue[v] +'\n';
+		else if (varValue.constructor.name == 'Object')
+			for (var v in varValue) this.innerHTML = this.innerHTML +v+': '+ varValue[v] +'\n';
+		else this.value = varValue;
+		this.addEventListener ('change', function (event){
+			document.body.innerHTML = bodyTemplate;
+			setValueFromName (event.target.name, event.target.value);
+			dpLoad();
+		});
 }}
 HTMLSelectElement.prototype.printOne = function(){
 	if (exists (this.name)){
@@ -169,6 +169,39 @@ HTMLSelectElement.prototype.printOne = function(){
 HTMLInputElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
+		if (varValue.constructor.name === 'Array' && this.type !== 'radio' && this.type !== 'checkbox'){
+			console.log (this.type);
+			if (this.type === 'r') this.setAttribute ('type', 'radio');
+			else this.setAttribute ('type', 'checkbox');
+			var nodeNew;
+			var label;
+			console.log (varValue, this.value);
+			for (var i= varValue.length -1; i>0; i--){
+				nodeNew = this.copy();
+				nodeNew.setAttribute ('value', varValue[i]);
+				label = document.createElement ('span');
+				label.innerHTML = varValue[i];
+				this.parentElement.insertBefore (nodeNew, this);
+				this.parentElement.insertBefore (label, nodeNew);
+			}
+			this.setAttribute ('value', varValue[0]);
+			label = document.createElement ('span');
+			label.innerHTML = varValue[0];
+			this.parentElement.insertBefore (label, this);
+			console.log (nodeNew.value, this.value);
+		}
+		else if (varValue.constructor.name !== 'Object'){
+			this.setAttribute ('value', varValue);
+			this.addEventListener ('change', function (event){
+				document.body.innerHTML = bodyTemplate;
+				setValueFromName (event.target.name, event.target.value);
+				dpLoad();
+			});
+		}
+}}
+HTMLInputElement.prototype.printOne_va = function(){
+	if (exists (this.name)){
+		var varValue = getValueFromName (this.name);
 			if (varValue.constructor.name == 'Array') this.setAttribute ('value', varValue[0]);
 			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
 			this.addEventListener ('change', function (event){
@@ -188,7 +221,7 @@ HTMLElement.prototype.printCondition = function(){
 function dpLoad(){
 	document.body.printCondition();
 	// affichage des listes
-	for (var v=0; v< document.body.children.length; v++) document.body.children[v].printList();
+	for (var v=0; v< document.body.children.length; v++) document.body.children[v].printAll();
 	// affichage basique
 	for (var v=0; v< varListText.length; v++){
 		var varValue = getValueFromName (varListText[v]);
