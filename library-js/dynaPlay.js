@@ -169,46 +169,45 @@ HTMLSelectElement.prototype.printOne = function(){
 HTMLInputElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
-		if (varValue.constructor.name === 'Array' && this.type !== 'radio' && this.type !== 'checkbox'){
-			console.log (this.type);
-			if (this.type === 'r') this.setAttribute ('type', 'radio');
-			else this.setAttribute ('type', 'checkbox');
+		if ('radio checkbox'.includes (this.type) && this.value === varValue) this.checked = true;
+		else if (varValue.constructor.name === 'Array' && this.type !== 'radio'){
+			this.setAttribute ('type', 'radio');
+			this.name = this.value;
 			var nodeNew;
 			var label;
-			console.log (varValue, this.value);
-			for (var i= varValue.length -1; i>0; i--){
+			var i=0;
+			for (; i< varValue.length -1; i++){
 				nodeNew = this.copy();
 				nodeNew.setAttribute ('value', varValue[i]);
+				nodeNew.addEventListener ('change', function (event){
+					if (event.target.checked){
+						document.body.innerHTML = bodyTemplate;
+						setValueFromName (event.target.name, event.target.value);
+						dpLoad();
+				}});
 				label = document.createElement ('span');
 				label.innerHTML = varValue[i];
 				this.parentElement.insertBefore (nodeNew, this);
 				this.parentElement.insertBefore (label, nodeNew);
 			}
-			this.setAttribute ('value', varValue[0]);
+			this.setAttribute ('value', varValue[i]);
+			this.addEventListener ('change', function (event){
+				if (event.target.checked){
+					document.body.innerHTML = bodyTemplate;
+					setValueFromName (event.target.name, event.target.value);
+					dpLoad();
+			}});
 			label = document.createElement ('span');
-			label.innerHTML = varValue[0];
+			label.innerHTML = varValue[i];
 			this.parentElement.insertBefore (label, this);
-			console.log (nodeNew.value, this.value);
 		}
-		else if (varValue.constructor.name !== 'Object'){
+		else if (! 'Object Array'.includes (varValue.constructor.name) &&! 'radio checkbox'.includes (this.type)){
 			this.setAttribute ('value', varValue);
 			this.addEventListener ('change', function (event){
 				document.body.innerHTML = bodyTemplate;
 				setValueFromName (event.target.name, event.target.value);
 				dpLoad();
-			});
-		}
-}}
-HTMLInputElement.prototype.printOne_va = function(){
-	if (exists (this.name)){
-		var varValue = getValueFromName (this.name);
-			if (varValue.constructor.name == 'Array') this.setAttribute ('value', varValue[0]);
-			else if (varValue.constructor.name != 'Object') this.setAttribute ('value', varValue);
-			this.addEventListener ('change', function (event){
-				document.body.innerHTML = bodyTemplate;
-				setValueFromName (event.target.name, event.target.value);
-				dpLoad();
-			});
+			});}
 }}
 HTMLElement.prototype.printCondition = function(){
 	if (this.getAttribute ('if')){
@@ -230,6 +229,8 @@ function dpLoad(){
 	// affichage des inputs
 	var inputList = document.getElementsByTagName ('input');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
+	var firstInput = document.getElementsByTagName ('input')[0];
+	if ('checkbox radio'.includes (firstInput.type) && firstInput.value === getValueFromName (firstInput.name)) firstInput.checked = true;
 	var inputList = document.getElementsByTagName ('select');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
 	inputList = document.getElementsByTagName ('textarea');
