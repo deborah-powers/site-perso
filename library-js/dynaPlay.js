@@ -1,10 +1,5 @@
-/*
-utilisation: dpInit() ou dpLoad()
+// utilisation: dpInit() ou dpLoad()
 
-la condition
-<p if='condiTrue'>coucou</p>
-<p if='1===2'>doudou</p>
-*/
 var bodyTemplate = "";
 var varListText =[];
 
@@ -229,9 +224,11 @@ function dpLoad(){
 	// affichage des inputs
 	var inputList = document.getElementsByTagName ('input');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
-	var firstInput = document.getElementsByTagName ('input')[0];
-	if ('checkbox radio'.includes (firstInput.type) && firstInput.value === getValueFromName (firstInput.name)) firstInput.checked = true;
-	var inputList = document.getElementsByTagName ('select');
+	inputList = document.getElementsByTagName ('input');
+	var v=0;
+	while (v< inputList.length && ! 'checkbox radio'.includes (inputList[v].type)) v+=1;
+	if (v< inputList.length && 'checkbox radio'.includes (inputList[v].type) && inputList[v].value === getValueFromName (inputList[v].name)) inputList[v].checked = true;
+	inputList = document.getElementsByTagName ('select');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
 	inputList = document.getElementsByTagName ('textarea');
 	for (var v=0; v< inputList.length; v++) inputList[v].printOne();
