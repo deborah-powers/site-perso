@@ -91,13 +91,35 @@ HTMLElement.prototype.copy = function(){
 	if (this.parentNode) this.parentNode.insertBefore (newNode, this);
 	return newNode;
 }
+
+HTMLElement.prototype.printFor = function(){
+	/*
+	if (this.getAttribute ('for')){
+		var varName = this.getAttribute ('for');
+		var varValue = getValueFromName (varName);
+		this.removeAttribute ('for');
+		var nodeNew = null;
+		console.log (varValue);
+		if (varValue.constructor.name == 'Array'){
+			for (var i= varValue.length -1; i>0; i--){
+				nodeNew = this.copy();
+				for (var name in varValue[i]) if (name !== 'fill') nodeNew.printOne (name, varValue[i][name]);
+			}
+			for (var name in varValue[i]) if (name !== 'fill') this.printOne (name, varValue[0][name]);
+		}
+	}
+	if (this.innerHTML.includes ('for=')){
+		for (var c=0; c< this.children.length; c++) this.children[c].printFor();
+	}*/
+}
 HTMLElement.prototype.printOne = function (varName, varValue){
 	if (! exists (varValue)){
 		this.innerHTML = this.innerHTML.replace ('(('+ varName +'))', "");
 		for (var a=0; a< this.attributes.length; a++) if (this.attributes[a].value.includes ('((' + varName + '))'))
 			this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', "");
 	}
-	else if (varValue.constructor.name == 'Array'){
+	else if (varValue.constructor.name === 'Array'){
+		console.log (varName, varValue, varValue[0].constructor.name);
 		var nodeRef = null;
 		var nodeNew = null;
 		var deep = varValue.deep();
@@ -214,6 +236,7 @@ HTMLElement.prototype.printCondition = function(){
 }
 function dpLoad(){
 	document.body.printCondition();
+	document.body.printFor();
 	// affichage des listes
 	for (var v=0; v< document.body.children.length; v++) document.body.children[v].printAll();
 	// affichage basique

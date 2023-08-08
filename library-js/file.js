@@ -33,7 +33,6 @@ function fromFile (fileName, callback){
 	else{
 		// méthode synchrone
 		xhttp.open ('GET', fileName, false);
-		console.log (xhttp);
 		xhttp.send();
 		var textRes = null;
 		if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
@@ -92,7 +91,7 @@ charToEncodePlus =[ ['%20', ' '] ];
 paramToUrl = function (url, params){
 	if (params){
 		url = url +'?';
-		for (p in params){
+		for (p in params) if (p !== 'fill'){
 			if (typeof (params[p]) == 'string') for (var c=0; c< charToEncode.length; c++)
 				params[p] = params[p].replace (charToEncode[c][0], charToEncode[c][1]);
 			else params[p] = params[p].toString();
