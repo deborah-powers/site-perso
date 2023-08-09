@@ -151,7 +151,8 @@ HTMLElement.prototype.printOne = function (varName, varValue){
 		this.innerHTML = this.innerHTML.replace ('(('+ varName +'))', varValue);
 		for (var a=0; a< this.attributes.length; a++) if (this.attributes[a].value.includes ('((' + varName + '))'))
 			this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', varValue);
-}}
+	}
+}
 HTMLTextAreaElement.prototype.printOne = function(){
 	if (exists (this.name)){
 		var varValue = getValueFromName (this.name);
