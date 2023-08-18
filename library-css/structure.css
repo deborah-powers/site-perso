@@ -221,18 +221,19 @@ img#banner {
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }
-/* styles pour les scrollbar
-truc {
+
+/* scroll bar de firefox */
+:root {
 	overflow: auto;
-	pour firefox
-	scrollbar-color: purple pink;
-	scrollbar-width: 10px;
+	scrollbar-color: var(--text-color) var(--page-color);
+	scrollbar-width: 1em;
 }
-pour chrome
-truc::-webkit-scrollbar { width: 10px; }
-truc::-webkit-scrollbar-track { background-color: pink; }
-truc::-webkit-scrollbar-thumb {
-	background-color: purple;
-	border-radius: 10px;
-}
+/* scroll bar de chrome
+div::-webkit-scrollbar { width: 1em; }
 */
+::-webkit-scrollbar { width: 1em; }
+::-webkit-scrollbar-track { background-color: var(--page-color); }
+::-webkit-scrollbar-thumb {
+	background-color: var(--text-color);
+	border-radius: 1em;
+}
