@@ -226,14 +226,14 @@ button#install-pwa { display: none; }
 :root {
 	overflow: auto;
 	scrollbar-color: var(--text-color) var(--page-color);
-	scrollbar-width: 0.5em;
+	scrollbar-width: 1em;
 }
 /* scroll bar de chrome
 div::-webkit-scrollbar { width: 1em; }
 */
-::-webkit-scrollbar { width: 0.5em; }
+::-webkit-scrollbar { width: 1em; }
 ::-webkit-scrollbar-track { background-color: var(--page-color); }
 ::-webkit-scrollbar-thumb {
 	background-color: var(--text-color);
-	border-radius: 0.5em;
+	border-radius: 1em;
 }
