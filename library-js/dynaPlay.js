@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 var bodyTemplate ="";
 var dicoPlay ={};
-=======
-// utilisation: dpInit() ou dpLoad()
-
-var bodyTemplate = "";
-var varListText =[];
->>>>>>> bab5b9b (boulot 08/04 17:35)
 
 function exists (object){
 	if (object === null || object === undefined) return false;

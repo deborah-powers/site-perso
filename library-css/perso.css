@@ -13,6 +13,10 @@ dépend de structure
 	--button-border: none;
 	--foldable-border: solid;
 }
+option:hover {
+	color: red;
+	background-color: green;
+}
 body {
 	max-width: 36cm;
 	min-height: 100vh;
