@@ -48,7 +48,10 @@ SVGGraphicsElement.prototype.getAttributeNb = function (name){ return parseInt (
 SVGGraphicsElement.prototype.getAttributeFloat = function (name){
 	return parseFloat (this.getAttributeNbBase (name));
 }
-SVGGraphicsElement.prototype.setAttributeNb = function (name, value){ this.setAttributeNS (null, name, value.toString()); }
+SVGGraphicsElement.prototype.setAttributeNb = function (name, value){
+	var res = Math.round (value *100) /100;
+	this.setAttributeNS (null, name, res.toString());
+}
 SVGGraphicsElement.prototype.setAttribute = function (name, value){ this.setAttributeNS (null, name, value); }
 // les chemins
 SVGPathElement.prototype.getPoints = function(){
