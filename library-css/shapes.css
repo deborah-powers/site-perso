@@ -148,6 +148,12 @@ boule.vertical { animation-name: boule-spin-x; }
 	100% { background-image: radial-gradient(circle at 50% 100%, transparent, #0003); }
 }
 cylindre {
+	width: 6em;
+	height: 10em;
+	--inclinaison: 10%;
+	--bord: none;
+	--fond: var(--fond-color);
+	font-size: 1em;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -156,18 +162,15 @@ cylindre {
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
 	text-align: center;
-	font-size: 1em;
-	--inclinaison: 10%;
 	border-radius: 50%/var(--inclinaison);
-	width: 6em;
-	height: 10em;
 	background-image: linear-gradient(90deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
 }
 cylindre >* {
 	height: calc(2* var(--inclinaison));
 	border-radius: 50%;
 	margin: 0;
-	background-color: var(--button-bg);
+	background: var(--fond);
+	border: var(--bord);
 }
 cylindre.horizontal {
 	flex-direction: row;
