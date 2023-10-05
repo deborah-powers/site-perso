@@ -1,11 +1,14 @@
 /* https://la-cascade.io/articles/creer-un-cube-en-css */
-cube, pave {
+cube, poutre, pave {
+	--width: 4cm;
+	width: var(--width);
 	display: block;
 	transform-style: preserve-3d;
 	padding: 0;
 	text-align: center;
+	background-position: center;
 }
-cube >*, pave >* {
+cube >*, poutre >*, pave >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -16,15 +19,21 @@ cube >*, pave >* {
 	top: 0;
 	left: 0;
 	text-align: center;
+	background-position: center;
+	background-size: contain;
 }
 /* ------------------------ cube ------------------------ */
 
+cube {
+	height: var(--width);
+	--width-half: calc(var(--width) /2);
+}
 cube >*:nth-child(1){
 	transform: rotateX(-90deg) translateY(50%);
 	transform-origin: bottom center;
 }
 cube >*:nth-child(2){
-	transform: rotateY(180deg) translateZ(var(--micote));
+	transform: rotateY(180deg) translateZ(var(--width-half));
 }
 cube >*:nth-child(3){
 	transform: rotateY(270deg) translateX(-50%);
@@ -35,7 +44,7 @@ cube >*:nth-child(4){
 	transform-origin: center right;
 }
 cube >*:nth-child(5){
-	transform: translateZ(var(--micote));
+	transform: translateZ(var(--width-half));
 }
 cube >*:nth-child(6){
 	transform: rotateX(90deg) translateY(-50%);
@@ -43,44 +52,83 @@ cube >*:nth-child(6){
 }
 /* cube qui tourne selon spin-vertical */
 cube.vertical >*:nth-child(2){
-	transform: rotateX(180deg) translateZ(var(--micote));
+	transform: rotateX(180deg) translateZ(var(--width-half));
+}
+/* ------------------------ poutre ------------------------ */
+
+poutre {
+	--height: 7cm;
+	--width-half: calc(var(--width) /2);
+	height: var(--height);
+}
+poutre >*:nth-child(1){
+	height: var(--width);
+	transform: rotateX(-90deg) translateY(50%) translateZ(calc(var(--height) - var(--width)));
+	transform-origin: bottom center;
+}
+poutre >*:nth-child(2){
+	transform: rotateY(180deg) translateZ(var(--width-half));
+}
+poutre >*:nth-child(3){
+	transform: rotateY(270deg) translateX(-50%);
+	transform-origin: center left;
+}
+poutre >*:nth-child(4){
+	transform: rotateY(-270deg) translateX(50%);
+	transform-origin: center right;
+}
+poutre >*:nth-child(5){
+	transform: translateZ(var(--width-half));
+}
+poutre >*:nth-child(6){
+	height: var(--width);
+	transform: rotateX(90deg) translateY(-50%);
+	transform-origin: top center;
+}
+/* poutre qui tourne selon spin-vertical */
+poutre.vertical >*:nth-child(2){
+	transform: rotateX(180deg) translateZ(var(--width-half));
 }
 /* ------------------------ pavé ------------------------ */
+
 pave {
-	width: var(--cote-x);
-	height: var(--cote-y);
+	--height: 7cm;
+	--depth: 11cm;
+	--depth-half: calc(var(--depth) /2);
+	height: var(--height);
 }
 pave >*:nth-child(1){
-	height: var(--cote-z);
-	transform: rotateX(-90deg) translateY(50%) translateZ(calc(var(--cote-y) - var(--cote-z)));
+	height: var(--depth);
+	transform: rotateX(-90deg) translateY(50%) translateZ(calc(var(--height) - var(--depth)));
 	transform-origin: bottom center;
 }
 pave >*:nth-child(2){
-	transform: rotateY(180deg) translateZ(calc(var(--cote-z) / 2));
+	transform: rotateY(180deg) translateZ(var(--depth-half));
 }
 pave >*:nth-child(3){
-	width: var(--cote-z);
+	width: var(--depth);
 	transform: rotateY(270deg) translateX(-50%);
 	transform-origin: center left;
 }
 pave >*:nth-child(4){
-	width: var(--cote-z);
-	transform: rotateY(-270deg) translateX(50%) translateZ(calc(var(--cote-x) - var(--cote-z)));
+	width: var(--depth);
+	transform: rotateY(-270deg) translateX(50%) translateZ(calc(var(--width) - var(--depth)));
 	transform-origin: center right;
 }
 pave >*:nth-child(5){
-	transform: translateZ(calc(var(--cote-z) / 2));
+	transform: translateZ(var(--depth-half));
 }
 pave >*:nth-child(6){
-	height: var(--cote-z);
+	height: var(--depth);
 	transform: rotateX(90deg) translateY(-50%);
 	transform-origin: top center;
 }
-/* pave qui tourne selon spin-vertical */
+/* pavé qui tourne selon spin-vertical */
 pave.vertical >*:nth-child(2){
-	transform: rotateX(180deg) translateZ(calc(var(--cote-z) / 2));
+	transform: rotateX(180deg) translateZ(var(--depth-half));
 }
 /* ------------------------ rotations ------------------------ */
+
 @keyframes spin-horizontal {
 	from { transform: rotateY(0); }
 	to { transform: rotateY(360deg); }
@@ -90,28 +138,16 @@ pave.vertical >*:nth-child(2){
 	to { transform: rotateX(-360deg); }
 }
 /* ------------------------ exemples ------------------------ */
+
 container#mycube {
 	perspective: 800px;
 	perspective-origin: -100% 100px;
 }
 cube#mycube {
 	animation: spin-vertical 5s infinite linear;
-	width: 4cm;
-	height: 4cm;
-	--micote: 2cm;
+	--width: 4cm;
 	--bord: double 20px yellow;
 	--fond: turquoise;
-	margin-top: 3cm;
-}
-pave#mycube {
-	animation: spin-vertical 5s infinite linear;
-	--cote-x: 3cm;
-	--cote-y: 5cm;
-	--cote-z: 7cm;
-	width: var(--cote-x);
-	height: var(--cote-y);
-	--bord: double 20px yellow;
-	--fond: hotpink;
 	margin-top: 3cm;
 }
 /*
