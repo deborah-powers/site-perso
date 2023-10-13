@@ -64,6 +64,18 @@ pave >*:nth-child(5) {
 	width: var(--depth);
 	transform: rotateY(90deg) translateZ(calc(var(--width) - var(--width-half)));
 }
+/* ------------------------ toblerone ------------------------ */
+
+toblerone >*:nth-child(1){ clip-path: polygon(0 0, 100% 0, 50% 100%); }
+toblerone >*:nth-child(2){ clip-path: polygon(0 100%, 100% 100%, 50% 0); }
+toblerone >*:nth-child(4){
+	width: 111.8%;
+	transform: rotateY(-63.435deg) translateX(-12.5%) translateZ(calc(var(--width) * 0.25));
+}
+toblerone >*:nth-child(5){
+	width: 111.8%;
+	transform: rotateY(63.435deg) translateX(8.75%) translateZ(calc(var(--width) * 0.175));
+}
 /* ------------------------ animations ------------------------ */
 
 @keyframes spin-horizontal {
