@@ -1,6 +1,6 @@
 /* https://la-cascade.io/articles/creer-un-cube-en-css */
 
-cube, poteau, pave, toblerone {
+cube, poteau, pave, toblerone, trect, octogone, cylindre {
 	--width: 4cm;
 	--width-half: calc(var(--width) /2);
 	width: var(--width);
@@ -11,8 +11,9 @@ cube, poteau, pave, toblerone {
 	background-position: center;
 	border-style: solid;
 	margin-bottom: 4em;
+	border-style: none;
 }
-cube >*, poteau >*, pave >*, toblerone >* {
+cube >*, poteau >*, pave >*, toblerone >*, trect >*, octogone >*, cylindre >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -30,7 +31,7 @@ cube >*, poteau >*, pave >*, toblerone >* {
 /* ------------------------ cube ------------------------ */
 
 cube { height: var(--width); }
-cube >*:nth-child(1), poteau >*:nth-child(1), pave >*:nth-child(1), toblerone >*:nth-child(1)
+cube >*:nth-child(1), poteau >*:nth-child(1), pave >*:nth-child(1), toblerone >*:nth-child(1), octogone >*:nth-child(1), cylindre >*:nth-child(1)
 	{ transform: rotateX(90deg) translateZ(var(--width-half)); }
 cube >*:nth-child(2){ transform: rotateX(-90deg) translateZ(var(--width-half)); }
 cube >*:nth-child(3), poteau >*:nth-child(3), pave >*:nth-child(3), toblerone >*:nth-child(3)
@@ -39,16 +40,17 @@ cube >*:nth-child(4), poteau >*:nth-child(4), pave >*:nth-child(4) { transform: 
 cube >*:nth-child(5), poteau >*:nth-child(5){ transform: rotateY(90deg) translateZ(var(--width-half)); }
 cube >*:nth-child(6), poteau >*:nth-child(6), pave >*:nth-child(6) { transform: translateZ(var(--width-half)); }
 /* cube qui tourne selon spin-vertical */
-cube.vertical >*:nth-child(3), poteau.vertical >*:nth-child(3), toblerone.vertical >*:nth-child(3){ transform: rotateX(180deg) translateZ(var(--width-half)); }
+cube.vertical >*:nth-child(3), poteau.vertical >*:nth-child(3), toblerone.vertical >*:nth-child(3), trect.vertical >*:nth-child(3)
+	{ transform: rotateX(180deg) translateZ(var(--width-half)); }
 
 /* ------------------------ poteau ------------------------ */
 
-poteau, pave, toblerone {
+poteau, pave, toblerone, trect, octogone, cylindre {
 	--height: 7cm;
 	height: var(--height);
 }
-poteau >*:nth-child(1), toblerone >*:nth-child(1){ height: var(--width); }
-poteau >*:nth-child(2), pave >*:nth-child(2), toblerone >*:nth-child(2){
+poteau >*:nth-child(1), toblerone >*:nth-child(1), octogone >*:nth-child(1), cylindre >*:nth-child(1){ height: var(--width); }
+poteau >*:nth-child(2), pave >*:nth-child(2), toblerone >*:nth-child(2), octogone >*:nth-child(2), cylindre >*:nth-child(2){
 	height: var(--width);
 	transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--width-half)));
 }
@@ -66,8 +68,9 @@ pave >*:nth-child(5) {
 }
 /* ------------------------ toblerone ------------------------ */
 
-toblerone >*:nth-child(1){ clip-path: polygon(0 0, 100% 0, 50% 100%); }
-toblerone >*:nth-child(2){ clip-path: polygon(0 100%, 100% 100%, 50% 0); }
+
+toblerone >*:nth-child(1), trect >*:nth-child(1){ clip-path: polygon(0 0, 100% 0, 50% 100%); }
+toblerone >*:nth-child(2), trect >*:nth-child(2){ clip-path: polygon(0 100%, 100% 100%, 50% 0); }
 toblerone >*:nth-child(4){
 	width: 111.8%;
 	transform: rotateY(-63.435deg) translateX(-12.5%) translateZ(calc(var(--width) * 0.25));
@@ -76,6 +79,43 @@ toblerone >*:nth-child(5){
 	width: 111.8%;
 	transform: rotateY(63.435deg) translateX(8.75%) translateZ(calc(var(--width) * 0.175));
 }
+/* ------------------------ triangle isocèle rectangle ------------------------ */
+
+trect >*:nth-child(1){
+	height: var(--width-half);
+	transform: rotateX(90deg) translateZ(calc(var(--width-half) /2));
+}
+trect >*:nth-child(2){
+	height: var(--width-half);
+	transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--width-half) /2));
+}
+trect >*:nth-child(3){ transform: rotateY(180deg) translateZ(calc(var(--width-half) /2)); }
+trect >*:nth-child(4){
+	width: 71%;
+	transform: rotateY(-45deg) translateX(-10%) translateZ(calc(var(--width) * 0.0625));
+}
+trect >*:nth-child(5){
+	width: 71%;
+	transform: rotateY(45deg) translateX(40%) translateZ(calc(var(--width) * 0.275));
+}
+/* ------------------------ octogone ------------------------ */
+
+octogone >*:nth-child(1), octogone >*:nth-child(2){
+	clip-path: polygon(29.28935% 0, 70.71065% 0, 100% 29.28935%, 100% 70.71065%, 70.71065% 100%, 29.28935% 100%, 0 70.71065%, 0 29.28935%);
+}
+octogone >*:nth-child(n+3){
+	left: calc(var(--width-half) - 20.71065%);
+	width: calc(var(--width) * 0.414213);
+}
+octogone >*:nth-child(3){ transform: translateZ(var(--width-half)); }
+octogone >*:nth-child(4){ transform: translateZ(calc(-1* var(--width-half))); }
+octogone >*:nth-child(5){ transform: rotateY(90deg) translateZ(var(--width-half)); }
+octogone >*:nth-child(6){ transform: rotateY(90deg) translateZ(calc(-1* var(--width-half))); }
+octogone >*:nth-child(7){ transform: rotateY(45deg) translateZ(var(--width-half)); }
+octogone >*:nth-child(8){ transform: rotateY(45deg) translateZ(calc(-1* var(--width-half))); }
+octogone >*:nth-child(9){ transform: rotateY(-45deg) translateZ(var(--width-half)); }
+octogone >*:nth-child(10){ transform: rotateY(-45deg) translateZ(calc(-1* var(--width-half))); }
+
 /* ------------------------ animations ------------------------ */
 
 @keyframes spin-horizontal {
