@@ -1,6 +1,6 @@
 /* https://la-cascade.io/articles/creer-un-cube-en-css */
 
-cube, poteau, pave, toblerone, trect, octogone, cylindre {
+cube, poteau, pave, toblerone, trect, octogone, hexagone, cylindre {
 	--width: 4cm;
 	--width-half: calc(var(--width) /2);
 	width: var(--width);
@@ -13,7 +13,7 @@ cube, poteau, pave, toblerone, trect, octogone, cylindre {
 	margin-bottom: 4em;
 	border-style: none;
 }
-cube >*, poteau >*, pave >*, toblerone >*, trect >*, octogone >*, cylindre >* {
+cube >*, poteau >*, pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -45,7 +45,7 @@ cube.vertical >*:nth-child(3), poteau.vertical >*:nth-child(3), toblerone.vertic
 
 /* ------------------------ poteau ------------------------ */
 
-poteau, pave, toblerone, trect, octogone, cylindre {
+poteau, pave, toblerone, trect, octogone, hexagone, cylindre {
 	--height: 7cm;
 	height: var(--height);
 }
@@ -115,6 +115,26 @@ octogone >*:nth-child(7){ transform: rotateY(45deg) translateZ(var(--width-half)
 octogone >*:nth-child(8){ transform: rotateY(45deg) translateZ(calc(-1* var(--width-half))); }
 octogone >*:nth-child(9){ transform: rotateY(-45deg) translateZ(var(--width-half)); }
 octogone >*:nth-child(10){ transform: rotateY(-45deg) translateZ(calc(-1* var(--width-half))); }
+
+/* ------------------------ hexagone ------------------------ */
+
+hexagone { --width-half: calc(0.433 * var(--width)); }
+hexagone >*:nth-child(1), hexagone >*:nth-child(2){
+	height: calc(2* var(--width-half));
+	clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+}
+hexagone >*:nth-child(1){ transform: rotateX(90deg) translateZ(var(--width-half)); }
+hexagone >*:nth-child(2){ transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--width-half))); }
+hexagone >*:nth-child(n+3){
+	left: calc(0.25 * var(--width));
+	width: 50%;
+}
+hexagone >*:nth-child(3){ transform: translateZ(var(--width-half)); }
+hexagone >*:nth-child(4){ transform: translateZ(calc(-1* var(--width-half))); }
+hexagone >*:nth-child(5){ transform: rotateY(60deg) translateZ(var(--width-half)); }
+hexagone >*:nth-child(6){ transform: rotateY(60deg) translateZ(calc(-1* var(--width-half))); }
+hexagone >*:nth-child(7){ transform: rotateY(120deg) translateZ(var(--width-half)); }
+hexagone >*:nth-child(8){ transform: rotateY(120deg) translateZ(calc(-1* var(--width-half))); }
 
 /* ------------------------ animations ------------------------ */
 
