@@ -9,7 +9,6 @@ cube, poteau, pave, toblerone, trect, octogone, hexagone, cylindre {
 	padding: 0;
 	text-align: center;
 	background-position: center;
-	border-style: solid;
 	margin-bottom: 4em;
 	border-style: none;
 }
