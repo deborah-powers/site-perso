@@ -80,6 +80,7 @@ hr {
 	margin-bottom: 0.5em;
 	background-color: var(--text-color, black);
 }
+a, b, em, i, span, strong { padding: 0 0.5em; }
 /* a { display: block } */
 a:hover { font-weight: bold }
 /* les boutons */
