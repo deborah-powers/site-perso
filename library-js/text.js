@@ -15,11 +15,11 @@ String.prototype.index = function (word, pos){
 	if (pos == null || pos == undefined) pos =0;
 	var posReal = this.indexOf (word, pos);
 	if (posReal <0 && word.includes ('"')){
-		word = word.replace ('"', "'");
+		word = word.replaceAll ('"', "'");
 		posReal = this.indexOf (word, pos);
 	}
 	else if (posReal <0 && word.includes ("'")){
-		word = word.replace ("'", '"');
+		word = word.replaceAll ("'", '"');
 		posReal = this.indexOf (word, pos);
 	}
 	return posReal;
@@ -58,6 +58,8 @@ String.prototype.replace = function (wordOld, wordNew){
 	else return this;
 }
 /*
+replace --> replaceAll
+contain --> includes
 String.prototype.slice = function (start, end){
 	if (! end) end = this.length -1;
 	else if (end <0) end = this.length +end;
@@ -103,33 +105,33 @@ String.prototype.strip = function(){
 String.prototype.clean = function(){
 	var text = this.replace ('\r');
 	text = text.strip();
-	while (text.includes ('  ')) text = text.replace ('  ', ' ');
-	text = text.replace ('\n ', '\n');
-	text = text.replace (' \n', '\n');
-	text = text.replace ('\t ', '\t');
-	text = text.replace (' \t', '\t');
-	while (text.includes ('\t\t')) text = text.replace ('\t\t', '\t');
-	text = text.replace ('\t\n', '\n');
-	while (text.includes ('\n\n')) text = text.replace ('\n\n', '\n');
-	while (text.includes ('_______')) text = text.replace ('_______', '______');
-	while (text.includes ('-------')) text = text.replace ('-------', '------');
-	while (text.includes ('=======')) text = text.replace ('=======', '======');
-	while (text.includes ('*******')) text = text.replace ('*******', '******');
+	while (text.includes ('  ')) text = text.replaceAll ('  ', ' ');
+	text = text.replaceAll ('\n ', '\n');
+	text = text.replaceAll (' \n', '\n');
+	text = text.replaceAll ('\t ', '\t');
+	text = text.replaceAll (' \t', '\t');
+	while (text.includes ('\t\t')) text = text.replaceAll ('\t\t', '\t');
+	text = text.replaceAll ('\t\n', '\n');
+	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
+	while (text.includes ('_______')) text = text.replaceAll ('_______', '______');
+	while (text.includes ('-------')) text = text.replaceAll ('-------', '------');
+	while (text.includes ('=======')) text = text.replaceAll ('=======', '======');
+	while (text.includes ('*******')) text = text.replaceAll ('*******', '******');
 	text = text.strip();
 	return text;
 }
 String.prototype.cleanHtml = function(){
 	var text = this.replace ('\n'," ");
-	text = text.replace ('\t'," ");
+	text = text.replaceAll ('\t'," ");
 	text = text.clean();
-	text = text.replace ('<br>', '<br/>');
-	text = text.replace ('<hr>', '<hr/>');
-	while (text.includes ('<br/><br/>')) text = text.replace ('<br/><br/>', '<br/>');
-	text = text.replace ('<br/><', '<');
-	text = text.replace ('><br/>', '>');
-	text = text.replace ('<span></span>');
-	text = text.replace ('<p></p>');
-	text = text.replace ('<div></div>');
+	text = text.replaceAll ('<br>', '<br/>');
+	text = text.replaceAll ('<hr>', '<hr/>');
+	while (text.includes ('<br/><br/>')) text = text.replaceAll ('<br/><br/>', '<br/>');
+	text = text.replaceAll ('<br/><', '<');
+	text = text.replaceAll ('><br/>', '>');
+	text = text.replaceAll ('<span></span>', "");
+	text = text.replaceAll ('<p></p>', "");
+	text = text.replaceAll ('<div></div>', "");
 	return text;
 }
 String.prototype.fromTsv = function(){
@@ -154,7 +156,7 @@ String.prototype.toHtml = function(){
 	text = '<p>'+ text +'</p>';
 	var toReplace =[ ['\n', '</p><p>'], ['<p>====== ', '<h1>'], [' ======</p>', '</h1>'], ['<p>****** ', '<h2>'], [' ******</p>', '</h2>'], ['<p>------ ', '<h3>'], [' ------</p>', '</h3>' ],
 		['<p>http', "<p><a href='http"], ['<p>\t', '<li>'], ['<p>======</p>', '<hr/>'], ['<p>******</p>', '<hr/>']];
-	for (var r=0; r< toReplace.length; r++) text = text.replace (toReplace[r][0], toReplace[r][1]);
+	for (var r=0; r< toReplace.length; r++) text = text.replaceAll (toReplace[r][0], toReplace[r][1]);
 	// les liens
 	var linkList = text.split ('<a href=');
 	for (var r=1; r< linkList.length; r++){
