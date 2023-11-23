@@ -1,7 +1,7 @@
 /* https://la-cascade.io/articles/creer-un-cube-en-css */
 
 cube, poteau, pave, toblerone, trect, octogone, hexagone, cylindre {
-	--width: 4cm;
+	--width: 12cm;
 	--width-half: calc(var(--width) /2);
 	width: var(--width);
 	display: block;
