@@ -6,6 +6,35 @@ function exists (object){
 	else if (typeof (object) == 'string' && (object.length ===0 || object ==="" || " \n\r\t".includes (object))) return false;
 	else return true;
 }
+String.prototype.fromModel = function (model){
+	model = model.clean().replaceAll ('%%', '$');
+	var text = this.clean();
+	const modelPieces = model.split ('%');
+	var text = text.replace (modelPieces[0], "");
+	var d=0;
+	var value;
+	var data =[];
+	for (var p=1; p< modelPieces.length; p++){
+		if (modelPieces[p].length <2) value = text;
+		else{
+			d= text.indexOf (modelPieces[p].substring (1));
+			value = text.substring (0,d);
+		}
+		if (modelPieces[p][1] === 's') data.push (value);
+		else if (modelPieces[p][1] === 'd') data.push (parseInt (value));
+		else if (modelPieces[p][1] === 'f') data.push (parseFloat (value));
+		else data.push (value);
+		text = text.substring (d-1+ modelPieces[p].length);
+	}
+	return data;
+}
+String.prototype.toModel = function (data){
+	text = this.replaceAll ('%s', '%$');
+	text = text.replaceAll ('%d', '%$');
+	text = text.replaceAll ('%f', '%$');
+	for (var d=0; d< data.length; d++) text = text.replace ('%$', data[d]);
+	return text;
+}
 String.prototype.copy = function(){
 	var text ="";
 	for (var l=0; l< this.length; l++) text = text + this[l];
@@ -82,28 +111,23 @@ String.prototype.pop = function (posD, posF){
 }
 String.prototype.sliceWords = function (wordD, wordF){
 	var d=0;
-	if (wordD && wordD != undefined) d= this.index (wordD) + wordD.length;
+	if (wordD && wordD != undefined) d= this.indexOf (wordD) + wordD.length;
 	if (wordF && wordF != undefined){
-		var f= this.index (wordF, d);
+		var f= this.indexOf (wordF, d);
 		return this.slice (d,f);
 	}
 	else return this.slice (d);
 }
-String.prototype.sliceWords_va = function (wordD, wordF){
-	var d= this.index (wordD);
-	var f= this.index (wordF, d) + wordF.length;
-	return this.slice (d,f);
-}
 String.prototype.strip = function(){
-	var toStrip = '\n \t/';
+	var toStrip = '\n \t\\/';
 	var text = this;
 	var i=0, j=1;
-	while (toStrip.index (text[0]) >=0) text = text.slice (1);
-	while (toStrip.index (text [text.length -1]) >=0) text = text.slice (0, text.length -1);
+	while (toStrip.includes (text[0])) text = text.slice (1);
+	while (toStrip.includes (text [text.length -1])) text = text.slice (0, text.length -1);
 	return text;
 }
 String.prototype.clean = function(){
-	var text = this.replace ('\r');
+	var text = this.replaceAll ('\r', "");
 	text = text.strip();
 	while (text.includes ('  ')) text = text.replaceAll ('  ', ' ');
 	text = text.replaceAll ('\n ', '\n');

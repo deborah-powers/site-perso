@@ -7,7 +7,7 @@ cylindre >*:nth-child(n+3){
 	transform-style: preserve-3d;
 }
 cylindre >*:nth-child(n+3):before, cylindre >*:nth-child(n+3):after {
-	content: " ";
+	content: "";
 	width: 100%;
 	height: inherit;
 	border: inherit;
@@ -45,3 +45,10 @@ cylindre >*:nth-child(15){ transform: rotateY(135deg) translateZ(var(--width-hal
 cylindre >*:nth-child(16){ transform: rotateY(315deg) translateZ(var(--width-half)); }
 cylindre >*:nth-child(17){ transform: rotateY(157.5deg) translateZ(var(--width-half)); }
 cylindre >*:nth-child(18){ transform: rotateY(337.5deg) translateZ(var(--width-half)); }
+/*
+<cylindre>
+	<p>top</p>
+	<p>bottom</p>
+	<p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
+</cylindre>
+*/
