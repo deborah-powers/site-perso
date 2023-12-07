@@ -1,5 +1,9 @@
 /* fonctions pour ouvrir des fichiers
 dépendence: text.js
+j'aurai souvent besoin d'utiliser un serveur afin d'ouvrir des fichiers
+cd dossier/contenant/mon.fichier
+python -m http.server
+fileName = 'http://localhost:8000/mon.fichier';
 */
 const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
 const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
@@ -37,8 +41,34 @@ function fromFile (fileName, callback){
 		var textRes = null;
 		if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
 		return textRes;
-	}
-}
+}}
+function readFileBackend (fileName, typeFile, callback){
+	/* activer le serveur python, serverFile.py
+	fileName est le chemin du fichier à partir du dossier où est le serveur
+	action: read ou write
+	typeFile: article ou text
+	*/
+	const url = 'http://localhost:1407/serverFile.py';
+	const data = { action: action, type: typeFile, file: fileName };
+	const dataJson = JSON.stringify (data);
+	var xhttp = new XMLHttpRequest();
+	if (callback){
+		// méthode assynchrone
+		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
+			var resJson = JSON.parse (this.responseText);
+			callback (resJson);
+		}};
+		xhttp.open ('POST', url, true);
+		xhttp.send (dataJson);
+		return null;
+	}else{
+		// méthode synchrone
+		xhttp.open ('POST', url, false);
+		xhttp.send (dataJson);
+		var jsonRes = null;
+		if (xhttp.status ==0 || xhttp.status ==200) jsonRes = JSON.parse (xhttp.responseText);
+		return jsonRes;
+}}
 function fromJson (jsonFile, callback){
 	var xhttp = new XMLHttpRequest();
 	if (callback){
@@ -50,8 +80,7 @@ function fromJson (jsonFile, callback){
 		xhttp.open ('GET', jsonFile, true);
 		xhttp.send();
 		return null;
-	}
-	else{
+	}else{
 		// méthode synchrone
 		xhttp.open ('GET', jsonFile, false);
 		xhttp.send();
