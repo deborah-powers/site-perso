@@ -7,6 +7,7 @@ function exists (object){
 	else return true;
 }
 String.prototype.fromModel = function (model){
+	console.log (model);
 	model = model.clean().replaceAll ('%%', '$');
 	var text = this.clean();
 	const modelPieces = model.split ('%');
