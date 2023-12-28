@@ -252,8 +252,4 @@ div::-webkit-scrollbar { width: 1em; }
 ::-webkit-scrollbar-thumb {
 	background-color: var(--text-color);
 	border-radius: 1em;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> afd48b1 (boulot 08/21  9:52)

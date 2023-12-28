@@ -26,13 +26,14 @@ function setValueFromName (varName, varValue){
 }}
 HTMLElement.prototype.print = function (varName, varValue){
 	if (this.outerHTML.includes (varName)){
+		for (var a= this.attributes.length -1; a>=0; a--) this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', varValue);
 		for (var c=0; c< this.children.length; c++) this.children[c].print (varName, varValue);
 		this.printCondition();
 		if (exists (this.getAttribute ('for')) && this.getAttribute ('for') === varName && varValue.constructor === Array) this.printFor (varName, varValue);
 		if (this.innerHTML.includes ('((' + varName + '))')){
 			if (varValue.constructor === Array) this.printList (varName, varValue);
 			else if (varValue.constructor === Object) this.printObject (varName, varValue);
-			else this.innerHTML = this.innerHTML.replace ('((' + varName + '))', varValue);
+			else this.innerHTML = this.innerHTML.replaceAll ('((' + varName + '))', varValue);
 		}
 		if (this.innerHTML.includes ('((' + varName + '.') && varValue.constructor === Object)
 			for (var item in varValue) if (item !== 'fill') this.print (varName +'.'+ item, varValue[item]);
@@ -182,31 +183,23 @@ HTMLElement.prototype.printCondition = function(){
 	else if (this.innerHTML.includes ('if=')) for (var c=0; c< this.children.length; c++) this.children[c].printCondition();
 }
 Object.prototype.fill = function (objRef){ for (var f in objRef) if (! this[f]) this[f] = objRef[f]; }
-String.prototype.replace = function (wordOld, wordNew){
-	if (this.indexOf (wordOld) >=0){
-		if (! wordNew) wordNew ="";
-		var tabText = this.split (wordOld);
-		return tabText.join (wordNew);
-	}
-	else return this;
-}
 String.prototype.clean = function(){
-	var text = this.replace ('\r');
-	text = text.replace ('\n'," ");
-	text = text.replace ('\t'," ");
-	while (text.includes ('  ')) text = text.replace ('  ', ' ');
+	var text = this.replaceAll ('\r', "");
+	text = text.replaceAll ('\n'," ");
+	text = text.replaceAll ('\t'," ");
+	while (text.includes ('  ')) text = text.replaceAll ('  ', ' ');
 	if (text[0] ===" ") text = text.slice (1);
 	if (text [text.length -1] ===" ") text = text.slice (0, text.length -1);
-	text = text.replace ('<br>', '<br/>');
-	text = text.replace ('<hr>', '<hr/>');
-	while (text.includes ('<br/><br/>')) text = text.replace ('<br/><br/>', '<br/>');
-	text = text.replace ('<br/><', '<');
-	text = text.replace ('><br/>', '>');
-	text = text.replace ('<span></span>');
-	text = text.replace ('<p></p>');
-	text = text.replace ('<div></div>');
-	text = text.replace ('(( ', '((');
-	text = text.replace (' ))', '))');
+	text = text.replaceAll ('<br>', '<br/>');
+	text = text.replaceAll ('<hr>', '<hr/>');
+	while (text.includes ('<br/><br/>')) text = text.replaceAll ('<br/><br/>', '<br/>');
+	text = text.replaceAll ('<br/><', '<');
+	text = text.replaceAll ('><br/>', '>');
+	text = text.replaceAll ('<span></span>', "");
+	text = text.replaceAll ('<p></p>', "");
+	text = text.replaceAll ('<div></div>', "");
+	text = text.replaceAll ('(( ', '((');
+	text = text.replaceAll (' ))', '))');
 	return text;
 }
 function dpLoad(){
