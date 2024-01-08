@@ -1,0 +1,37 @@
+<!DOCTYPE html><html><head>
+	<title>pwa 2023</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<base target='_blank'>
+	<link rel='stylesheet' type='text/css' href='style.css'/>
+	<link rel='manifest' href='manifest.json'/>
+	<link rel='icon' type='image/png' href='icone-512.png'/>
+	<link rel='icon' type='image/png' href='static/icone-512.png'/>
+	<link rel='apple-touch-icon' type='image/png' href='static/icone-512.png'/>
+	<meta name='msapplication-TileImage' content='static/icone-512.png'>
+	<meta name='theme-color' content='ivory'/>
+	<meta name='msapplication-TileColor' content='ivory'>
+	<meta name='apple-mobile-web-app-capable' content='yes'>
+	<meta name='apple-mobile-web-app-status-bar-style' content='blue'>
+	<meta name='apple-mobile-web-app-title' content='test pwa'>
+<style type='text/css'>
+	input { display: block; }
+	* {
+		margin-bottom: 6mm;
+	}
+</style></head><body>
+	<h1>test de PWA en 2023</h1>
+	<a href='https://developer.mozilla.org/fr/docs/Web/Progressive_web_apps/Tutorials/CycleTracker/'>source</a>
+	<section>
+		<p>Votre nom</p>
+		<input type='text' id='l-name' value='Carroussi'/>
+		<p>Votre prénom</p>
+		<input type='text' id='f-name' value='Claudia'/>
+		<button onclick='printName()'>entrez</button>
+		<input type='reset'/>
+	</section>
+	<p id='showLname'>Votre nom est:</p>
+	<p id='showFname'>Votre prénom est:</p>
+</body>
+<script type='text/javascript' src='code.js'></script>
+</html>
