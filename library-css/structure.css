@@ -41,7 +41,7 @@ body {
 	border-style: none;
 	border-color: var(--bord-color, #AAA);
 }
-*:first-letter { text-transform: uppercase; }
+*:first-letter, title:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
 /* nouveauté, les blocs de code */
 xmp {
@@ -79,6 +79,7 @@ hr {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	background-color: var(--text-color, black);
+	border-radius: 50%;
 }
 a, b, em, i, span, strong { padding: 0 0.5em; }
 /* a { display: block } */

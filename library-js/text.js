@@ -58,12 +58,7 @@ String.prototype.rindex = function (word, pos){
 	else{
 		var textTmp = this.slice (0, pos);
 		return textTmp.lastIndexOf (word);
-	}
-}
-String.prototype.contain = function (word){
-	if (this.indexOf (word) >=0) return true;
-	else return false;
-}
+}}
 String.prototype.containList = function (list){
 	if (list.indexOf (this.toString()) >-1) return true;
 	else return false;
@@ -77,14 +72,6 @@ String.prototype.count = function (word){
 		pos +=1; nb +=1;
 	}
 	return nb;
-}
-String.prototype.replace = function (wordOld, wordNew){
-	if (this.indexOf (wordOld) >=0){
-		if (! wordNew) wordNew ="";
-		var tabText = this.split (wordOld);
-		return tabText.join (wordNew);
-	}
-	else return this;
 }
 /*
 replace --> replaceAll

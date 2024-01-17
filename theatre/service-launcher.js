@@ -1,4 +1,4 @@
-const messageAppInstalled = "app installée";
+const messageAppInstalled = "texte installé";
 // vérifier si le service-worker est installable
 window.onload = function(){
 	'use strict';
@@ -12,7 +12,7 @@ window.addEventListener ('beforeinstallprompt', function (event){
 	event.preventDefault();
 	deferredPrompt = event;
 	if (! deferredPrompt) installButton.innerHTML = messageAppInstalled;
-	else installButton.innerHTML = "installez l'application";
+	else installButton.innerHTML = "téléchargez sur votre smartphone";
 });
 installButton.addEventListener ('click', function(){
 	if (! deferredPrompt) installButton.innerHTML = messageAppInstalled;

@@ -1,12 +1,11 @@
 // gérer le cache
-const cacheName = 'pwa-test';
+const cacheName = 'theatre';
 const filesToCache =[
-	'/pwa/pwa-test/index.html',
-	'/pwa/pwa-test/service-launcher.js',
-	'/pwa/pwa-test/database.js',
-	'/pwa/pwa-test/static/',
-	'/pwa/pwa-test/static/perso.css',
-	'/pwa/pwa-test/static/structure.css'
+	'service-launcher.js',
+	'index.html',
+	'deborah.html',
+	'nounours.svg',
+	'style.css'
 ];
 // mettre en cache le contenu de l'app
 self.addEventListener ('install', function (event){
@@ -16,6 +15,6 @@ self.addEventListener ('install', function (event){
 // rendre le contenu de l'app hors-ligne
 self.addEventListener ('fetch', function (event){
 	event.respondWith (
-	caches.match (event.request).then (function (response){
-		return response || fetch (event.request);
+		caches.match (event.request).then (function (response){
+			return response || fetch (event.request);
 }));});

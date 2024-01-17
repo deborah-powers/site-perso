@@ -145,6 +145,10 @@ hexagone >*:nth-child(8){ transform: rotateY(120deg) translateZ(calc(-1* var(--w
 	from { transform: rotateX(0); }
 	to { transform: rotateX(-360deg); }
 }
+@keyframes spin-transversal {
+	from { transform: rotateZ(0); }
+	to { transform: rotateZ(-360deg); }
+}
 /* ------------------------ exemples ------------------------ */
 
 container#mycube {
