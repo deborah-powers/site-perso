@@ -1,5 +1,6 @@
-// fonctions à rajouter au type String
-
+/* fonctions à rajouter au type String
+dépend de text-clean.js
+*/
 function exists (object){
 	if (object === null || object === undefined) return false;
 	else if ((object.constructor === Array || object.constructor === HTMLCollection) && object.length ===0) return false;
@@ -105,46 +106,6 @@ String.prototype.sliceWords = function (wordD, wordF){
 	}
 	else return this.slice (d);
 }
-String.prototype.strip = function(){
-	var toStrip = '\n \t\\/';
-	var text = this;
-	var i=0, j=1;
-	while (toStrip.includes (text[0])) text = text.slice (1);
-	while (toStrip.includes (text [text.length -1])) text = text.slice (0, text.length -1);
-	return text;
-}
-String.prototype.clean = function(){
-	var text = this.replaceAll ('\r', "");
-	text = text.strip();
-	while (text.includes ('  ')) text = text.replaceAll ('  ', ' ');
-	text = text.replaceAll ('\n ', '\n');
-	text = text.replaceAll (' \n', '\n');
-	text = text.replaceAll ('\t ', '\t');
-	text = text.replaceAll (' \t', '\t');
-	while (text.includes ('\t\t')) text = text.replaceAll ('\t\t', '\t');
-	text = text.replaceAll ('\t\n', '\n');
-	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
-	while (text.includes ('_______')) text = text.replaceAll ('_______', '______');
-	while (text.includes ('-------')) text = text.replaceAll ('-------', '------');
-	while (text.includes ('=======')) text = text.replaceAll ('=======', '======');
-	while (text.includes ('*******')) text = text.replaceAll ('*******', '******');
-	text = text.strip();
-	return text;
-}
-String.prototype.cleanHtml = function(){
-	var text = this.replace ('\n'," ");
-	text = text.replaceAll ('\t'," ");
-	text = text.clean();
-	text = text.replaceAll ('<br>', '<br/>');
-	text = text.replaceAll ('<hr>', '<hr/>');
-	while (text.includes ('<br/><br/>')) text = text.replaceAll ('<br/><br/>', '<br/>');
-	text = text.replaceAll ('<br/><', '<');
-	text = text.replaceAll ('><br/>', '>');
-	text = text.replaceAll ('<span></span>', "");
-	text = text.replaceAll ('<p></p>', "");
-	text = text.replaceAll ('<div></div>', "");
-	return text;
-}
 String.prototype.fromTsv = function(){
 	var text = this.strip();
 	var textList = text.split ('\n');
@@ -155,9 +116,7 @@ Array.prototype.toTsv = function(){
 	var text ="";
 	var textTmp ="";
 	for (var l=0; l< this.length; l++){
-		textTmp ="";
-		for (var c=0; c< this.length; c++) textTmp ='\t'+ textTmp;
-		textTmp = textTmp.slice (1);
+		textTmp = this[l].join ('\t');
 		text = text + textTmp +'\n';
 	}
 	return text;

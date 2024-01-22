@@ -22,8 +22,9 @@ svg {
 	background-color: ivory;
 }
 svg.grid {
-	background-image: url('file:///C:/Users/dpowers-consultant01/Desktop/site-dp/data/grid.svg');
+	background-image: url('file:///C:/wamp64/www/site-dp/data/grid.svg');
 /*	background-image: url('file:///C:/Users/deborah.powers/Desktop/site-dp/data/grid.svg');
+	background-image: url('file:///C:/Users/dpowers-consultant01/Desktop/site-dp/data/grid.svg');
 	background-image: url('/var/www/html/site-dp/data/grid.svg'); */
 }
 text {
