@@ -25,28 +25,32 @@ function setValueFromName (varName, varValue){
 		else if (listName.length ==6) window[listName[0]][listName[1]][listName[2]][listName[3]][listName[4]][listName[5]] = varValue;
 }}
 HTMLElement.prototype.print = function (varName, varValue){
-	if (this.outerHTML.includes (varName) && this.tagName !== 'SCRIPT'){
+	if (this.outerHTML.includes (varName) && this.tagName !== 'SCRIPT' && varValue.constructor.name !== 'Function'){
 		for (var c=0; c< this.children.length; c++) this.children[c].print (varName, varValue);
 		this.printCondition();
 		this.printFor (varName, varValue);
 		if ('Number String'.includes (varValue.constructor.name)) for (var a= this.attributes.length -1; a>=0; a--)
-			this.attributes[a].value = this.attributes[a].value.replace ('((' + varName + '))', varValue);
+			this.attributes[a].value = printSimple (varName, varValue, this.attributes[a].value);
 		else if (varValue.constructor === Array) this.printList (varName, varValue);
 		if (this.innerHTML.includes ('((' + varName + '))')){
 			if (varValue.constructor === Object) this.printObject (varName, varValue);
-			else{
-				if (varValue.constructor.name === 'Number' && varValue %1 >0){
-					varValue = varValue.toFixed (3);
-					while (varValue [varValue.length -1] === '0') varValue = varValue.substring (0, varValue.length -1);
-				}
-				this.innerHTML = this.innerHTML.replaceAll ('((' + varName + '))', varValue);
-			}
+			else this.innerHTML = printSimple (varName, varValue, this.innerHTML);
 		}
 		if (this.innerHTML.includes ('((' + varName + '.') && varValue.constructor === Object)
-			for (var item in varValue) if (item !== 'fill') this.print (varName +'.'+ item, varValue[item]);
+			for (var item in varValue) if (item.constructor.name !== 'Function') this.print (varName +'.'+ item, varValue[item]);
 	//	else console.log (varName, varValue, "autre", this.tagName);
 		if ('(('+ varName +'))' === this.getAttribute ('value') && 'Number String'.includes (varValue.constructor.name)) this.setAttribute ('value', varValue);
 }}
+function printSimple (varName, varValue, template){
+	if ('Number String'.includes (varValue.constructor.name)){
+		if (varValue.constructor.name === 'Number' && varValue %1 >0){
+			varValue = varValue.toFixed (3);
+			while (varValue [varValue.length -1] === '0') varValue = varValue.substring (0, varValue.length -1);
+		}
+		template = template.replaceAll ('((' + varName + '))', varValue);
+	}
+	return template;
+}
 HTMLElement.prototype.printObject = function (varName, varValue){
 	if (this.getByContent (varName)){
 		newValue =[];
@@ -57,12 +61,22 @@ HTMLElement.prototype.printFor = function (varName, varValue){
 	if (exists (this.getAttribute ('for')) && this.getAttribute ('for') === varName && varValue.constructor === Array){
 		this.removeAttribute ('for');
 		var i=0;
-		for (; i< varValue.length -1; i++){
-			nodeNew = this.copy();
-			for (var item in varValue[i]) nodeNew.print (item, varValue[i][item]);
+		if ('String Number'.includes (varValue[0].constructor.name)){
+			for (; i< varValue.length -1; i++){
+				nodeNew = this.copy();
+				nodeNew.innerHTML = printSimple ("", varValue[i], nodeNew.innerHTML);
+				for (var a= nodeNew.attributes.length -1; a>=0; a--) nodeNew.attributes[a].value = printSimple ("", varValue[i], nodeNew.attributes[a].value);
+			}
+			this.innerHTML = printSimple ("", varValue[i], this.innerHTML);
+			for (var a= this.attributes.length -1; a>=0; a--) this.attributes[a].value = printSimple ("", varValue[i], this.attributes[a].value);
 		}
-		for (var item in varValue[i]) this.print (item, varValue[i][item]);
-}}
+		else if (varValue[0].constructor.name === 'Object'){
+			for (; i< varValue.length -1; i++){
+				nodeNew = this.copy();
+				for (var item in varValue[i]) nodeNew.print (item, varValue[i][item]);
+			}
+			for (var item in varValue[i]) this.print (item, varValue[i][item]);
+}}}
 HTMLElement.prototype.printList = function (varName, varValue){
 	var nodeRef = this.getByContent ('((' + varName + '))');
 	if (nodeRef){
