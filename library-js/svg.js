@@ -40,8 +40,8 @@ SVGGraphicsElement.prototype.getAttribute = function (name){
 }
 SVGGraphicsElement.prototype.getAttributeNbBase = function (name){
 	var attributeStr = this.getAttribute (name);
-	attributeStr = attributeStr.replace (' ');
-	for (var u=0; u< unitList.length; u++) if (attributeStr.contain (unitList[u])) attributeStr = attributeStr.replace (unitList[u]);
+	attributeStr = attributeStr.replaceAll (" ","");
+	for (var u=0; u< unitList.length; u++) if (attributeStr.includes (unitList[u])) attributeStr = attributeStr.replaceAll (unitList[u], "");
 	return attributeStr;
 }
 SVGGraphicsElement.prototype.getAttributeNb = function (name){ return parseInt (this.getAttributeNbBase (name)); }
@@ -58,19 +58,19 @@ SVGPathElement.prototype.getPoints = function(){
 	const alphabet = 'achlmqvz';
 	var pointStrg = this.getAttribute ('d');
 	for (var l=0; l< alphabet.length; l++){
-		pointStrg = pointStrg.replace (alphabet[l], alphabet[l] +" ");
-		pointStrg = pointStrg.replace (alphabet[l].toUpperCase(), alphabet[l].toUpperCase() +" ");
+		pointStrg = pointStrg.replaceAll (alphabet[l], alphabet[l] +" ");
+		pointStrg = pointStrg.replaceAll (alphabet[l].toUpperCase(), alphabet[l].toUpperCase() +" ");
 	}
 	pointStrg = pointStrg.strip();
-	while (pointStrg.contain ("  ")) pointStrg = pointStrg.replace ("  "," ");
+	while (pointStrg.includes ("  ")) pointStrg = pointStrg.replaceAll ("  "," ");
 	var pointList = pointStrg.split (' ');
 	for (var p=0; p< pointList.length; p++){
-		if (pointList[p].contain (',')){
+		if (pointList[p].includes (',')){
 			pointList[p] = pointList[p].split (',');
 			pointList[p][0] = parseFloat (pointList[p][0]);
 			pointList[p][1] = parseFloat (pointList[p][1]);
 		}
-		else if (! alphabet.contain (pointList[p]) && ! alphabet.toUpperCase().contain (pointList[p])) pointList[p] = parseInt (pointList[p]);
+		else if (! alphabet.includes (pointList[p]) && ! alphabet.toUpperCase().includes (pointList[p])) pointList[p] = parseInt (pointList[p]);
 	}
 	return pointList;
 }
@@ -80,7 +80,7 @@ SVGPathElement.prototype.getPointsObj = function(){
 	var objList =[];
 	var objPos =-1;
 	for (var p=0; p< pointList.length; p++){
-		if (alphabet.contain (pointList[p]) || alphabet.toUpperCase().contain (pointList[p])){
+		if (alphabet.includes (pointList[p]) || alphabet.toUpperCase().includes (pointList[p])){
 			objList.push ([ pointList[p], ]);
 			objPos +=1;
 		}

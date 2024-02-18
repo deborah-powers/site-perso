@@ -32,7 +32,7 @@ text {
 	dominant-baseline: middle;
 	text-anchor: middle;
 	font-family: serif;
-	font-size: 1em;
+	font-size: 20px;
 }
 circle.marker {
 	r: 4px;
