@@ -49,6 +49,14 @@ section.fiche img {
 	margin: 0;
 	max-width: 100%;
 }
+.text-gradient{
+	background: linear-gradient(90deg, teal, 10%, #603);
+	color: transparent;
+	-webkit-background-clip: text;
+}
+/*
+https://www.w3docs.com/snippets/css/how-to-change-the-default-text-selection-color-with-css.html#google_vignette
+*/
 /* affichage pour les smartphones */
 @media (max-width: 768px){
 	section.fiche { width: 98%; }
