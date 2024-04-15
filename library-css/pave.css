@@ -1,0 +1,82 @@
+pave, toblerone, trect, octogone, hexagone, cylindre {
+	/* propriétés modifiables */
+	--width: 8cm;
+	--height: 4cm;
+	--depth: 2cm;
+	--bord: solid 2px red;
+	color: maroon;
+	/* ------ */
+	--depth-half: calc(var(--depth) /2);
+	width: var(--width);
+	height: var(--height);
+	display: block;
+	transform-style: preserve-3d;
+	padding: 0;
+	text-align: center;
+	background-position: center;
+	border: none;
+}
+pave.poteau { --depth: var(--width); }
+pave.cube {
+	--height: var(--width);
+	--depth: var(--width);
+}
+pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >* {
+	border: var(--bord);
+	background: var(--fond);
+	width: inherit;
+	height: inherit;
+	margin: 0;
+	color: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	background-position: center;
+	background-size: contain;
+	transform-origin: center center;
+}
+pave >*:nth-child(1), toblerone >*:nth-child(1), octogone >*:nth-child(1), cylindre >*:nth-child(1){
+	height: var(--depth);
+	transform: rotateX(90deg) translateZ(var(--depth-half));
+}
+pave >*:nth-child(2){
+	height: var(--depth);
+	transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--depth-half)));
+}
+pave >*:nth-child(3) { transform: translateZ(var(--depth-half)); }
+pave >*:nth-child(4){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
+pave >*:nth-child(5) {
+	width: var(--depth);
+	transform: rotateY(-90deg) translateZ(var(--depth-half));
+}
+pave >*:nth-child(6) {
+	width: var(--depth);
+	transform: rotateY(90deg) translateZ(calc(var(--width) - var(--depth-half)));
+}
+/* pavé qui tourne selon spin-vertical */
+pave.vertical >*:nth-child(3){ transform: rotateX(180deg) translateZ(var(--depth-half)); }
+
+/* ------------------------ exemple ------------------------ */
+
+container#mycube {
+	perspective: 800px;
+	perspective-origin: -100% 100px;
+}
+pave#mycube {
+	animation: spin-vertical 5s infinite linear;
+	--width: 4cm;
+	--bord: double 20px yellow;
+	--fond: turquoise;
+	margin-top: 3cm;
+}
+/*
+<pave id='mycube'>
+	<p id='top'>top</p>
+	<p id='bottom'>bottom</p>
+	<p id='front'>front</p>
+	<p id='back'>back</p>
+	<p id='left'>left</p>
+	<p id='right'>right</p>
+</pave>
+*/
