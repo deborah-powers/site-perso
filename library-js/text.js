@@ -8,9 +8,9 @@ function exists (object){
 	else return true;
 }
 String.prototype.fromModel = function (model){
-	model = model.clean().replaceAll ('%%', '$');
+	model = model.cleanTxt().replaceAll ('%%', '$');
 	const modelPieces = model.split ('%');
-	var text = this.clean();
+	var text = this.cleanTxt();
 	text = text.replace (modelPieces[0], "");
 	var d=0;
 	var value;
@@ -122,7 +122,7 @@ Array.prototype.toTsv = function(){
 	return text;
 }
 String.prototype.toHtml = function(){
-	var text = this.clean();
+	var text = this.cleanTxt();
 	text = '<p>'+ text +'</p>';
 	var toReplace =[ ['\n', '</p><p>'], ['<p>====== ', '<h1>'], [' ======</p>', '</h1>'], ['<p>****** ', '<h2>'], [' ******</p>', '</h2>'], ['<p>------ ', '<h3>'], [' ------</p>', '</h3>' ],
 		['<p>http', "<p><a href='http"], ['<p>\t', '<li>'], ['<p>======</p>', '<hr/>'], ['<p>******</p>', '<hr/>']];

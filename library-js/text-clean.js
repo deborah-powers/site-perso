@@ -8,6 +8,7 @@ const charReplace =[
 const charUpper =[ 'aA', 'àA', 'bB', 'cC', '\xe7\xc7', 'dD', 'eE', 'éE', 'èE', 'êE', 'ëE', 'fF', 'gG', 'hH', 'iI', 'îI', 'ïI', 'jJ', 'kK', 'lL', 'mM', 'nN', 'oO', '\xf4\xe4', 'pP', 'qQ', 'rR', 'sS', 'tT', 'uU', 'vV', 'wW', 'xX', 'yY', 'zZ'];
 const wordsBeginMaj =['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre', 'deborah', 'powers', 'maman', 'mamie', 'papa', 'victo', 'tony', 'simplon', 'loïc', 'france', 'paris', 'rueil'];
 const wordsBeginMin =['Deborah.powers', 'Deborah.noisetier', 'Http', '\nPg_'];
+const urlWords =[ [': /', ':/'], ['localhost: ', 'localhost:'], ['www. ', 'www.'], ['. jpg', '.jpg'], ['. png', '.png'], ['. css', '.css'], ['. js', '.js'], [': 80', ':80'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. ico', '.ico'] ]
 
 String.prototype.strip = function(){
 	const toStrip = '\n \t/';
@@ -29,6 +30,7 @@ String.prototype.cleanTxt = function(){
 	while (text.includes ('=======')) text = text.replaceAll ('=======', '======');
 	while (text.includes ('*******')) text = text.replaceAll ('*******', '******');
 	text = text.replaceAll (':', ': ');
+	for (var u=0; u< urlWords.length; u++) text = text.replaceAll (urlWords[u][0], urlWords[u][1]);
 	// nettoyer les bords du texte
 	text = text.strip();
 	return text;
