@@ -46,3 +46,12 @@ div.texto > p.lui {
 	margin-left: 30%;
 	background-color: #ABF;
 }
+/* la barre de progression */
+progress {
+	background-color: var(--fond-color);
+	height: 2em;
+	width: 100%;
+}
+::-moz-progress-bar { background-color: var(--text-color); }
+progress::-webkit-progress-value { background-color: var(--text-color); }
+progress::-webkit-progress-bar { background-color: var(--fond-color); }

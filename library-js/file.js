@@ -1,5 +1,5 @@
 /* fonctions pour ouvrir des fichiers
-dépendence: text.js
+dépendence: text.js et text-clean.js
 j'aurai souvent besoin d'utiliser un serveur afin d'ouvrir des fichiers
 cd dossier/contenant/mon.fichier
 python -m http.server
@@ -94,7 +94,7 @@ function fromTsv (tsvFile, callback){
 		// méthode assynchrone
 		xhttp.onreadystatechange = function(){
 			if (this.readyState ==4){
-				var textRes = this.responseText.clean();
+				var textRes = this.responseText.cleanTxt();
 				var listRes =[];
 				if (textRes) listRes = textRes.fromTsv();
 				callback (listRes);
@@ -109,7 +109,7 @@ function fromTsv (tsvFile, callback){
 		xhttp.send();
 		var listRes =[];
 		if (xhttp.status ==0 || xhttp.status ==200){
-			var textRes = xhttp.responseText.clean();
+			var textRes = xhttp.responseText.cleanTxt();
 			if (textRes) listRes = textRes.fromTsv();
 		}
 		return listRes;
