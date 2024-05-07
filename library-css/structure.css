@@ -83,7 +83,7 @@ hr {
 }
 a, b, em, i, span, strong { padding: 0 0.5em; }
 /* a { display: block } */
-a:hover { font-weight: bold }
+a:hover, a:focus { font-weight: bold }
 /* les boutons */
 button, input, select, textarea, nav >*, a.button { padding: 0.4em; }
 button, input, select, textarea { outline: none; }
@@ -99,10 +99,12 @@ button, a.button, nav >*, input[type='button'], input[type='submit'], input[type
 	border-style: var(--button-border, none);
 }
 select { width: 100%; }
+select:focus { background-color: var(--text-color, black); }
 option {
 	background-color: var(--page-color, white);
 	color: var(--text-color, black);
 }
+button:focus, a.button:focus, nav a:focus, input[type='button']:focus, input[type='submit']:focus, input[type='reset']:focus,
 button:hover, a.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
 	background-color: var(--button-bg-hover, #DDD);
 	color: var(--button-color-hover, black);
