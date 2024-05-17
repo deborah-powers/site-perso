@@ -1,0 +1,257 @@
+/* mise en forme de base sans couleurs */
+:root {
+	--fond-color: #EEE;
+	--bord-color: #AAA;
+	--text-color: black;
+	--page-color: white;
+	--button-height: 2em;
+	--button-bg: #DDD;
+	--button-bg-hover: var(--button-bg, #DDD);
+	--button-color: black;
+	--button-color-hover: var(--button-color, black);
+	--button-border: none;
+}
+/* je peux afficher le titre dans la page avec
+head, head > title { display: block; }
+body, head, head > title {}
+*/
+body {
+	margin: auto;
+	padding: 0 0 1em 0;
+	background-color: var(--page-color, white);
+	color: var(--text-color, black);
+	font-family: serif;
+	font-size: 1em;
+}
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+	/* line-height: 2em; */
+	vertical-align: top;
+	font-family: inherit;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	color: inherit;
+	background: none;
+	outline: none;
+	border-width: 2px;
+	border-style: none;
+	border-color: var(--bord-color, #AAA);
+}
+*:first-letter, title:first-letter { text-transform: uppercase; }
+*:before, *:after { box-sizing: border-box; }
+
+/* nouveauté, les blocs de code */
+xmp {
+	margin: 0 2%;
+	padding: 1%;
+	border-style: dotted;
+	background-color: var(--fond-color, #EEE);
+	white-space: pre;
+}
+figure { text-align: center; }
+table, caption, tr {
+	width: 100%;
+	border-collapse: collapse;
+	border: solid 2px var(--button-bg, #DDD);
+}
+th, td {
+	padding: 0.2em;
+	border: solid 2px var(--button-bg, #DDD);
+}
+li { margin-left: 2%; }
+/* afficher le title comme un h1 */
+head > title, h1 {
+	text-align: center;
+	font-size: 1.5em;
+}
+h2, caption {
+	text-align: center;
+	font-size: 1.2em;
+}
+h3, th { font-weight: bold; }
+hr {
+	height: 0.1em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	background-color: var(--text-color, black);
+	border-radius: 50%;
+}
+a, b, em, i, span, strong { padding: 0 0.5em; }
+/* a { display: block } */
+a:hover, a:focus { font-weight: bold }
+/* les boutons */
+button, input, select, textarea, nav >*, a.button { padding: 0.4em; }
+button, input, select, textarea { outline: none; }
+button, a.button, nav >*, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'], select {
+	text-align: center;
+	display: inline-block;
+	/*
+	height: var(--button-height, 2em);
+	line-height: var(--button-height, 2em);
+	*/
+	color: var(--button-color, black);
+	background-color: var(--button-bg, #DDD);
+	border-style: var(--button-border, none);
+}
+select { width: 100%; }
+select:focus { background-color: var(--text-color, black); }
+option {
+	background-color: var(--page-color, white);
+	color: var(--text-color, black);
+}
+button:focus, a.button:focus, nav a:focus, input[type='button']:focus, input[type='submit']:focus, input[type='reset']:focus,
+button:hover, a.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
+	background-color: var(--button-bg-hover, #DDD);
+	color: var(--button-color-hover, black);
+	font-weight: normal;
+}
+/* les champs de texte */
+input[type='radio'], input[type='checkbox'], input[type='number'], input[type='date'], input[type='time'] {
+	appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	-webkit-appearance: none;
+}
+textarea, input[type='text'], input[type='password'], input[type='email'], input[type='number'], input[type='date'], input[type='time'] {
+	width: 100%;
+	color: var(--text-color, black);
+	background-color: var(--fond-color, #EEE);
+	border-style: var(--button-border, none);
+	margin-bottom: 1%;
+}
+::placeholder {
+	color: var(--text-color, black);
+	opacity: 0.6;
+}
+textarea {
+	height: 3em;
+	max-width: 100%;
+}
+/* les boutons radio */
+input[type='radio'], input[type='checkbox'] {
+	width: 1em;
+	height: 1em;
+	border-style: solid;
+	border-color: var(--text-color, black);
+	/* margin-top: 1%; */
+}
+input[type='radio']:checked, input[type='checkbox']:checked { background-color: var(--button-bg, #DDD); }
+/* barre de navigation */
+nav {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	margin: 0;
+}
+nav >* {
+	flex-basis: 1;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+/* les formules mathématiques */
+math { display: block; }
+mrow { font-size: 1em; }
+f {
+	margin: 0 0.2em;
+	vertical-align: middle;
+	display: inline-block;
+	text-align: center;
+}
+f >*.d, f>*:last-child, f>d {
+	display: block;
+	border-width: 0.1em;
+	border-top-style: solid;
+}
+r {
+	display: inline-block;
+	transform: skew(-15deg);
+	transform-origin: bottom left;
+	padding-left: 0.1em;
+	margin-left: 0.7em;
+	margin-right: 0.2em;
+	border-width: 0.1em;
+	border-top-style: solid;
+	border-left-style: solid;
+}
+r:before {
+	content: "";
+	position: absolute;
+	height: 60%;
+	width: 0.5em;
+	left: -0.5em;
+	bottom: 0;
+	border-width: 0.1em;
+	border-right-style: solid;
+	border-top-style: solid;
+	transform: skew(30deg);
+	transform-origin: bottom right;
+}
+/* deux methodes pour faire une banniere */
+body.banner {
+/*	background-image: url('../data/banniere.jpg'); */
+	background-repeat: no-repeat;
+	background-size: 100% 10cm;
+	padding-top: 10cm;
+}
+img#banner {
+	width: 100%;
+	height: 10cm;
+	object-fit: cover;
+	margin: 0;
+}
+/* carousel d'image */
+.carousel, carousel {
+	width: 100%;
+	height: 12cm;
+	display: flex;
+	justify-content: space-between;
+	align-items: stretch;
+}
+.carousel > button, carousel > button { flex-grow: 1; }
+.carousel > img, carousel > img {
+	flex-grow: 2;
+	max-width: 50%;
+	object-fit: contain;
+	background-color: var(--text-color);
+}
+/* affichage pour les tablettes */
+@media (max-width: 992px){}
+/* affichage pour les smartphones */
+@media (max-width: 768px){
+	body.banner {
+		background-image: none;
+		padding-top: 0;
+	}
+	img { max-width: 100%; }
+	img +*, .right +* { clear: right }
+	nav { flex-wrap: wrap }
+}
+@media print{
+	body.banner {
+		background: none;
+		padding-top: 0;
+	}
+}
+/* pour mes pwa */
+button#install-pwa { display: none; }
+.hidden { display: none; }
+
+/* scroll bar de firefox */
+:root {
+	overflow: auto;
+	scrollbar-color: var(--text-color) var(--page-color);
+	scrollbar-width: 1em;
+}
+/* scroll bar de chrome
+div::-webkit-scrollbar { width: 1em; }
+*/
+::-webkit-scrollbar { width: 1em; }
+::-webkit-scrollbar-track { background-color: var(--page-color); }
+::-webkit-scrollbar-thumb {
+	background-color: var(--text-color);
+	border-radius: 1em;
+}
