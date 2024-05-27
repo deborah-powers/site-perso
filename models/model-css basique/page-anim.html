@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head>
+	<title>animation - notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../site-dp/data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	#moving-heart {
+		animation-name: moving-heart;
+		animation-duration: 10s;
+		animation-iteration-count: 2;
+	}
+	@keyframes moving-heart {
+		from {
+			margin-left: 50%;
+			margin-top: 20%;
+		}
+		to {}
+		0% { background-color: red; }
+		50% { background-color: pink; }
+	}
+	.boule {
+		background-color: var(--button-bg);
+		width: 6em;
+		height: 6em;
+	}
+</style></head><body>
+	<h2>les animations</h2>
+	<p class='shape heart' id='moving-heart'></p>
+	<h3>id= animated</h3>
+	<p>animation-name: movement;</p>
+	<p>animation-duration: 10s;</p>
+	<p>animation-iteration-count: 3; infinite</p>
+	<p>animation-direction: alternate; normal, reverse</p>
+	<h3>@keyframes movement</h3>
+	<p>from {...} to {...}</p>
+	<p>0% {...} 50% {...} 100% {...}</p>
+	<h3>bonus</h3>
+	<p>animation-delay: 1s;</p>
+	<p>animated:hover { animation-play-state: paused; } running</p>
+	<h3>la boule</h3>
+	<p class='boule tourne'></p>
+	<a href='index.html'>revenir au sommaire</a>
+</body></html>

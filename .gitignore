@@ -14,7 +14,7 @@ s*.ico
 *.zip
 *-va.*
 * va.*
-*vb.*s
+*vb.*
 *vc.*
 *copie*
 adminer.php

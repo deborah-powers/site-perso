@@ -1,0 +1,32 @@
+<style type='text/css'>
+	div {
+		border: solid 4px var(--button-bg);
+		min-height: 6em;
+		display: flex;
+		justify-content: space-between;
+		row-gap: 1em;
+		column-gap: 1em;
+		flex-wrap: wrap;
+	}
+	span {
+		display: inline-block;
+		width: 3em;
+		height: 3em;
+		background-color: var(--fond-color);
+		padding: auto;
+	}
+</style><section>
+	<h2>les unités</h2>
+	<div><span>1</span><span style='width:3rem;height:3rem;'>2</span><span style='width:3ch;height:3ch;'>3</span>
+		<span style='width:30px;height:30px;'>4</span><span style='width:30%;height:30%;'>5</span><span style='width:15vw;height:15vh;'>6</span>
+	</div>
+	<p>ces carrés font trois ou trente unités de coté. les unités sont:</p>
+	<ol>
+		<li>em, relative à la taille de police du conteneur</li>
+		<li>rem, relative à la taille de police du body</li>
+		<li>ch, relative aux dimension du caractère 0</li>
+		<li>px (30)</li>
+		<li>% (30), relative au conteneur</li>
+		<li>vw et vh (15), relatives à l'écran (viewport)</li>
+	</ol>
+</section>

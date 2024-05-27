@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head>
+	<title>media query - notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../site-dp/data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	/* affichage pour les tablettes */
+	@media (max-width: 992px){
+		body, head, head > title { background-color: pink; }
+	}
+	/* affichage pour les smartphones */
+	@media (max-width: 768px){
+		body, head, head > title { background-color: orange; }
+	}
+	/* affichage à l'impression */
+	@media print{}
+</style></head><body>
+	<h2>les media queries</h2>
+	<p>l'impression</p>
+	<xmp>@media print {
+	body { color: red; }
+	p { color: blue; }
+}</xmp>
+	<p>affichage pour les tablettes</p>
+	<p>@media (max-width: 992px){}</p>
+	<p>affichage pour les smartphones</p>
+	<p>@media (max-width: 768px){}</p>
+	<a href='index.html'>revenir au sommaire</a>
+</body></html>

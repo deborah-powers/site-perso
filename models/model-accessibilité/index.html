@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head>
+	<title>accessibilité en css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	main, footer {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		justify-content: space-between;
+		border: solid 4px #3C3;
+		padding: 1em;
+		margin-top: 1em;
+		text-align: center;
+		border-radius: 1em;
+	}
+	h2 { width: 100%; }
+	a {
+		border-radius: 1em;
+		padding: 0.5em;
+		width: 12em;
+		background-color: var(--fond-color);
+	}
+</style></head><body>
+	<h1>page de référence css pour l'accessibilité</h1>
+	<p>le css pour l'accessibilité</p>
+	<main>
+		<h2>sommaire</h2>
+		<a href='page-navclav.html'>navigation via le clavier</a>
+		<a href='page-text.html'>le texte</a>
+		<a href='page-color.html'>les couleurs</a>
+	</main>
+	<footer>
+		<h2>sources</h2>
+		<a href='https://enterprise.codecademy.com/learn/emodules/emod-css-accessibility' target='blank'>percipio, css accessibility</a>
+	</footer>
+</body></html>

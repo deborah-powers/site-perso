@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head>
+	<title>bordure - notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../site-dp/data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	p {
+		height: 6em;
+		margin-bottom: 1em;
+	}
+	p.triangle {
+		border-color: cadetblue #3C3 purple var(--button-bg);
+		border-style: solid;
+		border-width: 2em 3em 4em 5em;
+		height: 7em;
+		width: 7em;
+	}
+	p.triangle#symetrie {
+		border-width: 2em 4em;
+	}
+	p.info {
+		height: 2em;
+		border-style: none;
+	}
+</style></head><body class='list3'>
+	<h2>les bordures</h2>
+	<p></p>
+	<xmp>p {
+		border-color: #0CC;
+		border-width: 4px;
+		border-style: solid;
+	}</xmp>
+	<p style='border-style:none'>border-style: none;</p>
+	<p style='border-style:dashed'>border-style: dashed;</p>
+	<p style='border-style:dotted'>border-style: dotted;</p>
+	<p style='border-style:double'>border-style: double;</p>
+	<p style='border-radius:4px'>border-radius: 4px;</p>
+	<p style='border-radius:50%'>border-radius: 50%;</p>
+	<p class='triangle'></p><p class='info'>triangle. cotés: top, right, bottom, left</p>
+	<p class='triangle' id='symetrie'></p><p class='info'>triangle. cotés: top, right</p>
+	<a href='index.html'>revenir au sommaire</a>
+</body></html>

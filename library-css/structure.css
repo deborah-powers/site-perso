@@ -28,7 +28,7 @@ body {
 	padding: 0;
 	margin: 0;
 	font-size: 1em;
-	/* line-height: 2em; */
+	line-height: 1em;
 	vertical-align: top;
 	font-family: inherit;
 	font-style: normal;
@@ -43,6 +43,7 @@ body {
 }
 *:first-letter, title:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
+p { line-height: 1.5em; }
 /* nouveauté, les blocs de code */
 xmp {
 	margin: 0 2%;

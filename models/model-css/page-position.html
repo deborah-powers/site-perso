@@ -1,0 +1,50 @@
+<style type='text/css'>
+	section {
+		display: grid;
+		grid-auto-flow: column;
+		grid-template-rows: 2em 1fr 1fr 3em;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-gap: 1em 1em;
+	}
+	div {
+		border: solid 4px var(--button-bg);
+		height: 6em;
+	}
+	span {
+		display: block;
+		width: 1em;
+		height: 1em;
+		background-color: var(--fond-color);
+		top:60%;
+		left:20%;
+	}
+	h2 { grid-column: 1/5; }
+	p:after { content: '.'; }
+</style><section>
+	<h2>le positionnement</h2>
+	<div><span style='position:static'></span></div>
+<xmp>div {
+	position: static;
+	pas besoin de top, left, right, bottom;
+}</xmp>
+	<p>static positionne le carré par rapport au contenu de la page. c'est la valeur par défaut</p>
+	<div><span style='position:sticky'></span></div>
+<xmp>div {
+	position: sticky;
+	+ top, left, right, bottom;
+}</xmp>
+	<p>sticky positionne le carré par rapport à l'écran. il ne bouge pas quand je scroll</p>
+	<div><span style='position:absolute'></span></div>
+<xmp>div {
+	position: absolute;
+	top: 60%;
+	left: 20%;
+}</xmp>
+	<p>absolute positionne le carré par rapport à la page</p>
+	<div><span style='position:relative'></span></div>
+<xmp>div {
+	position: relative;
+	+ top, left, right, bottom;
+}</xmp>
+	<p>relative positionne le carré par rapport à son conteneur</p>
+</section>
