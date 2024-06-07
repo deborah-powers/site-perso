@@ -7,7 +7,7 @@
 	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
 	<link rel='stylesheet' type='text/css' href='base.css'/>
 <style type='text/css'>
-	path, circle {
+	svg * {
 		fill: ivory;
 		stroke: #633;
 		stroke-width: 2px;
@@ -24,6 +24,23 @@
 	path:nth-child(10) { fill: #40B; }
 	path:nth-child(11) { fill: #808; }
 	path:nth-child(12) { fill: #B04; }
+	polygon { fill: #844; }
+	svg { width: 50%; }
+	div {
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 20%;
+	}
+	svg, div { height: 250px; }
+	div#couleurs { justify-content: stretch; }
+	div#couleurs > p {
+		flex-basis: 25%;
+		flex-grow: 1;
+		margin: 0;
+		padding-top: 1em;
+		text-align: center;
+	}
 </style></head><body>
 	<h1>les couleurs</h1>
 	<svg version='1.1' width='248' height='248' viewBox='-62 -62 124 124' xmlns='http://www.w3.org/2000/svg'>
@@ -40,9 +57,21 @@
 		<path d='m 0,0	l 60,0		a 60,60 0 0,1 -8,30		z'/>
 		<path d='m 0,0	l 52,30		a 60,60 0 0,1 -22,22	z'/>
 		<circle r='30' cx='0' cy='0' />
+		<polygon class='hidden' id='aiguille-complementaire' points='-50,0 0,-5 50,0 0,5' transform='rotate(75)' />
+		<polygon class='hidden' id='aiguille-triade' points='-50,0 0,-5 25,-43.3 10,0 25,43.3 0,5' transform='rotate(75)' />
+		<polygon class='hidden' id='aiguille-triade-b' points='-50,0 0,-5 43.3,-25 10,0 43.3,25 0,5' transform='rotate(75)' />
+		<polygon class='hidden' id='aiguille-quatre' points='-50,0 -5,-5 0,-50 5,-5 50,0 5,5 0,50 -5,5' transform='rotate(75)' />
 	</svg>
+	<div id='couleurs'><p></p><p></p><p></p><p></p></div>
+	<div id='choix-methode'>
+		<button onclick='selComplementaire()'>complémentaires</button>
+		<button onclick='selTriade()'>triade</button>
+		<button onclick='selTriadeBis()'>seconde triade</button>
+		<button onclick='selTetrade()'>têtrade</button>
+	</div>
 	<p>attention au contraste entre les couleurs</p>
 	<footer><a href='index.html'>revenir au sommaire</a></footer>
+	<script type='text/javascript' src='page-color.js'></script>
 </body></html>
 
 
