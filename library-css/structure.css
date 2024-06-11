@@ -86,7 +86,7 @@ a, b, em, i, span, strong { padding: 0 0.5em; }
 /* a { display: block } */
 a:hover, a:focus { font-weight: bold }
 /* les boutons */
-button, input, select, textarea, nav >*, a.button { padding: 0.4em; }
+button, input[type='button'], input[type='submit'], input[type='reset'], select, textarea, nav >*, a.button { padding: 0.4em; }
 button, input, select, textarea { outline: none; }
 button, a.button, nav >*, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'], select {
 	text-align: center;
