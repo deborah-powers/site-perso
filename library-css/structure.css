@@ -17,7 +17,7 @@ body, head, head > title {}
 */
 body {
 	margin: auto;
-	padding: 0 0 1em 0;
+	padding: 0;
 	background-color: var(--page-color, white);
 	color: var(--text-color, black);
 	font-family: serif;
@@ -28,7 +28,7 @@ body {
 	padding: 0;
 	margin: 0;
 	font-size: 1em;
-	line-height: 1em;
+	line-height: 1.5em;
 	vertical-align: top;
 	font-family: inherit;
 	font-style: normal;
@@ -218,7 +218,7 @@ img#banner {
 	flex-grow: 2;
 	max-width: 50%;
 	object-fit: contain;
-	background-color: var(--text-color);
+	background-color: var(--text-color, black);
 }
 /* affichage pour les tablettes */
 @media (max-width: 992px){}
@@ -245,15 +245,15 @@ button#install-pwa { display: none; }
 /* scroll bar de firefox */
 :root {
 	overflow: auto;
-	scrollbar-color: var(--text-color) var(--page-color);
+	scrollbar-color: var(--text-color, black) var(--page-color, white);
 	scrollbar-width: 1em;
 }
 /* scroll bar de chrome
 div::-webkit-scrollbar { width: 1em; }
 */
 ::-webkit-scrollbar { width: 1em; }
-::-webkit-scrollbar-track { background-color: var(--page-color); }
+::-webkit-scrollbar-track { background-color: var(--page-color, white); }
 ::-webkit-scrollbar-thumb {
-	background-color: var(--text-color);
+	background-color: var(--text-color, black);
 	border-radius: 1em;
 }
