@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-	<title>le texte, accessibilité en css</title>
+	<title>l'interractivité, accessibilité en css</title>
 	<meta name='viewport' content='width=device-width,initial-scale=1'/>
 	<meta charset='utf-8'/>
 	<link rel='icon' type='image/x-icon' href='../../data/nounours-perso.svg'/>
@@ -12,18 +12,58 @@ p {
 	line-height: 1.5em;
 	letter-spacing: 0.05em;
 }
+div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+div > p {
+	border-style: solid;
+	padding: 0.5em;
+	flex-basis: 8em;
+}
 section, xmp {
 	min-width: 45ch;
 	max-width: 85ch;
 	margin: auto;
 }
+a:hover { color: green; }
+a:focus { color: red; }
+a:visited { color: blue; }
 </style></head><body>
 	<h1>l'interractivité</h1>
-	<h2>les appréviations</h2>
 	<p>abbr title="nom long" exemple: <abbr title='société protectrice des animaux'>SPA</abbr></p>
+	<h2>le curseur</h2>
+	<p>indiquer qu'un élément est cliquable en modifiant l'apparence du curseur dessus.</p>
+	<div>
+		<p style='cursor:auto'>auto</p>
+		<p style='cursor:all-scroll'>all-scroll</p>
+		<p style='cursor:not-allowed'>not-allowed</p>
+		<p style='cursor:no-drop'>no-drop</p>
+		<p style='cursor:cell'>cell</p>
+		<p style='cursor:crosshair'>crosshair</p>
+		<p style='cursor:pointer'>pointer</p>
+		<p style='cursor:col-resize'>col-resize</p>
+		<p style='cursor:row-resize'>row-resize</p>
+		<p style='cursor:e-resize'>e-resize</p>
+		<p style='cursor:n-resize'>n-resize</p>
+		<p style='cursor:ne-resize'>ne-resize</p>
+		<p style='cursor:se-resize'>se-resize</p>
+		<p style='cursor:text'>text</p>
+		<p style='cursor:vertical-text'>vertical-text</p>
+		<p style='cursor:none'>none</p>
+		<p style='cursor:move'>move</p>
+		<p style='cursor:zoom-in'>zoom-in</p>
+		<p style='cursor:zoom-out'>zoom-out</p>
+		<p style='cursor:wait'>wait</p>
+		<p style='cursor:progress'>progress</p>
+		<p style='cursor:help'>help</p>
+		<p style='cursor:copy'>copy</p>
+		<p style='cursor:context-menu'>context-menu</p>
+	</div>
 	<h2>les liens</h2>
-	<a href='index.html'>revenir au sommaire</a>
-	<p>laisser le soulignage du lien.</p>
+	<a href='index.html'>laisser le soulignage du lien</a>
+	<p>.</p>
 	<xmp>p {
 }</xmp>
 	<footer><a href='index.html'>revenir au sommaire</a></footer>

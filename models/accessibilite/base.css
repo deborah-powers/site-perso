@@ -16,6 +16,11 @@ table {
 }
 caption, th, td { border: solid 2px var(--button-bg); }
 img, a { display: block; }
+a {
+	text-decoration: underline;
+	cursor: pointer;
+}
+button { cursor: pointer; }
 p.info { border-style: none; }
 xmp {
 	border: solid 4px #3C3;
@@ -34,3 +39,4 @@ section.list2 {
 section.bord p, math { border: solid 4px var(--button-bg); }
 h2 { column-span: all; }
 div.column p { height: 3em; }
+:focus { border-style: dotted; }
