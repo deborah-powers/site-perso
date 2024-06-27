@@ -60,15 +60,20 @@
 		grid-column: 1/3;
 		text-align: center;
 	}
+	p#wcag-aaa-grand, p#wcag-aa-grand { font-size: 24px; }
+	p#wcag-aaa-petit, p#wcag-aa-petit {
+		font-size: 19px;
+		font-weight: bold;
+	}
 </style></head><body>
 	<h1>les couleurs</h1>
 	<h2>le contraste</h2>
 	<h3>passer le critère AAA du wcag:</h3>
-	<p style='font-size:24px'>constraste minimum de 7:1 entre le fond et un texte de 24 px</p>
-	<p style='font-size:19px;font-weight:bold'>constraste minimum de 4.5:1 entre le fond et un texte de 19 px gras</p>
+	<p id='wcag-aaa-grand'>constraste minimum de 7:1 entre le fond et un texte de 24 px</p>
+	<p id='wcag-aaa-petit'>constraste minimum de 4.5:1 entre le fond et un texte de 19 px gras</p>
 	<h3>passer le critère AA du wcag:</h3>
-	<p style='font-size:24px'>constraste minimum de 4.5:1 entre le fond et un texte de 24 px</p>
-	<p style='font-size:19px;font-weight:bold'>constraste minimum de 3:1 entre le fond et un texte de 19 px gras</p>
+	<p id='wcag-aa-grand'>constraste minimum de 4.5:1 entre le fond et un texte de 24 px</p>
+	<p id='wcag-aa-petit'>constraste minimum de 3:1 entre le fond et un texte de 19 px gras</p>
 	<form id='choix-couleurs'>
 		<h3>le contraste de vos couleurs</h3>
 		<label for='couleur-text'>le texte</label><input type='color' name='couleur-text' onchange='showColor(this)'>

@@ -44,17 +44,41 @@ function hexaToRvb (couleurHexa){
 }
 var couleurA = '#000';
 var couleurB = '#000';
+const tagAApetit = document.getElementById ('wcag-aa-petit');
+const tagAAgrand = document.getElementById ('wcag-aa-grand');
+const tagAAApetit = document.getElementById ('wcag-aaa-petit');
+const tagAAAgrand = document.getElementById ('wcag-aaa-grand');
+const colorLow = 'pink';
+const colorOk = 'limegreen';
 function showColor (input){
 	if (input.name === 'couleur-fond') couleurA = input.value;
 	else couleurB = input.value;
 	const rvbA = hexaToRvb (couleurA);
 	const rvbB = hexaToRvb (couleurB);
 	const lumRatio = calculRatioLuminescence (rvbA, rvbB);
+	tagAAgrand.style.backgroundColor = colorLow;
+	tagAApetit.style.backgroundColor = colorLow;
+	tagAAAgrand.style.backgroundColor = colorLow;
+	tagAAApetit.style.backgroundColor = colorLow;
 	const resTag = document.getElementsByTagName ('form')[0].getElementsByTagName ('p')[0];
 	if (lumRatio <3) resTag.innerHTML = 'le constraste est trop bas pour passer le niveau AA';
-	else if (lumRatio <4.5) resTag.innerHTML = 'le constraste passe le niveau AA pour les gros caractères';
-	else if (lumRatio >=7) resTag.innerHTML = 'le constraste est parfait';
-	else resTag.innerHTML = 'le constraste passe le niveau AA';
+	else if (lumRatio <4.5){
+		resTag.innerHTML = 'le constraste passe le niveau AA pour les gros caractères';
+		tagAAApetit.style.backgroundColor = colorOk;
+	}
+	else if (lumRatio >=7){
+		resTag.innerHTML = 'le constraste est parfait';
+		tagAAgrand.style.backgroundColor = colorOk;
+		tagAApetit.style.backgroundColor = colorOk;
+		tagAAAgrand.style.backgroundColor = colorOk;
+		tagAAApetit.style.backgroundColor = colorOk;
+	}
+	else{
+		resTag.innerHTML = 'le constraste passe le niveau AA';
+		tagAApetit.style.backgroundColor = colorOk;
+		tagAAgrand.style.backgroundColor = colorOk;
+		tagAAApetit.style.backgroundColor = colorOk;
+	}
 }
 function rvbAdd (valueStart){
 	valueStart +=10;
