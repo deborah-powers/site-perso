@@ -82,7 +82,8 @@ hr {
 	background-color: var(--text-color, black);
 	border-radius: 50%;
 }
-a, b, em, i, span, strong { padding: 0 0.5em; }
+a, b, em, i, span, strong { padding: 0 0.2em; }
+strong { font-weight: bold; }
 ul, ol {
 	margin-top: 1em;
 	margin-bottom: 1em;
