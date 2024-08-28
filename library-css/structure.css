@@ -64,7 +64,6 @@ th, td {
 	padding: 0.2em;
 	border: solid 2px var(--button-bg, #DDD);
 }
-li { margin-left: 2%; }
 /* afficher le title comme un h1 */
 head > title, h1 {
 	text-align: center;
@@ -87,8 +86,16 @@ strong { font-weight: bold; }
 ul, ol {
 	margin-top: 1em;
 	margin-bottom: 1em;
+	margin-left: 2%;
 }
-/* a { display: block } */
+ul >*, ol >* {
+	display: list-item;
+	margin: 0 !important;
+}
+/*
+li { margin-left: 2%; }
+a { display: block }
+*/
 a:hover, a:focus { font-weight: bold }
 img { mix-blend-mode: multiply; }
 /* les boutons */
