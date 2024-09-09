@@ -97,6 +97,7 @@ li { margin-left: 2%; }
 a { display: block }
 */
 a:hover, a:focus { font-weight: bold }
+body >a, div >a { display: block; }
 img { mix-blend-mode: multiply; }
 /* les boutons */
 button, input[type='button'], input[type='submit'], input[type='reset'], select, textarea, nav >*, a.button { padding: 0.4em; }
