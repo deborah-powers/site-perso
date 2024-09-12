@@ -2,6 +2,27 @@
 <p class='shape cloud'>
 dépend de structure.css
 */
+/* les flèches entre les éléments */
+hr.arrow {
+	display: inline-block;
+	height: 1em;
+	width: 1em;
+	background-color: var(--text-color);
+	clip-path: polygon(100% 50%, 60% 0%, 60% 30%, 0% 30%, 0% 70%, 60% 70%, 60% 100%);
+	vertical-align: middle;
+}
+hr.arrow.left { clip-path: polygon(0% 50%, 40% 0%, 40% 30%, 100% 30%, 100% 70%, 40% 70%, 40% 100%); }
+hr.arrow.bottom { clip-path: polygon(50% 100%, 0% 60%, 30% 60%, 30% 0%, 70% 0%, 70% 60%, 100% 60%); }
+hr.arrow.top { clip-path: polygon(50% 0%, 0% 40%, 30% 40%, 30% 100%, 70% 100%, 70% 40%, 100% 40%); }
+hr.arrow.horizontal {
+	width: 2em;
+	clip-path: polygon(0 50%, 40% 0%, 40% 30%, 60% 30%, 60% 0%, 100% 50%, 60% 100%, 60% 70%, 40% 70%, 40% 100%);
+}
+hr.arrow.vertical {
+	height: 2em;
+	clip-path: polygon(50% 0%, 0% 40%, 30% 40%, 30% 60%, 0% 60%, 50% 100%, 100% 60%, 70% 60%, 70% 40%, 100% 40%);
+}
+/* les éléments fléchés */
 /* les icones */
 .icon {
 	width: 3em;
