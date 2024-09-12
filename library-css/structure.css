@@ -242,7 +242,6 @@ img#banner {
 		background-image: none;
 		padding-top: 0;
 	}
-	img { max-width: 100%; }
 	img +*, .right +* { clear: right }
 	nav { flex-wrap: wrap }
 }
