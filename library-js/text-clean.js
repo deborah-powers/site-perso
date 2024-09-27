@@ -23,14 +23,17 @@ String.prototype.cleanTxt = function(){
 	// éliminer les caractères en trops
 	var text = this.replaceAll ('\\', "");
 	for (var c=0; c< charErase.length; c++) text = text.replaceAll (charErase[c], " ");
-	for (var c=0; c< charReplace.length; c++) text = text.replaceAll (charReplace[c], " ");
+	for (var c=0; c< charReplace.length; c++) text = text.replaceAll (charReplace[c][0], charReplace[c][1]);
 	while (text.includes ('....')) text = text.replaceAll ('....', '...');
 	while (text.includes ('  ')) text = text.replaceAll ('  ', ' ');
+	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
+	while (text.includes ('\t\t')) text = text.replaceAll ('\t\t', '\t');
 	while (text.includes ('_______')) text = text.replaceAll ('_______', '______');
 	while (text.includes ('-------')) text = text.replaceAll ('-------', '------');
 	while (text.includes ('=======')) text = text.replaceAll ('=======', '======');
 	while (text.includes ('*******')) text = text.replaceAll ('*******', '******');
 	text = text.replaceAll (':', ': ');
+	text = text.replaceAll ('  ', ' ');
 	for (var u=0; u< urlWords.length; u++) text = text.replaceAll (urlWords[u][0], urlWords[u][1]);
 	text = text.replaceAll ('\n ','\n');
 	text = text.replaceAll (' \n','\n');
