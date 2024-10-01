@@ -21,7 +21,7 @@ String.prototype.strip = function(){
 }
 String.prototype.cleanTxt = function(){
 	// éliminer les caractères en trops
-	var text = this.replaceAll ('\\', "");
+	var text = this.replaceAll ('\\', "/");
 	for (var c=0; c< charErase.length; c++) text = text.replaceAll (charErase[c], " ");
 	for (var c=0; c< charReplace.length; c++) text = text.replaceAll (charReplace[c][0], charReplace[c][1]);
 	while (text.includes ('....')) text = text.replaceAll ('....', '...');

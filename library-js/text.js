@@ -154,6 +154,14 @@ String.prototype.toHtml = function(){
 	text = linkList.join ('<li>');
 	return text;
 }
+String.prototype.toHtmlShapes = function(){
+	// le texte à été préalablement transformé par toHtml. shape.css contient le style correspondant aux balises créées.
+	var text = this;
+	if (text.includes ('<-->')) text = text.replaceAll ('<-->', "<hr class='arrow horizontal'/>");
+	if (text.includes ('-->')) text = text.replaceAll ('-->', "<hr class='arrow'/>");
+	if (text.includes ('<--')) text = text.replaceAll ('<--', "<hr class='arrow left'/>");
+	return text;
+}
 HTMLElement.prototype.fromText = function (text){
 	text = text.toHtml();
 	this.innerHTML = text;
