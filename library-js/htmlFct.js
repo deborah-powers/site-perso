@@ -11,6 +11,7 @@ String.prototype.toHtml = function(){
 	var text = this.cleanTxt();
 	// transformer la mise en page en balises
 	text = '\n' + text + '\n';
+	text = text.toSql();
 	for (tag of tagHtml) if (text.includes (tag[1])){ text = text.replaceAll (tag[1], tag[0]); }
 	// autres modifications
 	text = text.toList();
@@ -30,9 +31,9 @@ String.prototype.toHtml = function(){
 	text = text.toLink();
 	// restaurer le texte, remplacer mes placeholders
 	text = text.replaceAll ('ht/tp', 'http');
-	text = text.replaceAll ('\\a', '\n');
-	text = text.replaceAll ('\\f', '\t');
 	text = text.cleanHtml();
+	text = text.replaceAll ('/$', '\n');
+	text = text.replaceAll ('\\f', '\t');
 	return text;
 }
 String.prototype.toList = function(){
@@ -70,7 +71,9 @@ String.prototype.toList = function(){
 }
 String.prototype.toTable = function(){
 	if (this.includes ('\t')){
-		var textList = this.split ('\n');
+		var text = this.replaceAll ('\t\t', '\t');
+		while (text.includes ('\t\t')) text = text.replaceAll ('\t\t', '\t');
+		var textList = text.split ('\n');
 		var d=-1; var c=-1; var i=0;
 		while (i< textList.length){
 			// rechercher une table
@@ -224,6 +227,41 @@ String.prototype.toHtmlShapes = function(){
 	if (text.includes ('<-->')) text = text.replaceAll ('<-->', "<hr class='arrow horizontal'/>");
 	if (text.includes ('-->')) text = text.replaceAll ('-->', "<hr class='arrow'/>");
 	if (text.includes ('<--')) text = text.replaceAll ('<--', "<hr class='arrow left'/>");
+	return text;
+}
+String.prototype.toSqlOne = function (word){
+	text = this.replaceAll ('\n'+ word[0].toUpperCase() + word.substring (1) +" ", '\n'+ word +" ");
+	if (text.includes ('\n'+ word +" ") && text.includes (';')){
+		const textList = text.split ('\n'+ word +" ");
+		var f=0; var tmpReq ="";
+		for (var l=1; l< textList.length; l++){
+			if (textList[l].includes (';')){
+				f=1+ textList[l].indexOf (';');
+				tmpReq = textList[l].substring (0,f);
+				if (tmpReq.includes ('\n')){
+					tmpReq = tmpReq.replaceAll ('\n','/$');
+					while (tmpReq.includes ('/$/$')) tmpReq = tmpReq.replaceAll ('/$/$','/$');
+					tmpReq = tmpReq.toLowerCase();
+					tmpReq = word +" "+ tmpReq;
+					textList[l] = textList[l].substring (f);
+					textList[l] = '<xmp>' + tmpReq + '</xmp>' + textList[l];
+				}
+				else textList[l] = word +" "+ textList[l];
+			}
+			else textList[l] = word +" "+ textList[l];
+		}
+		text = textList.join ('\n');
+	}
+	return text;
+}
+String.prototype.toSql = function(){
+	// repérer les blocs de code sql.
+	// avant de rajouter les balises html de base.
+	var text = this.replaceAll (' ;',';');
+	text = text.replaceAll ('\n;',';');
+	text = text.toSqlOne ('with tmp_');
+	text = text.toSqlOne ('create or replace');
+	text = text.toSqlOne ('select');
 	return text;
 }
 String.prototype.cleanHtml = function(){
