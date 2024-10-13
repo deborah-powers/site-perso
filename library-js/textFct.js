@@ -35,39 +35,23 @@ const codeKeywords =[
 	'log.debug', 'log.info'
 ];
 
-String.prototype.usePlaceholders = function(){
-	const placeholders = ('y/n', 'e/c', 'h/c', 'l/n');
-	var text = this.cleanTxt();
-	for (var p=0; p< placeholders.length; p++){
-		text = text.replaceAll (placeholders[p].upper(), placeholders[p]);
-		text = text.replaceAll ('('+ placeholders[p] +')', placeholders[p]);
-		text = text.replaceAll ('['+ placeholders[p] +']', placeholders[p]);
-		text = text.replaceAll ('{'+ placeholders[p] +'}', placeholders[p]);
-	}
-	text = text.replaceAll ('y/n', 'Deborah');
-	text = text.replaceAll ('e/c', 'grey');
-	text = text.replaceAll ('h/c', 'dark blond');
-	text = text.replaceAll ('l/n', 'Powers');
-	return text;
-}
-
 /* ======================== nettoyage du texte ======================== */
 
 String.prototype.cleanTxt = function(){
 	var text = this.cleanBasic();
 	// la ponctuation
 	for (var p=0; p< punctuation.length; p++) text = text.replaceAll (' '+ punctuation[p], punctuation[p]);
-	while (text.includes ('....')) text = text.replaceAll ('....', '...');
+	const chars3 = '=*-_~.';
+	for (char of chars3){ while (text.includes (char + char + char + char)) text = text.replaceAll (char + char + char + char, char + char + char); }
 	for (var l=0; l< letters.length; l++){
 		text = text.replaceAll (letters[l] +'!', letters[l] +' !');
 		text = text.replaceAll (letters[l] +'?', letters[l] +' ?');
-		text = text.replaceAll (letters[l] +';', letters[l] +' ;');
 		text = text.replaceAll ('...' + letters[l], '... '+ letters[l]);
 	}
 	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
 	// restaurer les url
 	if (text.includes ('http') && text.includes ('?')){
-		var textList = text.split ('?');
+		var textList = text.split (' ?');
 		for (var t=0; t< textList.length -1; t++){
 			if (textList[t].includes ('http')){
 				var d= textList[t].lastIndexOf ('http');
@@ -152,13 +136,13 @@ String.prototype.strip = function (char){
 	f=f+1;
 	return this.slice (d,f);
 }
-String.prototype.count = function (word){
-	if (! this.includes (word)) return 0;
+String.prototype.count = function (char){
+	if (! this.includes (char)) return 0;
 	else{
 		var nbOccurences =0;
 		var pos =0;
 		while (this.substring (pos).includes (char)){
-			pos =1+ this.indexOf (word, pos);
+			pos =1+ this.indexOf (char, pos);
 			nbOccurences +=1;
 		}
 		return nbOccurences;

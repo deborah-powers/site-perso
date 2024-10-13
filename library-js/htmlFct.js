@@ -16,7 +16,7 @@ String.prototype.toHtml = function(){
 	// autres modifications
 	text = text.toList();
 	text = text.toTable();
-	text = text.cleanTxt();
+	text = text.cleanBasic();
 	text = text.toEmphasis();
 	// rajouter les <p/>
 	text = text.replaceAll ('\n', '</p><p>');
@@ -126,7 +126,7 @@ String.prototype.toImage = function(){
 	var text = this;
 	for (var h=0; h< imgExtension.length; h++){
 		if (text.includes ('.'+ imgExtension[h])){
-			textList = text.split ('.'+ imgExtension[h]);
+			var textList = text.split ('.'+ imgExtension[h]);
 			for (var i=0; i<textList.length -1; i++){
 				var d= textList[i].lastIndexOf (':');
 				var f= textList[i].substring (0,d).lastIndexOf (' ');
@@ -196,7 +196,8 @@ String.prototype.toLink = function(){
 			else{
 				title = textTmp.substring (d,e).replaceAll ('-',' ');
 				title = title.replaceAll ('_',' ');
-				title = title.replaceAll ('-',' ');
+				title = title.replaceAll ('.',' ');
+				title = title.replaceAll ('?',' ');
 				textList[p] = textList[p].substring (f);
 			}
 			textList[p] = textTmp +"'>"+ title +'</a> '+ textList[p];
@@ -264,10 +265,104 @@ String.prototype.toSql = function(){
 	text = text.toSqlOne ('select');
 	return text;
 }
+/* ------------------------ trouver les métadonnées ------------------------ */
+
+function prepareText(){
+	var metaText ="";
+	var text = document.body.children[0].innerHTML;
+	text = text.cleanTxt();
+	// trouver les métadonnées
+	// trouver la fin du texte, qui contient les métadonnées
+	if (text.includes ('\n===\n')
+		&& (text.includes ('\nAuteur:\t') || text.includes ('\nStyle:\t') || text.includes ('\nScript:\t') || text.includes ('\nScript bas:\t')
+			|| text.includes (' {'))){
+		const d= text.lastIndexOf ('\n===\n');
+		metaText = text.substring (d+5).strip();
+		if (metaText.includes ('\nAuteur:\t') || metaText.includes ('\nStyle:\t') || metaText.includes ('\nScript:\t') || metaText.includes ('\nScript bas:\t') || metaText.includes (' {'))
+			text = text.substring (0,d).strip();
+	}
+	// transformer le texte en html
+	text = text.toHtml();
+	text = text.toHtmlShapes();
+	// récupérer les métadonnées
+	var meta ={};
+	if (metaText !==""){
+		var textList = metaText.findScriptInterne();
+		if (textList[1] !=="") text = text + textList[1];
+		var metaText = textList[0].toLowerCase();
+		metaText = metaText.findCssInterne();
+		metaText = metaText.findCssExterne();
+		textList = metaText.findScriptBas();
+		if (textList[1] !=="") text = text + textList[1];
+		metaText = textList[0].findScript();
+		meta = metaText.findMetadata();
+	}
+	document.body.innerHTML = text.strip();
+	return meta;
+}
+String.prototype.findMetadata = function(){
+	const textList = this.split ('\n');
+	var meta ={};
+	var d=0;
+	for (line of textList){
+		d= line.indexOf (':\t');
+		meta [line.substring (0,d)] = line.substring (d+2);
+	}
+	return meta;
+}
+String.prototype.findCssInterne = function(){
+	if (this.includes (' {')){
+		var d= this.indexOf (' {', d);
+		d= this.substring (0,d).lastIndexOf ('\n');
+		var css = this.substring (d).strip();
+		css = "<style type='text/css'>" + css + '</style>';
+		document.head.innerHTML = document.head.innerHTML + css;
+		return this.substring (0,d).strip();
+	}
+	else return this;
+}
+String.prototype.findCssExterne = function(){
+	if (this.includes ('\nstyle:\t')){
+		var css ="";
+		const textList = this.split ('\nstyle:\t');
+		for (var s=1; s< textList.length; s++) css = css + "<link rel='stylesheet' type='text/css' href='" + textList[s] + "'/>";
+		document.head.innerHTML = document.head.innerHTML + css;
+		return textList[0].strip();
+	}
+	else return this;
+}
+String.prototype.findScriptBas = function(){
+	if (this.includes ('\nscript bas:\t')){
+		var codes ="";
+		const textList = this.split ('\nscript bas:\t');
+		for (var s=1; s< textList.length; s++) codes = codes + "<script type='text/javascript' src='" + textList[s] + "'></script>";
+		document.body.innerHTML = document.body.innerHTML +'\n'+ codes;
+		return [ textList[0].strip(), codes ];
+	}
+	else return [ this, "" ];
+}
+String.prototype.findScript = function(){
+	if (this.includes ('\nscript:\t')){
+		var codes ="";
+		const textList = this.split ('\nscript:\t');
+		for (var s=1; s< textList.length; s++) codes = codes + "<script type='text/javascript' src='" + textList[s] + "'></script>";
+		document.head.innerHTML = document.head.innerHTML + codes;
+		return textList[0].strip();
+	}
+	else return this;
+}
+String.prototype.findScriptInterne = function(){
+	if (this.includes ('\nScript:\n')){
+		const d= this.indexOf ('\nScript:\n');
+		const code = "<script type='text/javascript'>" + this.substring (d+9).strip() + '</script>';
+		return [ this.substring (0,d), code ];
+	}
+	else return [ this, "" ];
+}
 String.prototype.cleanHtml = function(){
 	var text = this.replaceAll ('\n', "");
 	text = text.replaceAll ('\t', "");
-	text = text.cleanTxt();
+	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
 	// nettoyer les balises
 	text = text.replaceAll ('> ','>');
 	text = text.replaceAll (' <','<');
