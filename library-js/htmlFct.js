@@ -230,6 +230,34 @@ String.prototype.toHtmlShapes = function(){
 	if (text.includes ('<--')) text = text.replaceAll ('<--', "<hr class='arrow left'/>");
 	return text;
 }
+String.prototype.setXmpWidth = function(){
+	var text = this.replaceAll ('/$', '\n');
+	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
+	while (text.includes ("  ")) text = text.replaceAll ("  ", "  ");
+	while (text.includes ('\t\t')) text = text.replaceAll ('\t\t', '\t');
+	text = text.strip();
+	const xmpBlock = text.split ('\n');
+	var xmpLine =[];
+	var textTmp ="";
+	for (var b=0; b< xmpBlock.length; b++){
+		if (xmpBlock[b].length >100 && xmpBlock[b].includes (" ")){
+			xmpLine = xmpBlock[b].split (" ");
+			xmpBlock[b] ="";
+			for (var l=0; l< xmpLine.length; l++){
+				if (textTmp.length <100){
+					textTmp = textTmp +" "+ xmpLine[l];
+					if (l=== xmpLine.length -1) xmpBlock[b] = xmpBlock[b] +'\n '+ textTmp;
+				}
+				else{
+					xmpBlock[b] = xmpBlock[b] +'\n '+ textTmp;
+					textTmp = xmpLine[l];
+	}}}}
+	text = xmpBlock.join ('\n');
+	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
+	text = text.strip();
+	text = text.replaceAll ('\n', '/$');
+	return text;
+}
 String.prototype.toSqlOne = function (word){
 	text = this.replaceAll ('\n'+ word[0].toUpperCase() + word.substring (1) +" ", '\n'+ word +" ");
 	if (text.includes ('\n'+ word +" ") && text.includes (';')){
@@ -244,6 +272,7 @@ String.prototype.toSqlOne = function (word){
 					while (tmpReq.includes ('/$/$')) tmpReq = tmpReq.replaceAll ('/$/$','/$');
 					tmpReq = tmpReq.toLowerCase();
 					tmpReq = word +" "+ tmpReq;
+					tmpReq = tmpReq.setXmpWidth();
 					textList[l] = textList[l].substring (f);
 					textList[l] = '<xmp>' + tmpReq + '</xmp>' + textList[l];
 				}
@@ -274,11 +303,12 @@ function prepareText(){
 	// trouver les métadonnées
 	// trouver la fin du texte, qui contient les métadonnées
 	if (text.includes ('\n===\n')
-		&& (text.includes ('\nAuteur:\t') || text.includes ('\nStyle:\t') || text.includes ('\nScript:\t') || text.includes ('\nScript bas:\t')
-			|| text.includes (' {'))){
+		&& (text.includes ('\nScript:\t') || text.includes ('\nScript bas:\t') || metaText.includes ('\nScript:\n')
+			|| text.includes ('\nStyle:\t') || text.includes (' {') || text.includes (':\t'))){
 		const d= text.lastIndexOf ('\n===\n');
 		metaText = text.substring (d+5).strip();
-		if (metaText.includes ('\nAuteur:\t') || metaText.includes ('\nStyle:\t') || metaText.includes ('\nScript:\t') || metaText.includes ('\nScript bas:\t') || metaText.includes (' {'))
+		if (metaText.includes ('\nScript:\t') || metaText.includes ('\nScript bas:\t') || metaText.includes ('\nScript:\n')
+			|| metaText.includes ('\nStyle:\t') || metaText.includes (' {') || metaText.includes (':\t'))
 			text = text.substring (0,d).strip();
 	}
 	// transformer le texte en html
@@ -370,7 +400,7 @@ String.prototype.cleanHtml = function(){
 	text = text.replaceAll ('<hr>', '<hr/>');
 	while (text.includes ('<br/><br/>')) text = text.replaceAll ('<br/><br/>', '<br/>');
 	const tagHtml =
-	[ 'span', 'strong', 'em', 'b', 'p', 'h1', 'h2', 'h3', 'h4', 'div', 'section', 'article', 'tr', 'caption', 'table', 'figcaption', 'figure', 'nav', 'aside' ];
+	[ 'span', 'strong', 'em', 'b', 'p', 'h1', 'h2', 'h3', 'h4', 'div', 'section', 'article', 'tr', 'caption', 'table', 'figcaption', 'figure', 'nav', 'aside', 'xmp' ];
 	for (var tag of tagHtml) text = text.replaceAll ('<'+ tag +'></'+ tag +'>', "");
 	text = text.replaceAll ('>','> ');
 	text = text.replaceAll ('<',' <');
