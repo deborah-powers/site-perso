@@ -35,7 +35,7 @@ body {
 	font-weight: normal;
 	text-decoration: none;
 	color: inherit;
-	background: none;
+	background-color: inherit;
 	outline: none;
 	border-width: 2px;
 	border-style: none;
