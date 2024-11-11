@@ -11,7 +11,6 @@ parentElement.isContainer();
 var currentX =0;
 var currentY =0;
 var boundaries =[];
-
 HTMLElement.prototype.isContainer = function(){
 	this.setBoundaries();
 	for (var i=0; i< this.children.length; i++){
@@ -22,13 +21,6 @@ HTMLElement.prototype.isContainer = function(){
 
 /* ------------------------ drag-drop ------------------------ */
 
-function dragSelect (event){
-	currentX = event.screenX;
-	currentY = event.screenY;
-	event.target.setAttribute ('onmousemove', 'dragMove(this)');
-	event.target.setAttribute ('onmouseup', 'dragDrop(this)');
-	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
-}
 function dragDrop (paragraph){
 	paragraph.removeAttribute ('onmousemove');
 	paragraph.removeAttribute ('onmouseup');
@@ -40,6 +32,13 @@ function dragMove (paragraph){
 	paragraph.move (dx, dy);
 	currentX = event.screenX;
 	currentY = event.screenY;
+}
+function dragSelect (event){
+	currentX = event.screenX;
+	currentY = event.screenY;
+	event.target.setAttribute ('onmousemove', 'dragMove(this)');
+	event.target.setAttribute ('onmouseup', 'dragDrop(this)');
+	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
 }
 /* ------------------------ déplacement autonome ------------------------ */
 
