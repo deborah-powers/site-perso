@@ -1,5 +1,16 @@
 // fonctions à rajouter au type Array
-
+Array.prototype.isEqual = function (newList){
+	if (this.length === newList.length){
+		var isidem = true;
+		var i=0;
+		while (isidem && i< this.length){
+			if (this[i] !== newList[i]) isidem = false;
+			i+=1;
+		}
+		return isidem;
+	}
+	else return false;
+}
 Array.prototype.toTsv = function(){
 	var text ="";
 	var textTmp ="";
