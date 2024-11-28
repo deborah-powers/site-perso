@@ -254,7 +254,31 @@ img#banner {
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }
-
+/* pour les lecteurs d'écran */
+.sr-only {
+	/* source: https://gist.github.com/ffoodd/000b59f431e3e64e4ce1a24d5bb36034 */
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important;
+	clip-path: inset(50%) !important; 
+	overflow: hidden !important;
+	width: 1px !important;
+	height: 1px !important;
+	margin: -1px !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	border: 0 !important;
+	position: absolute !important;
+}
+a.sr-only.focusable:focus, a.sr-only.focusable:active {
+	clip: auto !important;
+	-webkit-clip-path: none !important;
+	clip-path: none !important;
+	overflow: visible !important;
+	width: auto !important;
+	height: auto !important;
+	margin: auto !important;
+	white-space: normal !important;
+}
 /* scroll bar de firefox */
 :root {
 	overflow: auto;
