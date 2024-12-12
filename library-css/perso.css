@@ -77,3 +77,9 @@ input[type='color']::-webkit-color-swatch-wrapper {
 	border-radius: 0;
 }
 input[type='color']::-webkit-color-swatch { border: none; }
+/* afficher le numéro de l'élément
+le premier enfant sera numéroté 7, le suivant 9
+*/
+ancetre.a-partir-duquel-on-compte { counter-reset: moncompteur 5; }
+enfant { counter-increment: moncompteur 2; }
+enfant:before { content: counter(titre2) ') '; }
