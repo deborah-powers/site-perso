@@ -168,14 +168,20 @@ String.prototype.toImage = function(){
 				textList[i] = textList[i].substring (0,f) + "<img src='" + textList[i].substring (f).replaceAll ('http', 'ht/tp') +"."+ imgExtension[h] +"' alt='" + title +"'/>";
 			}
 			text = textList.join ("");
-		}
-	}
+	}}
 	return text;
 }
 String.prototype.toLink = function(){
-	if (this.includes ('http')){
+	var text = this.toLinkProtocol ('http');
+	text = text.toLinkProtocol ('file:///')
+	text = text.toLinkProtocol ('C://')
+	text = text.toLinkProtocol ('C:\\\\')
+	return text;
+}
+String.prototype.toLinkProtocol = function (protocol){
+	if (this.includes (protocol)){
 		const endingChars = '<;, !\t\n';
-		var textList = this.split ('http');
+		var textList = this.split (protocol);
 		for (var p=1; p< textList.length; p++){
 			var textTmp = textList[p];
 			var d=-1; var e=-1; var f=-1;
@@ -192,8 +198,7 @@ String.prototype.toLink = function(){
 				e= textList[p].indexOf (')');
 				title = textList[p].substring (f+2, e);
 				textList[p] = textList[p].substring (e+1);
-			}
-			else{
+			}else{
 				title = textTmp.substring (d,e).replaceAll ('-',' ');
 				title = title.replaceAll ('_',' ');
 				title = title.replaceAll ('.',' ');
@@ -202,7 +207,7 @@ String.prototype.toLink = function(){
 			}
 			textList[p] = textTmp +"'>"+ title +'</a> '+ textList[p];
 		}
-		var text = textList.join (" <a href='http");
+		var text = textList.join (" <a href='" + protocol);
 		text = text.replaceAll ('> <a ', '><a ');
 		text = text.replaceAll ('</a> <', '</a><');
 		return text;
@@ -247,8 +252,7 @@ String.prototype.setXmpWidth = function(){
 				if (textTmp.length <100){
 					textTmp = textTmp +" "+ xmpLine[l];
 					if (l=== xmpLine.length -1) xmpBlock[b] = xmpBlock[b] +'\n '+ textTmp;
-				}
-				else{
+				}else{
 					xmpBlock[b] = xmpBlock[b] +'\n '+ textTmp;
 					textTmp = xmpLine[l];
 	}}}}
@@ -329,6 +333,12 @@ function prepareText(){
 	}
 	document.body.innerHTML = text.strip();
 	return meta;
+}
+String.prototype.printMetadata = function (meta){
+	// this = <p>$metaName</p>
+	var text = this.replaceAll ('\n',"");
+	for (const [key, value] of Object.entries (meta)) text = text.replace ('$'+ key, value);
+	return text;
 }
 String.prototype.findMetadata = function(){
 	const textList = this.split ('\n');
