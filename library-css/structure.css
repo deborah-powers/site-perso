@@ -173,6 +173,20 @@ sub {
 	font-size: 0.6em;
 	vertical-align: bottom;
 }
+/* le svg */
+circle, ellipse, rect, polygon, polyline, line, path {
+	fill: var(--fond-color);
+	stroke: var(--bord-color);
+	stroke-width: 2px;
+}
+text {
+	fill: var(--text-color);
+	stroke: none;
+	dominant-baseline: auto;
+	text-anchor: middle;
+	font-family: sans-serif;
+	font-size: 1em;
+}
 /* les formules mathématiques */
 math { display: block; }
 mrow { font-size: 1em; }

@@ -28,10 +28,6 @@ body {
 html { background-color: var(--button-bg); }
 h1, h2, h3, h4, p, ul, ol { margin-bottom: 1em; }
 xmp { margin-bottom: 1em; }
-circle, ellipse {
-	fill: var(--fond-color);
-	stroke: var(--bord-color);
-}
 div.texto {
 	width: 10cm;
 	border: 4px solid var(--fond-color);
