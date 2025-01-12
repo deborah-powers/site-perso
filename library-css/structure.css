@@ -168,6 +168,11 @@ nav >* {
 	flex-grow: 1;
 	flex-shrink: 1;
 }
+sup { font-size: 0.6em; }
+sub {
+	font-size: 0.6em;
+	vertical-align: bottom;
+}
 /* les formules mathématiques */
 math { display: block; }
 mrow { font-size: 1em; }
