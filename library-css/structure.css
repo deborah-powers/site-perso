@@ -190,6 +190,7 @@ text {
 /* l'infobulle ou tooltip
 <p aria-describedby='description-aria'>paragraphe survolable avec une description aria.</p>
 <p id='description-aria' role='tooltip' aria-hidden='true'>la description doit obligatoirement suivre son référent (+ dans le css).</p>
+si une infobulle est fermable via js (touche echap), elle doit être ouverte par js. les modifications du style via js masquent celles via css.
 */
 [role='tooltip'] {
 	position: relative;
