@@ -173,9 +173,9 @@ String.prototype.toImage = function(){
 }
 String.prototype.toLink = function(){
 	var text = this.toLinkProtocol ('http');
+	text = text.replaceAll ('C:/', 'file:///C:/')
+	text = text.replaceAll ('C:\\', 'file:///C:\\')
 	text = text.toLinkProtocol ('file:///')
-	text = text.toLinkProtocol ('C://')
-	text = text.toLinkProtocol ('C:\\\\')
 	return text;
 }
 String.prototype.toLinkProtocol = function (protocol){
@@ -423,3 +423,12 @@ HTMLElement.prototype.fromText = function (text){
 	text = text.toHtml();
 	this.innerHTML = text;
 }
+HTMLHeadElement.prototype.linkOpeningMethod = function(){
+	var baseElement = document.getElementsByTagName ('base')[0];
+	if (baseElement === undefined){
+		baseElement = document.createElement ('base');
+		this.appendChild (baseElement);
+	}
+	baseElement.target = '_blank';
+}
+document.head.linkOpeningMethod();
