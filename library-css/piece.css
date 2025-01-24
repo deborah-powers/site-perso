@@ -1,0 +1,68 @@
+/* représenter une piece avec une structure rectangulaire
+deux types de pièces
+- fond médian: le fond n'a pas été modifié en 3d. il est à l'emplacement z=0. c'est l'option par défaut
+- fond reculé: le fond a été reculé selon l'axe des z. classe frec
+*/
+body {
+	perspective: 100em;
+	perspective-origin: 50% 0em;
+}
+@keyframes spin-horizontal {
+	from { transform: rotateY(0); }
+	to { transform: rotateY(360deg); }
+}
+@keyframes spin-vertical {
+	from { transform: rotateX(0); }
+	to { transform: rotateX(-360deg); }
+}
+@keyframes spin-transversal {
+	from { transform: rotateZ(0); }
+	to { transform: rotateZ(-360deg); }
+}
+piece {
+	width: 40em;
+	height: 25em;
+	display: block;
+	padding: 0;
+	margin: auto;
+	text-align: center; transform-style: preserve-3d;
+	background-position: center;
+	margin-bottom: 4em;
+	border-style: solid;
+	background-color: transparent;
+}
+piece >* {
+	border-style: solid;
+	background-color: #F4DB;
+	width: inherit;
+	height: inherit;
+	margin: 0;
+	color: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	background-position: center;
+	background-size: contain; transform-origin: center center;
+}
+piece > .sol, piece > .toit { height: 30em; }
+piece > .murg, piece > .murd { width: 30em; }
+piece > .sol { transform: rotateX(90deg) translateY(50%) translateZ(-10em); }
+piece > .toit { transform: rotateX(-90deg) translateY(-50%) translateZ(-15em); }
+piece > .murg { transform: rotateY(90deg) translateX(-50%) translateZ(-15em); }
+piece > .murd { transform: rotateY(-90deg) translateX(50%) translateZ(-25em); }
+piece.frec > .fond { transform: translateZ(-15em); }
+piece.frec > .sol { transform: rotateX(90deg) translateZ(-10em); }
+piece.frec > .toit { transform: rotateX(-90deg) translateZ(-15em); }
+piece.frec > .murg { transform: rotateY(90deg) translateZ(-15em); }
+piece.frec > .murd { transform: rotateY(-90deg) translateZ(-25em); }
+
+/* exemple
+<piece class='frec'>
+	<div class='fond'>fond</div>
+	<div class='sol'>sol</div>
+	<div class='toit'>toit</div>
+	<div class='murg'>gauche</div>
+	<div class='murd'>droit</div>
+</piece>
+*/

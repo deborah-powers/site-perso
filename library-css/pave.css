@@ -57,6 +57,20 @@ pave >*:nth-child(6) {
 /* pavé qui tourne selon spin-vertical */
 pave.vertical >*:nth-child(3){ transform: rotateX(180deg) translateZ(var(--depth-half)); }
 
+/* ------------------------ animations ------------------------ */
+
+@keyframes spin-horizontal {
+	from { transform: rotateY(0); }
+	to { transform: rotateY(360deg); }
+}
+@keyframes spin-vertical {
+	from { transform: rotateX(0); }
+	to { transform: rotateX(-360deg); }
+}
+@keyframes spin-transversal {
+	from { transform: rotateZ(0); }
+	to { transform: rotateZ(-360deg); }
+
 /* ------------------------ exemple ------------------------ */
 
 container#mycube {
