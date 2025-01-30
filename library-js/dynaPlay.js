@@ -131,6 +131,11 @@ HTMLTextAreaElement.prototype.print = function (varName, varValue){
 			dpLoad();
 		});
 }}
+HTMLSelectElement.prototype.setChoice = function (choiceId){
+	this.selectedIndex = choiceId;
+	this.selectedOptons =[ this.options [choiceId], ];
+	this.value = this.options [choiceId].value;
+}
 HTMLSelectElement.prototype.print = function (varName, varValue){
 	if (exists (this.getAttribute ('name')) && this.getAttribute ('name') === varName){
 		var valeurExist = false;

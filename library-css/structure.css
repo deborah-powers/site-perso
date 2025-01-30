@@ -174,6 +174,7 @@ sub {
 	vertical-align: bottom;
 }
 /* le svg */
+svg, svg * { box-sizing: content-box; }
 circle, ellipse, rect, polygon, polyline, line, path {
 	fill: var(--fond-color);
 	stroke: var(--bord-color);
