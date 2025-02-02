@@ -1,7 +1,7 @@
 /* représenter une piece avec une structure rectangulaire
 deux types de pièces
-- fond médian: le fond n'a pas été modifié en 3d. il est à l'emplacement z=0. c'est l'option par défaut
-- fond reculé: le fond a été reculé selon l'axe des z. classe frec
+- fond médian: le fond n'a pas été modifié en 3d. il est à l'emplacement z=0. classe fmed
+- fond reculé: le fond a été reculé selon l'axe des z. c'est l'option par défaut
 */
 body {
 	perspective: 100em;
@@ -45,20 +45,23 @@ piece >*:nth-child(-n+5) {
 	background-position: center;
 	background-size: contain; transform-origin: center center;
 }
-piece > .sol, piece > .toit { height: 30em; }
-piece > .murg, piece > .murd { width: 30em; }
-piece > .sol { transform: rotateX(90deg) translateY(50%) translateZ(-10em); }
-piece > .toit { transform: rotateX(-90deg) translateY(-50%) translateZ(-15em); }
-piece > .murg { transform: rotateY(90deg) translateX(-50%) translateZ(-15em); }
-piece > .murd { transform: rotateY(-90deg) translateX(50%) translateZ(-25em); }
-piece.frec > .fond { transform: translateZ(-15em); }
-piece.frec > .sol { transform: rotateX(90deg) translateZ(-10em); }
-piece.frec > .toit { transform: rotateX(-90deg) translateZ(-15em); }
-piece.frec > .murg { transform: rotateY(90deg) translateZ(-15em); }
-piece.frec > .murd { transform: rotateY(-90deg) translateZ(-25em); }
+piece >*:nth-child(2), piece >*:nth-child(3), piece > .sol, piece > .toit { height: 30em; }
+piece >*:nth-child(4), piece >*:nth-child(5), piece > .murg, piece > .murd { width: 30em; }
+
+piece >*:nth-child(1), piece > .fond { transform: translateZ(-15em); }
+piece >*:nth-child(2), piece > .sol { transform: rotateX(90deg) translateZ(-10em); }
+piece >*:nth-child(3), piece > .toit { transform: rotateX(-90deg) translateZ(-15em); }
+piece >*:nth-child(4), piece > .murg { transform: rotateY(90deg) translateZ(-15em); }
+piece >*:nth-child(5), piece > .murd { transform: rotateY(-90deg) translateZ(-25em); }
+
+piece.fmed >*:nth-child(1), piece.fmed > .fond { transform: none; }
+piece.fmed >*:nth-child(2), piece.fmed > .sol { transform: rotateX(90deg) translateY(50%) translateZ(-10em); }
+piece.fmed >*:nth-child(3), piece.fmed > .toit { transform: rotateX(-90deg) translateY(-50%) translateZ(-15em); }
+piece.fmed >*:nth-child(4), piece.fmed > .murg { transform: rotateY(90deg) translateX(-50%) translateZ(-15em); }
+piece.fmed >*:nth-child(5), piece.fmed > .murd { transform: rotateY(-90deg) translateX(50%) translateZ(-25em); }
 
 /* exemple
-<piece class='frec'>
+<piece class='fmed'>
 	<div class='fond'>fond</div>
 	<div class='sol'>sol</div>
 	<div class='toit'>toit</div>
