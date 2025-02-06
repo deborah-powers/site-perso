@@ -35,6 +35,22 @@ const codeKeywords =[
 	'log.debug', 'log.info'
 ];
 
+String.prototype.usePlaceholders = function(){
+	const placeholders = ('y/n', 'e/c', 'h/c', 'l/n');
+	var text = this.cleanTxt();
+	for (var p=0; p< placeholders.length; p++){
+		text = text.replaceAll (placeholders[p].toUpperCase(), placeholders[p]);
+		text = text.replaceAll ('('+ placeholders[p] +')', placeholders[p]);
+		text = text.replaceAll ('['+ placeholders[p] +']', placeholders[p]);
+		text = text.replaceAll ('{'+ placeholders[p] +'}', placeholders[p]);
+	}
+	text = text.replaceAll ('y/n', 'Deborah');
+	text = text.replaceAll ('e/c', 'grey');
+	text = text.replaceAll ('h/c', 'dark blond');
+	text = text.replaceAll ('l/n', 'Powers');
+	return text;
+}
+
 /* ======================== nettoyage du texte ======================== */
 
 String.prototype.cleanTxt = function(){

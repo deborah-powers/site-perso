@@ -33,7 +33,7 @@ HTMLElement.prototype.removeComments = function(){
 		}
 		for (var c=0; c< this.children.length; c++) this.children[c].removeComments();
 }}
-SVGSVGElement.prototype.removeComments = function(){
+Element.prototype.removeComments = function(){
 	for (var c= this.childNodes.length -1; c>=0; c--){
 		if (this.childNodes[c].constructor.name === 'Comment') this.removeChild (this.childNodes[c]);
 		else if (this.childNodes[c].constructor.name === 'Text' && this.childNodes[c].length <2
