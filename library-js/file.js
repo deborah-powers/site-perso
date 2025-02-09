@@ -10,9 +10,9 @@ const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm
 	.concat (extentionsImg);
 
 // variables à modifier selon votre ordinateur
-const sep = '/';
-const pathRoot = '/home/deborah' + sep;
-const pathDesktop = pathRoot + 'Bureau' + sep;
+const sep = '\\';
+const pathRoot = 'C:\\Users\\LENOVO' + sep;
+const pathDesktop = pathRoot + 'Desktop' + sep;
 const pathArticles = pathDesktop + 'articles' + sep;
 const pathShortcut ={
 	'r/': pathRoot,
@@ -102,8 +102,7 @@ function fromTsv (tsvFile, callback){
 		xhttp.open ('GET', tsvFile, true);
 		xhttp.send();
 		return null;
-	}
-	else{
+	}else{
 		// méthode synchrone
 		xhttp.open ('GET', tsvFile, false);
 		xhttp.send();
