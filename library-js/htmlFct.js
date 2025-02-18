@@ -2,18 +2,21 @@
 dépend de textFct.js
 basé sur python/htmlFct.py
 */
+const toReplace =[[ '\ncode\n', '\nCode\n' ], [ '\ncode\t', '\nCode\t' ], [ '\nfig\n', '\nFig\n' ]];
 const tagHtml =[
-	['\n<h1>', '\n=== '], ['</h1>\n', ' ===\n'], ['\n<h2>', '\n*** '], ['</h2>\n', ' ***\n'], ['\n<h3>', '\n--- '], ['</h3>\n', ' ---\n'], ['\n<h4>', '\n___ '], ['</h4>\n', ' ___\n'],
-	['\n<hr>', '\n\n***\n\n'], ["\n<img src='", '\nImg\t'], ['\n<figure>', '\nFig\n'], ['</figure>', '\n/fig\n'], ['\n<xmp>', '\ncode\n'], ['</xmp>', '\n/code\n'],
-	['\n<li>', '\n\t']
+	['\n<h1>', '\n=== '], ['</h1>\n', ' ===\n'], ['\n<h2>', '\n*** '], ['</h2>\n', ' ***\n'], ['\n<h3>', '\n--- '], ['</h3>\n', ' ---\n'],
+	['\n<h4>', '\n___ '], ['</h4>\n', ' ___\n'], ['\n<hr>\n', '\n***\n'], ["\n<img src='", '\nImg\t'],
+	['\n<figure>\n', '\nFig\n'], ['\n</figure>\n', '\n/fig\n'], ['\n<xmp>\n', '\nCode\n'], ['\n</xmp>\n', '\n/code obsolète, remplacé par /\n'], ['\n<li>', '\n\t']
 ];
 String.prototype.toHtml = function(){
 	var text = this.cleanTxt();
 	// transformer la mise en page en balises
 	text = '\n' + text + '\n';
+	for (tag of toReplace) text = text.replaceAll (tag[0], tag[1]);
 	text = text.toSql();
 	for (tag of tagHtml) if (text.includes (tag[1])){ text = text.replaceAll (tag[1], tag[0]); }
 	// autres modifications
+	text = text.toXmp();
 	text = text.toList();
 	text = text.toTable();
 	text = text.cleanBasic();
@@ -34,6 +37,43 @@ String.prototype.toHtml = function(){
 	text = text.cleanHtml();
 	text = text.replaceAll ('/$', '\n');
 	text = text.replaceAll ('\\f', '\t');
+	return text;
+}
+String.prototype.toXmp = function(){
+	if (! this.includes ('<xmp>') && ! this.includes ('\nCode\t')) return this;
+	var text ="";
+	if (this.includes ('<xmp>')){
+		var pos =0;
+		var textTmp ="";
+		var textList = this.split ('<xmp>');
+		var pos =0;
+		textTmp ="";
+		for (var x=1; x< textList.length; x++){
+		//	pos = textList[x].indexOf ('</xmp>');
+			pos = textList[x].indexOf ('\n/\n');
+			textTmp = textList[x].substring (0, pos).strip();
+			textTmp = textTmp.replaceAll ('\n', '/$');
+			textTmp = textTmp.replaceAll ('\t', '\\f');
+			textTmp = textTmp +'</xmp>';
+			textList[x] = textTmp + textList[x].substring (pos +1).strip();
+		}
+		text = textList.join ('<xmp>');
+	}
+	if (this.includes ('\nCode\t')){
+		var pos =0;
+		var textTmp ="";
+		var textList =[];
+		if (text ==="") textList = this.split ('\nCode\t');
+		else textList = text.split ('\nCode\t');
+		for (var x=1; x< textList.length; x++){
+			pos = textList[x].indexOf ('\n');
+			textTmp = textList[x].substring (0, pos).strip();
+			textTmp = textTmp.replaceAll ('\t', '\\f');
+			textTmp = textTmp +'</xmp>';
+			textList[x] = textTmp + textList[x].substring (pos).strip();
+		}
+		text = textList.join ('<xmp>');
+	}
 	return text;
 }
 String.prototype.toList = function(){

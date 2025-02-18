@@ -90,7 +90,7 @@ ul, ol {
 }
 ul >*, ol >* {
 	display: list-item;
-	margin: 0 !important;
+	margin: 0;
 }
 /*
 li { margin-left: 2%; }
@@ -205,117 +205,42 @@ si une infobulle est fermable via js (touche echap), elle doit être ouverte par
 }
 [role='tooltip']:hover, [role='tooltip']:focus,
 [aria-describedby]:hover + [role='tooltip'], [aria-describedby]:focus + [role='tooltip'] { display: inline-block; }
-/* les formules mathématiques */
-math { display: block; }
-mrow { font-size: 1em; }
-f {
-	margin: 0 0.2em;
-	vertical-align: middle;
-	display: inline-block;
-	text-align: center;
-}
-f >*.d, f>*:last-child, f>d {
-	display: block;
-	border-width: 0.1em;
-	border-top-style: solid;
-}
-r {
-	display: inline-block;
-	transform: skew(-15deg);
-	transform-origin: bottom left;
-	padding-left: 0.1em;
-	margin-left: 0.7em;
-	margin-right: 0.2em;
-	border-width: 0.1em;
-	border-top-style: solid;
-	border-left-style: solid;
-}
-r:before {
-	content: "";
+/* pour les lecteurs d'écran */
+.sr-only {
+	/* source: https://gist.github.com/ffoodd/000b59f431e3e64e4ce1a24d5bb36034 */
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%); 
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	white-space: nowrap;
+	padding: 0;
+	border: 0;
 	position: absolute;
-	height: 60%;
-	width: 0.5em;
-	left: -0.5em;
-	bottom: 0;
-	border-width: 0.1em;
-	border-right-style: solid;
-	border-top-style: solid;
-	transform: skew(30deg);
-	transform-origin: bottom right;
 }
-/* deux methodes pour faire une banniere */
-body.banner {
-/*	background-image: url('../data/banniere.jpg'); */
-	background-repeat: no-repeat;
-	background-size: 100% 10cm;
-	padding-top: 10cm;
-}
-img#banner {
-	width: 100%;
-	height: 10cm;
-	object-fit: cover;
-	margin: 0;
-}
-/* carousel d'image */
-.carousel, carousel {
-	width: 100%;
-	height: 12cm;
-	display: flex;
-	justify-content: space-between;
-	align-items: stretch;
-}
-.carousel > button, carousel > button { flex-grow: 1; }
-.carousel > img, carousel > img {
-	flex-grow: 2;
-	max-width: 50%;
-	object-fit: contain;
-	background-color: var(--text-color, black);
+a.sr-only:focus, a.sr-only:active {
+	clip: auto;
+	-webkit-clip-path: none;
+	clip-path: none;
+	overflow: visible;
+	width: auto;
+	height: auto;
+	margin: auto;
+	white-space: normal;
 }
 /* affichage pour les tablettes */
 @media (max-width: 992px){}
 /* affichage pour les smartphones */
 @media (max-width: 768px){
-	body.banner {
-		background-image: none;
-		padding-top: 0;
-	}
 	img +*, .right +* { clear: right }
 	nav { flex-wrap: wrap }
 }
-@media print{
-	body.banner {
-		background: none;
-		padding-top: 0;
-	}
-}
+@media print{}
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }
-/* pour les lecteurs d'écran */
-.sr-only {
-	/* source: https://gist.github.com/ffoodd/000b59f431e3e64e4ce1a24d5bb36034 */
-	clip: rect(1px, 1px, 1px, 1px) !important;
-	-webkit-clip-path: inset(50%) !important;
-	clip-path: inset(50%) !important; 
-	overflow: hidden !important;
-	width: 1px !important;
-	height: 1px !important;
-	margin: -1px !important;
-	white-space: nowrap !important;
-	padding: 0 !important;
-	border: 0 !important;
-	position: absolute !important;
-}
-a.sr-only.focusable:focus, a.sr-only.focusable:active {
-	clip: auto !important;
-	-webkit-clip-path: none !important;
-	clip-path: none !important;
-	overflow: visible !important;
-	width: auto !important;
-	height: auto !important;
-	margin: auto !important;
-	white-space: normal !important;
-}
 /* scroll bar de firefox */
 :root {
 	overflow: auto;
