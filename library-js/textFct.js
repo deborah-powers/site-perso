@@ -122,6 +122,14 @@ String.prototype.cleanBasic = function(){
 	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
 	return text;
 }
+String.prototype.cleanTitle = function(){
+	var title = this.toLowerCase();
+	title = title.replaceAll ('\n', " ");
+	title = title.replaceAll ('\t', " ");
+	while (title.includes ("  ")) title = title.replaceAll ("  "," ");
+	title = title.strip();
+	return title;
+}
 String.prototype.capitalize = function(){
 	var text ='\n'+ this+'\n';
 	for (var l=0; l< uppercaseLetters.length; l++)
