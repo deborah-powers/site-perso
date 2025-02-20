@@ -261,12 +261,9 @@ String.prototype.findTitleFromUrl = function(){
 		title = title.substring (0, pos);
 	}
 	title = title.replaceAll ('www.',"");
-	title = title.replaceAll ('-',' ');
-	title = title.replaceAll ('_',' ');
-	title = title.replaceAll ('.',' ');
-	title = title.replaceAll ('?',' ');
-	title = title.replaceAll ('#',' ');
-	while (title.includes ('  ')) title = title.replaceAll ('  ',' ');
+	const urlWords =[ '-', '_', '.', '?', '#', '%20' ];
+	for (var w=0; w< urlWords.length; w++) title = title.replaceAll (urlWords[w]," ");
+	while (title.includes ("  ")) title = title.replaceAll ("  "," ");
 	title = title.strip();
 	return title;
 }
@@ -487,16 +484,19 @@ HTMLHeadElement.prototype.linkOpeningMethod = function(){
 	}
 	baseElement.target = '_blank';
 }
-document.head.linkOpeningMethod();
 function prepareTextExtension(){
 	// utiliser mon script à partir d'une extension
-	const metaRef = "<meta name='$name' content='$content' class='meta' />";
-	var metaText ="";
-	const meta = prepareText();
-	for (var item in meta){
-		metaText = metaText + metaRef.replace ('$name', item);
-		metaText = metaText.replace ('$content', meta[item]);
-	}
-	document.head.innerHTML = document.head.innerHTML + metaText;
-}
+	if ('.txt' === window.location.href.substring (window.location.href.length -4)
+		|| '.md' === window.location.href.substring (window.location.href.length -3)){
+		const metaRef = "<meta name='$name' content='$content' />";
+		var metaText ="";
+		const meta = prepareText();
+		for (var item in meta){
+			metaText = metaText + metaRef.replace ('$name', item);
+			metaText = metaText.replace ('$content', meta[item]);
+		}
+		document.title = window.location.href.findTitleFromUrl();
+		document.head.innerHTML = document.head.innerHTML + metaText;
+}}
+document.head.linkOpeningMethod();
 prepareTextExtension();

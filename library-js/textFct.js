@@ -2,6 +2,7 @@
 fonctionne avec htmlFct.js
 basé sur python/textFct.py
 */
+var dodo = 'coucou';
 const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZaàâbcdeéêèëfghiîïjkmlmnoôpqrstuûvwxyz0123456789-\xe7\xc7';
 const punctuation = '.?:\n\t!;,';
 const brackets = '({[]})"\' ';
@@ -172,3 +173,4 @@ String.prototype.count = function (char){
 		return nbOccurences;
 	}
 }
+document.data = 'coco';
