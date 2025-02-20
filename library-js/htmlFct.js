@@ -4,9 +4,7 @@ basé sur python/htmlFct.py
 */
 const toReplace =[[ '\ncode\n', '\nCode\n' ], [ '\ncode\t', '\nCode\t' ], [ '\nfig\n', '\nFig\n' ]];
 const tagHtml =[
-	['\n<h1>', '\n=== '], ['</h1>\n', ' ===\n'], ['\n<h2>', '\n*** '], ['</h2>\n', ' ***\n'], ['\n<h3>', '\n--- '], ['</h3>\n', ' ---\n'],
-	['\n<h4>', '\n___ '], ['</h4>\n', ' ___\n'], ['\n<hr>\n', '\n***\n'], ["\n<img src='", '\nImg\t'],
-	['\n<figure>\n', '\nFig\n'], ['\n</figure>\n', '\n/fig\n'], ['\n<xmp>\n', '\nCode\n'], ['\n</xmp>\n', '\n/code obsolète, remplacé par /\n'], ['\n<li>', '\n\t']
+	['\n<h1>', '\n=== '], ['</h1>\n', ' ===\n'], ['\n<h2>', '\n*** '], ['</h2>\n', ' ***\n'], ['\n<h3>', '\n--- '], ['</h3>\n', ' ---\n'], ['\n<h4>', '\n___ '], ['</h4>\n', ' ___\n'], ['\n<hr>', '\n\n***\n\n'], ["\n<img src='", '\nImg\t'], ['\n<figure>', '\nFig\n'], ['</figure>', '\n/fig\n'], ['\n<xmp>', '\nCode\n'], ['\n<li>', '\n\t'], ["\n<hr class='h1'>\n", '\n\n===\n\n'], ["\n<hr class='h3'>\n", '\n\n---\n\n']
 ];
 String.prototype.toHtml = function(){
 	var text = this.cleanTxt();
@@ -45,9 +43,7 @@ String.prototype.toXmp = function(){
 	if (this.includes ('<xmp>')){
 		var pos =0;
 		var textTmp ="";
-		var textList = this.split ('<xmp>');
-		var pos =0;
-		textTmp ="";
+		const textList = this.split ('<xmp>');
 		for (var x=1; x< textList.length; x++){
 		//	pos = textList[x].indexOf ('</xmp>');
 			pos = textList[x].indexOf ('\n/\n');
@@ -223,29 +219,32 @@ String.prototype.toLinkProtocol = function (protocol){
 		const endingChars = '<;, !\t\n';
 		var textList = this.split (protocol);
 		for (var p=1; p< textList.length; p++){
-			var textTmp = textList[p];
-			var d=-1; var e=-1; var f=-1;
-			for (var c=0; c< endingChars.length; c++) if (textTmp.includes (endingChars[c])){
-				f= textTmp.indexOf (endingChars[c]);
-				textTmp = textTmp.substring (0,f);
+			// récupérer l'url
+			var textUrl = textList[p];
+			var posEnd =-1;
+			for (var c=0; c< endingChars.length; c++) if (textUrl.includes (endingChars[c])){
+				posEnd = textUrl.indexOf (endingChars[c]);
+				textUrl = textUrl.substring (0, posEnd);
 			}
-			textTmp = textTmp.strip ('/');
-			d= textTmp.lastIndexOf ('/') +1;
-			e= textTmp.length;
-			if (textTmp.substring (d).includes ('.')) e= textTmp.lastIndexOf ('.');
+			textUrl = textUrl.strip ('/');
+			textList[p] = textList[p].substring (posEnd);
+			// calculer le tître
 			var title ="";
-			if (textList[p].substring (f,f+2) === ' ('){
-				e= textList[p].indexOf (')');
-				title = textList[p].substring (f+2, e);
-				textList[p] = textList[p].substring (e+1);
-			}else{
-				title = textTmp.substring (d,e).replaceAll ('-',' ');
-				title = title.replaceAll ('_',' ');
-				title = title.replaceAll ('.',' ');
-				title = title.replaceAll ('?',' ');
-				textList[p] = textList[p].substring (f);
+			if (' (' === textList[p].substring (0,2)){
+				posEnd = textList[p].indexOf (')');
+				title = textList[p].substring (2, posEnd);
+				textList[p] = textList[p].substring (posEnd +1);
 			}
-			textList[p] = textTmp +"'>"+ title +'</a> '+ textList[p];
+			else if (': '=== textList[p-1].substring (textList[p-1].length -2)){
+				posEnd = textList[p-1].length -2;
+				posStart =3+ textList[p-1].lastIndexOf ('<p>');
+				title = textList[p-1].substring (posStart, posEnd);
+				if (title.includes ('>') || title.includes ('<')) title = textUrl.findTitleFromUrl();
+				else textList[p-1] = textList[p-1].substring (0, posStart);
+			}else{
+				title = textUrl.findTitleFromUrl();
+			}
+			textList[p] = textUrl +"'>"+ title +'</a> '+ textList[p];
 		}
 		var text = textList.join (" <a href='" + protocol);
 		text = text.replaceAll ('> <a ', '><a ');
@@ -253,6 +252,23 @@ String.prototype.toLinkProtocol = function (protocol){
 		return text;
 	}
 	else return this;
+}
+String.prototype.findTitleFromUrl = function(){
+	var pos = this.lastIndexOf ('/') +1;
+	var title = this.substring (pos);
+	if (title.includes ('.')){
+		pos = title.lastIndexOf ('.');
+		title = title.substring (0, pos);
+	}
+	title = title.replaceAll ('www.',"");
+	title = title.replaceAll ('-',' ');
+	title = title.replaceAll ('_',' ');
+	title = title.replaceAll ('.',' ');
+	title = title.replaceAll ('?',' ');
+	title = title.replaceAll ('#',' ');
+	while (title.includes ('  ')) title = title.replaceAll ('  ',' ');
+	title = title.strip();
+	return title;
 }
 String.prototype.toEmphasis = function(){
 	if (this.includes ('\n* ')){
@@ -472,3 +488,15 @@ HTMLHeadElement.prototype.linkOpeningMethod = function(){
 	baseElement.target = '_blank';
 }
 document.head.linkOpeningMethod();
+function prepareTextExtension(){
+	// utiliser mon script à partir d'une extension
+	const metaRef = "<meta name='$name' content='$content' class='meta' />";
+	var metaText ="";
+	const meta = prepareText();
+	for (var item in meta){
+		metaText = metaText + metaRef.replace ('$name', item);
+		metaText = metaText.replace ('$content', meta[item]);
+	}
+	document.head.innerHTML = document.head.innerHTML + metaText;
+}
+prepareTextExtension();
