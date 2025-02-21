@@ -484,19 +484,4 @@ HTMLHeadElement.prototype.linkOpeningMethod = function(){
 	}
 	baseElement.target = '_blank';
 }
-function prepareTextExtension(){
-	// utiliser mon script à partir d'une extension
-	if ('.txt' === window.location.href.substring (window.location.href.length -4)
-		|| '.md' === window.location.href.substring (window.location.href.length -3)){
-		const metaRef = "<meta name='$name' content='$content' />";
-		var metaText ="";
-		const meta = prepareText();
-		for (var item in meta){
-			metaText = metaText + metaRef.replace ('$name', item);
-			metaText = metaText.replace ('$content', meta[item]);
-		}
-		document.title = window.location.href.findTitleFromUrl();
-		document.head.innerHTML = document.head.innerHTML + metaText;
-}}
 document.head.linkOpeningMethod();
-prepareTextExtension();
