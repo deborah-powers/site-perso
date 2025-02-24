@@ -4,7 +4,7 @@ basé sur python/htmlFct.py
 */
 const toReplace =[[ '\ncode\n', '\nCode\n' ], [ '\ncode\t', '\nCode\t' ], [ '\nfig\n', '\nFig\n' ]];
 const tagHtml =[
-	['\n<h1>', '\n=== '], ['</h1>\n', ' ===\n'], ['\n<h2>', '\n*** '], ['</h2>\n', ' ***\n'], ['\n<h3>', '\n--- '], ['</h3>\n', ' ---\n'], ['\n<h4>', '\n___ '], ['</h4>\n', ' ___\n'], ['\n<hr>', '\n\n***\n\n'], ["\n<img src='", '\nImg\t'], ['\n<figure>', '\nFig\n'], ['</figure>', '\n/fig\n'], ['\n<xmp>', '\nCode\n'], ['\n<li>', '\n\t'], ["\n<hr class='h1'>\n", '\n\n===\n\n'], ["\n<hr class='h3'>\n", '\n\n---\n\n']
+	['\n<h1>', '\n=== '], ['</h1>\n', ' ===\n'], ['\n<h2>', '\n*** '], ['</h2>\n', ' ***\n'], ['\n<h3>', '\n--- '], ['</h3>\n', ' ---\n'], ['\n<h4>', '\n___ '], ['</h4>\n', ' ___\n'], ['\n<hr>\n', '\n***\n'], ["\n<img src='", '\nImg\t'], ['\n<figure>', '\nFig\n'], ['</figure>', '\n/fig\n'], ['\n<xmp>', '\nCode\n'], ['\n<li>', '\n\t'], ["\n<hr class='h1'>\n", '\n===\n'], ["\n<hr class='h3'>\n", '\n---\n']
 ];
 String.prototype.toHtml = function(){
 	var text = this.cleanTxt();
