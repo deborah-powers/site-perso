@@ -36,12 +36,20 @@ const codeKeywords =[
 ];
 function exists (object){
 	if (object === null || object === undefined) return false;
+	else if (typeof (object) == 'string') return object.isEmpty();
 	else if ((object.constructor === Array || object.constructor === HTMLCollection) && object.length ===0) return false;
-	else if (typeof (object) == 'string' && (object.length ===0 || object ==="" || " \n\r\t".includes (object))) return false;
 	else return true;
 }
+String.prototype.isEmpty = function(){
+	if (this ==="") return true;
+	var text = this.replaceAll ('\n', "");
+	text = text.replaceAll ('\t', "");
+	text = text.replaceAll (" ", "");
+	if (text ==="") return true;
+	else return false;
+}
 String.prototype.usePlaceholders = function(){
-	const placeholders = ('y/n', 'e/c', 'h/c', 'l/n');
+	const placeholders = ('y/n', 'e/c', 'h/c', 'f/n', 'l/n');
 	var text = this.cleanTxt();
 	for (var p=0; p< placeholders.length; p++){
 		text = text.replaceAll (placeholders[p].toUpperCase(), placeholders[p]);
@@ -50,6 +58,7 @@ String.prototype.usePlaceholders = function(){
 		text = text.replaceAll ('{'+ placeholders[p] +'}', placeholders[p]);
 	}
 	text = text.replaceAll ('y/n', 'Deborah');
+	text = text.replaceAll ('f/n', 'Deborah');
 	text = text.replaceAll ('e/c', 'grey');
 	text = text.replaceAll ('h/c', 'dark blond');
 	text = text.replaceAll ('l/n', 'Powers');

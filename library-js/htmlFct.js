@@ -462,8 +462,7 @@ String.prototype.cleanHtml = function(){
 	text = text.replaceAll ('<br>', '<br/>');
 	text = text.replaceAll ('<hr>', '<hr/>');
 	while (text.includes ('<br/><br/>')) text = text.replaceAll ('<br/><br/>', '<br/>');
-	const tagHtml =
-	[ 'span', 'strong', 'em', 'b', 'p', 'h1', 'h2', 'h3', 'h4', 'div', 'section', 'article', 'tr', 'caption', 'table', 'figcaption', 'figure', 'nav', 'aside', 'xmp' ];
+	const tagHtml =[ 'span', 'strong', 'em', 'b', 'p', 'h1', 'h2', 'h3', 'h4', 'div', 'section', 'article', 'tr', 'caption', 'table', 'figcaption', 'figure', 'nav', 'aside', 'xmp' ];
 	for (var tag of tagHtml) text = text.replaceAll ('<'+ tag +'></'+ tag +'>', "");
 	text = text.replaceAll ('>','> ');
 	text = text.replaceAll ('<',' <');

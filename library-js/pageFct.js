@@ -1,6 +1,5 @@
-/* dépend de
-	text-clean.js
-	text.js
+/* nettoyer une page web
+dépend de textFct.js et htmlFct.js
 fonctionne avec cleanAction.js
 */
 const urlBackend = 'http://localhost:1407/';
@@ -23,49 +22,82 @@ function sendToBackend(){
 	xhttp.open ('POST', urlBackend, true);
 	xhttp.send (JSON.stringify (data));
 }
+/*
 HTMLElement.prototype.removeComments = function(){
 	if (! [ 'IMG', 'BR', 'HR', 'INPUT' ].includes (this.tagName)){
 		for (var c= this.childNodes.length -1; c>=0; c--){
 			if (this.childNodes[c].constructor.name === 'Comment') this.removeChild (this.childNodes[c]);
-			else if (this.childNodes[c].constructor.name === 'Text' && this.childNodes[c].length <2
-					&& ! "0123456789abcdefghijklmnopqrstuvwxyz.:;,!?".includes (this.childNodes[c].textContent))
-				this.removeChild (this.childNodes[c]);
+			else if (this.childNodes[c].constructor.name === 'Text' && this.childNodes[c].isEmpty()) this.removeChild (this.childNodes[c]);
 		}
 		for (var c=0; c< this.children.length; c++) this.children[c].removeComments();
 }}
+*/
 Element.prototype.removeComments = function(){
-	for (var c= this.childNodes.length -1; c>=0; c--){
-		if (this.childNodes[c].constructor.name === 'Comment') this.removeChild (this.childNodes[c]);
-		else if (this.childNodes[c].constructor.name === 'Text' && this.childNodes[c].length <2
-				&& ! "0123456789abcdefghijklmnopqrstuvwxyz.:;,!?".includes (this.childNodes[c].textContent))
-			this.removeChild (this.childNodes[c]);
+	if (this.innerHTML.includes ('<!--')){
+		var f=0;
+		const textList = this.innerHTML.split ('<!--');
+		for (var l=1; l< textList.length; l++){
+			f=3+ textList[l].indexOf ('-->');
+			if (f>2) textList[l] = textList[l].substring (f);
+		}
+		const text = textList.join ("");
+		this.innerHTML = text;
 }}
 HTMLElement.prototype.removeEmptyTag = function(){
 	if ([ 'SCRIPT', 'NOSCRIPT', 'HEADER', 'FOOTER' ].includes (this.tagName)) this.parentElement.removeChild (this);
 	else if (! [ 'IMG', 'BR', 'HR', 'INPUT', 'TEXTAREA', 'svg' ].includes (this.tagName)){
-		if (! exists (this.innerHTML) || ! exists (this.innerText) && this.children.length ===0) this.parentElement.removeChild (this);
-		else if ('svg' !== this.tagName){
-			for (var c=0; c< this.children.length; c++) if (this.children[c].tagName !== 'svg') this.children[c].removeEmptyTag();
-			if (! exists (this.innerHTML) || ! exists (this.innerText) && this.children.length ===0) this.parentElement.removeChild (this);
-}}}
+		for (var c=0; c< this.children.length; c++) this.children[c].removeEmptyTag();
+		if (this.innerHTML.isEmpty()) this.parentElement.removeChild (this);
+		else if (this.innerText.isEmpty() &&! this.innerHTML.includes ('<img') &&! this.innerHTML.includes ('<svg'))
+			this.parentElement.removeChild (this);
+}}
+Element.prototype.removeEmptyTag = function(){ return; }
 HTMLElement.prototype.simplifyNesting = function(){
 	if (! [ 'IMG', 'BR', 'HR', 'INPUT', 'svg' ].includes (this.tagName)){
-		for (var c= this.children.length -1; c>=0; c--) if (this.children[c].tagName !== 'svg') this.children[c].simplifyNesting();
-		if (this.children.length ===1 && this.childNodes.length ===1){
+		for (var c= this.children.length -1; c>=0; c--) if (this.children[c].tagName !== 'svg'){ this.children[c].simplifyNesting(); }
+		if (this.children.length ===0 && this.innerText.isEmpty()) this.parentElement.removeChild (this);
+		else if (this.innerText.isEmpty() &&! this.innerHTML.includes ('<img') &&! this.innerHTML.includes ('<svg'))
+			this.parentElement.removeChild (this);
+		else if (this.children.length ===1 && this.childNodes.length ===1){
 			if ([ 'A', 'IMG', 'BR', 'HR', 'INPUT', 'TEXTAREA', 'svg' ].includes (this.children[0].tagName)){
 				this.parentElement.insertBefore (this.children[0], this);
 				this.parentElement.removeChild (this);
 			}
-			else if (this.children.length >0) this.innerHTML = this.children[0].innerHTML;
+			else this.innerHTML = this.children[0].innerHTML;
 }}}
+Element.prototype.simplifyNesting = function(){ return; }
+HTMLTableSectionElement.prototype.simplifyNesting = function(){
+	if (this.innerText.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
+	else{ for (var c= this.children.length -1; c>=0; c--) if (this.children[c].tagName !== 'svg'){ this.children[c].simplifyNesting(); }
+}}
+HTMLTableRowElement.prototype.simplifyNesting = function(){
+	if (this.innerText.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
+	else{ for (var c= this.children.length -1; c>=0; c--) if (this.children[c].tagName !== 'svg'){ this.children[c].simplifyNesting(); }
+}}
 HTMLElement.prototype.clean = function(){
-	if (! [ 'IMG', 'BR', 'HR', 'INPUT', 'svg' ].includes (this.tagName)){
-		this.removeComments();
+	if (! [ 'IMG', 'BR', 'HR', 'INPUT' ].includes (this.tagName)){
 		this.removeEmptyTag();
 		this.simplifyNesting();
-		for (var c=0; c< this.children.length; c++) if (this.children[c].tagName !== 'svg') this.children[c].clean();
+		/*
+		console.log ('clean html', this.tagName, this.children.length);
+		for (var c=0; c< this.children.length; c++){
+			this.children[c].clean();
+			console.log (c, this.children[c].tagName);
+		}*/
 }}
+Element.prototype.clean = function(){
+	return;
+//	for (var c=0; c< this.children.length; c++) this.children[c].clean();
+}
 // est-ce que je conserve la classe et l'id ?
+Element.prototype.delAttribute = function(){
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
+}
+HTMLElement.prototype.delAttribute = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class'.includes (this.attributes[a].name))
+		this.removeAttribute (this.attributes[a].name);
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
+}
 HTMLImageElement.prototype.delAttribute = function(){
 	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id src alt'.includes (this.attributes[a].name))
 		this.removeAttribute (this.attributes[a].name);
@@ -81,11 +113,6 @@ HTMLSelectElement.prototype.delAttribute = function(){
 HTMLOptionElement.prototype.delAttribute = function(){
 	for (var a= this.attributes.length -1; a>=0; a--) if (! 'value'.includes (this.attributes[a].name))
 		this.removeAttribute (this.attributes[a].name);
-}
-HTMLElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class'.includes (this.attributes[a].name))
-		this.removeAttribute (this.attributes[a].name);
-	for (var c=0; c< this.children.length; c++) if (this.children[c].tagName !== 'svg') this.children[c].delAttribute();
 }
 HTMLAnchorElement.prototype.delAttribute = function(){
 	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class href'.includes (this.attributes[a].name))
@@ -131,9 +158,10 @@ HTMLElement.prototype.findTagList = function (tagName){
 		if (exists (containerList)) this.innerHTML = containerList.innerHTML;
 }}
 HTMLBodyElement.prototype.cleanBody = function(){
-	this.innerHTML = this.innerHTML.clean();
+	this.innerHTML = this.innerHTML.cleanHtml();
 	this.findTagReplace ('main');
 	if (this.innerHTML.includes ('</article>')) this.findTagList ('article');
+	this.removeComments();
 	for (var a= this.attributes.length -1; a>=0; a--) this.removeAttribute (this.attributes[a].name);
 	this.clean();
 	this.delAttribute();
