@@ -129,9 +129,9 @@ HTMLButtonElement.prototype.delAttribute = function(){
 		this.removeAttribute (this.attributes[a].name);
 	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
 }
-HTMLElement.prototype.delIds = function(){
-	if (exists (this.getAttribute ('class'))) this.removeAttribute ('class');
-	if (exists (this.getAttribute ('id'))) this.removeAttribute ('id');
+Element.prototype.delIds = function(){
+	if (! this.className.isEmpty()) this.removeAttribute ('class');
+	if (! this.id.isEmpty()) this.removeAttribute ('id');
 	for (var c=0; c< this.children.length; c++) this.children[c].delIds();
 }
 HTMLElement.prototype.findTag = function (tagName){
