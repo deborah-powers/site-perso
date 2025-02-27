@@ -395,12 +395,23 @@ String.prototype.printMetadata = function (meta){
 }
 String.prototype.findMetadata = function(){
 	const textList = this.split ('\n');
-	var meta ={};
+	var meta ={
+		lien: "",
+		sujet: 'divers',
+		auteur: 'anonyme'
+	};
 	var d=0;
+	var label ="";
 	for (line of textList){
 		d= line.indexOf (':\t');
-		meta [line.substring (0,d)] = line.substring (d+2);
-	}
+		if (line.length >d+3){
+			label = line.substring (0,d);
+			if ([ 'lien', 'link' ].includes (label)) meta['lien'] = line.substring (d+2);
+			else if ([ 'subject', 'sujet' ].includes (label)) meta['sujet'] = line.substring (d+2);
+			else if ([ 'author', 'auteur' ].includes (label)) meta['auteur'] = line.substring (d+2);
+			else if ([ 'autlink', 'laut', 'lien-auteur' ].includes (label)) meta['autlink'] = line.substring (d+2);
+			else meta [line.substring (0,d)] = line.substring (d+2);
+	}}
 	return meta;
 }
 String.prototype.findCssInterne = function(){

@@ -36,7 +36,7 @@ const codeKeywords =[
 ];
 function exists (object){
 	if (object === null || object === undefined) return false;
-	else if (typeof (object) == 'string') return object.isEmpty();
+	else if (typeof (object) == 'string') return (! object.isEmpty());
 	else if ((object.constructor === Array || object.constructor === HTMLCollection) && object.length ===0) return false;
 	else return true;
 }

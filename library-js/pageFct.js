@@ -141,25 +141,42 @@ HTMLElement.prototype.findTag = function (tagName){
 	if (exists (container)) return container;
 	else return null;
 }
-HTMLElement.prototype.findTagReplace = function (tagName){
+HTMLElement.prototype.replaceTag = function (tagName){
 	const container = this.findTag (tagName);
-	if (container !== null) this.innerHTML = container.innerHTML;
+	if (container === null || [ 'BR', 'HR' ].includes (container.tagName)) return;
+	else if ([ 'A', 'IMG', 'INPUT', 'TEXTAREA', 'svg' ].includes (container.tagName)){
+		if (this.tagName === 'BODY') this.innerHTML = container.outerHTML;
+		else{
+			this.parentElement.insertBefore (container, this);
+			this.parentElement.removeChild (this);
+	}}
+	else this.innerHTML = container.innerHTML;
 }
 HTMLElement.prototype.findTagList = function (tagName){
 	var containerList = this.getElementsByTagName (tagName);
-	if (! exists (containerList)) containerList = this.getElementsByClassName (tagName);
-	if (exists (containerList)){
-		if (containerList.length ===1) this.innerHTML = containerList[0].innerHTML;
-		else if (containerList.length >1){
-			this.innerHTML = containerList[0].outerHTML;
-			for (var c=1; c< containerList.length; c++) this.innerHTML = this.innerHTML + containerList[c].outerHTML;
-	}}else{
-		containerList = document.getElementById (tagName);
-		if (exists (containerList)) this.innerHTML = containerList.innerHTML;
+	if (containerList.length ===0) containerList = this.getElementsByClassName (tagName);
+	if (containerList.length ===0) containerList = this.getElementById (tagName);
+	return containerList;
+}
+HTMLElement.prototype.replaceTagList = function (tagName){
+	const containerList = this.findTagList (tagName);
+	if (containerList.length ===0) return;
+	else if (containerList.length ===1 && [ 'BR', 'HR' ].includes (containerList[0].tagName)) return;
+	else if (containerList.length ===1 && [ 'A', 'IMG', 'INPUT', 'TEXTAREA', 'svg' ].includes (containerList[0].tagName)){
+		if (this.tagName === 'BODY') this.innerHTML = containerList[0].outerHTML;
+		else{
+			this.parentElement.insertBefore (containerList[0], this);
+			this.parentElement.removeChild (this);
+	}}
+	else if (containerList.length ===1) this.innerHTML = containerList[0].innerHTML;
+	else{
+		this.innerHTML = containerList[0].outerHTML;
+		for (var c=1; c< containerList.length; c++) this.innerHTML = this.innerHTML + containerList[c].outerHTML;
+
 }}
 HTMLBodyElement.prototype.cleanBody = function(){
 	this.innerHTML = this.innerHTML.cleanHtml();
-	this.findTagReplace ('main');
+	this.replaceTag ('main');
 	if (this.innerHTML.includes ('</article>')) this.findTagList ('article');
 	this.removeComments();
 	for (var a= this.attributes.length -1; a>=0; a--) this.removeAttribute (this.attributes[a].name);
