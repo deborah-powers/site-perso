@@ -96,6 +96,7 @@ ul >*, ol >* {
 li { margin-left: 2%; }
 a { display: block }
 */
+a { color: inherit; }
 a:hover, a:focus { font-weight: bold }
 body >a, div >a { display: block; }
 img { mix-blend-mode: multiply; }

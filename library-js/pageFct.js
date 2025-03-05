@@ -79,10 +79,8 @@ HTMLElement.prototype.clean = function(){
 		this.removeEmptyTag();
 		this.simplifyNesting();
 		/*
-		console.log ('clean html', this.tagName, this.children.length);
 		for (var c=0; c< this.children.length; c++){
 			this.children[c].clean();
-			console.log (c, this.children[c].tagName);
 		}*/
 }}
 Element.prototype.clean = function(){
@@ -141,7 +139,6 @@ HTMLButtonElement.prototype.delAttributes = function(){
 	for (var c=0; c< this.children.length; c++) this.children[c].delAttributes();
 }
 Element.prototype.delIds = function(){
-	console.log (this.tagName, this.children);
 	this.removeAttribute ('class');
 	this.removeAttribute ('id');
 	for (var c=0; c< this.children.length; c++) this.children[c].delIds();
