@@ -90,49 +90,65 @@ Element.prototype.clean = function(){
 //	for (var c=0; c< this.children.length; c++) this.children[c].clean();
 }
 // est-ce que je conserve la classe et l'id ?
-Element.prototype.delAttribute = function(){
-	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
+Element.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class'.includes (this.attributes[a].name)){
+		this.removeAttribute (this.attributes[a].name);
+	}
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttributes();
 }
-HTMLElement.prototype.delAttribute = function(){
+/*
+HTMLElement.prototype.delAttributes = function(){
 	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class'.includes (this.attributes[a].name))
 		this.removeAttribute (this.attributes[a].name);
-	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
-}
-HTMLImageElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id src alt'.includes (this.attributes[a].name))
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttributes();
+}*/
+SVGSVGElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if ([ 'id', 'class', 'viewBox', 'version' ].includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-}
-HTMLInputElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id type name value'.includes (this.attributes[a].name))
+}}
+HTMLImageElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id src alt'.includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-}
-HTMLSelectElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id name onchange'.includes (this.attributes[a].name))
+}}
+HTMLInputElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id type name value'.includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-}
-HTMLOptionElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'value'.includes (this.attributes[a].name))
+}}
+HTMLSelectElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id name onchange'.includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-}
-HTMLAnchorElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class href'.includes (this.attributes[a].name))
+}}
+HTMLOptionElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'value'.includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
-}
-HTMLFormElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id action method'.includes (this.attributes[a].name))
+}}
+HTMLAnchorElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id class href'.includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
+	}
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttributes();
 }
-HTMLButtonElement.prototype.delAttribute = function(){
-	for (var a= this.attributes.length -1; a>=0; a--) if (this.attributes[a].name != 'onclick')
+HTMLFormElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (! 'id action method'.includes (this.attributes[a].name)){
 		this.removeAttribute (this.attributes[a].name);
-	for (var c=0; c< this.children.length; c++) this.children[c].delAttribute();
+	}
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttributes();
+}
+HTMLButtonElement.prototype.delAttributes = function(){
+	for (var a= this.attributes.length -1; a>=0; a--) if (this.attributes[a].name != 'onclick'){
+		this.removeAttribute (this.attributes[a].name);
+	}
+	for (var c=0; c< this.children.length; c++) this.children[c].delAttributes();
 }
 Element.prototype.delIds = function(){
-	if (! this.className.isEmpty()) this.removeAttribute ('class');
-	if (! this.id.isEmpty()) this.removeAttribute ('id');
+	console.log (this.tagName, this.children);
+	this.removeAttribute ('class');
+	this.removeAttribute ('id');
 	for (var c=0; c< this.children.length; c++) this.children[c].delIds();
+}
+SVGSVGElement.prototype.delIds = function(){
+	this.removeAttribute ('class');
+	this.removeAttribute ('id');
 }
 HTMLElement.prototype.findTag = function (tagName){
 	var container = this.getElementsByTagName (tagName)[0];
@@ -181,5 +197,5 @@ HTMLBodyElement.prototype.cleanBody = function(){
 	this.removeComments();
 	for (var a= this.attributes.length -1; a>=0; a--) this.removeAttribute (this.attributes[a].name);
 	this.clean();
-	this.delAttribute();
+	this.delAttributes();
 }

@@ -41,6 +41,7 @@ class BackEndCors (SimpleHTTPRequestHandler):
 
 	def do_GET (self):
 		text = readFile (self.path[1:])
+		print ('mon texte', text)
 		textBytes = bytes (text, 'utf-8')
 		if text: self.send_response (200)
 		else: self.send_response (404)

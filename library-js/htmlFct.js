@@ -263,8 +263,14 @@ String.prototype.findTitleFromUrl = function(){
 	title = title.replaceAll ('www.',"");
 	const urlWords =[ '-', '_', '.', '?', '#', '%20' ];
 	for (var w=0; w< urlWords.length; w++) title = title.replaceAll (urlWords[w]," ");
-	while (title.includes ("  ")) title = title.replaceAll ("  "," ");
-	title = title.strip();
+	title = title.cleanTitle();
+	return title;
+}
+function findTitle(){
+	const titleTag = document.head.getElementsByTagName ('title')[0];
+	var title ="";
+	if (titleTag === undefined || titleTag.innerText.isEmpty()) title = window.location.href.findTitleFromUrl();
+	else title = titleTag.innerText.cleanTitle();
 	return title;
 }
 String.prototype.toEmphasis = function(){
