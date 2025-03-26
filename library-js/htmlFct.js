@@ -470,7 +470,8 @@ String.prototype.findScriptInterne = function(){
 	else return [ this, "" ];
 }
 String.prototype.cleanHtml = function(){
-	var text = this.replaceAll ('\n', "");
+	var text = this.cleanBasic();
+	text = text.replaceAll ('\n', "");
 	text = text.replaceAll ('\t', "");
 	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
 	// nettoyer les balises
@@ -481,6 +482,12 @@ String.prototype.cleanHtml = function(){
 	while (text.includes ('<br/><br/>')) text = text.replaceAll ('<br/><br/>', '<br/>');
 	const tagHtml =[ 'span', 'strong', 'em', 'b', 'p', 'h1', 'h2', 'h3', 'h4', 'div', 'section', 'article', 'tr', 'caption', 'table', 'figcaption', 'figure', 'nav', 'aside', 'xmp' ];
 	for (var tag of tagHtml) text = text.replaceAll ('<'+ tag +'></'+ tag +'>', "");
+	text = text.replaceAll ('</pre>','</xmp>');
+	text = text.replaceAll ('<pre>','<xmp>');
+	text = text.replaceAll ('<pre ','<xmp ');
+	text = text.replaceAll ('</code>','</xmp>');
+	text = text.replaceAll ('<code>','<xmp>');
+	text = text.replaceAll ('<code ','<xmp ');
 	text = text.replaceAll ('>','> ');
 	text = text.replaceAll ('<',' <');
 	text = text.replaceAll ('>  <','><');
