@@ -92,6 +92,11 @@ ul >*, ol >* {
 	display: list-item;
 	margin: 0;
 }
+dl {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+}
+dt:after { content: ' :'; }
 /*
 li { margin-left: 2%; }
 a { display: block }
