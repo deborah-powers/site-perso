@@ -3,6 +3,7 @@ deux types de pièces
 - fond médian: le fond n'a pas été modifié en 3d. il est à l'emplacement z=0. classe fmed
 - fond reculé: le fond a été reculé selon l'axe des z. c'est l'option par défaut
 */
+/* la structure */
 body {
 	perspective: 100em;
 	perspective-origin: 50% 0em;
@@ -25,9 +26,9 @@ piece {
 	display: block;
 	padding: 0;
 	margin: auto;
-	text-align: center; transform-style: preserve-3d;
+	text-align: center;
+	transform-style: preserve-3d;
 	background-position: center;
-	margin-bottom: 4em;
 	border-style: solid;
 	background-color: transparent;
 }
@@ -43,29 +44,76 @@ piece >*:nth-child(-n+5) {
 	left: 0;
 	text-align: center;
 	background-position: center;
-	background-size: contain; transform-origin: center center;
+	background-size: contain;
+	transform-origin: center center;
 }
-piece >*:nth-child(2), piece >*:nth-child(3), piece > .sol, piece > .toit { height: 30em; }
-piece >*:nth-child(4), piece >*:nth-child(5), piece > .murg, piece > .murd { width: 30em; }
+piece >*:nth-child(2), piece >*:nth-child(3) { height: 30em; }
+piece >*:nth-child(4), piece >*:nth-child(5) { width: 30em; }
 
-piece >*:nth-child(1), piece > .fond { transform: translateZ(-15em); }
-piece >*:nth-child(2), piece > .sol { transform: rotateX(90deg) translateZ(-10em); }
-piece >*:nth-child(3), piece > .toit { transform: rotateX(-90deg) translateZ(-15em); }
-piece >*:nth-child(4), piece > .murg { transform: rotateY(90deg) translateZ(-15em); }
-piece >*:nth-child(5), piece > .murd { transform: rotateY(-90deg) translateZ(-25em); }
+piece >*:nth-child(1) { transform: translateZ(-15em); }
+piece >*:nth-child(2) { transform: rotateX(90deg) translateZ(-10em); }
+piece >*:nth-child(3) { transform: rotateX(-90deg) translateZ(-15em); }
+piece >*:nth-child(4) { transform: rotateY(90deg) translateZ(-15em); }
+piece >*:nth-child(5) { transform: rotateY(-90deg) translateZ(-25em); }
 
-piece.fmed >*:nth-child(1), piece.fmed > .fond { transform: none; }
-piece.fmed >*:nth-child(2), piece.fmed > .sol { transform: rotateX(90deg) translateY(50%) translateZ(-10em); }
-piece.fmed >*:nth-child(3), piece.fmed > .toit { transform: rotateX(-90deg) translateY(-50%) translateZ(-15em); }
-piece.fmed >*:nth-child(4), piece.fmed > .murg { transform: rotateY(90deg) translateX(-50%) translateZ(-15em); }
-piece.fmed >*:nth-child(5), piece.fmed > .murd { transform: rotateY(-90deg) translateX(50%) translateZ(-25em); }
+piece.fmed >*:nth-child(1) { transform: none; }
+piece.fmed >*:nth-child(2) { transform: rotateX(90deg) translateY(50%) translateZ(-10em); }
+piece.fmed >*:nth-child(3) { transform: rotateX(-90deg) translateY(-50%) translateZ(-15em); }
+piece.fmed >*:nth-child(4) { transform: rotateY(90deg) translateX(-50%) translateZ(-15em); }
+piece.fmed >*:nth-child(5) { transform: rotateY(-90deg) translateX(50%) translateZ(-25em); }
+
+/* les détails */
+piece { border-style: none; }
+piece >*:nth-child(2) { border-style: none; }
+piece >*:nth-child(1), piece >*:nth-child(4), piece >*:nth-child(5) {
+	border-left-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1em;
+}
+piece.rayure >*:nth-child(1), piece.rayure >*:nth-child(4), piece.rayure >*:nth-child(5) {
+	border-bottom-color: wheat;
+	background-image: repeating-linear-gradient(90deg, transparent 25px, wheat 25px 30px, transparent 30px 55px);
+}
+piece.semi-losange >*:nth-child(1), piece.semi-losange >*:nth-child(4), piece.semi-losange >*:nth-child(5) {
+	background-image:
+		repeating-linear-gradient(135deg, skyblue 25px, transparent 25px 30px, skyblue 30px 55px),
+		repeating-linear-gradient(45deg, skyblue 25px, transparent 25px 30px, skyblue 30px 55px);
+}
+piece.semi-point >*:nth-child(1), piece.semi-point >*:nth-child(4), piece.semi-point >*:nth-child(5) {
+	border-bottom-color: wheat;
+	background-image:
+		radial-gradient(circle at 0.2em 0.2em, wheat 0.2em, transparent 0.2em),
+		radial-gradient(circle at 1.2em 1.2em, wheat 0.2em, transparent 0.2em);
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+piece.fenetre >*:nth-child(4), piece.fenetre >*:nth-child(5) {
+	background-image:
+		repeating-linear-gradient(90deg, red 40%, transparent 40% 60%, red 60%);
+}
+piece.mesure {
+	border-style: solid;
+	border-width: 0.2em;
+	border-color: maroon;
+}
+piece.mesure >*:nth-child(-n+5){
+	background-image:
+		repeating-linear-gradient(90deg, transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(90deg, transparent 4.8em, maroon 4.8em 5em, transparent 5em 9.8em),
+		repeating-linear-gradient(transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(skyblue 4.8em, maroon 4.8em 5em, wheat 5em 9.8em);
+	border-style: solid;
+	border-width: 0.2em;
+	border-color: maroon;
+}
 
 /* exemple
 <piece class='fmed'>
-	<div class='fond'>fond</div>
-	<div class='sol'>sol</div>
-	<div class='toit'>toit</div>
-	<div class='murg'>gauche</div>
-	<div class='murd'>droit</div>
+	<div>fond</div>
+	<div>sol</div>
+	<div>toit</div>
+	<div>gauche</div>
+	<div>droit</div>
 </piece>
 */
