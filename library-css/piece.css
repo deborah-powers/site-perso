@@ -77,6 +77,10 @@ piece >*:nth-child(4).fenetre, piece >*:nth-child(5).fenetre {
 	clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%, 70% 100%, 70% 2em, 30% 2em, 30% 12em, 70% 12em, 70% 100%);
 }
 fenetre, piece >*:nth-child(4).fenetre:before, piece >*:nth-child(5).fenetre:before {
+	position: absolute;
+	top: calc(2em - var(--frame-width));
+	left: calc(30% - var(--frame-width));;
+	margin: 0;
 	box-sizing: content-box;
 	--frame-width: 0.4em;
 	--frame-color: rosybrown;
@@ -85,10 +89,7 @@ fenetre, piece >*:nth-child(4).fenetre:before, piece >*:nth-child(5).fenetre:bef
 	height: 10em;
 	border-style: solid;
 	border-width: var(--frame-width);
-	margin: calc(2em - var(--frame-width)) auto;
-/*	border-width: 0.4em;
-	margin: 1.6em auto;
-*/
+	border-color: var(--frame-color);
 }
 fenetre { background-image:
 	linear-gradient(90deg, transparent calc(50% - var(--frame-width) /2), var(--frame-color) calc(50% - var(--frame-width) /2) calc(50% + var(--frame-width) /2), transparent calc(50% + var(--frame-width) /2)),
