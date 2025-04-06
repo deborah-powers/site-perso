@@ -1,11 +1,16 @@
+/* https://la-cascade.io/articles/creer-un-cube-en-css */
+
 pave, toblerone, trect, octogone, hexagone, cylindre {
 	/* propriétés modifiables */
 	--width: 8cm;
 	--height: 4cm;
 	--depth: 2cm;
-	--bord: solid 2px red;
+	--bord: solid 4px maroon;
+	--fond: orange;
 	color: maroon;
 	/* ------ */
+	border: none;
+	background: none;
 	--depth-half: calc(var(--depth) /2);
 	width: var(--width);
 	height: var(--height);
@@ -14,8 +19,9 @@ pave, toblerone, trect, octogone, hexagone, cylindre {
 	padding: 0;
 	text-align: center;
 	background-position: center;
-	border: none;
 }
+/* ------------------------ les pavés ------------------------ */
+
 pave.poteau { --depth: var(--width); }
 pave.cube {
 	--height: var(--width);
@@ -36,28 +42,54 @@ pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >* {
 	background-size: contain;
 	transform-origin: center center;
 }
-pave >*:nth-child(1), toblerone >*:nth-child(1), octogone >*:nth-child(1), cylindre >*:nth-child(1){
+pave >*:nth-child(1), toblerone >*:nth-child(1), trect >*:nth-child(1), octogone >*:nth-child(1), cylindre >*:nth-child(1){
 	height: var(--depth);
 	transform: rotateX(90deg) translateZ(var(--depth-half));
 }
-pave >*:nth-child(2){
+pave >*:nth-child(2), toblerone >*:nth-child(2), trect >*:nth-child(2), octogone >*:nth-child(2), cylindre >*:nth-child(2){
 	height: var(--depth);
 	transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--depth-half)));
 }
-pave >*:nth-child(3) { transform: translateZ(var(--depth-half)); }
-pave >*:nth-child(4){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
-pave >*:nth-child(5) {
+pave >*:nth-child(3), toblerone >*:nth-child(3), trect >*:nth-child(3), octogone >*:nth-child(3), cylindre >*:nth-child(3){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
+pave >*:nth-child(4) {
 	width: var(--depth);
 	transform: rotateY(-90deg) translateZ(var(--depth-half));
 }
-pave >*:nth-child(6) {
+pave >*:nth-child(5) {
 	width: var(--depth);
 	transform: rotateY(90deg) translateZ(calc(var(--width) - var(--depth-half)));
 }
-/* pavé qui tourne selon spin-vertical */
-pave.vertical >*:nth-child(3){ transform: rotateX(180deg) translateZ(var(--depth-half)); }
+pave >*:nth-child(6) { transform: translateZ(var(--depth-half)); }
 
-/* ------------------------ animations ------------------------ */
+/* ------------------------ pavé qui tourne selon spin-vertical ------------------------ */
+
+pave.vertical >*:nth-child(6){ transform: rotateX(180deg) translateZ(var(--depth-half)); }
+
+/* ------------------------ les formes variées ------------------------ */
+
+toblerone >*:nth-child(1), trect >*:nth-child(1){ clip-path: polygon(0 0, 100% 0, 50% 100%); }
+toblerone >*:nth-child(2), trect >*:nth-child(2){ clip-path: polygon(0 100%, 100% 100%, 50% 0); }
+
+toblerone{ --depth: calc(var(--width) * 0.8660254037844386); }
+toblerone >*:nth-child(4){
+	width: var(--width);
+	transform: rotateY(-60deg) translateZ(calc(var(--width) * 0.2165063509461097)) translateX(calc(var(--width) * -0.12));
+}
+toblerone >*:nth-child(5){
+	width: var(--width);
+	transform: rotateY(60deg) translateZ(calc(var(--width) * 0.2165063509461097)) translateX(calc(var(--width) * 0.12));
+}
+trect{ --depth: calc(var(--width) /2); }
+trect >*:nth-child(4){
+	width: calc(var(--width) * 0.7071067811865475);
+	transform: rotateY(-45deg) translateZ(calc(var(--depth) * 0.2165063509461097)) translateX(calc(var(--depth) * -0.12));
+}
+trect >*:nth-child(5){
+	width: calc(var(--width) * 0.7071067811865475);
+	transform: rotateY(45deg) translateZ(calc(var(--depth) * 0.2165063509461097)) translateX(calc(var(--depth) * 0.12));
+}
+
+/* ------------------------ les animations ------------------------ */
 
 @keyframes spin-horizontal {
 	from { transform: rotateY(0); }
@@ -73,7 +105,7 @@ pave.vertical >*:nth-child(3){ transform: rotateX(180deg) translateZ(var(--depth
 
 /* ------------------------ exemple ------------------------ */
 
-container#mycube {
+container {
 	perspective: 800px;
 	perspective-origin: -100% 100px;
 }
@@ -86,11 +118,11 @@ pave#mycube {
 }
 /*
 <pave id='mycube'>
-	<p id='top'>top</p>
-	<p id='bottom'>bottom</p>
-	<p id='front'>front</p>
-	<p id='back'>back</p>
-	<p id='left'>left</p>
-	<p id='right'>right</p>
+	<p>top</p>
+	<p>bottom</p>
+	<p>back</p>
+	<p>left</p>
+	<p>right</p>
+	<p>front</p>
 </pave>
 */
