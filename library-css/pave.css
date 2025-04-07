@@ -73,20 +73,20 @@ toblerone >*:nth-child(2), trect >*:nth-child(2){ clip-path: polygon(0 100%, 100
 toblerone{ --depth: calc(var(--width) * 0.8660254037844386); }
 toblerone >*:nth-child(4){
 	width: var(--width);
-	transform: rotateY(-60deg) translateZ(calc(var(--width) * 0.2165063509461097)) translateX(calc(var(--width) * -0.12));
+	transform: rotateY(-60deg) translateZ(calc(var(--width) * 0.8660254037844386 * 0.25)) translateX(-12.5%);
 }
 toblerone >*:nth-child(5){
 	width: var(--width);
-	transform: rotateY(60deg) translateZ(calc(var(--width) * 0.2165063509461097)) translateX(calc(var(--width) * 0.12));
+	transform: rotateY(60deg) translateZ(calc(var(--width) * 0.8660254037844386 * 0.25)) translateX(12.5%);
 }
 trect{ --depth: calc(var(--width) /2); }
 trect >*:nth-child(4){
 	width: calc(var(--width) * 0.7071067811865475);
-	transform: rotateY(-45deg) translateZ(calc(var(--depth) * 0.2165063509461097)) translateX(calc(var(--depth) * -0.12));
+	transform: rotateY(-45deg) translateZ(calc(var(--width) * (1 - 0.7071067811865475) * 0.25)) translateX(-10%);
 }
 trect >*:nth-child(5){
 	width: calc(var(--width) * 0.7071067811865475);
-	transform: rotateY(45deg) translateZ(calc(var(--depth) * 0.2165063509461097)) translateX(calc(var(--depth) * 0.12));
+	transform: rotateY(45deg) translateZ(calc(var(--width) * (1 - 0.7071067811865475) *0.95)) translateX(0%);
 }
 
 /* ------------------------ les animations ------------------------ */
