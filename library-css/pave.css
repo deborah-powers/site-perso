@@ -1,6 +1,6 @@
 /* https://la-cascade.io/articles/creer-un-cube-en-css */
 
-pave, toblerone, trect, octogone, hexagone, cylindre {
+pave, toblerone, trect, octogone, hexagone, cylindre, bevel {
 	/* propriétés modifiables */
 	--width: 8cm;
 	--height: 4cm;
@@ -22,12 +22,12 @@ pave, toblerone, trect, octogone, hexagone, cylindre {
 }
 /* ------------------------ les pavés ------------------------ */
 
-pave.poteau { --depth: var(--width); }
+pave.poteau, octogone, cylindre, bevel { --depth: var(--width); }
 pave.cube {
 	--height: var(--width);
 	--depth: var(--width);
 }
-pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >* {
+pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >*, bevel >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -42,28 +42,30 @@ pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >* {
 	background-size: contain;
 	transform-origin: center center;
 }
-pave >*:nth-child(1), toblerone >*:nth-child(1), trect >*:nth-child(1), octogone >*:nth-child(1), cylindre >*:nth-child(1){
+pave >*:nth-child(1), toblerone >*:nth-child(1), trect >*:nth-child(1), octogone >*:nth-child(1), hexagone >*:nth-child(1), cylindre >*:nth-child(1), bevel >*:nth-child(1){
 	height: var(--depth);
 	transform: rotateX(90deg) translateZ(var(--depth-half));
 }
-pave >*:nth-child(2), toblerone >*:nth-child(2), trect >*:nth-child(2), octogone >*:nth-child(2), cylindre >*:nth-child(2){
+pave >*:nth-child(2), toblerone >*:nth-child(2), trect >*:nth-child(2), octogone >*:nth-child(2), hexagone >*:nth-child(2), cylindre >*:nth-child(2), bevel >*:nth-child(2){
 	height: var(--depth);
 	transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--depth-half)));
 }
-pave >*:nth-child(3), toblerone >*:nth-child(3), trect >*:nth-child(3), octogone >*:nth-child(3), cylindre >*:nth-child(3){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
-pave >*:nth-child(4) {
+pave >*:nth-child(3), toblerone >*:nth-child(3), trect >*:nth-child(3), octogone >*:nth-child(3), hexagone >*:nth-child(3), bevel >*:nth-child(3)
+	{ transform: rotateY(180deg) translateZ(var(--depth-half)); }
+pave >*:nth-child(4), octogone >*:nth-child(6), bevel >*:nth-child(4) {
 	width: var(--depth);
 	transform: rotateY(-90deg) translateZ(var(--depth-half));
 }
-pave >*:nth-child(5) {
+pave >*:nth-child(5), octogone >*:nth-child(7), bevel >*:nth-child(5) {
 	width: var(--depth);
 	transform: rotateY(90deg) translateZ(calc(var(--width) - var(--depth-half)));
 }
-pave >*:nth-child(6) { transform: translateZ(var(--depth-half)); }
+pave >*:nth-child(6), hexagone >*:nth-child(8), octogone >*:nth-child(10), bevel >*:nth-child(6) { transform: translateZ(var(--depth-half)); }
 
 /* ------------------------ pavé qui tourne selon spin-vertical ------------------------ */
 
-pave.vertical >*:nth-child(6){ transform: rotateX(180deg) translateZ(var(--depth-half)); }
+pave.vertical >*:nth-child(6), hexagone.vertical >*:nth-child(8), octogone.vertical >*:nth-child(10), bevel.vertical >*:nth-child(6)
+	{ transform: rotateX(180deg) translateZ(var(--depth-half)); }
 
 /* ------------------------ les formes variées ------------------------ */
 
@@ -86,8 +88,30 @@ trect >*:nth-child(4){
 }
 trect >*:nth-child(5){
 	width: calc(var(--width) * 0.7071067811865475);
-	transform: rotateY(45deg) translateZ(calc(var(--width) * (1 - 0.7071067811865475) *0.95)) translateX(0%);
+	transform: rotateY(45deg) translateZ(calc(var(--width) * (1 - 0.7071067811865475) *0.95)) translateX(39.5%);
 }
+hexagone{ --depth: calc(var(--width) * 0.8660254037844386); }
+hexagone >*:nth-child(1), hexagone >*:nth-child(2){ clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+hexagone >*:nth-child(n+3){
+	width: 50%;
+	left: 25%;
+}
+hexagone >*:nth-child(4){ transform: rotateY(60deg) translateZ(calc(-1* var(--depth-half))); }
+hexagone >*:nth-child(5){ transform: rotateY(120deg) translateZ(var(--depth-half)); }
+hexagone >*:nth-child(6){ transform: rotateY(120deg) translateZ(calc(-1* var(--depth-half))); }
+hexagone >*:nth-child(7){ transform: rotateY(60deg) translateZ(var(--depth-half)); }
+
+octogone >*:nth-child(1), octogone >*:nth-child(2){
+	clip-path: polygon(29.28935% 0, 70.71065% 0, 100% 29.28935%, 100% 70.71065%, 70.71065% 100%, 29.28935% 100%, 0 70.71065%, 0 29.28935%);
+}
+octogone >*:nth-child(n+3){
+	width: 41.4213%;
+	left: calc(var(--depth-half) - 20.71065%);
+}
+octogone >*:nth-child(4){ transform: rotateY(45deg) translateZ(calc(-1* var(--depth-half))); }
+octogone >*:nth-child(5){ transform: rotateY(-45deg) translateZ(calc(-1* var(--depth-half))); }
+octogone >*:nth-child(8){ transform: rotateY(-45deg) translateZ(var(--depth-half)); }
+octogone >*:nth-child(9){ transform: rotateY(45deg) translateZ(var(--depth-half)); }
 
 /* ------------------------ les animations ------------------------ */
 
@@ -125,4 +149,26 @@ pave#mycube {
 	<p>right</p>
 	<p>front</p>
 </pave>
+<hexagone>
+	<p>top</p>
+	<p>bottom</p>
+	<p>back</p>
+	<p>left back</p>
+	<p>right back</p>
+	<p>left front</p>
+	<p>right front</p>
+	<p>front</p>
+</hexagone>
+<octogone>
+	<p>top</p>
+	<p>bottom</p>
+	<p>back</p>
+	<p>left back</p>
+	<p>right back</p>
+	<p>left</p>
+	<p>right</p>
+	<p>left front</p>
+	<p>right front</p>
+	<p>front</p>
+</octogone>
 */

@@ -1,7 +1,42 @@
-/* dépend de cube.css */
+/* dépend de pave.css */
+/*
+bevel { --bevwidth: 0.6; }
+bevel >*:nth-child(1), bevel >*:nth-child(2){
+	border-radius: calc((1 - var(--bevwidth)) *50%);
+	transform-style: preserve-3d;
+}
+bevel >*:nth-child(n+3){
+	border: none;
+	transform-style: preserve-3d;
+	width: calc(100% * var(--bevwidth));
+	left: calc(var(--width) * (1 - var(--bevwidth)) /2);
+}
+bevel >*:nth-child(n+3):before, bevel >*:nth-child(n+3):after {
+	content: "";
+	width: calc(var(--width) * (1 - var(--bevwidth)) * 0.3826834323650897717284599840304);
+	height: inherit;
+	border: inherit;
+	background: inherit;
+	display: block;
+	position: absolute;
+	top: 0;
+	text-align: center;
+	background-position: center;
+	background-size: contain;
+}
+bevel >*:nth-child(n+3):before {
+	transform-origin: center left;
+	left: calc(var(--width) * (var(--bevwidth)) );
+	transform: rotateY(22.5deg);
+}
+bevel >*:nth-child(n+3):after {
+	transform-origin: center right;
+	left: calc(var(--width) * (var(--bevwidth) - 1) * 0.3826834323650897717284599840304);
+	transform: rotateY(-22.5deg);
+}*/
 cylindre >*:nth-child(1), cylindre >*:nth-child(2){ border-radius: 50%; }
 cylindre >*:nth-child(n+3){
-	left: calc(0.4675 * var(--width));
+	left: calc(0,4675 * var(--width)); /* calc((var(--width) - width) /2) */
 	width: 6.5%;
 	border: none;
 	transform-style: preserve-3d;
@@ -29,22 +64,22 @@ cylindre >*:nth-child(n+3):after {
 	left: -100%;
 	transform: rotateY(-7.5deg);
 }
-cylindre >*:nth-child(3){ transform: translateZ(var(--width-half)); }
-cylindre >*:nth-child(4){ transform: rotateY(180deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(5){ transform: rotateY(22.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(6){ transform: rotateY(202.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(7){ transform: rotateY(45deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(8){ transform: rotateY(225deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(9){ transform: rotateY(67.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(10){ transform: rotateY(247.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(11){ transform: rotateY(90deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(12){ transform: rotateY(270deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(13){ transform: rotateY(112.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(14){ transform: rotateY(292.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(15){ transform: rotateY(135deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(16){ transform: rotateY(315deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(17){ transform: rotateY(157.5deg) translateZ(var(--width-half)); }
-cylindre >*:nth-child(18){ transform: rotateY(337.5deg) translateZ(var(--width-half)); }
+cylindre >*:nth-child(3){ transform: translateZ(var(--depth-half)); }
+cylindre >*:nth-child(4){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(5){ transform: rotateY(22.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(6){ transform: rotateY(202.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(7){ transform: rotateY(45deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(8){ transform: rotateY(225deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(9){ transform: rotateY(67.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(10){ transform: rotateY(247.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(11){ transform: rotateY(90deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(12){ transform: rotateY(270deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(13){ transform: rotateY(112.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(14){ transform: rotateY(292.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(15){ transform: rotateY(135deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(16){ transform: rotateY(315deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(17){ transform: rotateY(157.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(18){ transform: rotateY(337.5deg) translateZ(var(--depth-half)); }
 /*
 <cylindre>
 	<p>top</p>
