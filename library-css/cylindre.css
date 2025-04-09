@@ -10,18 +10,20 @@ bevel >*:nth-child(n+3){
 	width: calc(100% * var(--bevwidth));
 	left: calc(var(--width) * (1 - var(--bevwidth)) /2);
 }
-bevel >*:nth-child(n+3):before, bevel >*:nth-child(n+3):after {
+bevel >*:before, bevel >*:after {
 	content: "";
-	width: calc(var(--width) * (1 - var(--bevwidth)) * 0.3826834323650897717284599840304);
-	height: inherit;
-	border: inherit;
+	height: var(--height);
+	border: none;
 	background: inherit;
 	display: block;
 	position: absolute;
-	top: 0;
 	text-align: center;
 	background-position: center;
 	background-size: contain;
+}
+bevel >*:nth-child(n+3):before, bevel >*:nth-child(n+3):after {
+	width: calc(var(--width) * (1 - var(--bevwidth)) * 0.3826834323650897717284599840304);
+	top: 0;
 }
 bevel >*:nth-child(n+3):before {
 	transform-origin: center left;
