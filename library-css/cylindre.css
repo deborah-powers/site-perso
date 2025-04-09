@@ -1,8 +1,7 @@
 /* dépend de pave.css */
-/*
 bevel { --bevwidth: 0.6; }
 bevel >*:nth-child(1), bevel >*:nth-child(2){
-	border-radius: calc((1 - var(--bevwidth)) *50%);
+	border-radius: calc(50% - var(--bevwidth) *50%);
 	transform-style: preserve-3d;
 }
 bevel >*:nth-child(n+3){
@@ -33,7 +32,7 @@ bevel >*:nth-child(n+3):after {
 	transform-origin: center right;
 	left: calc(var(--width) * (var(--bevwidth) - 1) * 0.3826834323650897717284599840304);
 	transform: rotateY(-22.5deg);
-}*/
+}
 cylindre >*:nth-child(1), cylindre >*:nth-child(2){ border-radius: 50%; }
 cylindre >*:nth-child(n+3){
 	left: calc(0,4675 * var(--width)); /* calc((var(--width) - width) /2) */

@@ -115,6 +115,14 @@ octogone >*:nth-child(9){ transform: rotateY(45deg) translateZ(var(--depth-half)
 
 /* ------------------------ les animations ------------------------ */
 
+.mesure {
+	/* objet en cours de création */
+	--fond:
+		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
+		linear-gradient(#0994 49.5%, maroon 49.5% 50.5%, #0994 50.5%);
+	--bord: solid 2px maroon;
+}
+
 @keyframes spin-horizontal {
 	from { transform: rotateY(0); }
 	to { transform: rotateY(360deg); }
