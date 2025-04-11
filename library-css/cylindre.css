@@ -22,18 +22,22 @@ bevel >*:before, bevel >*:after {
 	background-size: contain;
 }
 bevel >*:nth-child(n+3):before, bevel >*:nth-child(n+3):after {
-	width: calc(var(--width) * (1 - var(--bevwidth)) * 0.3826834323650897717284599840304);
+/*	width: calc(var(--width) * (1 - var(--bevwidth)) * 0.3826834323650897717284599840304);	ancienne méthode */
+	width: calc(var(--depth-half) * (1 - var(--bevwidth)) * sqrt(2 - 2 * cos(30deg)));
 	top: 0;
 }
 bevel >*:nth-child(n+3):before {
 	transform-origin: center left;
 	left: calc(var(--width) * (var(--bevwidth)) );
-	transform: rotateY(22.5deg);
+	transform: rotateY(15deg);
 }
 bevel >*:nth-child(n+3):after {
 	transform-origin: center right;
-	left: calc(var(--width) * (var(--bevwidth) - 1) * 0.3826834323650897717284599840304);
+	left: calc(var(--width) *-0.5* (1 - var(--bevwidth)) * sqrt(2 - 2 * cos(30deg)));
+	transform: rotateY(-15deg);
+/*	left: calc(var(--width) * (var(--bevwidth) - 1) * 0.3826834323650897717284599840304);	ancienne méthode
 	transform: rotateY(-22.5deg);
+	*/
 }
 cylindre >*:nth-child(1), cylindre >*:nth-child(2){ border-radius: 50%; }
 cylindre >*:nth-child(n+3){
