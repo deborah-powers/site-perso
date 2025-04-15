@@ -123,127 +123,200 @@ p.arrow:before, span.arrow:before {
 	*/
 }
 boule {
+	/* à adapter */
+	--width: 10em;
+	background-color: var(--text-color);
+	border: none;
+	/* --- */
 	display: block;
-	animation-duration: 1s;
+	animation-duration: 10s;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
 	text-align: center;
 	font-size: 1em;
 	border-radius: 50%;
-	background-image: radial-gradient(at 26% 50%, var(--fond-color), var(--bord-color));
-	/* préciser width, height et background-color */
-	width: 6em;
-	height: 6em;
+	background-image: radial-gradient(circle at 10% 20%, #FFF8, transparent);
+	width: var(--width);
+	height: var(--width);
 }
 boule.horizontal { animation-name: boule-spin-y; }
 boule.vertical { animation-name: boule-spin-x; }
-@keyframes boule-spin-y {
-	0% { background-image: radial-gradient(circle at 0% 50%, transparent, #0003); }
-	5% { background-image: radial-gradient(circle at 5% 50%, transparent, #0003); }
-	10% { background-image: radial-gradient(circle at 10% 50%, transparent, #0003); }
-	15% { background-image: radial-gradient(circle at 15% 50%, transparent, #0003); }
-	20% { background-image: radial-gradient(circle at 20% 50%, transparent, #0003); }
-	25% { background-image: radial-gradient(circle at 25% 50%, transparent, #0003); }
-	30% { background-image: radial-gradient(circle at 30% 50%, transparent, #0003); }
-	35% { background-image: radial-gradient(circle at 35% 50%, transparent, #0003); }
-	40% { background-image: radial-gradient(circle at 40% 50%, transparent, #0003); }
-	45% { background-image: radial-gradient(circle at 45% 50%, transparent, #0003); }
-	50% { background-image: radial-gradient(circle at 50% 50%, transparent, #0003); }
-	55% { background-image: radial-gradient(circle at 55% 50%, transparent, #0003); }
-	60% { background-image: radial-gradient(circle at 60% 50%, transparent, #0003); }
-	65% { background-image: radial-gradient(circle at 65% 50%, transparent, #0003); }
-	70% { background-image: radial-gradient(circle at 70% 50%, transparent, #0003); }
-	75% { background-image: radial-gradient(circle at 75% 50%, transparent, #0003); }
-	80% { background-image: radial-gradient(circle at 80% 50%, transparent, #0003); }
-	85% { background-image: radial-gradient(circle at 85% 50%, transparent, #0003); }
-	90% { background-image: radial-gradient(circle at 90% 50%, transparent, #0003); }
-	95% { background-image: radial-gradient(circle at 95% 50%, transparent, #0003); }
-	100% { background-image: radial-gradient(circle at 100% 50%, transparent, #0003); }
-}
-@keyframes boule-spin-x {
-	0% { background-image: radial-gradient(circle at 50% 0%, transparent, #0003); }
-	5% { background-image: radial-gradient(circle at 50% 5%, transparent, #0003); }
-	10% { background-image: radial-gradient(circle at 50% 10%, transparent, #0003); }
-	15% { background-image: radial-gradient(circle at 50% 15%, transparent, #0003); }
-	20% { background-image: radial-gradient(circle at 50% 20%, transparent, #0003); }
-	25% { background-image: radial-gradient(circle at 50% 25%, transparent, #0003); }
-	30% { background-image: radial-gradient(circle at 50% 30%, transparent, #0003); }
-	35% { background-image: radial-gradient(circle at 50% 35%, transparent, #0003); }
-	40% { background-image: radial-gradient(circle at 50% 40%, transparent, #0003); }
-	45% { background-image: radial-gradient(circle at 50% 45%, transparent, #0003); }
-	50% { background-image: radial-gradient(circle at 50% 50%, transparent, #0003); }
-	55% { background-image: radial-gradient(circle at 50% 55%, transparent, #0003); }
-	60% { background-image: radial-gradient(circle at 50% 60%, transparent, #0003); }
-	65% { background-image: radial-gradient(circle at 50% 65%, transparent, #0003); }
-	70% { background-image: radial-gradient(circle at 50% 70%, transparent, #0003); }
-	75% { background-image: radial-gradient(circle at 50% 75%, transparent, #0003); }
-	80% { background-image: radial-gradient(circle at 50% 80%, transparent, #0003); }
-	85% { background-image: radial-gradient(circle at 50% 85%, transparent, #0003); }
-	90% { background-image: radial-gradient(circle at 50% 90%, transparent, #0003); }
-	95% { background-image: radial-gradient(circle at 50% 95%, transparent, #0003); }
-	100% { background-image: radial-gradient(circle at 50% 100%, transparent, #0003); }
-}
 cylindre {
-	width: 6em;
-	height: 10em;
-	--inclinaison: 10%;
+	/* à adapter */
+	--width: 6em;
+	--height: 10em;
+	--inclinaison: 0.6;	/* entre 0 et 1 */
 	--bord: none;
-	--fond: var(--fond-color);
+	background-color: var(--text-color);
+	justify-content: end; /* positionner le bout visible space-between, end, start */
+	/* --- */
+	width: var(--width);
+	height: calc(var(--width) * var(--inclinaison) + var(--height) * (1 - var(--inclinaison)));
 	font-size: 1em;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	align-items: stretch;
-	animation-duration: 1s;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
 	text-align: center;
-	border-radius: 50%/var(--inclinaison);
-	background-image: linear-gradient(90deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
+	border-radius: 50%/calc(var(--width) * var(--inclinaison) *0.5);
+	background-image: linear-gradient(90deg, transparent 20%, white 80%, transparent);
 }
 cylindre >* {
-	height: calc(2* var(--inclinaison));
+	width: 100%;
+	height: calc(var(--width) * var(--inclinaison));
 	border-radius: 50%;
+	background-color: inherit;
 	margin: 0;
-	background: var(--fond);
 	border: var(--bord);
 }
 cylindre.horizontal {
 	flex-direction: row;
-	border-radius: var(--inclinaison)/50%;
-	width: 10em;
-	height: 6em;
-	background: linear-gradient(0deg, var(--bord-color) 20%, var(--fond-color) 80%, var(--bord-color));
+	border-radius: calc(var(--width) * var(--inclinaison) *0.5)/50%;
+	width: calc(var(--width) * var(--inclinaison) + var(--height) * (1 - var(--inclinaison)));
+	height: var(--width);
+	background-image: linear-gradient(transparent 20%, white 80%, transparent);
 }
 cylindre.horizontal >* {
-	width: calc(2* var(--inclinaison));
+	width: calc(var(--width) * var(--inclinaison));
 	height: 100%;
 }
-cylindre.tourne { animation-name: tourne-cylindre; }
-@keyframes tourne-cylindre {
-	0% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 20%, var(--bord-color)); }
-	10% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 27%, var(--bord-color)); }
-	20% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 34%, var(--bord-color)); }
-	30% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 41%, var(--bord-color)); }
-	40% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 48%, var(--bord-color)); }
-	50% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 55%, var(--bord-color)); }
-	60% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 62%, var(--bord-color)); }
-	70% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 69%, var(--bord-color)); }
-	80% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 76%, var(--bord-color)); }
-	90% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 83%, var(--bord-color)); }
-	100% { background: linear-gradient(90deg, var(--bord-color), var(--fond-color) 90%, var(--bord-color)); }
+cylindre.tourne, cylindre.tourne >* {
+	animation-duration: 6s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
-cylindre.horizontal.tourne { animation-name: tourne-cylindre-horizontal; }
-@keyframes tourne-cylindre-horizontal {
-	0% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 20%, var(--bord-color)); }
-	10% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 27%, var(--bord-color)); }
-	20% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 34%, var(--bord-color)); }
-	30% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 41%, var(--bord-color)); }
-	40% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 48%, var(--bord-color)); }
-	50% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 55%, var(--bord-color)); }
-	60% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 62%, var(--bord-color)); }
-	70% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 69%, var(--bord-color)); }
-	80% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 76%, var(--bord-color)); }
-	90% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 83%, var(--bord-color)); }
-	100% { background: linear-gradient(0deg, var(--bord-color), var(--fond-color) 90%, var(--bord-color)); }
+cylindre.tourne.bout { animation-name: cylindre-tourne-bout-corp; }
+cylindre.tourne.bout >* { animation-name: cylindre-tourne-bout-pieds; }
+cylindre.tourne.cote { animation-name: cylindre-tourne-cote; }
+cylindre.horizontal.tourne.cote { animation-name: cylindre-tourne-cote-horizontal; }
+
+@keyframes boule-spin-y {
+	0% { background-image: radial-gradient(circle at 0% 50%, #FFF8, transparent); }
+	5% { background-image: radial-gradient(circle at 5% 50%, #FFF8, transparent); }
+	10% { background-image: radial-gradient(circle at 10% 50%, #FFF8, transparent); }
+	15% { background-image: radial-gradient(circle at 15% 50%, #FFF8, transparent); }
+	20% { background-image: radial-gradient(circle at 20% 50%, #FFF8, transparent); }
+	25% { background-image: radial-gradient(circle at 25% 50%, #FFF8, transparent); }
+	30% { background-image: radial-gradient(circle at 30% 50%, #FFF8, transparent); }
+	35% { background-image: radial-gradient(circle at 35% 50%, #FFF8, transparent); }
+	40% { background-image: radial-gradient(circle at 40% 50%, #FFF8, transparent); }
+	45% { background-image: radial-gradient(circle at 45% 50%, #FFF8, transparent); }
+	50% { background-image: radial-gradient(circle at 50% 50%, #FFF8, transparent); }
+	55% { background-image: radial-gradient(circle at 55% 50%, #FFF8, transparent); }
+	60% { background-image: radial-gradient(circle at 60% 50%, #FFF8, transparent); }
+	65% { background-image: radial-gradient(circle at 65% 50%, #FFF8, transparent); }
+	70% { background-image: radial-gradient(circle at 70% 50%, #FFF8, transparent); }
+	75% { background-image: radial-gradient(circle at 75% 50%, #FFF8, transparent); }
+	80% { background-image: radial-gradient(circle at 80% 50%, #FFF8, transparent); }
+	85% { background-image: radial-gradient(circle at 85% 50%, #FFF8, transparent); }
+	90% { background-image: radial-gradient(circle at 90% 50%, #FFF8, transparent); }
+	95% { background-image: radial-gradient(circle at 95% 50%, #FFF8, transparent); }
+	100% { background-image: radial-gradient(circle at 100% 50%, #FFF8, transparent); }
+}
+@keyframes boule-spin-x {
+	0% { background-image: radial-gradient(circle at 50% 0%, #FFF8, transparent); }
+	5% { background-image: radial-gradient(circle at 50% 5%, #FFF8, transparent); }
+	10% { background-image: radial-gradient(circle at 50% 10%, #FFF8, transparent); }
+	15% { background-image: radial-gradient(circle at 50% 15%, #FFF8, transparent); }
+	20% { background-image: radial-gradient(circle at 50% 20%, #FFF8, transparent); }
+	25% { background-image: radial-gradient(circle at 50% 25%, #FFF8, transparent); }
+	30% { background-image: radial-gradient(circle at 50% 30%, #FFF8, transparent); }
+	35% { background-image: radial-gradient(circle at 50% 35%, #FFF8, transparent); }
+	40% { background-image: radial-gradient(circle at 50% 40%, #FFF8, transparent); }
+	45% { background-image: radial-gradient(circle at 50% 45%, #FFF8, transparent); }
+	50% { background-image: radial-gradient(circle at 50% 50%, #FFF8, transparent); }
+	55% { background-image: radial-gradient(circle at 50% 55%, #FFF8, transparent); }
+	60% { background-image: radial-gradient(circle at 50% 60%, #FFF8, transparent); }
+	65% { background-image: radial-gradient(circle at 50% 65%, #FFF8, transparent); }
+	70% { background-image: radial-gradient(circle at 50% 70%, #FFF8, transparent); }
+	75% { background-image: radial-gradient(circle at 50% 75%, #FFF8, transparent); }
+	80% { background-image: radial-gradient(circle at 50% 80%, #FFF8, transparent); }
+	85% { background-image: radial-gradient(circle at 50% 85%, #FFF8, transparent); }
+	90% { background-image: radial-gradient(circle at 50% 90%, #FFF8, transparent); }
+	95% { background-image: radial-gradient(circle at 50% 95%, #FFF8, transparent); }
+	100% { background-image: radial-gradient(circle at 50% 100%, #FFF8, transparent); }
+}
+@keyframes cylindre-tourne-bout-pieds {
+	0% { height: 0; }
+	10% { height: calc(var(--width) *0.1); }
+	20% { height: calc(var(--width) *0.2); }
+	30% { height: calc(var(--width) *0.3); }
+	40% { height: calc(var(--width) *0.4); }
+	50% { height: calc(var(--width) *0.5); }
+	60% { height: calc(var(--width) *0.6); }
+	70% { height: calc(var(--width) *0.7); }
+	80% { height: calc(var(--width) *0.8); }
+	90% { height: calc(var(--width) *0.9); }
+	100% { height: var(--width); }
+}
+@keyframes cylindre-tourne-bout-corp {
+	0% {
+		height: var(--height);
+		border-radius: 50%/0%;
+	}
+	10% {
+		height: calc(var(--width) *0.1 + var(--height) *0.9);
+		border-radius: 50%/calc(var(--width) *0.05);
+	}
+	20% {
+		height: calc(var(--width) *0.2 + var(--height) *0.8);
+		border-radius: 50%/calc(var(--width) *0.1);
+	}
+	30% {
+		height: calc(var(--width) *0.3 + var(--height) *0.7);
+		border-radius: 50%/calc(var(--width) *0.15);
+	}
+	40% {
+		height: calc(var(--width) *0.4 + var(--height) *0.6);
+		border-radius: 50%/calc(var(--width) *0.2);
+	}
+	50% {
+		height: calc(var(--width) *0.5 + var(--height) *0.5);
+		border-radius: 50%/calc(var(--width) *0.25);
+	}
+	60% {
+		height: calc(var(--width) *0.6 + var(--height) *0.4);
+		border-radius: 50%/calc(var(--width) *0.3);
+	}
+	70% {
+		height: calc(var(--width) *0.7+ var(--height) *0.3);
+		border-radius: 50%/calc(var(--width) *0.35);
+	}
+	80% {
+		height: calc(var(--width) *0.8 + var(--height) *0.2);
+		border-radius: 50%/calc(var(--width) *0.4);
+	}
+	90% {
+		height: calc(var(--width) *0.9 + var(--height) *0.1);
+		border-radius: 50%/calc(var(--width) *0.45);
+	}
+	100% {
+		height: var(--width);
+		border-radius: 50%;
+	}
+}
+@keyframes cylindre-tourne-cote {
+	0% { background: linear-gradient(90deg, transparent, #FFF8 20%, transparent); }
+	10% { background: linear-gradient(90deg, transparent, #FFF8 27%, transparent); }
+	20% { background: linear-gradient(90deg, transparent, #FFF8 34%, transparent); }
+	30% { background: linear-gradient(90deg, transparent, #FFF8 41%, transparent); }
+	40% { background: linear-gradient(90deg, transparent, #FFF8 48%, transparent); }
+	50% { background: linear-gradient(90deg, transparent, #FFF8 55%, transparent); }
+	60% { background: linear-gradient(90deg, transparent, #FFF8 62%, transparent); }
+	70% { background: linear-gradient(90deg, transparent, #FFF8 69%, transparent); }
+	80% { background: linear-gradient(90deg, transparent, #FFF8 76%, transparent); }
+	90% { background: linear-gradient(90deg, transparent, #FFF8 83%, transparent); }
+	100% { background: linear-gradient(90deg, transparent, #FFF8 90%, transparent); }
+}
+@keyframes cylindre-tourne-cote-horizontal {
+	0% { background: linear-gradient(0deg, transparent, #FFF8 20%, transparent); }
+	10% { background: linear-gradient(0deg, transparent, #FFF8 27%, transparent); }
+	20% { background: linear-gradient(0deg, transparent, #FFF8 34%, transparent); }
+	30% { background: linear-gradient(0deg, transparent, #FFF8 41%, transparent); }
+	40% { background: linear-gradient(0deg, transparent, #FFF8 48%, transparent); }
+	50% { background: linear-gradient(0deg, transparent, #FFF8 55%, transparent); }
+	60% { background: linear-gradient(0deg, transparent, #FFF8 62%, transparent); }
+	70% { background: linear-gradient(0deg, transparent, #FFF8 69%, transparent); }
+	80% { background: linear-gradient(0deg, transparent, #FFF8 76%, transparent); }
+	90% { background: linear-gradient(0deg, transparent, #FFF8 83%, transparent); }
+	100% { background: linear-gradient(0deg, transparent, #FFF8 90%, transparent); }
 }

@@ -1,17 +1,18 @@
 /* dépend de pave.css */
-bevel { --bevwidth: 0.6; }
-bevel >*:nth-child(1), bevel >*:nth-child(2){
+chanfrein { --bevwidth: 0.6; }
+chanfrein >*:nth-child(1), chanfrein >*:nth-child(2){
 	border-radius: calc(50% - var(--bevwidth) *50%);
 	transform-style: preserve-3d;
 }
-bevel >*:nth-child(n+3){
+chanfrein >*:nth-child(n+3){
 	border: none;
 	transform-style: preserve-3d;
 	width: calc(100% * var(--bevwidth));
 	left: calc(var(--width) * (1 - var(--bevwidth)) /2);
 }
-bevel >*:before, bevel >*:after {
+chanfrein >*:before, chanfrein >*:after {
 	content: "";
+	width: calc(50% * (1 - var(--bevwidth)) * sqrt(2 - 2 * cos(30deg)));
 	height: var(--height);
 	border: none;
 	background: inherit;
@@ -21,17 +22,27 @@ bevel >*:before, bevel >*:after {
 	background-position: center;
 	background-size: contain;
 }
-bevel >*:nth-child(n+3):before, bevel >*:nth-child(n+3):after {
+chanfrein >*:nth-child(1):before, chanfrein >*:nth-child(1):after, chanfrein >*:nth-child(2):before, chanfrein >*:nth-child(2):after {
+	left: calc(50% * (1 - 0.5* (1 - var(--bevwidth)) * sqrt(2 - 2 * cos(30deg))));
+	top: calc(50% - 0.5 * var(--height));
+	transform-origin: center center;
+}
+chanfrein >*:nth-child(1):before, chanfrein >*:nth-child(2):before {
+	transform: rotateX(90deg) translateY(-50%) rotateY(45deg) translateZ(calc(var(--depth-half) * (var(--bevwidth) * sqrt(2) + (1 - var(--bevwidth)) * sin(75deg)))); /* 75= 180-30 /2  30= 90 - 2*30 */
+}
+chanfrein >*:nth-child(1):after, chanfrein >*:nth-child(2):after {
+	transform: rotateX(90deg) translateY(-50%) rotateY(-45deg) translateZ(calc(var(--depth-half) * (var(--bevwidth) * sqrt(2) + (1 - var(--bevwidth)) * sin(75deg))));
+}
+chanfrein >*:nth-child(n+3):before, chanfrein >*:nth-child(n+3):after {
 /*	width: calc(var(--width) * (1 - var(--bevwidth)) * 0.3826834323650897717284599840304);	ancienne méthode */
-	width: calc(var(--depth-half) * (1 - var(--bevwidth)) * sqrt(2 - 2 * cos(30deg)));
 	top: 0;
 }
-bevel >*:nth-child(n+3):before {
+chanfrein >*:nth-child(n+3):before {
 	transform-origin: center left;
 	left: calc(var(--width) * (var(--bevwidth)) );
 	transform: rotateY(15deg);
 }
-bevel >*:nth-child(n+3):after {
+chanfrein >*:nth-child(n+3):after {
 	transform-origin: center right;
 	left: calc(var(--width) *-0.5* (1 - var(--bevwidth)) * sqrt(2 - 2 * cos(30deg)));
 	transform: rotateY(-15deg);
@@ -39,9 +50,9 @@ bevel >*:nth-child(n+3):after {
 	transform: rotateY(-22.5deg);
 	*/
 }
-cylindre >*:nth-child(1), cylindre >*:nth-child(2){ border-radius: 50%; }
+cylindre >*:nth-child(1), cylindre >*:nth-child(2) { border-radius: 50%; }
 cylindre >*:nth-child(n+3){
-	left: calc(0,4675 * var(--width)); /* calc((var(--width) - width) /2) */
+	left: 46.75%; /* calc((var(--width) - width) /2) */
 	width: 6.5%;
 	border: none;
 	transform-style: preserve-3d;
@@ -70,20 +81,20 @@ cylindre >*:nth-child(n+3):after {
 	transform: rotateY(-7.5deg);
 }
 cylindre >*:nth-child(3){ transform: translateZ(var(--depth-half)); }
-cylindre >*:nth-child(4){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(5){ transform: rotateY(22.5deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(6){ transform: rotateY(202.5deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(7){ transform: rotateY(45deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(8){ transform: rotateY(225deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(9){ transform: rotateY(67.5deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(10){ transform: rotateY(247.5deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(11){ transform: rotateY(90deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(12){ transform: rotateY(270deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(13){ transform: rotateY(112.5deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(14){ transform: rotateY(292.5deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(15){ transform: rotateY(135deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(16){ transform: rotateY(315deg) translateZ(var(--depth-half)); }
-cylindre >*:nth-child(17){ transform: rotateY(157.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(4){ transform: rotateY(22.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(5){ transform: rotateY(45deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(6){ transform: rotateY(67.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(7){ transform: rotateY(90deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(8){ transform: rotateY(112.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(9){ transform: rotateY(135deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(10){ transform: rotateY(157.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(11){ transform: rotateY(180deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(12){ transform: rotateY(202.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(13){ transform: rotateY(225deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(14){ transform: rotateY(247.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(15){ transform: rotateY(270deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(16){ transform: rotateY(292.5deg) translateZ(var(--depth-half)); }
+cylindre >*:nth-child(17){ transform: rotateY(315deg) translateZ(var(--depth-half)); }
 cylindre >*:nth-child(18){ transform: rotateY(337.5deg) translateZ(var(--depth-half)); }
 /*
 <cylindre>
