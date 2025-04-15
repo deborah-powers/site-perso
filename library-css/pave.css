@@ -1,6 +1,6 @@
 /* https://la-cascade.io/articles/creer-un-cube-en-css */
 
-pave, toblerone, trect, octogone, hexagone, boule, cylindre, chanfrein {
+pave, toblerone, trect, octogone, hexagone, cylindre, chanfrein {
 	/* propriétés modifiables */
 	--width: 8cm;
 	--height: 4cm;
@@ -22,12 +22,12 @@ pave, toblerone, trect, octogone, hexagone, boule, cylindre, chanfrein {
 }
 /* ------------------------ les pavés ------------------------ */
 
-pave.poteau, octogone, boule, cylindre, chanfrein { --depth: var(--width); }
+pave.poteau, octogone, cylindre, chanfrein { --depth: var(--width); }
 pave.cube {
 	--height: var(--width);
 	--depth: var(--width);
 }
-pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, boule >*, cylindre >*, chanfrein >* {
+pave >*, toblerone >*, trect >*, octogone >*, hexagone >*, cylindre >*, chanfrein >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
