@@ -21,20 +21,30 @@ body {
 	to { transform: rotateZ(-360deg); }
 }
 piece {
-	width: 40em;
-	height: 25em;
+	/* à modifier */
+	--width: 40em;
+	--height: 25em;
+	--depth: 30em;
+	--fond: orange;
+	color: var(--text-color);
+	--plancher: rosybrown;
+	--plafond: white;
+	--mur: salmon;
+	/* ------------ */
+	width: var(--width);
+	height: var(--height);
 	display: block;
 	padding: 0;
 	margin: auto;
 	text-align: center;
 	transform-style: preserve-3d;
 	background-position: center;
-	border-style: solid;
-	background-color: transparent;
+	background: none;
+	border: none;
 }
+piece >* { color: inherit; }
 piece >*:nth-child(-n+5) {
-	border-style: solid;
-	background-color: #F4DB;
+	border-style: none;
 	width: inherit;
 	height: inherit;
 	margin: 0;
@@ -47,28 +57,34 @@ piece >*:nth-child(-n+5) {
 	background-size: contain;
 	transform-origin: center center;
 }
-piece >*:nth-child(2), piece >*:nth-child(3) { height: 30em; }
-piece >*:nth-child(4), piece >*:nth-child(5) { width: 30em; }
-
-piece >*:nth-child(1) { transform: translateZ(-15em); }
-piece >*:nth-child(2) { transform: rotateX(90deg) translateZ(-10em); }
-piece >*:nth-child(3) { transform: rotateX(-90deg) translateZ(-15em); }
-piece >*:nth-child(4) { transform: rotateY(90deg) translateZ(-15em); }
-piece >*:nth-child(5) { transform: rotateY(-90deg) translateZ(-25em); }
+piece >*:nth-child(1) {
+	transform: translateZ(calc(-0.5* var(--depth)));
+	background: var(--mur);
+}
+piece >*:nth-child(2), piece >*:nth-child(3) { height: var(--depth); }
+piece >*:nth-child(4), piece >*:nth-child(5) {
+	width: var(--depth);
+	background: var(--mur);
+}
+piece >*:nth-child(2) {
+	transform: rotateX(90deg) translateZ(calc(0.5* var(--depth) - var(--height)));
+	background: var(--plancher);
+}
+piece >*:nth-child(3) {
+	transform: rotateX(-90deg) translateZ(calc(-0.5* var(--depth)));
+	background: var(--plafond);
+}
+piece >*:nth-child(4) { transform: rotateY(90deg) translateZ(calc(-0.5* var(--depth))); }
+piece >*:nth-child(5) { transform: rotateY(-90deg) translateZ(calc(0.5* var(--depth) - var(--width))); }
 
 piece.fmed >*:nth-child(1) { transform: none; }
-piece.fmed >*:nth-child(2) { transform: rotateX(90deg) translateY(50%) translateZ(-10em); }
-piece.fmed >*:nth-child(3) { transform: rotateX(-90deg) translateY(-50%) translateZ(-15em); }
-piece.fmed >*:nth-child(4) { transform: rotateY(90deg) translateX(-50%) translateZ(-15em); }
-piece.fmed >*:nth-child(5) { transform: rotateY(-90deg) translateX(50%) translateZ(-25em); }
+piece.fmed >*:nth-child(2) { transform: rotateX(90deg) translateY(50%) translateZ(calc(0.5* var(--depth) - var(--height))); }
+piece.fmed >*:nth-child(3) { transform: rotateX(-90deg) translateY(-50%) translateZ(calc(-0.5* var(--depth))); }
+piece.fmed >*:nth-child(4) { transform: rotateY(90deg) translateX(-50%) translateZ(calc(-0.5* var(--depth))); }
+piece.fmed >*:nth-child(5) { transform: rotateY(-90deg) translateX(50%) translateZ(calc(0.5* var(--depth) - var(--width))); }
 
 /* les détails */
-piece { border-style: none; }
-piece >*:nth-child(2) { border-style: none; }
-piece >*:nth-child(3) { background-color: white; }
 piece >*:nth-child(1), piece >*:nth-child(4), piece >*:nth-child(5) {
-	border-left-style: none;
-	border-right-style: none;
 	border-bottom-style: solid;
 	border-bottom-width: 1em;
 }
@@ -109,10 +125,9 @@ piece > fenetre {
 	--pos-z: calc((30em + 25em) * 0.4);
 	transform: rotateY(-90deg) translateZ(calc(-1 * var(--pos-z)));
 }
-piece > fenetre.droite { transform: rotateY(90deg) translateZ(calc(var(--pos-z) - 40em)); }
+piece > fenetre.droite { transform: rotateY(90deg) translateZ(calc(var(--pos-z) - var(--width))); }
 piece > fenetre.view-ext { transform: rotateY(90deg) translateZ(var(--pos-z)); }
-piece > fenetre.droite.view-ext { transform: rotateY(-90deg) translateZ(calc(40em - var(--pos-z))); }
-
+piece > fenetre.droite.view-ext { transform: rotateY(-90deg) translateZ(calc(var(--width) - var(--pos-z))); }
 /* les papiers peints */
 piece.rayure >*:nth-child(1), piece.rayure >*:nth-child(4), piece.rayure >*:nth-child(5) {
 	border-bottom-color: wheat;

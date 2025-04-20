@@ -1,5 +1,4 @@
-HTMLElement.prototype.originalHtml ="";
-HTMLElement.prototype.originalAttributes ={};
+var bodyTemplate ="";
 var dicoPlay ={};
 
 function exists (object){
@@ -231,22 +230,14 @@ String.prototype.cleanHtml = function(){
 	text = text.replaceAll (' ))', '))');
 	return text;
 }
-HTMLElement.prototype.initAjax = function(){
-	if (this.innerHTML.includes ('((')){ for (var c=0; c< this.children.length; c++) this.children[c].initAjax(); }
-	if (this.getAttribute ('aria-live')){
-		if (this.innerHTML.includes ('((')) this.originalHtml = this.innerHTML;
-		for (var a=0; a< this.attributes.length; a++){
-			if (this.attributes[a].value.includes ('((')) this.originalAttributes [this.attributes[a].name] = this.attributes[a].value;
-}}}
-HTMLElement.prototype.reload = function(){
-	this.innerHTML = this.originalHtml;
-	for (var attr in this.originalAttributes) this.setAttribute (attr, this.originalAttributes[attr]);
-	for (var item in dicoPlay) this.print (item, dicoPlay[item]);
+function dpLoad(){
+	document.body.innerHTML = bodyTemplate;
+	for (var item in dicoPlay) document.body.print (item, dicoPlay[item]);
 }
 function dpInit(){
 	// nettoyer le texte
 	document.body.innerHTML = document.body.innerHTML.cleanHtml();
-	document.body.initAjax()
-	for (var item in dicoPlay) document.body.print (item, dicoPlay[item]);
-//	for (var item in dicoPlay) if ('Array String Number Object'.includes (dicoPlay[item].constructor.name)) document.body.print (item, dicoPlay[item]);
+	bodyTemplate = document.body.innerHTML;
+	// affichage basique
+	for (var item in dicoPlay) if ('Array String Number Object'.includes (dicoPlay[item].constructor.name)) document.body.print (item, dicoPlay[item]);
 }
