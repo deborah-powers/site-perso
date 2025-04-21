@@ -1,0 +1,14 @@
+/* dépend de pave.css, cylindre.css, boule.css */
+
+pave.table {
+	--height: 10em;
+	margin-top: 15em;
+}
+pave.table >* {
+	--fond: none;
+	--bord: solid 10px rosybrown;
+}
+pave.table >*:nth-child(1) { --fond: rosybrown; }
+pave.table >*:nth-child(2) { --bord: none; }
+pave.table >*:nth-child(n+2) { border-bottom: none; }
+

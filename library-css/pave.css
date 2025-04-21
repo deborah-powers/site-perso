@@ -5,16 +5,16 @@ pave, toblerone, trect, octogone, hexagone, cylindre, chanfrein {
 	--width: 8cm;
 	--height: 4cm;
 	--depth: 2cm;
-	--bord: solid 4px maroon;
-	--fond: orange;
-	color: maroon;
+	--bord: solid 4px var(--bord-color);
+	--fond: var(--fond-color);
+	color: var(--text-color);
 	/* ------ */
 	border: none;
 	background: none;
 	--depth-half: calc(var(--depth) /2);
 	width: var(--width);
 	height: var(--height);
-	display: block;
+	display: inline-block;
 	transform-style: preserve-3d;
 	padding: 0;
 	text-align: center;

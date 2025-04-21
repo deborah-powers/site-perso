@@ -8,17 +8,17 @@ body {
 	perspective: 100em;
 	perspective-origin: 50% 0em;
 }
-@keyframes spin-horizontal {
-	from { transform: rotateY(0); }
-	to { transform: rotateY(360deg); }
+@keyframes spin-room-horizontal {
+	from { transform: rotateY(45deg); }
+	to { transform: rotateY(-45deg); }
 }
-@keyframes spin-vertical {
-	from { transform: rotateX(0); }
-	to { transform: rotateX(-360deg); }
+@keyframes spin-room-vertical {
+	from { transform: rotateX(45deg); }
+	to { transform: rotateX(-45deg); }
 }
-@keyframes spin-transversal {
-	from { transform: rotateZ(0); }
-	to { transform: rotateZ(-360deg); }
+@keyframes spin-room-transversal {
+	from { transform: rotateZ(45deg); }
+	to { transform: rotateZ(-45deg); }
 }
 piece {
 	/* à modifier */
@@ -41,6 +41,9 @@ piece {
 	background-position: center;
 	background: none;
 	border: none;
+	animation-direction: alternate;
+	animation-duration: 8s;
+	animation-iteration-count: infinite;
 }
 piece >* { color: inherit; }
 piece >*:nth-child(-n+5) {
@@ -90,16 +93,19 @@ piece >*:nth-child(1), piece >*:nth-child(4), piece >*:nth-child(5) {
 }
 /* les fenêtres */
 fenetre, piece >*:nth-child(4).fenetre:before, piece >*:nth-child(5).fenetre:before {
+	/* à modifier */
+	--frame-width: 0.4em;
+	--frame-color: rosybrown;
+	width: 40%;
+	height: 10em;
+	background-color: #0CF;
+	/* ------------ */
 	position: absolute;
 	top: calc(2em - var(--frame-width));
 	left: calc(30% - var(--frame-width));
 	margin: 0;
 	box-sizing: content-box;
-	--frame-width: 0.4em;
-	--frame-color: rosybrown;
 	display: inline-block;
-	width: 40%;
-	height: 10em;
 	border-style: solid;
 	border-width: var(--frame-width);
 	border-color: var(--frame-color);
@@ -116,18 +122,19 @@ fenetre { background-image:
 	linear-gradient(transparent calc(50% - var(--frame-width) /2), var(--frame-color) calc(50% - var(--frame-width) /2) calc(50% + var(--frame-width) /2), transparent calc(50% + var(--frame-width) /2));
 }
 piece > fenetre {
+	background-color: #0CF2;	/* à modifier */
 	text-align: center;
 	background-position: center;
 	background-size: contain;
 	transform-origin: center center;
-	background-color: #0CF2;
-	width: calc(30em * 0.4);
-	--pos-z: calc((30em + 25em) * 0.4);
+	width: calc(var(--depth) * 0.4);
+	--pos-z: calc((var(--depth) + var(--height)) * 0.4);
 	transform: rotateY(-90deg) translateZ(calc(-1 * var(--pos-z)));
 }
-piece > fenetre.droite { transform: rotateY(90deg) translateZ(calc(var(--pos-z) - var(--width))); }
+piece > fenetre.gauche { transform: rotateY(90deg) translateZ(calc(var(--pos-z) - var(--width))); }
 piece > fenetre.view-ext { transform: rotateY(90deg) translateZ(var(--pos-z)); }
-piece > fenetre.droite.view-ext { transform: rotateY(-90deg) translateZ(calc(var(--width) - var(--pos-z))); }
+piece > fenetre.gauche.view-ext { transform: rotateY(-90deg) translateZ(calc(var(--width) - var(--pos-z))); }
+
 /* les papiers peints */
 piece.rayure >*:nth-child(1), piece.rayure >*:nth-child(4), piece.rayure >*:nth-child(5) {
 	border-bottom-color: wheat;
@@ -149,17 +156,17 @@ piece.semi-point >*:nth-child(1), piece.semi-point >*:nth-child(4), piece.semi-p
 piece.mesure {
 	border-style: solid;
 	border-width: 0.2em;
-	border-color: maroon;
+	border-color: var(--text-color);
 }
 piece.mesure >*:nth-child(-n+5){
 	background-image:
-		repeating-linear-gradient(90deg, transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
-		repeating-linear-gradient(90deg, transparent 4.8em, maroon 4.8em 5em, transparent 5em 9.8em),
-		repeating-linear-gradient(transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
-		repeating-linear-gradient(skyblue 4.8em, maroon 4.8em 5em, wheat 5em 9.8em);
+		repeating-linear-gradient(90deg, transparent 0.9em, var(--text-color) 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(90deg, transparent 4.8em, var(--text-color) 4.8em 5em, transparent 5em 9.8em),
+		repeating-linear-gradient(transparent 0.9em, var(--text-color) 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(skyblue 4.8em, var(--text-color) 4.8em 5em, wheat 5em 9.8em);
 	border-style: solid;
 	border-width: 0.2em;
-	border-color: maroon;
+	border-color: var(--text-color);
 }
 
 /* exemple

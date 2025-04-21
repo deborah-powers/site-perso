@@ -1,17 +1,16 @@
 /* dépend en partie de pave.css */
-
 boule, bol {
 	/* propriétés modifiables */
 	--width: 8cm;
-	color: maroon;
-	background-color: #0F84;
+	color: var(--text-color);
+	background-color: var(--fond-color);
 	border: none;
 	/* ------ */
 	--width-half: calc(var(--width) /2);
 	width: var(--width);
 	height: var(--width);
 	border-radius: 50%;
-	display: block;
+	display: inline-block;
 	transform-style: preserve-3d;
 	padding: 0;
 	text-align: center;
@@ -19,9 +18,9 @@ boule, bol {
 }
 bol {
 	/* propriétés modifiables */
-	--top: deeppink;
-	--fond: #0F84;
-	--bord: double 8px maroon;
+	--top: var(--page-color);
+	--fond: var(--fond-color);
+	--bord: double 8px var(--bord-color);
 	/* ------ */
 	background: none;
 	height: var(--width-half);
