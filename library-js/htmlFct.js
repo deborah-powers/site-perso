@@ -241,9 +241,8 @@ String.prototype.toLinkProtocol = function (protocol){
 				title = textList[p-1].substring (posStart, posEnd);
 				if (title.includes ('>') || title.includes ('<')) title = textUrl.findTitleFromUrl();
 				else textList[p-1] = textList[p-1].substring (0, posStart);
-			}else{
-				title = textUrl.findTitleFromUrl();
 			}
+			else title = textUrl.findTitleFromUrl();
 			textList[p] = textUrl +"'>"+ title +'</a> '+ textList[p];
 		}
 		var text = textList.join (" <a href='" + protocol);
