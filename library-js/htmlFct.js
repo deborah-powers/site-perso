@@ -17,6 +17,7 @@ String.prototype.toHtml = function(){
 	text = text.toXmp();
 	text = text.toList();
 	text = text.toTable();
+	text = text.toDefList();
 	text = text.cleanBasic();
 	text = text.toEmphasis();
 	// rajouter les <p/>
@@ -157,6 +158,30 @@ String.prototype.toTable = function(){
 		return text;
 	}
 	else return this;
+}
+String.prototype.toDefList = function(){
+	if (! this.includes ('<tr>')) return this;
+	const textList = this.split ('<tr>');
+	for (var t=1; t< textList.length; t++){
+		var f= textList[t].indexOf ('</tr>');
+		var line = textList[t].substring (0,f);
+		if (line.count ('</t') ==2){
+			d=1+ line.indexOf ('>');
+			e= line.lastIndexOf ('</');
+			line = line.substring (d,e);
+			line = line.replaceAll ('<td>', '</dt><dd>');
+			line = line.replaceAll ('</td>', "");
+			line = line.replaceAll ('</th>', "");
+			line = '<dt>'+ line +'</dd>';
+			f+=5;
+		}
+		else line = '<tr>'+ line;
+		textList[t] = line + textList[t].substring (f);
+	}
+	var text = textList.join ("");
+	text = text.replace ('<table>\n<dt>', '<dl><dt>');
+	text = text.replace ('</dd>\n</table>', '</dd></dl>');
+	return text;
 }
 String.prototype.toImage = function(){
 	var text = this;
