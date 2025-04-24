@@ -406,7 +406,7 @@ function prepareText(){
 	if (metaText !==""){
 		var textList = metaText.findScriptInterne();
 		if (textList[1] !=="") text = text + textList[1];
-		var metaText = textList[0].toLowerCase();
+		metaText = textList[0].toLowerCase();
 		metaText = metaText.findCssInterne();
 		metaText = metaText.findCssExterne();
 		textList = metaText.findScriptBas();
@@ -451,6 +451,7 @@ String.prototype.findCssInterne = function(){
 		var css = this.substring (d).strip();
 		css = "<style type='text/css'>" + css + '</style>';
 		document.head.innerHTML = document.head.innerHTML + css;
+		d= this.indexOf ('\nstyle:');
 		return this.substring (0,d).strip();
 	}
 	else return this;
