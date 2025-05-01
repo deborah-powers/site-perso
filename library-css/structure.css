@@ -244,6 +244,8 @@ a.sr-only:focus, a.sr-only:active {
 	nav { flex-wrap: wrap }
 }
 @media print{}
+/* dimensions de ma liseuse kobo touch: 295px * 380px */
+@media (width: 295px) and (height: 380px){}
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }
