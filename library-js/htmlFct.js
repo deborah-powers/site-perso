@@ -161,7 +161,7 @@ String.prototype.toTable = function(){
 }
 String.prototype.toDefList = function(){
 	if (! this.includes ('<tr>')) return this;
-	const textList = this.split ('<tr>');
+	var textList = this.split ('<tr>');
 	for (var t=1; t< textList.length; t++){
 		var f= textList[t].indexOf ('</tr>');
 		var line = textList[t].substring (0,f);
@@ -179,8 +179,8 @@ String.prototype.toDefList = function(){
 		textList[t] = line + textList[t].substring (f);
 	}
 	var text = textList.join ("");
-	text = text.replace ('<table>\n<dt>', '<dl><dt>');
-	text = text.replace ('</dd>\n</table>', '</dd></dl>');
+	text = text.replaceAll ('<table>\n<dt>', '<dl><dt>');
+	text = text.replaceAll ('</dd>\n</table>', '</dd></dl>');
 	return text;
 }
 String.prototype.toImage = function(){

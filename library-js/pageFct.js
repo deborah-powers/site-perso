@@ -22,6 +22,17 @@ function sendToBackend(){
 	xhttp.open ('POST', urlBackend, true);
 	xhttp.send (JSON.stringify (data));
 }
+function downloadFile (fileName, fileText){
+	var fileTextEncoded = encodeURIComponent (fileText);
+	const downloadLinkText = "<a download='" + fileName +"' href=\"data:text/plain;charset=utf-8," + fileTextEncoded +"\">télécharger le fichier</a>";
+	document.body.innerHTML = downloadLinkText + document.body.innerHTML;
+}
+function downloadFileFromButton (fileName, fileText){
+	const downloadLink = document.createElement ('a');
+	downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent (fileText);
+	downloadLink.setAttribute ('download', fileName);
+	downloadLink.click();
+}
 Element.prototype.removeComments = function(){
 	if (this.innerHTML.includes ('<!--')){
 		var f=0;
@@ -79,6 +90,21 @@ HTMLPreElement.prototype.simplifyNesting = function(){
 	text = text.replaceAll ('< ','<');
 	this.innerHTML = text;
 }
+HTMLSelectElement.prototype.simplifyNesting = function(){
+	if (this.textContent.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
+	else{ for (var c= this.children.length -1; c>=0; c--) this.children[c].simplifyNesting(); }
+}
+HTMLTableElement.prototype.simplifyNesting = function(){
+	if (this.innerText.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
+	else{
+		for (var c= this.children.length -1; c>=0; c--) this.children[c].simplifyNesting();
+		var newText ="";
+		for (var c=0; c< this.children.length; c++){
+			if (this.children[c].tagName === 'TR' || this.children[c].tagName === 'CAPTION') newText = newText + this.children[c].outerHTML;
+			else newText = newText + this.children[c].innerHTML;
+		}
+		this.innerHTML = newText;
+}}
 HTMLTableSectionElement.prototype.simplifyNesting = function(){
 	if (this.innerText.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
 	else{ for (var c= this.children.length -1; c>=0; c--) this.children[c].simplifyNesting(); }
@@ -86,6 +112,9 @@ HTMLTableSectionElement.prototype.simplifyNesting = function(){
 HTMLTableRowElement.prototype.simplifyNesting = function(){
 	if (this.innerText.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
 	else{ for (var c= this.children.length -1; c>=0; c--) this.children[c].simplifyNesting(); }
+}
+HTMLTableCellElement.prototype.simplifyNesting = function(){
+	for (var c= this.children.length -1; c>=0; c--) this.children[c].simplifyNesting();
 }
 // est-ce que je conserve la classe et l'id ?
 Element.prototype.delAttributes = function(){
