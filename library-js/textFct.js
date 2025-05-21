@@ -19,7 +19,7 @@ const urlWords =[
 	[': /', ':/'], [': \\', ':\\'], ['localhost: ', 'localhost:'], ['www. ', 'www.'], ['. bmp', '.bmp'], ['. gif', '.gif'], ['. jpeg', '.jpeg'], ['. jpg', '.jpg'], ['. png', '.png'], ['. css', '.css'], ['. js', '.js'], [': 80', ':80'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. ico', '.ico']
 ];
 const imgExtension =[ 'jpg', 'jpeg', 'bmp', 'gif', 'png'];
-const points =[ '\n', '. ', '! ', '? ', ': ', ':\t', '\n_ ', '\n* ', '\n- ', '\n\t', '### ', '___ ', '--- ', '*** ', '=== '];
+const points =[ '\n', '. ', '! ', '? ', ': ', ':\t', '\n_ ', '\n* ', '\n- ', '\n--> ', '\n\t', '++ ', '## ', '__ ', '-- ', '** ', '== '];
 const uppercaseLetters =[
 	'aA', 'àA', 'bB', 'cC', '\xe7\xc7', 'dD', 'eE', 'éE', 'èE', 'êE', 'ëE', 'fF', 'gG', 'hH', 'iI', 'îI', 'ïI', 'jJ', 'kK', 'lL', 'mM', 'nN', 'oO', '\xf4\xe4', 'pP', 'qQ', 'rR', 'sS', 'tT', 'uU', 'vV', 'wW', 'xX', 'yY', 'zZ'
 ];
@@ -34,6 +34,7 @@ const codeKeywords =[
 	'def', 'class', 'console.log', 'var', 'const ', 'function ', 'private ', 'protected', 'public',
 	'log.debug', 'log.info'
 ];
+const titleChars = '=*-_#+~';
 function exists (object){
 	if (object === null || object === undefined) return false;
 	else if (typeof (object) == 'string') return (! object.isEmpty());
@@ -71,8 +72,8 @@ String.prototype.cleanTxt = function(){
 	var text = this.cleanBasic();
 	// la ponctuation
 	for (var p=0; p< punctuation.length; p++) text = text.replaceAll (' '+ punctuation[p], punctuation[p]);
-	const chars3 = '=*-_~.';
-	for (char of chars3){ while (text.includes (char + char + char + char)) text = text.replaceAll (char + char + char + char, char + char + char); }
+	for (char of titleChars){ while (text.includes (char + char + char)) text = text.replaceAll (char + char + char, char + char); }
+	while (text.includes ('....')) text = text.replaceAll ('....','...');
 	for (var l=0; l< letters.length; l++){
 		text = text.replaceAll (letters[l] +'!', letters[l] +' !');
 		text = text.replaceAll (letters[l] +'?', letters[l] +' ?');
@@ -114,9 +115,8 @@ String.prototype.cleanTxt = function(){
 	text = text.replaceAll ('\t ', '\t');
 	text = text.replaceAll ('\n ', '\n');
 	// mise en forme
-	const chars = '*#=~-_';
-	for (var char of chars) while (text.includes (char + char + char + char)){
-		text = text.replace (char + char + char + char, char + char + char);
+	for (var char of titleChars) while (text.includes (char + char + char)){
+		text = text.replace (char + char + char, char + char);
 	}
 	text = text.capitalize();
 	return text;
