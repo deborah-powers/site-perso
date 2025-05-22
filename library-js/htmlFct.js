@@ -11,6 +11,8 @@ const tagHtml =[
 	["\n<hr>\n", '\n**\n'], ["\n<hr/>\n", '\n**\n'],
 	['\n<figure>', '\nFig\n'], ['\n<xmp>!', '\nCode\n'], ['\n<xmp>: ', '\nCode: '], ['\n<li>', '\n\t']
 ]
+const protocols =[ 'https://', 'http://', 'file:///' ];
+
 String.prototype.toHtml = function(){
 	var text = this.cleanTxt();
 	// transformer la mise en page en balises
@@ -38,20 +40,22 @@ String.prototype.toHtml = function(){
 	text = text.replaceAll ('></p><p>', '><p>');
 	text = text.replaceAll ('</p><p><', '</p><');
 	// rajouter d'eventuel <p/> s'il n'y a pas de balise en debut ou fin de text
-	if (! text.substring (0,3).includes ('<')) text = '<p>'+ text;
-	if (! text.substring (text.length -3).includes ('>')) text = text +'</p>';
+	if (text[0] !=='<') text = '<p>'+ text;
+	if (text.substring (text.length -1) !=='>') text = text +'</p>';
 	// autres modifications
 	text = text.toImage();
 	text = text.toLink();
+	text = text.toFigure();
 	// restaurer le texte, remplacer mes placeholders
 	text = text.replaceAll ('ht/tp', 'http');
+	text = text.replaceAll ('fi/le', 'file');
 	text = text.cleanHtml();
 	text = text.replaceAll ('/$', '\n');
 	text = text.replaceAll ('\\f', '\t');
 	return text;
 }
 String.prototype.toCode = function(){
-	if (! this.includes ('<xmp>') && ! this.includes ('\nCode\t')) return this;
+	if (! this.includes ('<xmp>')) return this;
 	var text ="";
 	if (this.includes ('<xmp>:')){
 		const textList = this.split ('\n<xmp>:');
@@ -59,10 +63,10 @@ String.prototype.toCode = function(){
 		text = textList.join ('<xmp>');
 	}
 	else text = this;
-	if (this.includes ('<xmp>!')){
-		const textList = text.split ('\n<xmp>!');
+	if (text.includes ('<xmp>!')){
+		const textList = text.split ('<xmp>!');
 		for (var t=1; t< textList.length; t++){
-			var posEnd = textList.indexOf ('\n/\n');
+			var posEnd = textList[t].indexOf ('\n/\n');
 			var textTmp = textList[t].substring (0, posEnd).strip();
 			textTmp = textTmp.replaceAll ('\n', '/$');
 			textTmp = textTmp.replaceAll ('\t', '\\f');
@@ -71,6 +75,20 @@ String.prototype.toCode = function(){
 		}
 		text = textList.join ('<xmp>');
 	}
+	return text;
+}
+String.prototype.toFigure = function(){
+	if (! this.includes ('<figure>')) return this;
+	const textList = this.split ('<figure>');
+	for (var t=1; t< textList.length; t++){
+		var posEnd = textList[t].indexOf ('<p>/</p>');
+		var textTmp = textList[t].substring (0, posEnd).strip();
+		textTmp = textTmp.replaceAll ('/></p>', '/>');
+		textTmp = textTmp.replace ('<p>', '<figcaption>');
+		textTmp = textTmp.replace ('</p>', '</figcaption>');
+		textList[t] = textTmp + '</figure>' + textList[t].substring (posEnd +8).strip();
+	}
+	const text = textList.join ('<figure>');
 	return text;
 }
 String.prototype.toList = function(){
@@ -105,6 +123,26 @@ String.prototype.toList = function(){
 		return text;
 	}
 	else return this;
+}
+String.prototype.toDefList = function(){
+	if (! this.includes (": ")) return this;
+	const textList = this.split ('\n');
+	const textListLen = textList.length;
+	var d=-1; var t=0;
+	while (t< textListLen){
+		if (textList[t].includes (": ") && textList[t].count (": ") ===1 && d===-1) d=t;
+		else if (! textList[t].includes (": ") && d>=0){
+			if (t-d >1){
+				for (var l=d; l<t; l++) textList[l] = '<dt>' + textList[l].replace (": ", '</dt><dd>') + '</dd>';
+				textList[d] = textList[d].replace ('<dt>', '<dl><dt>');
+				textList[t-1] = textList[t-1].replace ('</dd>', '</dd></dl>');
+			} d=-1;
+		} t+=1;
+	}
+	text = textList.join ('\n');
+	text = text.replaceAll ('\n<dt>', '<dt>')
+	text = text.replaceAll ('</dd>\n', '<dd>')
+	return text;
 }
 String.prototype.toTable = function(){
 	if (this.includes ('\t')){
@@ -159,32 +197,9 @@ String.prototype.toTable = function(){
 	}
 	else return this;
 }
-String.prototype.toDefList = function(){
-	if (! this.includes (": ")) return this;
-	const textList = this.split ('\n');
-	const textListLen = textList.length;
-	var d=-1; var t=0;
-	while (t< textListLen){
-		if (textList[t].includes (": ") && textList[t].count (": ") ===1 && d===-1) d=t;
-		else if (! textList[t].includes (": ") && d>=0){
-			if (d-t >1){
-				for (var l=d; l<t; l++) textList[l] = '<dt>' + textList[l].replace (": ", '</dt><dd>') + '</dd>';
-				textList[d] = textList[d].replace ('<dt>', '<dl><dt>');
-				textList[t-1] = textList[t-1].replace ('</dd>', '</dd></dl>');
-			}
-			d=-1;
-		}
-		t+=1;
-	}
-	text = textList.join ('\n');
-	text = text.replaceAll ('\n<dt>', '<dt>')
-	text = text.replaceAll ('</dd>\n', '<dd>')
-	return text;
-}
 String.prototype.toLink = function(){
-	const protocols =[ 'https://', 'http://', 'file:///' ];
 	var text = this;
-	for (var p=0; p< protocols.length; p++) text = text.toLinkProtocol (protocols[p]);
+	for (var protocol of protocols) text = text.toLinkProtocol (protocol);
 	return text;
 }
 String.prototype.toLinkProtocol = function (protocol){
@@ -224,11 +239,13 @@ String.prototype.toLinkProtocol = function (protocol){
 	return text;
 }
 String.prototype.toImage = function(){
-	const protocols =[ 'https://', 'http://', 'file:///' ];
-	var text = this.replaceAll ('C:/', 'file:///C:/')
-	text = text.replaceAll ('C:\\', 'file:///C:\\')
-	for (var h=0; h< imgExtension.length; h++) for (var p=0; p< protocols.length; p++){
-		text = text.toImageProtocolExtension (protocols[p], imgExtension[h]);
+	// préparer le texte, pour les images et les liens
+	var text = this.replaceAll ('C:/', 'file:///C:/');
+	text = text.replaceAll ('C:\\', 'file:///C:\\');
+	text = text.replaceAll ('Http', 'http');
+	// traiter les images
+	for (var protocol of protocols) for (var extension of imgExtension){
+		text = text.toImageProtocolExtension (protocol, extension);
 	}
 	return text;
 }
@@ -236,16 +253,19 @@ String.prototype.toImageProtocolExtension = function (protocol, extension){
 	if (! this.includes (protocol) || ! this.includes ('.'+ extension)) return this;
 	const endingChars = '<;, !\t\n';
 	var textList = this.split (protocol);
+	var protocolBis = protocol.replace ('http', 'ht/tp');
+	protocolBis = protocolBis.replace ('file', 'fi/le');
+
 	for (var p=1; p< textList.length; p++){
 		// éliminer les cas ne concernant pas l'extension
 		if (! textList[p].includes ('.'+ extension)) continue;
 		var posEnd =1+ textList[p].indexOf ('.'+ extension) + extension.length;
 		var title = textList[p].substring (0, posEnd);
-		textList[p] = textList[p].substring (posEnd);
-		for (var c=0; c< endingChars.length; c++) if (title.includes (endingChars[c])){ posEnd =-1; }
+		for (var char of endingChars) if (title.includes (char)){ posEnd =-1; }
 		if (posEnd ===-1) continue;
+		textList[p] = textList[p].substring (posEnd);
 		// cas de l'extension
-		var url = title +"' alt='$title' />";
+		var url = "<img src='" + protocolBis + title +"' alt='$title' />";
 		if (textList[p].substring (0,2) === " ("){
 			posEnd = textList[p].indexOf (')');
 			title = textList[p].substring (2, posEnd);
@@ -262,9 +282,8 @@ String.prototype.toImageProtocolExtension = function (protocol, extension){
 		url = url.replace ('$title', title);
 		textList[p] = url + textList[p];
 	}
-	protocol = protocol.replace ('http', 'ht/tp');
-	protocol = protocol.replace ('file', 'fi/le');
-	var text = textList.join ("<img src='" + protocol);
+	var text = textList.join (protocol);
+	text = text.replaceAll (protocol + '<img', '<img')
 	return text;
 }
 String.prototype.findTitleFromUrl = function(){
@@ -381,14 +400,14 @@ function prepareText(){
 	text = text.cleanTxt();
 	// trouver les métadonnées
 	// trouver la fin du texte, qui contient les métadonnées
-	if (text.includes ('\n===\n')
-		&& (text.includes ('\nScript:\t') || text.includes ('\nScript bas:\t') || metaText.includes ('\nScript:\n')
-			|| text.includes ('\nStyle:\t') || text.includes (' {') || text.includes (':\t'))){
-		const d= text.lastIndexOf ('\n===\n');
-		metaText = text.substring (d+5).strip();
-		if (metaText.includes ('\nScript:\t') || metaText.includes ('\nScript bas:\t') || metaText.includes ('\nScript:\n')
-			|| metaText.includes ('\nStyle:\t') || metaText.includes (' {') || metaText.includes (':\t'))
-			text = text.substring (0,d).strip();
+	if (text.includes ('\n==\n')
+		&& (text.includes ('\nScript: ') || text.includes ('\nScript bas: ') || metaText.includes ('\nScript:\n')
+			|| text.includes ('\nStyle: ') || text.includes (' {') || text.includes (': '))){
+		const d= text.lastIndexOf ('\n==\n');
+		var metaText = text.substring (d+4).strip();
+		if (metaText.includes ('\nScript: ') || metaText.includes ('\nScript bas: ') || metaText.includes ('\nScript:\n')
+			|| metaText.includes ('\nStyle: ') || metaText.includes (' {') || metaText.includes (': '))
+			text = text.substring (0,d);
 	}
 	// transformer le texte en html
 	text = text.toHtml();
@@ -425,7 +444,7 @@ String.prototype.findMetadata = function(){
 	var d=0;
 	var label ="";
 	for (line of textList){
-		d= line.indexOf (':\t');
+		d= line.indexOf (': ');
 		if (line.length >d+3){
 			label = line.substring (0,d);
 			if ([ 'lien', 'link' ].includes (label)) meta['lien'] = line.substring (d+2);
@@ -449,9 +468,9 @@ String.prototype.findCssInterne = function(){
 	else return this;
 }
 String.prototype.findCssExterne = function(){
-	if (this.includes ('\nstyle:\t')){
+	if (this.includes ('\nstyle: ')){
 		var css ="";
-		const textList = this.split ('\nstyle:\t');
+		const textList = this.split ('\nstyle: ');
 		for (var s=1; s< textList.length; s++) css = css + "<link rel='stylesheet' type='text/css' href='" + textList[s] + "'/>";
 		document.head.innerHTML = document.head.innerHTML + css;
 		return textList[0].strip();
@@ -459,9 +478,9 @@ String.prototype.findCssExterne = function(){
 	else return this;
 }
 String.prototype.findScriptBas = function(){
-	if (this.includes ('\nscript bas:\t')){
+	if (this.includes ('\nscript bas: ')){
 		var codes ="";
-		const textList = this.split ('\nscript bas:\t');
+		const textList = this.split ('\nscript bas: ');
 		for (var s=1; s< textList.length; s++) codes = codes + "<script type='text/javascript' src='" + textList[s] + "'></script>";
 		document.body.innerHTML = document.body.innerHTML +'\n'+ codes;
 		return [ textList[0].strip(), codes ];
@@ -469,9 +488,9 @@ String.prototype.findScriptBas = function(){
 	else return [ this, "" ];
 }
 String.prototype.findScript = function(){
-	if (this.includes ('\nscript:\t')){
+	if (this.includes ('\nscript: ')){
 		var codes ="";
-		const textList = this.split ('\nscript:\t');
+		const textList = this.split ('\nscript: ');
 		for (var s=1; s< textList.length; s++) codes = codes + "<script type='text/javascript' src='" + textList[s] + "'></script>";
 		document.head.innerHTML = document.head.innerHTML + codes;
 		return textList[0].strip();
@@ -525,3 +544,4 @@ HTMLHeadElement.prototype.linkOpeningMethod = function(){
 	baseElement.target = '_blank';
 }
 document.head.linkOpeningMethod();
+

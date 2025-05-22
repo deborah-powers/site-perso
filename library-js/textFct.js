@@ -18,7 +18,7 @@ const weirdChars =[
 const urlWords =[
 	[': /', ':/'], [': \\', ':\\'], ['localhost: ', 'localhost:'], ['www. ', 'www.'], ['. bmp', '.bmp'], ['. gif', '.gif'], ['. jpeg', '.jpeg'], ['. jpg', '.jpg'], ['. png', '.png'], ['. css', '.css'], ['. js', '.js'], [': 80', ':80'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. ico', '.ico']
 ];
-const imgExtension =[ 'jpg', 'jpeg', 'bmp', 'gif', 'png'];
+const imgExtension =[ 'jpg', 'jpeg', 'bmp', 'gif', 'png' ];
 const points =[ '\n', '. ', '! ', '? ', ': ', ':\t', '\n_ ', '\n* ', '\n- ', '\n--> ', '\n\t', '++ ', '## ', '__ ', '-- ', '** ', '== '];
 const uppercaseLetters =[
 	'aA', 'àA', 'bB', 'cC', '\xe7\xc7', 'dD', 'eE', 'éE', 'èE', 'êE', 'ëE', 'fF', 'gG', 'hH', 'iI', 'îI', 'ïI', 'jJ', 'kK', 'lL', 'mM', 'nN', 'oO', '\xf4\xe4', 'pP', 'qQ', 'rR', 'sS', 'tT', 'uU', 'vV', 'wW', 'xX', 'yY', 'zZ'
@@ -194,7 +194,8 @@ String.prototype.toModel = function (data){
 	return text;
 }
 String.prototype.strip = function (char){
-	var toStrip = '\n \t/';
+//	var toStrip = '\n \t/';	/ est utilisée dans ma mise en forme html
+	var toStrip = '\n \t';
 	if (char !== undefined) toStrip = toStrip + char;
 	var d=0;
 	while (d< this.length && toStrip.includes (this[d])) d++;
@@ -214,6 +215,11 @@ String.prototype.count = function (char){
 		}
 		return nbOccurences;
 	}
+}
+String.prototype.substringEnd = function (posEnd){
+	// abcde.substringEnd (2) = de
+	posEnd = this.length - posEnd;
+	return this.substring (posEnd);
 }
 String.prototype.copy = function(){
 	var text ="";
