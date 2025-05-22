@@ -16,10 +16,12 @@ const weirdChars =[
 	['&amp;', '&'], ['&#x27;', "'"], ['&#039', "'"], ['&#160;', ' '], ['&#39;', "'"], ['&#8217;', "'"], ['\n" ', '\n"']
 ];
 const urlWords =[
-	[': /', ':/'], [': \\', ':\\'], ['localhost: ', 'localhost:'], ['www. ', 'www.'], ['. bmp', '.bmp'], ['. gif', '.gif'], ['. jpeg', '.jpeg'], ['. jpg', '.jpg'], ['. png', '.png'], ['. css', '.css'], ['. js', '.js'], [': 80', ':80'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. ico', '.ico']
+	['. gif', '.gif'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. ico', '.ico'],
+	[': /', ':/'], [': \\', ':\\'], ['C:\\', 'file:///C:\\'], ['C:/', 'file:///C:/'], ['localhost: ', 'localhost:'], [': 80', ':80'], ['www. ', 'www.'],
+	['. bmp', '.bmp'], ['. jpeg', '.jpeg'], ['. jpg', '.jpg'], ['. png', '.png'], ['. css', '.css'], ['. js', '.js']
 ];
 const imgExtension =[ 'jpg', 'jpeg', 'bmp', 'gif', 'png' ];
-const points =[ '\n', '. ', '! ', '? ', ': ', ':\t', '\n_ ', '\n* ', '\n- ', '\n--> ', '\n\t', '++ ', '## ', '__ ', '-- ', '** ', '== '];
+const points =[ '\n', '. ', '! ', '? ', ': ', ':\t', '\n_ ', '\n* ', '\n- ', '\n--> ', '\n\t', '\n++ ', '\n## ', '\n__ ', '\n-- ', '\n** ', '\n== '];
 const uppercaseLetters =[
 	'aA', 'àA', 'bB', 'cC', '\xe7\xc7', 'dD', 'eE', 'éE', 'èE', 'êE', 'ëE', 'fF', 'gG', 'hH', 'iI', 'îI', 'ïI', 'jJ', 'kK', 'lL', 'mM', 'nN', 'oO', '\xf4\xe4', 'pP', 'qQ', 'rR', 'sS', 'tT', 'uU', 'vV', 'wW', 'xX', 'yY', 'zZ'
 ];
@@ -105,25 +107,22 @@ String.prototype.cleanTxt = function(){
 	text = textList.join (':');
 	// nettoyer
 	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
-	for (var w=0; w<8; w++) text = text.replaceAll (urlWords[w][0], urlWords[w][1]);
-	for (var w=8; w< urlWords.length; w++){
-		for (var e=0; e< brackets.length; e++) text = text.replaceAll (urlWords[w][0] + brackets[e], urlWords[w][1] + brackets[e]);
-		for (var e=3; e< punctuation.length; e++) text = text.replaceAll (urlWords[w][0] + punctuation[e], urlWords[w][1] + punctuation[e]);
+	for (var w=0; w<6; w++){	// les six premiers éléments ressemblent à des débuts de mots
+		for (var brk of brackets) text = text.replaceAll (urlWords[w][0] + brk, urlWords[w][1] + brk);
+		for (var e=3; e< punctuation.length; e++)
+			text = text.replaceAll (urlWords[w][0] + punctuation[e], urlWords[w][1] + punctuation[e]);
 	}
+	for (var w=6; w< urlWords.length; w++) text = text.replaceAll (urlWords[w][0], urlWords[w][1]);
 	text = text.replaceAll (' \n', '\n');
 	text = text.replaceAll (' \t', '\t');
 	text = text.replaceAll ('\t ', '\t');
 	text = text.replaceAll ('\n ', '\n');
-	// mise en forme
-	for (var char of titleChars) while (text.includes (char + char + char)){
-		text = text.replace (char + char + char, char + char);
-	}
 	text = text.capitalize();
 	return text;
 }
 String.prototype.cleanBasic = function(){
 	var text = this.strip();
-	for (var c=0; c< weirdChars.length; c++) text = text.replaceAll (weirdChars[c][0], weirdChars[c][1]);
+	for (var char of weirdChars) text = text.replaceAll (char[0], char[1]);
 	text = text.strip();
 	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
 	text = text.replaceAll ('\n ', '\n');
@@ -146,11 +145,11 @@ String.prototype.cleanTitle = function(){
 }
 String.prototype.capitalize = function(){
 	var text ='\n'+ this+'\n';
-	for (var l=0; l< uppercaseLetters.length; l++)
-		for (var p=0; p< points.length; p++){ text = text.replace (points[p] + uppercaseLetters[l][0], points[p] + uppercaseLetters[l][1]); }
-	for (var w=0; w< wordsBeginMaj.length; w++){
-		for (var p=0; p< points.length; p++) text = text.replaceAll (points[p] + wordsBeginMaj[w], points[p] + wordsBeginMaj[w].capitalizeOneWord());
-		for (var p=0; p< punctuation.length -2; p++) text = text.replaceAll (punctuation[p] + wordsBeginMaj[w], punctuation[p] + wordsBeginMaj[w].capitalizeOneWord());
+	for (var l of uppercaseLetters) for (var p of points){ text = text.replace (p + l[0], p + l[1]); }
+	for (var word of wordsBeginMaj){
+		for (var p of points) text = text.replaceAll (p + word, p + word.capitalizeOneWord());
+		for (var p=0; p< punctuation.length -2; p++)
+			text = text.replaceAll (punctuation[p] + word, punctuation[p] + word.capitalizeOneWord());
 	}
 	for (var word of wordsBeginMin) text = text.replace (word, word.toLowerCase());
 	// le code
