@@ -239,10 +239,11 @@ String.prototype.toLinkProtocol = function (protocol){
 	return text;
 }
 String.prototype.toImage = function(){
-	// préparer le texte, pour les images et les liens
+	/* préparer le texte, pour les images et les liens
 	var text = this.replaceAll ('C:/', 'file:///C:/');
 	text = text.replaceAll ('C:\\', 'file:///C:\\');
 	text = text.replaceAll ('Http', 'http');
+	*/
 	// traiter les images
 	for (var protocol of protocols) for (var extension of imgExtension){
 		text = text.toImageProtocolExtension (protocol, extension);
@@ -401,12 +402,12 @@ function prepareText(){
 	// trouver les métadonnées
 	// trouver la fin du texte, qui contient les métadonnées
 	if (text.includes ('\n==\n')
-		&& (text.includes ('\nScript: ') || text.includes ('\nScript bas: ') || metaText.includes ('\nScript:\n')
-			|| text.includes ('\nStyle: ') || text.includes (' {') || text.includes (': '))){
+		&& (text.includes ('\nJs: ') || text.includes ('\nJs bas: ') || metaText.includes ('\nScript:\n')
+			|| text.includes ('\nCss: ') || text.includes (' {') || text.includes (': '))){
 		const d= text.lastIndexOf ('\n==\n');
 		var metaText = text.substring (d+4).strip();
-		if (metaText.includes ('\nScript: ') || metaText.includes ('\nScript bas: ') || metaText.includes ('\nScript:\n')
-			|| metaText.includes ('\nStyle: ') || metaText.includes (' {') || metaText.includes (': '))
+		if (metaText.includes ('\nJs: ') || metaText.includes ('\nJs bas: ') || metaText.includes ('\nScript:\n')
+			|| metaText.includes ('\nCss: ') || metaText.includes (' {') || metaText.includes (': '))
 			text = text.substring (0,d);
 	}
 	// transformer le texte en html
@@ -468,9 +469,9 @@ String.prototype.findCssInterne = function(){
 	else return this;
 }
 String.prototype.findCssExterne = function(){
-	if (this.includes ('\nstyle: ')){
+	if (this.includes ('\nCss: ')){
 		var css ="";
-		const textList = this.split ('\nstyle: ');
+		const textList = this.split ('\nCss: ');
 		for (var s=1; s< textList.length; s++) css = css + "<link rel='stylesheet' type='text/css' href='" + textList[s] + "'/>";
 		document.head.innerHTML = document.head.innerHTML + css;
 		return textList[0].strip();
@@ -478,9 +479,9 @@ String.prototype.findCssExterne = function(){
 	else return this;
 }
 String.prototype.findScriptBas = function(){
-	if (this.includes ('\nscript bas: ')){
+	if (this.includes ('\nJs bas: ')){
 		var codes ="";
-		const textList = this.split ('\nscript bas: ');
+		const textList = this.split ('\nJs bas: ');
 		for (var s=1; s< textList.length; s++) codes = codes + "<script type='text/javascript' src='" + textList[s] + "'></script>";
 		document.body.innerHTML = document.body.innerHTML +'\n'+ codes;
 		return [ textList[0].strip(), codes ];
@@ -488,9 +489,9 @@ String.prototype.findScriptBas = function(){
 	else return [ this, "" ];
 }
 String.prototype.findScript = function(){
-	if (this.includes ('\nscript: ')){
+	if (this.includes ('\nJs: ')){
 		var codes ="";
-		const textList = this.split ('\nscript: ');
+		const textList = this.split ('\nJs: ');
 		for (var s=1; s< textList.length; s++) codes = codes + "<script type='text/javascript' src='" + textList[s] + "'></script>";
 		document.head.innerHTML = document.head.innerHTML + codes;
 		return textList[0].strip();
