@@ -26,7 +26,7 @@ const uppercaseLetters =[
 	'aA', 'àA', 'bB', 'cC', '\xe7\xc7', 'dD', 'eE', 'éE', 'èE', 'êE', 'ëE', 'fF', 'gG', 'hH', 'iI', 'îI', 'ïI', 'jJ', 'kK', 'lL', 'mM', 'nN', 'oO', '\xf4\xe4', 'pP', 'qQ', 'rR', 'sS', 'tT', 'uU', 'vV', 'wW', 'xX', 'yY', 'zZ'
 ];
 const wordsBeginMaj =[
-	'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre', 'deborah', 'powers', 'maman', 'mamie', 'papa', 'papi', 'victo', 'tony', 'robert', 'simplon', 'loïc', 'jared', 'leto', 'ville valo', 'valo', 'shelby', 'magritte', 'france', 'paris', 'rueil', 'malmaison', 'avon', 'fontainebleau', 'ivry', 'chateaudun', 'châteaudun', 'c:'
+	'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre', 'deborah', 'powers', 'maman', 'mamie', 'papa', 'papi', 'victo', 'tony', 'robert', 'simplon', 'loïc', 'jared', 'leto', 'ville valo', 'valo', 'shelby', 'magritte', 'france', 'paris', 'rueil', 'malmaison', 'avon', 'fontainebleau', 'ivry', 'chateaudun', 'châteaudun', 'c://', 'c:\\'
 ];
 const wordsBeginMin =[ 'Deborah.powers', 'Deborah.noisetier', 'Http', 'File:///', '\nPg_' ];
 const codeKeywords =[
@@ -113,6 +113,7 @@ String.prototype.cleanTxt = function(){
 			text = text.replaceAll (urlWords[w][0] + punctuation[e], urlWords[w][1] + punctuation[e]);
 	}
 	for (var w=6; w< urlWords.length; w++) text = text.replaceAll (urlWords[w][0], urlWords[w][1]);
+	while (text.includes ('ile:///file:///')) text = text.replaceAll ('ile:///file:///', 'ile:///');
 	text = text.replaceAll (' \n', '\n');
 	text = text.replaceAll (' \t', '\t');
 	text = text.replaceAll ('\t ', '\t');
@@ -146,12 +147,8 @@ String.prototype.cleanTitle = function(){
 String.prototype.capitalize = function(){
 	var text ='\n'+ this+'\n';
 	for (var l of uppercaseLetters) for (var p of points){ text = text.replace (p + l[0], p + l[1]); }
-	for (var word of wordsBeginMaj){
-		for (var p of points) text = text.replaceAll (p + word, p + word.capitalizeOneWord());
-		for (var p=0; p< punctuation.length -2; p++)
-			text = text.replaceAll (punctuation[p] + word, punctuation[p] + word.capitalizeOneWord());
-	}
-	for (var word of wordsBeginMin) text = text.replace (word, word.toLowerCase());
+	for (var word of wordsBeginMin) text = text.replaceAll (word, word.toLowerCase());
+	for (var word of wordsBeginMaj) text = text.replaceAll (word, word.capitalizeOneWord());
 	// le code
 	for (artefact of codeKeywords){
 		text = text.replace ('\n'+ artefact.capitalizeOneWord() +' ', '\n'+ artefact +' ');
