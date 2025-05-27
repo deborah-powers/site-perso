@@ -460,7 +460,7 @@ String.prototype.findCssInterne = function(){
 		var css = this.substring (d).strip();
 		css = "<style type='text/css'>" + css + '</style>';
 		document.head.innerHTML = document.head.innerHTML + css;
-		d= this.indexOf ('\nstyle:');
+		d= this.indexOf ('\nstyle\n');
 		return this.substring (0,d).strip();
 	}
 	else return this;
@@ -496,8 +496,8 @@ String.prototype.findScript = function(){
 	else return this;
 }
 String.prototype.findScriptInterne = function(){
-	if (this.includes ('\nScript:\n')){
-		const d= this.indexOf ('\nScript:\n');
+	if (this.includes ('\nScript\n')){
+		const d= this.indexOf ('\nScript\n');
 		const code = "<script type='text/javascript'>" + this.substring (d+9).strip() + '</script>';
 		return [ this.substring (0,d), code ];
 	}
