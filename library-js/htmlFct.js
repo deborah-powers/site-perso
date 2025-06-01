@@ -130,7 +130,10 @@ String.prototype.toDefList = function(){
 	const textListLen = textList.length;
 	var d=-1; var t=0;
 	while (t< textListLen){
-		if (textList[t].includes (": ") && textList[t].count (": ") ===1 && d===-1) d=t;
+		if (textList[t].includes (": ") && textList[t].count (": ") ===1 && d===-1){
+			d=t;
+			for (var p of punctuation) if (textList[t].includes (p)){ d=-1; }
+		}
 		else if (! textList[t].includes (": ") && d>=0){
 			if (t-d >1){
 				for (var l=d; l<t; l++) textList[l] = '<dt>' + textList[l].replace (": ", '</dt><dd>') + '</dd>';
