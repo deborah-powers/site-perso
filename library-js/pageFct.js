@@ -44,15 +44,6 @@ Element.prototype.removeComments = function(){
 		const text = textList.join ("");
 		this.innerHTML = text;
 }}
-HTMLPreElement.prototype.computeWidth = function(){
-	console.log (window.innerWidth);
-	while (this.innerHTML.includes ("  ")) this.innerHTML = this.innerHTML.replaceAll ("  ", " ");
-	this.innerHTML = this.innerHTML.replaceAll ('{ ', '{\n');
-	this.innerHTML = this.innerHTML.replaceAll ('{', '{\n');
-	this.innerHTML = this.innerHTML.replaceAll (' }', '\n}');
-	this.innerHTML = this.innerHTML.replaceAll ('}', '\n}');
-	while (this.innerHTML.includes ('\n\n')) this.innerHTML = this.innerHTML.replaceAll ('\n\n', '\n');
-}
 HTMLElement.prototype.simplifyNesting = function(){
 	if ([ 'SCRIPT', 'NOSCRIPT', 'HEADER', 'FOOTER' ].includes (this.tagName)) this.parentElement.removeChild (this);
 	else if (! [ 'IMG', 'BR', 'HR', 'INPUT', 'TEXTAREA', 'svg' ].includes (this.tagName)){
@@ -67,9 +58,7 @@ HTMLElement.prototype.simplifyNesting = function(){
 				this.parentElement.removeChild (this);
 			}
 			else this.innerHTML = this.children[0].innerHTML;
-	}}
-	this.computeWidth();
-}
+}}}
 Element.prototype.simplifyNesting = function(){ return; }
 HTMLPreElement.prototype.simplifyNesting = function(){
 	// pour les éléments xmp
@@ -96,9 +85,12 @@ HTMLPreElement.prototype.simplifyNesting = function(){
 		}
 		text = textList.join ("");
 	}
+	// mettre le texte en forme
 	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
-	text = text.replaceAll (' >','>');
-	text = text.replaceAll ('< ','<');
+//	console.log (window.innerWidth);
+	const artefacts =[ [' >','>'], ['< ','<'], [' {', '{'], ['{ ','{\n'], ['{','{\n'], [' }','\n}'], ['}','\n}'], [' ;',';'], ['; ',';\n'], [';',';\n'], ['( ','('], [' )',')'], [' ()','()'], [' .','.'], ['> ','>\n'], [' </','\n</'] ];
+	for (var art of artefacts) text = text.replaceAll (art[0], art[1]);
+	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
 	this.innerHTML = text;
 }
 HTMLSelectElement.prototype.simplifyNesting = function(){
