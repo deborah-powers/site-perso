@@ -44,6 +44,15 @@ Element.prototype.removeComments = function(){
 		const text = textList.join ("");
 		this.innerHTML = text;
 }}
+HTMLPreElement.prototype.computeWidth = function(){
+	console.log (window.innerWidth);
+	while (this.innerHTML.includes ("  ")) this.innerHTML = this.innerHTML.replaceAll ("  ", " ");
+	this.innerHTML = this.innerHTML.replaceAll ('{ ', '{\n');
+	this.innerHTML = this.innerHTML.replaceAll ('{', '{\n');
+	this.innerHTML = this.innerHTML.replaceAll (' }', '\n}');
+	this.innerHTML = this.innerHTML.replaceAll ('}', '\n}');
+	while (this.innerHTML.includes ('\n\n')) this.innerHTML = this.innerHTML.replaceAll ('\n\n', '\n');
+}
 HTMLElement.prototype.simplifyNesting = function(){
 	if ([ 'SCRIPT', 'NOSCRIPT', 'HEADER', 'FOOTER' ].includes (this.tagName)) this.parentElement.removeChild (this);
 	else if (! [ 'IMG', 'BR', 'HR', 'INPUT', 'TEXTAREA', 'svg' ].includes (this.tagName)){
@@ -58,7 +67,9 @@ HTMLElement.prototype.simplifyNesting = function(){
 				this.parentElement.removeChild (this);
 			}
 			else this.innerHTML = this.children[0].innerHTML;
-}}}
+	}}
+	this.computeWidth();
+}
 Element.prototype.simplifyNesting = function(){ return; }
 HTMLPreElement.prototype.simplifyNesting = function(){
 	// pour les éléments xmp
