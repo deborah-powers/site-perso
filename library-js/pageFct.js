@@ -86,12 +86,16 @@ HTMLPreElement.prototype.simplifyNesting = function(){
 		text = textList.join ("");
 	}
 	// mettre le texte en forme
+	text = text.replaceAll ('\t', " ");
+	text = text.replaceAll ('\n', " ");
 	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
-//	console.log (window.innerWidth);
-	const artefacts =[ [' >','>'], ['< ','<'], [' {', '{'], ['{ ','{\n'], ['{','{\n'], [' }','\n}'], ['}','\n}'], [' ;',';'], ['; ',';\n'], [';',';\n'], ['( ','('], [' )',')'], [' ()','()'], [' .','.'], ['> ','>\n'], [' </','\n</'] ];
-	for (var art of artefacts) text = text.replaceAll (art[0], art[1]);
-	while (text.includes ('\n\n')) text = text.replaceAll ('\n\n', '\n');
+	const artefactsAddSpace =[ [' >','>'], ['< ','<'], [';','; '], [')',') '], ['{','{ '], ['}',' }'], ['(',' ('] ];
+	const artefactsDelSpace =[ [' {', '{'], ['( ','('], [' )',')'], [' ()','()'], [' .','.'], [' ,',','], [' ;',';'] ];
+	for (var art of artefactsAddSpace) text = text.replaceAll (art[0], art[1]);
+	while (text.includes ("  ")) text = text.replaceAll ("  "," ");
+	for (var art of artefactsDelSpace) text = text.replaceAll (art[0], art[1]);
 	this.innerHTML = text;
+	this.computeWidth();
 }
 HTMLSelectElement.prototype.simplifyNesting = function(){
 	if (this.textContent.isEmpty() && ! this.innerHTML.includes ('<img') && ! this.innerHTML.includes ('<svg')) this.parentElement.removeChild (this);
@@ -211,12 +215,11 @@ HTMLElement.prototype.replaceTagList = function (tagName){
 	else{
 		this.innerHTML = containerList[0].outerHTML;
 		for (var c=1; c< containerList.length; c++) this.innerHTML = this.innerHTML + containerList[c].outerHTML;
-
 }}
 HTMLBodyElement.prototype.cleanBody = function(){
 	this.innerHTML = this.innerHTML.cleanHtml();
 	const codeBlocs = document.getElementsByTagName ('xmp');
-	for (var b=0; b< codeBlocs.length; b++) codeBlocs[b].simplifyNesting();
+//	for (var b=0; b< codeBlocs.length; b++) codeBlocs[b].simplifyNesting();
 	this.replaceTag ('main');
 	if (this.innerHTML.count ('</article>') ===1) this.replaceTag ('article');
 	this.removeComments();

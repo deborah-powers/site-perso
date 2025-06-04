@@ -393,6 +393,46 @@ String.prototype.toSql = function(){
 	text = text.toSqlOne ('select');
 	return text;
 }
+HTMLPreElement.prototype.computeWidth = function(){
+	var text = this.innerHTML.replaceAll ('\n', " ");
+	while (text.includes ("  ")) text = text.replaceAll ("  ", " ");
+	var widthPx = window.getComputedStyle (this).width;
+	widthPx = widthPx.substring (0, widthPx.length -2);
+	var widthLineMax = parseFloat (widthPx);
+	widthLineMax /=10.0;
+	if (text.length > widthLineMax){
+		// couper les lignes au niveau de marqueurs
+	//	const artefacts =[ ['> ','>\n'], [' <', '\n<'], ['; ',';\n'], ['} ','}\n' ], [' }','\n}'], ['{ ','{\n'], ['] ',']\n'] ];
+		const artefacts =[ ['> ','>\n'], [' <', '\n<'], ['; ',';\n'], ['): ','):\n'], ['){ ','){\n'] ];
+		for (var char of artefacts) text = text.replaceAll (char[0], char[1]);
+		// ajuster les lignes restantes selon les espaces
+		var textList = text.split ('\n');
+		for (var l=0; l< textList.length; l++) if (textList[l].length > widthLineMax){
+			var pos =0;
+			var smallList =[];
+			while (textList[l].length > widthLineMax){
+				const smallText = textList[l].substring (0, widthLineMax);
+				pos =1+ smallText.lastIndexOf ("} ");
+				if (pos < widthLineMax *0.9) pos =1+ smallText.lastIndexOf ("{ ");
+				if (pos < widthLineMax *0.9) pos =1+ smallText.lastIndexOf ("] ");
+				if (pos < widthLineMax *0.9) pos =1+ smallText.lastIndexOf (": ");
+				if (pos < widthLineMax *0.9) pos = smallText.lastIndexOf (" ");
+				smallList.push (textList[l].substring (0, pos));
+				textList[l] = textList[l].substring (pos +1);
+			}
+			smallList.push (textList[l]);
+			textList[l] = smallList.join ('\n');
+		}
+		text = textList.join ('\n');
+	}
+	this.innerHTML = text;
+}
+function resizeCodeBlocks(){
+	const pres = document.getElementsByTagName ('xmp');
+	for (var pre of pres) pre.computeWidth();
+}
+window.onresize = resizeCodeBlocks;
+
 /* ------------------------ trouver les métadonnées ------------------------ */
 
 function prepareText(){
