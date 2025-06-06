@@ -477,11 +477,7 @@ String.prototype.printMetadata = function (meta){
 }
 String.prototype.findMetadata = function(){
 	const textList = this.split ('\n');
-	var meta ={
-		lien: "",
-		sujet: 'divers',
-		auteur: 'anonyme'
-	};
+	var meta ={ lien: "", sujet: 'divers', auteur: 'anonyme' };
 	var d=0;
 	var label ="";
 	for (line of textList){
