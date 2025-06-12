@@ -17,7 +17,7 @@ function sendToBackend(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState ===4 && this.status === 200) console.log ("les données ont bien été envoyées au back-end.\nsa réponse:", this.responseText);
-//		else console.log ("l'échange avec le back-end est en erreur.\nécoute-il sur le port 1407 ?\nétat =", this.readyState, 'status =', this.status);
+		else console.log ("l'échange avec le back-end est en erreur.\nécoute-il sur le port 1407 ?\nétat =", this.readyState, 'status =', this.status);
 	};
 	xhttp.open ('POST', urlBackend, true);
 	xhttp.send (JSON.stringify (data));
@@ -50,6 +50,8 @@ HTMLElement.prototype.simplifyNesting = function(){
 		for (var c= this.children.length -1; c>=0; c--) this.children[c].simplifyNesting();
 		if (this.innerHTML.isEmpty()) this.parentElement.removeChild (this);
 		else if (this.innerText.isEmpty() && this.children.length ===0) this.parentElement.removeChild (this);
+		else if (this.innerText.isEmpty() &&! this.innerHTML.includes ('<img') &&! this.innerHTML.includes ('<svg'))
+			this.parentElement.removeChild (this);
 		else if (this.children.length ===1 && this.childNodes.length ===1){
 			if ([ 'A', 'XMP', 'IMG', 'BR', 'HR', 'INPUT', 'TEXTAREA', 'svg' ].includes (this.children[0].tagName)){
 				this.parentElement.insertBefore (this.children[0], this);
@@ -215,11 +217,13 @@ HTMLElement.prototype.replaceTagList = function (tagName){
 		for (var c=1; c< containerList.length; c++) this.innerHTML = this.innerHTML + containerList[c].outerHTML;
 }}
 HTMLBodyElement.prototype.cleanBody = function(){
+	this.innerHTML = this.innerHTML.cleanHtml();
+//	const codeBlocs = document.getElementsByTagName ('xmp');
+//	for (var b=0; b< codeBlocs.length; b++) codeBlocs[b].simplifyNesting();
 	this.replaceTag ('main');
 	if (this.innerHTML.count ('</article>') ===1) this.replaceTag ('article');
-	this.simplifyNesting();
 	this.removeComments();
 	for (var a= this.attributes.length -1; a>=0; a--) this.removeAttribute (this.attributes[a].name);
+	this.simplifyNesting();
 	this.delAttributes();
-	this.innerHTML = this.innerHTML.cleanHtml();
 }
