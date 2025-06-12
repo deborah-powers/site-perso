@@ -1,3 +1,5 @@
+// fonctionne avec textFct.js
+
 Element.prototype.countRole = function (myRole){
 	var itemNb =0;
 	const role = this.getAttribute ('role');
@@ -7,12 +9,12 @@ Element.prototype.countRole = function (myRole){
 }
 Element.prototype.getXpathRole = function(){
 	const role = this.getAttribute ('role');
-	if (null === role || undefined === role || role.isEmpty()) return "";
-	var itemNb = document.body.countRole (role);
-	if (1=== itemNb) return '/*'+ role;
+	if (! exists (this.role)) return "";
+	var itemNb = document.body.countRole (this.role);
+	if (1=== itemNb) return '/*'+ this.role;
 	else{
-		itemNb = this.parentElement.countRole (role);
-		if (1=== itemNb) return role;
+		itemNb = this.parentElement.countRole (this.role);
+		if (1=== itemNb) return this.role;
 		else return "";
 }}
 Element.prototype.getXpathTag = function(){
