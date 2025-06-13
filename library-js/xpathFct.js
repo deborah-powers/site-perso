@@ -26,7 +26,7 @@ Element.prototype.getXpathTag = function(){
 		else return "";
 }}
 Element.prototype.getXpathClass = function(){
-	if (this.className.isEmpty()) return "";
+	if (this.classList.length ===0) return "";
 	var classUnique ="";
 	var c=0;
 	var itemNb =0;
