@@ -23,8 +23,18 @@ function sendToBackend(){
 	xhttp.send (JSON.stringify (data));
 }
 function downloadFile (fileName, fileText){
-	var fileTextEncoded = encodeURIComponent (fileText);
-	const downloadLinkText = "<a download='" + fileName +"' href=\"data:text/plain;charset=utf-8," + fileTextEncoded +"\">télécharger le fichier</a>";
+	const style =`<style type='text/css'>
+a#download-article { display: block; position: fixed; bottom: 0; right: 0; z-index: 10; border-width: 8px; border-style: double; padding: 1em; border-radius: 1em; }
+a#download-article.moved { bottom: unset; top: 0; }
+</style>`;
+	const fileTextEncoded = encodeURIComponent (fileText);
+	var downloadBloc =`<a id='download-article' onmouseleave="if ('moved' === this.className) this.className =''; else this.className = 'moved'" download='$fileName' href="data:text/plain;charset=utf-8,$texte">
+télécharger l'article</a>`;
+	const downloadLinkText =`<a id='download-article' onmouseleave="if (this.className.includes ('moved')) this.className =''; else this.className = 'moved'" download='` + fileName +`' href="data:text/plain;charset=utf-8,` + fileTextEncoded +`">
+télécharger le fichier</a>`;
+	downloadBloc = downloadBloc.replace ('$fileName', fileName);
+	downloadBloc = downloadBloc.replace ('$text', fileTextEncoded);
+	document.head.innerHTML = document.head.innerHTML + style;
 	document.body.innerHTML = downloadLinkText + document.body.innerHTML;
 }
 function downloadFileFromButton (fileName, fileText){
