@@ -11,7 +11,7 @@ Element.prototype.getXpathRole = function(){
 	const role = this.getAttribute ('role');
 	if (! exists (this.role)) return "";
 	var itemNb = document.body.countRole (this.role);
-	if (1=== itemNb) return '/*'+ this.role;
+	if (1=== itemNb) return " *"+ this.role;
 	else{
 		itemNb = this.parentElement.countRole (this.role);
 		if (1=== itemNb) return this.role;
@@ -19,7 +19,7 @@ Element.prototype.getXpathRole = function(){
 }}
 Element.prototype.getXpathTag = function(){
 	var itemNb = document.getElementsByTagName (this.tagName).length;
-	if (1=== itemNb) return '/!'+ this.tagName;
+	if (1=== itemNb) return " !"+ this.tagName;
 	else{
 		itemNb = this.parentElement.getElementsByTagName (this.tagName).length;
 		if (1=== itemNb) return this.tagName;
@@ -32,7 +32,7 @@ Element.prototype.getXpathClass = function(){
 	var itemNb =0;
 	while (""=== classUnique && c< this.classList.length){
 		itemNb = document.getElementsByClassName (this.classList[c]).length;
-		if (1=== itemNb) classUnique = '/.'+ this.classList[c];
+		if (1=== itemNb) classUnique = " ."+ this.classList[c];
 		c+=1;
 	}
 	c=0;
@@ -72,16 +72,16 @@ Element.prototype.childUnique = function (childNode, childClass, childRole){
 		while (posChild < itemList0.length && ! childNode.isEqualNode (itemList0 [posChild])) posChild +=1;
 		finalXpath = finalXpath +'!'+ childNode.tagName +':'+ posChild.toString();
 	}
-	return '/'+ finalXpath;
+	return " "+ finalXpath;
 }
 Element.prototype.getXpath = function(){
-	if (! this.id.isEmpty()) return '/#'+ this.id;
+	if (! this.id.isEmpty()) return " #"+ this.id;
 	const pathTag = this.getXpathTag();
-	if (pathTag && '/'=== pathTag[0]) return pathTag;
+	if (pathTag && " "=== pathTag[0]) return pathTag;
 	const pathClass = this.getXpathClass();
-	if (pathClass && '/'=== pathClass[0]) return pathClass;
+	if (pathClass && " "=== pathClass[0]) return pathClass;
 	const pathRole = this.getXpathRole();
-	if (pathRole && '/'=== pathRole[0]) return pathRole;
+	if (pathRole && " "=== pathRole[0]) return pathRole;
 	var finalXpath = document.body.childUnique (this, pathClass, pathRole);
 	if (finalXpath.includes (':') && 'BODY' !== this.parentElement.tagName){
 		finalXpath = this.parentElement.childUnique (this, pathClass, pathRole);
@@ -91,7 +91,7 @@ Element.prototype.getXpath = function(){
 }
 function tagFromXpath (xpath){
 	xpath = xpath.substring (1);
-	const tagList = xpath.split ('/');
+	const tagList = xpath.split (" ");
 	var item = document.body;
 	var t=0;
 	if ('#' === tagList[t][0]){
@@ -119,7 +119,7 @@ function tagFromXpath_va (xpath){
 	xpath = xpath.replaceAll ('*', '?*');	// le role
 	xpath = xpath.replaceAll ('!', '?!');	// le tagName
 	xpath = xpath.replaceAll (':', '?:');	// le numéro du tag
-	xpath = xpath.replaceAll ('/', '?/');	// un nouveau tag
+	xpath = xpath.replaceAll (" ", '?/');	// un nouveau tag
 	if ('?'=== xpath[0]) xpath = xpath.substring (1);
 	const xpathList = xpath.split ('!');
 	var item = document.body;
