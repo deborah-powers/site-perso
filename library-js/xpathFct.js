@@ -65,7 +65,7 @@ Element.prototype.childUnique = function (childNode, childClass, childRole){
 	if (1=== itemList.length){
 		if (childNode.tagName) finalXpath = finalXpath +'!'+ childNode.tagName;
 		if (childClass) finalXpath = finalXpath +'.'+ childClass;
-		if (childRole) finalXpath = finalXpath +'*'+ pathRole;
+		if (exists (childRole)) finalXpath = finalXpath +'*'+ childRole;
 	}
 	else{
 		var posChild =0;
