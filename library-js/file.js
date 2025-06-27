@@ -26,20 +26,20 @@ String.prototype.shortcut = function(){
 	return start;
 }
 function fromFile (fileName, callback){
-	var xhttp = new XMLHttpRequest();
+	var reqHttp = new XMLHttpRequest();
 	if (callback){
 		// méthode assynchrone
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
-		xhttp.open ('GET', fileName, true);
-		xhttp.send();
+		reqHttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
+		reqHttp.open ('GET', fileName, true);
+		reqHttp.send();
 		return null;
 	}
 	else{
 		// méthode synchrone
-		xhttp.open ('GET', fileName, false);
-		xhttp.send();
+		reqHttp.open ('GET', fileName, false);
+		reqHttp.send();
 		var textRes = null;
-		if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
+		if (reqHttp.status ==0 || reqHttp.status ==200) textRes = reqHttp.responseText;
 		return textRes;
 }}
 function readFileBackend (fileName, typeFile, callback){
@@ -51,64 +51,64 @@ function readFileBackend (fileName, typeFile, callback){
 	const url = 'http://localhost:1407/serverFile.py';
 	const data = { action: action, type: typeFile, file: fileName };
 	const dataJson = JSON.stringify (data);
-	var xhttp = new XMLHttpRequest();
+	var reqHttp = new XMLHttpRequest();
 	if (callback){
 		// méthode assynchrone
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
+		reqHttp.onreadystatechange = function(){ if (this.readyState ==4){
 			var resJson = JSON.parse (this.responseText);
 			callback (resJson);
 		}};
-		xhttp.open ('POST', url, true);
-		xhttp.send (dataJson);
+		reqHttp.open ('POST', url, true);
+		reqHttp.send (dataJson);
 		return null;
 	}else{
 		// méthode synchrone
-		xhttp.open ('POST', url, false);
-		xhttp.send (dataJson);
+		reqHttp.open ('POST', url, false);
+		reqHttp.send (dataJson);
 		var jsonRes = null;
-		if (xhttp.status ==0 || xhttp.status ==200) jsonRes = JSON.parse (xhttp.responseText);
+		if (reqHttp.status ==0 || reqHttp.status ==200) jsonRes = JSON.parse (reqHttp.responseText);
 		return jsonRes;
 }}
 function fromJson (jsonFile, callback){
-	var xhttp = new XMLHttpRequest();
+	var reqHttp = new XMLHttpRequest();
 	if (callback){
 		// méthode assynchrone
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4){
+		reqHttp.onreadystatechange = function(){ if (this.readyState ==4){
 			var jsonRes = JSON.parse (this.responseText);
 			callback (jsonRes);
 		}};
-		xhttp.open ('GET', jsonFile, true);
-		xhttp.send();
+		reqHttp.open ('GET', jsonFile, true);
+		reqHttp.send();
 		return null;
 	}else{
 		// méthode synchrone
-		xhttp.open ('GET', jsonFile, false);
-		xhttp.send();
+		reqHttp.open ('GET', jsonFile, false);
+		reqHttp.send();
 		var jsonRes = null;
-		if (xhttp.status ==0 || xhttp.status ==200) jsonRes = JSON.parse (xhttp.responseText);
+		if (reqHttp.status ==0 || reqHttp.status ==200) jsonRes = JSON.parse (reqHttp.responseText);
 		return jsonRes;
 }}
 function fromTsv (tsvFile, callback){
-	var xhttp = new XMLHttpRequest();
+	var reqHttp = new XMLHttpRequest();
 	if (callback){
 		// méthode assynchrone
-		xhttp.onreadystatechange = function(){
+		reqHttp.onreadystatechange = function(){
 			if (this.readyState ==4){
 				var textRes = this.responseText.cleanTxt();
 				var listRes =[];
 				if (textRes) listRes = textRes.fromTsv();
 				callback (listRes);
 		}};
-		xhttp.open ('GET', tsvFile, true);
-		xhttp.send();
+		reqHttp.open ('GET', tsvFile, true);
+		reqHttp.send();
 		return null;
 	}else{
 		// méthode synchrone
-		xhttp.open ('GET', tsvFile, false);
-		xhttp.send();
+		reqHttp.open ('GET', tsvFile, false);
+		reqHttp.send();
 		var listRes =[];
-		if (xhttp.status ==0 || xhttp.status ==200){
-			var textRes = xhttp.responseText.cleanTxt();
+		if (reqHttp.status ==0 || reqHttp.status ==200){
+			var textRes = reqHttp.responseText.cleanTxt();
 			if (textRes) listRes = textRes.fromTsv();
 		}
 		return listRes;
