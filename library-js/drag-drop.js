@@ -7,24 +7,28 @@
 parentElement.isContainer();
 <p class='auto'></p>
 <p class='drag'></p>
+class = drag, drag-x, drag-y, click, auto
 */
 var currentX =0;
 var currentY =0;
-var boundaries =[];
+var boundaries =[];	// left top bottom right
 HTMLElement.prototype.isContainer = function(){
 	this.setBoundaries();
-	for (var i=0; i< this.children.length; i++){
-		if (this.children[i].className.includes ('drag')) this.children[i].addEventListener ('mousedown', dragSelect);
-		else if (this.children[i].className.includes ('auto')) for (var n=0; n< 10; n++) this.children[i].autoMove();
-		else if (this.children[i].className.includes ('click')) this.children[i].addEventListener ('mousedown', clickMove);
+	for (var child of this.children){
+		if (child.className.includes ('drag-x')) child.addEventListener ('mousedown', dragSelectX);
+		else if (child.className.includes ('drag-y')) child.addEventListener ('mousedown', dragSelectY);
+		else if (child.className.includes ('drag')) child.addEventListener ('mousedown', dragSelect);
+		else if (child.className.includes ('auto')) for (var n=0; n< 10; n++) child.autoMove();
+		else if (child.className.includes ('click')) child.addEventListener ('mousedown', clickMove);
 }}
 
 /* ------------------------ drag-drop ------------------------ */
 
 function dragDrop (paragraph){
+	console.log ('dragdrop', paragraph);
 	paragraph.removeAttribute ('onmousemove');
 	paragraph.removeAttribute ('onmouseup');
-	paragraph.removeAttribute ('onmouseout');
+//	paragraph.removeAttribute ('onmouseout');
 }
 function dragMove (paragraph){
 	var dx= event.screenX - currentX;
@@ -33,12 +37,34 @@ function dragMove (paragraph){
 	currentX = event.screenX;
 	currentY = event.screenY;
 }
+function dragMoveX (paragraph){
+	var dx= event.screenX - currentX;
+	paragraph.moveX (dx);
+	currentX = event.screenX;
+}
+function dragMoveY (paragraph){
+	var dy= event.screenY - currentY;
+	paragraph.moveY (dy);
+	currentY = event.screenY;
+}
 function dragSelect (event){
 	currentX = event.screenX;
 	currentY = event.screenY;
 	event.target.setAttribute ('onmousemove', 'dragMove(this)');
 	event.target.setAttribute ('onmouseup', 'dragDrop(this)');
-	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
+//	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
+}
+function dragSelectX (event){
+	currentX = event.screenX;
+	event.target.setAttribute ('onmousemove', 'dragMoveX(this)');
+	event.target.setAttribute ('onmouseup', 'dragDrop(this)');
+//	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
+}
+function dragSelectY (event){
+	currentY = event.screenY;
+	event.target.setAttribute ('onmousemove', 'dragMoveY(this)');
+	event.target.setAttribute ('onmouseup', 'dragDrop(this)');
+//	event.target.setAttribute ('onmouseout', 'dragDrop(this)');
 }
 /* ------------------------ déplacement autonome ------------------------ */
 
@@ -84,6 +110,16 @@ HTMLElement.prototype.move = function (dx, dy){
 	this.style.top = pos[1] + 'px';
 	this.style.animationName = 'moving-heart';
 }
+HTMLElement.prototype.moveX = function (dx){
+	dx = this.offsetLeft + dx;
+	const pos = this.senseBoundariesHorizontal (dx);
+	this.style.left = pos + 'px';
+}
+HTMLElement.prototype.moveY = function (dy){
+	dy = this.offsetTop + dy;
+	const pos = this.senseBoundariesVertical (dy);
+	this.style.top = pos + 'px';
+}
 String.prototype.fromPxToNb = function(){
 	// nbStr = 12px
 	const nbStr = this.slice (0, -2);
@@ -119,32 +155,61 @@ HTMLElement.prototype.senseBoundaries = function (posX, posY){
 	}
 	return [ posX, posY ];
 }
+HTMLElement.prototype.senseBoundariesVertical = function (posY){
+	if (boundaries !== null && boundaries !== undefined && boundaries.length ===4){
+		if (posY < boundaries[1]) posY = boundaries[1];
+		else if (posY + this.clientHeight > boundaries[3]) posY = boundaries[3] - this.clientHeight;
+	}
+	return posY;
+}
+HTMLElement.prototype.senseBoundariesHorizontal = function (posX){
+	if (boundaries !== null && boundaries !== undefined && boundaries.length ===4){
+		if (posX < boundaries[0]) posX = boundaries[0];
+		else if (posX + this.clientWidth > boundaries[2]) posX = boundaries[2] - this.clientWidth;
+	}
+	return posX;
+}
 HTMLElement.prototype.senseObstacle = function (posX, posY){
-	for (var c=0; c< this.parentElement.children.length; c++){
-		if (this.parentElement.children[c] !== this){
-			if (posX < this.parentElement.children[c].offsetLeft && this.parentElement.children[c].offsetLeft < posX + this.clientWidth){
-				const dx = this.clientWidth + posX - this.parentElement.children[c].offsetLeft;
-				if (posY < this.parentElement.children[c].offsetTop && this.parentElement.children[c].offsetTop < posY + this.clientHeight){
-					const dy= this.clientHeight + posY - this.parentElement.children[c].offsetTop;
-					if (dx > dy) posY = this.parentElement.children[c].offsetTop - this.clientHeight;
-					else posX = this.parentElement.children[c].offsetLeft - this.clientWidth;
-				}
-				else if (posY < this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight && this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight < posY + this.clientHeight){
-					const dy= this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight - posY;
-					if (dx > dy) posY = this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight;
-					else posX = this.parentElement.children[c].offsetLeft - this.clientWidth;
-			}}
-			else if (posX < this.parentElement.children[c].offsetLeft + this.parentElement.children[c].clientWidth && this.parentElement.children[c].offsetLeft + this.parentElement.children[c].clientWidth < posX + this.clientWidth){
-				const dx = this.parentElement.children[c].offsetLeft + this.parentElement.children[c].clientWidth - posX;
-				if (posY < this.parentElement.children[c].offsetTop && this.parentElement.children[c].offsetTop < posY + this.clientHeight){
-					const dy= this.clientHeight + posY - this.parentElement.children[c].offsetTop;
-					if (dx > dy) posY = this.parentElement.children[c].offsetTop - this.clientHeight;
-					else posX = this.parentElement.children[c].offsetLeft + this.parentElement.children[c].clientWidth;
-				}
-				else if (posY < this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight && this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight < posY + this.clientHeight){
-					const dy= this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight - posY;
-					if (dx > dy) posY = this.parentElement.children[c].offsetTop + this.parentElement.children[c].clientHeight;
-					else posX = this.parentElement.children[c].offsetLeft + this.parentElement.children[c].clientWidth;
-	}}}}
+	for (var brother of this.parentElement.children) if (this !== brother){
+		// relations entre les positions
+		const trespass =[ false, false, false, false ];	// left top bottom right
+		if (posX >= brother.offsetLeft) trespass[0] = true;
+		if (posY >= brother.offsetTop) trespass[1] = true;
+		if (posX <= brother.offsetLeft + brother.clientWidth) trespass[2] = true;
+		if (posY <= brother.offsetTop + brother.clientHeight) trespass[3] = true;
+		// vérification du chauvechement
+		if (trespass[0] && (trespass[1] || trespass[3])) posX = brother.offsetLeft - this.clientWidth;
+		else if (trespass[2] && (trespass[1] || trespass[3])) posX = brother.offsetLeft + brother.clientWidth;
+		if (trespass[1] && (trespass[0] || trespass[2])) posY = brother.offsetLeft - this.clientHeight;
+		else if (trespass[3] && (trespass[0] || trespass[2])) posY = brother.offsetLeft + brother.clientHeight;
+	}
+	return [ posX, posY ];
+}
+HTMLElement.prototype.senseObstacle_va = function (posX, posY){
+	for (var brother of this.parentElement.children) if (this !== brother){
+		if (posX < brother.offsetLeft && brother.offsetLeft < posX + this.clientWidth){
+			const dx = this.clientWidth + posX - brother.offsetLeft;
+			if (posY < brother.offsetTop && brother.offsetTop < posY + this.clientHeight){
+				const dy= this.clientHeight + posY - brother.offsetTop;
+				if (dx > dy) posY = brother.offsetTop - this.clientHeight;
+				else posX = brother.offsetLeft - this.clientWidth;
+			}
+			else if (posY < brother.offsetTop + brother.clientHeight && brother.offsetTop + brother.clientHeight < posY + this.clientHeight){
+				const dy= brother.offsetTop + brother.clientHeight - posY;
+				if (dx > dy) posY = brother.offsetTop + brother.clientHeight;
+				else posX = brother.offsetLeft - this.clientWidth;
+		}}
+		else if (posX < brother.offsetLeft + brother.clientWidth && brother.offsetLeft + brother.clientWidth < posX + this.clientWidth){
+			const dx = brother.offsetLeft + brother.clientWidth - posX;
+			if (posY < brother.offsetTop && brother.offsetTop < posY + this.clientHeight){
+				const dy= this.clientHeight + posY - brother.offsetTop;
+				if (dx > dy) posY = brother.offsetTop - this.clientHeight;
+				else posX = brother.offsetLeft + brother.clientWidth;
+			}
+			else if (posY < brother.offsetTop + brother.clientHeight && brother.offsetTop + brother.clientHeight < posY + this.clientHeight){
+				const dy= brother.offsetTop + brother.clientHeight - posY;
+				if (dx > dy) posY = brother.offsetTop + brother.clientHeight;
+				else posX = brother.offsetLeft + brother.clientWidth;
+	}}}
 	return [ posX, posY ];
 }
