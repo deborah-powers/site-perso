@@ -2,6 +2,8 @@
 deux types de pièces
 - fond médian: le fond n'a pas été modifié en 3d. il est à l'emplacement z=0. classe fmed
 - fond reculé: le fond a été reculé selon l'axe des z. c'est l'option par défaut
+les cinq premiers éléments composent la pièce: mur du fond, plancher, plafond, mur droit, mur gauche.
+les autres sont les objets contenus à l'intérieur.
 */
 /* la structure */
 body {
