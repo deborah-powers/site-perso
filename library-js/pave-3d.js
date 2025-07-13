@@ -1,5 +1,6 @@
 /* créer un cube en 3d et le styler avec du css
 inspiré de pave.css
+actuellement hs
 
 container {
 	perspective: 800px;
@@ -26,9 +27,9 @@ pave-3d { --depth: 3cm; }
 	1cm = 37.7952756 px
 */
 const uniTtoPx ={
-	em: parseFloat (getComputedStyle (document.documentElement,null).fontSize),
-	cm: 0.026458 * window.devicePixelRatio, mm: 0.26458 * window.devicePixelRatio,
-	in: 0.667 * window.devicePixelRatio
+	em: parseFloat (getComputedStyle (document.documentElement, null).fontSize),
+	cm: 37.7952756 * window.devicePixelRatio, mm: 377.952756 * window.devicePixelRatio,
+	in: 3.0 * window.devicePixelRatio
 };
 function mutationNb (mutations){
 	// mutations est un MutationRecord
@@ -97,6 +98,8 @@ class Shape3d extends HTMLElement{
 		// infos pour styler les enfants
 		this.vraiStyle = getComputedStyle (this);
 		this.width = this.vraiStyle.width.fromPx();
+		this.setHeight();
+		this.setDepth();
 		this.background = this.vraiStyle.background;
 		this.border = this.vraiStyle.border;
 		this.style.background = 'none';
@@ -111,35 +114,31 @@ class Shape3d extends HTMLElement{
 				self.appendChild (document.createElement ('p'));
 			}
 			else{
-				self.setHeight();
-				self.setDepth();
 				console.log (self.width, self.height, self.depth);
 				self.setSide();
 				self.createHat();
 				self.createSides();
-			}
-		});
+		}});
 		observer.observe (this, { childList: true });
 	}
 	// modifier selon la forme
 	setHeight(){ this.height = this.vraiStyle.height.fromPx(); }
-	setDepth(){ this.depth = this.vraiStyle.getPropertyValue ('--depth').coorDtoPx(); }
+	setDepth(){ this.depth = this.vraiStyle.getPropertyValue ('--depth').coorDtoPx() /2.0; }
 	setSide(){ this.side = this.width; }
 	createHat(){
-		const height = this.vraiStyle.height.fromPx();
 		this.children[0].createFace (this.background, this.border);
 		this.children[0].style.height = 2* this.depth + 'px';
 		this.children[0].style.transform = 'rotateX(90deg) translateZ(' + this.depth + 'px)';
 		this.children[0].id = 'top';
 		this.children[1].createFace (this.background, this.border);
 		this.children[1].style.height = 2* this.depth + 'px';
-		this.children[1].style.transform = 'rotateX(-90deg) translateZ(' + (height - this.depth) + 'px)';
+		this.children[1].style.transform = 'rotateX(-90deg) translateZ(' + (this.height - this.depth) + 'px)';
 		this.children[1].id = 'bottom';
 	}
 	createSides(){
 		const angle = 360 / (this.nbFaces -2);
 		var angleTmp =0;
-		const ecartLeft = (this.vraiStyle.width.fromPx() - this.side) /2;
+		const ecartLeft = (this.width - this.side) /2;
 		for (var c=2; c< this.nbFaces; c++){
 			this.children[c].createSide (this.side, ecartLeft, this.depth, angleTmp, this.background, this.border);
 			angleTmp += angle;
@@ -151,17 +150,9 @@ class Shape3d extends HTMLElement{
 			this.classList.remove ('vertical');
 		}*/
 }}
-class Pave extends Shape3d{
-	constructor(){ super (6); }
-	createSides(){
-		super.createSides();
-		// adapter le sens des écritures selon le sens de rotation
-		if (this.className.includes ('vertical')){
-			this.children[4].style.transform = 'rotateX(180deg) translateZ(' + this.depth + 'px)';
-			this.classList.remove ('vertical');
-}}}
-
 class Pole extends Shape3d{
+	constructor(){ super (6); }
+	setDepth(){ this.depth = this.width /2.0; }
 	createSides(){
 		super.createSides();
 		// adapter le sens des écritures selon le sens de rotation
@@ -169,20 +160,25 @@ class Pole extends Shape3d{
 			this.children[4].style.transform = 'rotateX(180deg) translateZ(' + this.depth + 'px)';
 			this.classList.remove ('vertical');
 }}}
-class Pave_va extends Pole{
+class Pave extends Pole{
+	setDepth(){ this.depth = this.vraiStyle.getPropertyValue ('--depth').coorDtoPx() /2.0; }
 	createSides(){
 		super.createSides();
-		const width = this.vraiStyle.width.fromPx();
 		this.children[3].style.width = 2* this.depth + 'px';
-		this.children[3].style.transform = 'rotateY(90deg) translateZ(' + (width - this.depth) + 'px)';
+		this.children[3].style.transform = 'rotateY(90deg) translateZ(' + (this.width - this.depth) + 'px)';
 		this.children[5].style.width = 2* this.depth + 'px';
-	}
-	setDepth(){ this.depth = this.vraiStyle.getPropertyValue ('--depth').coorDtoPx() /2; }
-}
+}}
 class Cube extends Pole{
-	createHat(){
-		this.style.height = this.style.width;
-		super.createHat();
+	setHeight(){
+		this.height = this.width;
+		this.style.height = this.width + 'px';
+	}
+	createSides(){
+		super.createSides();
+		this.children[2].style.height = this.width + 'px';
+		this.children[3].style.height = this.width + 'px';
+		this.children[4].style.height = this.width + 'px';
+		this.children[5].style.height = this.width + 'px';
 }}
 class Hexa extends Shape3d{
 	constructor(){ super (8); }
