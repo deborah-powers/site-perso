@@ -154,6 +154,7 @@ class Shape3d extends HTMLElement{
 class ShapeQuart extends Shape3d{
 	connectedCallback(){
 		this.styleShape();
+		this.style.height = 'inherit';
 		// infos pour styler les enfants
 		this.vraiStyle = getComputedStyle (this.parentElement);
 		this.width = this.vraiStyle.width.fromPx();
@@ -178,10 +179,10 @@ class ShapeQuart extends Shape3d{
 	styleSides(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
-		const ecartLeft = rayon - this.sideWidth /2;
-		const angle = 90 / this.sideNb;
+		const ecartLeft = rayon -6;
+		const angle = 90 / 12;
 		var angleTmp = angle /2.0;
-		for (var c=0; c< this.sideNb; c++){
+		for (var c=0; c<12; c++){
 			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleTmp, this.background, 'none');
 			angleTmp += angle;
 }}}
@@ -191,22 +192,37 @@ class TubeQuart extends ShapeQuart{
 		this.style.height = 'inherit';
 		super.connectedCallback();
 	}
+	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
 	styleSides(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
 		const ecartLeft = rayon - this.sideWidth /2;
 		const angle = 90 / this.sideNb;
 		var angleTmp = angle /2.0;
-		for (var c=0; c<12; c++){
+		for (var c=0; c< this.sideNb; c++){
 			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleTmp, this.background, 'none');
 			angleTmp += angle;
 }}}
 class BoulQuart extends ShapeQuart{
-	constructor(){ super (36); }
-	connectedCallback(){
-		this.style.height = '33%';
-		super.connectedCallback();
-}}
+	constructor(){ super (120); }
+	setSide(){ this.sideWidth = this.width * Math.PI /48; }
+	styleSides(){
+		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
+		const rayon = this.width /2.0;
+		const ecartLeft = rayon -6;
+		var angleX =3.75;
+		var angleY =90;
+		for (var d=0; d<120; d+=12){
+			angleX =3.75;
+			for (var c=0; c<12; c++){
+				this.children[c+d].styleSide (this.sideWidth, ecartLeft, rayon, angleX, this.background, 'none');
+				this.children[c+d].style.height = '10%';
+				this.children[c+d].style.transform = this.children[c+d].style.transform.replace ('translateZ', 'rotateX(' + angleY + 'deg) translateZ');
+				this.children[c+d].style.top = '50%';
+				angleX += 7.5;
+			}
+			angleY -=9;
+}}}
 /* ------------ les formes complètes ------------ */
 
 class Pole extends Shape3d{
