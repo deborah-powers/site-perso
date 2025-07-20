@@ -168,11 +168,12 @@ class ShapeQuart extends Shape3d{
 		var attributeObserver = new MutationObserver (function (mutations){
 			if ('style' === mutations[0].attributeName && 'none' !== mutations[0].target.style.background){
 				this.background = mutations[0].target.style.background;
-				mutations[0].target.style.background = 'none';
+				mutations[0].target.style.background = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0844 49.5%, maroon 49.5% 50.5%, #0844 50.5%)';
+			//	mutations[0].target.style.background = 'none';
 		}});
 		attributeObserver.observe (this, { attributes: true });
+		this.style.background = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0844 49.5%, maroon 49.5% 50.5%, #0844 50.5%)';
 		this.styleSides();
-		this.style.background = 'none';
 	}
 //	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
 	setSide(){ this.sideWidth = this.width *0.25* Math.PI /12; }
@@ -204,25 +205,92 @@ class TubeQuart extends ShapeQuart{
 			angleTmp += angle;
 }}}
 class BoulQuart extends ShapeQuart{
-	constructor(){ super (120); }
-	setSide(){ this.sideWidth = this.width * Math.PI /48; }
+	constructor(){ super (36); }
+	setSide(){ this.sideWidth = this.width * Math.PI /48; }	// 6.545%
 	styleSides(){
+		this.style.width = this.width +'px';
+		this.style.height = this.width +'px';
+		this.appendChild (document.createElement ('tube-quart'));
+		this.children[0].style.height = this.sideWidth + 'px';
+		this.children[0].style.position = 'absolute';
+		this.children[0].style.top = '50%';
+		this.appendChild (document.createElement ('tube-quart'));
+		this.children[1].style.height = this.sideWidth + 'px';
+		this.children[1].style.position = 'absolute';
+		this.children[1].style.left = this.width /2 + this.sideWidth /2 + 'px';
+		this.children[1].style.top = '-50%';
+		this.children[1].style.transform = 'rotateZ(90deg)';
+	}
+	styleSides_vb(){
+		this.style.width = this.width +'px';
+		this.style.height = this.width +'px';
+		for (var c=0; c<3; c++){
+			this.appendChild (document.createElement ('p'));
+			this.children[c].style.width = this.sideWidth + 'px';
+			this.children[c].style.height = this.sideWidth + 'px';
+			this.children[c].style.position = 'absolute';
+			this.children[c].style.left = '50%';
+			this.children[c].style.top = '50%';
+		}
+		this.children[0].style.background = 'red';
+		this.children[0].style.transform = 'rotateX(90deg)';
+		this.children[0].style.transformOrigin = 'top center';
+
+		this.children[1].style.background = this.background;
+		this.children[1].style.left = (this.width - this.sideWidth) /2 + 'px';
+		this.children[1].style.transform = 'translateZ(' + this.width /2.0 + 'px)';
+	//	this.children[1].style.transform = 'rotateY(90deg) translateZ(' + this.width /2.0 + 'px)';
+		this.children[2].style.background = this.background;
+	//	this.children[2].style.left = (this.width - this.sideWidth) /2 + 'px';
+		this.children[2].style.transform = 'rotateX(90deg) translateZ(' + this.width /-2.0 + 'px)';
+	}
+	styleSides_va(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
-		const ecartLeft = rayon -6;
+	//	const rayon = this.width * (1- Math.PI /96);
+		const ecartLeft = this.width /2 - this.sideWidth /2;
+		const ecartTop = rayon - this.sideWidth;
+		console.log (this.sideWidth);
+		// la base
 		var angleX =3.75;
-		var angleY =90;
-		for (var d=0; d<120; d+=12){
-			angleX =3.75;
-			for (var c=0; c<12; c++){
-				this.children[c+d].styleSide (this.sideWidth, ecartLeft, rayon, angleX, this.background, 'none');
-				this.children[c+d].style.height = '10%';
-				this.children[c+d].style.transform = this.children[c+d].style.transform.replace ('translateZ', 'rotateX(' + angleY + 'deg) translateZ');
-				this.children[c+d].style.top = '50%';
-				angleX += 7.5;
-			}
-			angleY -=9;
-}}}
+		for (var c=0; c<12; c++){
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleX, this.background, 'none');
+			this.children[c].style.height = this.sideWidth + 'px';
+			this.children[c].style.top = ecartTop + 'px';
+			angleX += 7.5;
+		}
+		// les cotés
+		angleX -=7.5;
+		var angleY =11.25;
+		for (var c=12; c<34; c+=2){
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleX, this.background, 'solid 2px blue');
+			this.children[c].style.height = this.sideWidth + 'px';
+			this.children[c].style.top = ecartLeft + 'px';
+			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + angleY + 'deg) translateZ');
+			/*
+			this.children[c+1].styleSide (this.sideWidth, ecartLeft, rayon, 3.75, this.background, 'solid 2px blue');
+			this.children[c+1].style.height = this.sideWidth + 'px';
+			this.children[c+1].style.top = ecartLeft + 'px';
+			this.children[c+1].style.transform = this.children[c+1].style.transform.replace ('translateZ', 'rotateX(' + angleY + 'deg) translateZ');
+			this.children[c+1].style.clipPath = 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)';
+			*/
+			angleY += 7.5;
+		}
+		// la pointe
+		this.children[34].styleSide (this.sideWidth *1.05, ecartLeft, rayon, 3.75, this.background, 'none');
+		this.children[34].style.height = this.sideWidth + 'px';
+		this.children[34].style.top = ecartLeft + 'px';
+		this.children[34].style.transform = this.children[34].style.transform.replace ('translateZ', 'rotateX(90deg) translateZ');
+		this.children[34].style.clipPath = 'polygon(0% 0%, 100% 7.5%, 100% 100%, 0% 100%)';
+
+		this.children[35].style.background = '#0486';
+		this.children[35].style.width = this.sideWidth + 'px';
+		this.children[35].style.height = this.sideWidth + 'px';
+		this.children[35].style.position = 'absolute';
+		this.children[35].style.left = '50%';
+		this.children[35].style.transform = 'rotateX(90deg)';
+		this.children[35].style.transformOrigin = 'top center';
+}}
 /* ------------ les formes complètes ------------ */
 
 class Pole extends Shape3d{
@@ -356,7 +424,6 @@ class Cylindre_va extends Shape3d{
 			this.children[c+2].style.borderRight = 'none';
 			angleTmp += angle;
 }}}
-Number.prototype.computeAngleForBallFacet = function(){ return Math.PI * this / (180.0 *8); }
 class Boule extends Shape3d{
 	constructor(){ super (0); }
 	connectedCallback(){
@@ -371,6 +438,7 @@ class Boule extends Shape3d{
 		// styler les enfants et corriger leur nombre
 		this.setSide();
 		this.styleSides();
+		this.style.background = 'none';
 		this.style.border = 'none';
 	}
 	setHeight(){
