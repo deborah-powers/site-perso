@@ -195,6 +195,20 @@ class TubeQuart extends ShapeQuart{
 	}
 	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
 	styleSides(){
+		for (var c=0; c< this.sideNb +1; c++) this.appendChild (document.createElement ('p'));
+		const rayon = this.width /2.0;
+		const ecartLeft = rayon - this.sideWidth /2;
+		const angle = 90 / this.sideNb;
+		var angleTmp = angle /2.0;
+		for (var c=0; c< this.sideNb; c++){
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleTmp, this.background, 'none');
+			angleTmp += angle;
+	}}
+
+
+
+
+	styleSides_va(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
 		const ecartLeft = rayon - this.sideWidth /2;
@@ -207,7 +221,7 @@ class TubeQuart extends ShapeQuart{
 class BoulQuart extends ShapeQuart{
 	constructor(){ super (36); }
 	setSide(){ this.sideWidth = this.width * Math.PI /48; }	// 6.545%
-	styleSides(){
+	styleSides_vc(){
 		this.style.width = this.width +'px';
 		this.style.height = this.width +'px';
 		this.appendChild (document.createElement ('tube-quart'));
@@ -221,28 +235,81 @@ class BoulQuart extends ShapeQuart{
 		this.children[1].style.top = '-50%';
 		this.children[1].style.transform = 'rotateZ(90deg)';
 	}
-	styleSides_vb(){
+	styleSides(){
+		this.style.width = this.width +'px';
+		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
+		// préparer 13 éléments
+		const sideWidth = this.sideWidth + 'px';
+		
+		for (var c=0; c<13; c++){
+			this.appendChild (document.createElement ('p'));
+			this.children[c].style.width = sideWidth;
+			this.children[c].style.transformOrigin = 'center center';
+			this.children[c].style.position = 'absolute';
+			this.children[c].style.backgroundColor = this.background;
+			this.children[c].style.border = 'none';
+			this.children[c].style.left = '50%';
+		}
+		// les extremités sont réduites
+		this.children[0].style.transform = 'rotateY(90deg)';
+		this.children[0].style.transformOrigin = 'center right';
+		this.children[0].style.left = this.width - this.sideWidth /2 + 'px';
+		this.children[0].style.width = this.sideWidth /2 + 'px';
+		this.children[1].style.transform = 'translateZ(' + this.width /2 + 'px)';
+		this.children[1].style.width = this.children[0].style.width;
+		// les 11 faces du milieu
+		const sideLeft = this.width /2 - this.sideWidth /2 + 'px';
+		const sideTransform = 'rotateY($angle$deg) translateZ(' + this.width /2 + 'px)';
+		var tour = 7.5;
+		for (var c=1; c<12; c++){
+			this.children[c].style.left = sideLeft;
+			this.children[c].style.transform = sideTransform.replace ('$angle$', tour);
+			tour +=7.5;
+		}
+	}
+	styleSides_vd(){
 		this.style.width = this.width +'px';
 		this.style.height = this.width +'px';
-		for (var c=0; c<3; c++){
-			this.appendChild (document.createElement ('p'));
+		const sideTop = this.width /2 - this.sideWidth + 'px';
+		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
+		for (var c=0; c<14; c++){
+		//	this.appendChild (document.createElement ('p'));
 			this.children[c].style.width = this.sideWidth + 'px';
 			this.children[c].style.height = this.sideWidth + 'px';
+			this.children[c].style.transformOrigin = 'center center';
 			this.children[c].style.position = 'absolute';
 			this.children[c].style.left = '50%';
-			this.children[c].style.top = '50%';
+			this.children[c].style.backgroundColor = '#F046';
+			this.children[c].style.border = 'solid 2px blue';
+			this.children[c].innerHTML = c;
 		}
-		this.children[0].style.background = 'red';
 		this.children[0].style.transform = 'rotateX(90deg)';
 		this.children[0].style.transformOrigin = 'top center';
+		this.children[0].style.top = '0';
+		for (var c=1; c<14; c++){
+			this.children[c].style.top = this.width /2 - this.sideWidth + 'px';
+		}
+		this.children[1].style.transform = 'rotateY(90deg)';
+		this.children[1].style.transformOrigin = 'center right';
+		this.children[1].style.left = this.width - this.sideWidth /2 + 'px';
+		this.children[1].style.width = this.sideWidth /2 + 'px';
+		this.children[2].style.transform = 'translateZ(' + this.width /2 + 'px)';
+		this.children[2].style.width = this.children[1].style.width;
+		var tour = 7.5;
+		for (var c=3; c<14; c++){
+			console.log (c, this.width);
+			this.children[c].style.left = this.width /2 - this.sideWidth /2 + 'px';
+			this.children[c].style.transform = 'rotateY(' + tour + 'deg) translateZ(' + this.width /2 + 'px)';
+			tour +=7.5;
+		}
 
-		this.children[1].style.background = this.background;
-		this.children[1].style.left = (this.width - this.sideWidth) /2 + 'px';
-		this.children[1].style.transform = 'translateZ(' + this.width /2.0 + 'px)';
-	//	this.children[1].style.transform = 'rotateY(90deg) translateZ(' + this.width /2.0 + 'px)';
-		this.children[2].style.background = this.background;
-	//	this.children[2].style.left = (this.width - this.sideWidth) /2 + 'px';
-		this.children[2].style.transform = 'rotateX(90deg) translateZ(' + this.width /-2.0 + 'px)';
+
+		this.children[20].style.transform = 'rotateY(90deg)';
+		this.children[20].style.top = '0';
+		this.children[20].style.left = '0';
+		this.children[20].style.width = 'inherit';
+		this.children[20].style.height = 'inherit';
+		this.children[20].style.background = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0844 49.5%, maroon 49.5% 50.5%, #0844 50.5%)';
 	}
 	styleSides_va(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
