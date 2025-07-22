@@ -54,6 +54,17 @@ String.prototype.fromPx = function(){
 	var nb = parseInt (nbStr);
 	return nb;
 }
+const backgroundCross = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0849 49.5%, maroon 49.5% 50.5%, #0849 50.5%)';
+HTMLElement.prototype.addCross = function(){
+	this.style.background = backgroundCross;
+	const posF = this.children.length -1;
+	this.children[posF].style.transform = 'rotateY(90deg)';
+	this.children[posF].style.top = '0';
+	this.children[posF].style.left = '0';
+	this.children[posF].style.width = 'inherit';
+	this.children[posF].style.height = 'inherit';
+	this.children[posF].style.background = backgroundCross;
+}
 HTMLElement.prototype.styleShape = function(){
 	this.style.display = 'block';
 	this.style.padding = '0';
@@ -76,11 +87,11 @@ HTMLElement.prototype.styleFace = function (background, border){
 	this.style.backgroundSize = 'contain';
 	this.style.border = border;
 }
-HTMLElement.prototype.styleSide = function (width, ecartLeft, depth, angle, background, border){
+HTMLElement.prototype.styleSide = function (width, ecartLeft, depth, anglePas, background, border){
 	this.styleFace (background, border);
 	this.style.width = width + 'px';
 	this.style.left = ecartLeft + 'px';
-	this.style.transform = 'rotateY(' + angle + 'deg) translateZ(' + depth + 'px)';
+	this.style.transform = 'rotateY(' + anglePas + 'deg) translateZ(' + depth + 'px)';
 }
 /* ------------ les portions de formes ------------ */
 
@@ -137,23 +148,24 @@ class Shape3d extends HTMLElement{
 		this.children[1].id = 'bottom';
 	}
 	styleSides(){
-		const angle = 360 / this.sideNb;
-		var angleTmp =0;
+		const anglePas = 360 / this.sideNb;
+		var angle =0;
 		const ecartLeft = (this.width - this.sideWidth) /2;
 		for (var c=0; c< this.sideNb; c++){
-			this.children[c+2].styleSide (this.sideWidth, ecartLeft, this.depth, angleTmp, this.background, this.border);
-			angleTmp += angle;
+			this.children[c+2].styleSide (this.sideWidth, ecartLeft, this.depth, angle, this.background, this.border);
+			angle += anglePas;
 		}
 		/*/ adapter le sens des écritures selon le sens de rotation
 		if (this.sideNb %2 ===0 && this.className.includes ('vertical')){
 			const idMilieu = this.sideNb /2 +1;
-			this.children[idMilieu].style.transform = 'rotateX(' + angle * (idMilieu -2) + 'deg) translateZ(' + this.depth + 'px)';
+			this.children[idMilieu].style.transform = 'rotateX(' + anglePas * (idMilieu -2) + 'deg) translateZ(' + this.depth + 'px)';
 			this.classList.remove ('vertical');
 		}*/
 }}
 class ShapeQuart extends Shape3d{
 	connectedCallback(){
 		this.styleShape();
+		this.style.width = 'inherit';
 		this.style.height = 'inherit';
 		// infos pour styler les enfants
 		this.vraiStyle = getComputedStyle (this.parentElement);
@@ -168,11 +180,10 @@ class ShapeQuart extends Shape3d{
 		var attributeObserver = new MutationObserver (function (mutations){
 			if ('style' === mutations[0].attributeName && 'none' !== mutations[0].target.style.background){
 				this.background = mutations[0].target.style.background;
-				mutations[0].target.style.background = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0844 49.5%, maroon 49.5% 50.5%, #0844 50.5%)';
-			//	mutations[0].target.style.background = 'none';
+				mutations[0].target.style.background = 'none';
 		}});
 		attributeObserver.observe (this, { attributes: true });
-		this.style.background = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0844 49.5%, maroon 49.5% 50.5%, #0844 50.5%)';
+		this.style.background = 'none';
 		this.styleSides();
 	}
 //	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
@@ -181,11 +192,11 @@ class ShapeQuart extends Shape3d{
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
 		const ecartLeft = rayon -6;
-		const angle = 90 / 12;
-		var angleTmp = angle /2.0;
+		const anglePas = 90 / 12;
+		var angle = anglePas /2.0;
 		for (var c=0; c<12; c++){
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleTmp, this.background, 'none');
-			angleTmp += angle;
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+			angle += anglePas;
 }}}
 class TubeQuart extends ShapeQuart{
 	constructor(){ super (12); }
@@ -195,168 +206,164 @@ class TubeQuart extends ShapeQuart{
 	}
 	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
 	styleSides(){
-		for (var c=0; c< this.sideNb +1; c++) this.appendChild (document.createElement ('p'));
-		const rayon = this.width /2.0;
-		const ecartLeft = rayon - this.sideWidth /2;
-		const angle = 90 / this.sideNb;
-		var angleTmp = angle /2.0;
-		for (var c=0; c< this.sideNb; c++){
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleTmp, this.background, 'none');
-			angleTmp += angle;
-	}}
-
-
-
-
-	styleSides_va(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
 		const ecartLeft = rayon - this.sideWidth /2;
-		const angle = 90 / this.sideNb;
-		var angleTmp = angle /2.0;
+		const anglePas = 90 / this.sideNb;
+		var angle = anglePas /2.0;
 		for (var c=0; c< this.sideNb; c++){
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleTmp, this.background, 'none');
-			angleTmp += angle;
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+			angle += anglePas;
 }}}
 class BoulQuart extends ShapeQuart{
-	constructor(){ super (36); }
+	constructor(){ super (145); }
 	setSide(){ this.sideWidth = this.width * Math.PI /48; }	// 6.545%
-	styleSides_vc(){
-		this.style.width = this.width +'px';
-		this.style.height = this.width +'px';
-		this.appendChild (document.createElement ('tube-quart'));
-		this.children[0].style.height = this.sideWidth + 'px';
-		this.children[0].style.position = 'absolute';
-		this.children[0].style.top = '50%';
-		this.appendChild (document.createElement ('tube-quart'));
-		this.children[1].style.height = this.sideWidth + 'px';
-		this.children[1].style.position = 'absolute';
-		this.children[1].style.left = this.width /2 + this.sideWidth /2 + 'px';
-		this.children[1].style.top = '-50%';
-		this.children[1].style.transform = 'rotateZ(90deg)';
-	}
 	styleSides(){
-		this.style.width = this.width +'px';
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
-		// préparer 13 éléments
-		const sideWidth = this.sideWidth + 'px';
-		
-		for (var c=0; c<13; c++){
-			this.appendChild (document.createElement ('p'));
-			this.children[c].style.width = sideWidth;
-			this.children[c].style.transformOrigin = 'center center';
-			this.children[c].style.position = 'absolute';
-			this.children[c].style.backgroundColor = this.background;
-			this.children[c].style.border = 'none';
-			this.children[c].style.left = '50%';
+		// les cotés
+		const rayon = this.width /2.0;
+		const ecartLeft = rayon - this.sideWidth /2;
+		var ecartTop = rayon - this.sideWidth;
+		const ecartTopPas = this.sideWidth /24;
+		const anglePas = 7.5;	// 90/12
+		var angle = anglePas /2.0;
+		var anglePasY =0;
+		for (var b=1; b<61; b+=12){
+			angle = 3.75;
+			for (var c=b; c<b+12; c++){
+				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+				this.children[c].style.height = this.children[c].style.width;
+				this.children[c].style.top = ecartTop + 'px';
+				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+				angle +=7.5;
+			}
+			anglePasY +=7.5;
+			ecartTop += ecartTopPas;
 		}
-		// les extremités sont réduites
-		this.children[0].style.transform = 'rotateY(90deg)';
-		this.children[0].style.transformOrigin = 'center right';
-		this.children[0].style.left = this.width - this.sideWidth /2 + 'px';
-		this.children[0].style.width = this.sideWidth /2 + 'px';
-		this.children[1].style.transform = 'translateZ(' + this.width /2 + 'px)';
-		this.children[1].style.width = this.children[0].style.width;
-		// les 11 faces du milieu
-		const sideLeft = this.width /2 - this.sideWidth /2 + 'px';
-		const sideTransform = 'rotateY($angle$deg) translateZ(' + this.width /2 + 'px)';
-		var tour = 7.5;
-		for (var c=1; c<12; c++){
-			this.children[c].style.left = sideLeft;
-			this.children[c].style.transform = sideTransform.replace ('$angle$', tour);
-			tour +=7.5;
+		for (var b=61; b<81; b+=10){
+			angle = 4.5;
+			for (var c=b; c<b+10; c++){
+				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+				this.children[c].style.height = this.children[c].style.width;
+				this.children[c].style.top = ecartTop + 'px';
+				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+				angle +=9;
+			}
+			anglePasY +=7.5;
+			ecartTop += ecartTopPas;
 		}
-	}
-	styleSides_vd(){
-		this.style.width = this.width +'px';
-		this.style.height = this.width +'px';
-		const sideTop = this.width /2 - this.sideWidth + 'px';
-		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
-		for (var c=0; c<14; c++){
-		//	this.appendChild (document.createElement ('p'));
-			this.children[c].style.width = this.sideWidth + 'px';
-			this.children[c].style.height = this.sideWidth + 'px';
-			this.children[c].style.transformOrigin = 'center center';
-			this.children[c].style.position = 'absolute';
-			this.children[c].style.left = '50%';
-			this.children[c].style.backgroundColor = '#F046';
-			this.children[c].style.border = 'solid 2px blue';
-			this.children[c].innerHTML = c;
+		for (var b=81; b<97; b+=8){
+			angle = 5.625;
+			for (var c=b; c<b+8; c++){
+				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+				this.children[c].style.height = this.children[c].style.width;
+				this.children[c].style.top = ecartTop + 'px';
+				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+				angle +=11.25;
+			}
+			anglePasY +=7.5;
+			ecartTop += ecartTopPas;
 		}
+		angle = 7.5;
+		for (var c=97; c<103; c++){
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+			this.children[c].style.height = this.children[c].style.width;
+			this.children[c].style.top = ecartTop + 'px';
+			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+			angle +=15;
+		}
+		anglePasY +=7.5;
+		ecartTop += ecartTopPas;
+		angle = 11.25;
+		for (var c=103; c<107; c++){
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+			this.children[c].style.height = this.children[c].style.width;
+			this.children[c].style.top = ecartTop + 'px';
+			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+			angle +=22.5;
+		}
+		anglePasY +=7.5;
+		ecartTop += ecartTopPas;
+		angle = 15;
+		for (var c=107; c<110; c++){
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+			this.children[c].style.height = this.children[c].style.width;
+			this.children[c].style.top = ecartTop + 'px';
+			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+			angle +=30;
+		}
+//		this.addCross();
+		// le sommet
+		this.children[0].style.position = 'absolute';
+		this.children[0].style.top = '0';
+		this.children[0].style.left = '50%';
+		this.children[0].style.width = '5%';
+		this.children[0].style.height = '5%';
+		this.children[0].style.background = this.background;
 		this.children[0].style.transform = 'rotateX(90deg)';
 		this.children[0].style.transformOrigin = 'top center';
-		this.children[0].style.top = '0';
-		for (var c=1; c<14; c++){
-			this.children[c].style.top = this.width /2 - this.sideWidth + 'px';
-		}
-		this.children[1].style.transform = 'rotateY(90deg)';
-		this.children[1].style.transformOrigin = 'center right';
-		this.children[1].style.left = this.width - this.sideWidth /2 + 'px';
-		this.children[1].style.width = this.sideWidth /2 + 'px';
-		this.children[2].style.transform = 'translateZ(' + this.width /2 + 'px)';
-		this.children[2].style.width = this.children[1].style.width;
-		var tour = 7.5;
-		for (var c=3; c<14; c++){
-			console.log (c, this.width);
-			this.children[c].style.left = this.width /2 - this.sideWidth /2 + 'px';
-			this.children[c].style.transform = 'rotateY(' + tour + 'deg) translateZ(' + this.width /2 + 'px)';
-			tour +=7.5;
-		}
-
-
-		this.children[20].style.transform = 'rotateY(90deg)';
-		this.children[20].style.top = '0';
-		this.children[20].style.left = '0';
-		this.children[20].style.width = 'inherit';
-		this.children[20].style.height = 'inherit';
-		this.children[20].style.background = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0844 49.5%, maroon 49.5% 50.5%, #0844 50.5%)';
+		this.children[0].style.borderBottomRightRadius = '50%';
 	}
 	styleSides_va(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
-		const rayon = this.width /2.0;
-	//	const rayon = this.width * (1- Math.PI /96);
-		const ecartLeft = this.width /2 - this.sideWidth /2;
-		const ecartTop = rayon - this.sideWidth;
-		console.log (this.sideWidth);
-		// la base
-		var angleX =3.75;
-		for (var c=0; c<12; c++){
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleX, this.background, 'none');
-			this.children[c].style.height = this.sideWidth + 'px';
-			this.children[c].style.top = ecartTop + 'px';
-			angleX += 7.5;
-		}
 		// les cotés
-		angleX -=7.5;
-		var angleY =11.25;
-		for (var c=12; c<34; c+=2){
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angleX, this.background, 'solid 2px blue');
-			this.children[c].style.height = this.sideWidth + 'px';
-			this.children[c].style.top = ecartLeft + 'px';
-			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + angleY + 'deg) translateZ');
-			/*
-			this.children[c+1].styleSide (this.sideWidth, ecartLeft, rayon, 3.75, this.background, 'solid 2px blue');
-			this.children[c+1].style.height = this.sideWidth + 'px';
-			this.children[c+1].style.top = ecartLeft + 'px';
-			this.children[c+1].style.transform = this.children[c+1].style.transform.replace ('translateZ', 'rotateX(' + angleY + 'deg) translateZ');
-			this.children[c+1].style.clipPath = 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)';
-			*/
-			angleY += 7.5;
+		const rayon = this.width /2.0;
+		const ecartLeft = rayon - this.sideWidth /2;
+		var ecartTop = rayon - this.sideWidth;
+		const ecartTopPas = this.sideWidth /24;
+		const anglePas = 7.5;	// 90/12
+		var angle = anglePas /2.0;
+		var anglePasY =0;
+		for (var b=1; b<109; b+=12){
+			angle = anglePas /2.0;
+			for (var c=b; c<b+12; c++){
+				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'solid 2px blue');
+				this.children[c].style.height = this.children[c].style.width;
+				this.children[c].style.top = ecartTop + 'px';
+				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+				angle += anglePas;
+			}
+			anglePasY +=7.5;
+			ecartTop += ecartTopPas;
 		}
-		// la pointe
-		this.children[34].styleSide (this.sideWidth *1.05, ecartLeft, rayon, 3.75, this.background, 'none');
-		this.children[34].style.height = this.sideWidth + 'px';
-		this.children[34].style.top = ecartLeft + 'px';
-		this.children[34].style.transform = this.children[34].style.transform.replace ('translateZ', 'rotateX(90deg) translateZ');
-		this.children[34].style.clipPath = 'polygon(0% 0%, 100% 7.5%, 100% 100%, 0% 100%)';
-
-		this.children[35].style.background = '#0486';
-		this.children[35].style.width = this.sideWidth + 'px';
-		this.children[35].style.height = this.sideWidth + 'px';
-		this.children[35].style.position = 'absolute';
-		this.children[35].style.left = '50%';
-		this.children[35].style.transform = 'rotateX(90deg)';
-		this.children[35].style.transformOrigin = 'top center';
+		for (var b=109; b<121; b+=6){
+			angle = anglePas;
+			for (var c=b; c<b+6; c++){
+				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'solid 2px blue');
+				this.children[c].style.height = this.children[c].style.width;
+				this.children[c].style.top = ecartTop + 'px';
+				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+				angle += 2* anglePas;
+			}
+			anglePasY +=7.5;
+			ecartTop += ecartTopPas;
+		}
+		angle = anglePas *1.5;
+		for (var c=121; c<124; c++){
+			console.log (c, angle);
+			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'solid 2px blue');
+			this.children[c].style.height = this.children[c].style.width;
+			this.children[c].style.top = ecartTop + 'px';
+			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
+			angle += 4* anglePas;
+		}
+/*		var biseau =4;
+		for (var b=36; b< this.sideNb; b+=12){
+			for (var c=b; c<b+12; c++)
+				this.children[c].style.clipPath = 'polygon(' + biseau +'% 0%, ' + (100- biseau) +'% 0%, 100% 100%, 0% 100%)';
+			biseau +=4;
+		}*/
+		// le sommet
+	//	this.addCross();
+		this.children[0].style.position = 'absolute';
+		this.children[0].style.top = '0';
+		this.children[0].style.left = '50%';
+		this.children[0].style.width = this.children[1].style.width;
+		this.children[0].style.height = this.children[1].style.height;
+		this.children[0].style.background = 'red';
+		this.children[0].style.transform = 'rotateX(90deg)';
+		this.children[0].style.transformOrigin = 'top center';
+		this.children[0].style.borderBottomRightRadius = '50%';
 }}
 /* ------------ les formes complètes ------------ */
 
@@ -482,14 +489,14 @@ class Cylindre_va extends Shape3d{
 	}
 	setSide(){ this.sideWidth = this.width * Math.PI / this.sideNb; }
 	styleSides(){
-		const angle = 360 / this.sideNb;
-		var angleTmp =0;
+		const anglePas = 360 / this.sideNb;
+		var angle =0;
 		const ecartLeft = (this.width - this.sideWidth) /2;
 		for (var c=0; c< this.sideNb; c++){
-			this.children[c+2].styleSide (this.sideWidth, ecartLeft, this.depth, angleTmp, this.background, this.border);
+			this.children[c+2].styleSide (this.sideWidth, ecartLeft, this.depth, angle, this.background, this.border);
 			this.children[c+2].style.borderLeft = 'none';
 			this.children[c+2].style.borderRight = 'none';
-			angleTmp += angle;
+			angle += anglePas;
 }}}
 class Boule extends Shape3d{
 	constructor(){ super (0); }
@@ -510,6 +517,7 @@ class Boule extends Shape3d{
 	}
 	setHeight(){
 		this.height = this.width;
+		this.style.width = this.width + 'px';
 		this.style.height = this.width + 'px';
 	}
 	styleHat(){
@@ -527,6 +535,13 @@ class Boule extends Shape3d{
 	}
 	styleSides(){
 		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (document.createElement ('boul-quart'));
+		console.log (this.height, this.sideWidth);
+		this.children[1].style.transform = 'rotateY(90deg) translateY(-' + (this.children[1].height + this.children[1].sideWidth /2) + 'px)';
+		/*
+		this.children[2].style.transform = 'rotateY(180deg) translateY(-200%)';
+		this.children[3].style.transform = 'rotateY(270deg) translateY(-300%)';
+		*/
 }}
 customElements.define ('pole-3d', Pole);
 customElements.define ('cube-3d', Cube);
