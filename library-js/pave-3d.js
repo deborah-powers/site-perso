@@ -216,7 +216,7 @@ class TubeQuart extends ShapeQuart{
 			angle += anglePas;
 }}}
 class BoulQuart extends ShapeQuart{
-	constructor(){ super (145); }
+	constructor(){ super (110); }
 	setSide(){ this.sideWidth = this.width * Math.PI /48; }	// 6.545%
 	styleSides(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
@@ -292,7 +292,6 @@ class BoulQuart extends ShapeQuart{
 			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
 			angle +=30;
 		}
-//		this.addCross();
 		// le sommet
 		this.children[0].style.position = 'absolute';
 		this.children[0].style.top = '0';
@@ -300,67 +299,6 @@ class BoulQuart extends ShapeQuart{
 		this.children[0].style.width = '5%';
 		this.children[0].style.height = '5%';
 		this.children[0].style.background = this.background;
-		this.children[0].style.transform = 'rotateX(90deg)';
-		this.children[0].style.transformOrigin = 'top center';
-		this.children[0].style.borderBottomRightRadius = '50%';
-	}
-	styleSides_va(){
-		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
-		// les cotés
-		const rayon = this.width /2.0;
-		const ecartLeft = rayon - this.sideWidth /2;
-		var ecartTop = rayon - this.sideWidth;
-		const ecartTopPas = this.sideWidth /24;
-		const anglePas = 7.5;	// 90/12
-		var angle = anglePas /2.0;
-		var anglePasY =0;
-		for (var b=1; b<109; b+=12){
-			angle = anglePas /2.0;
-			for (var c=b; c<b+12; c++){
-				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'solid 2px blue');
-				this.children[c].style.height = this.children[c].style.width;
-				this.children[c].style.top = ecartTop + 'px';
-				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
-				angle += anglePas;
-			}
-			anglePasY +=7.5;
-			ecartTop += ecartTopPas;
-		}
-		for (var b=109; b<121; b+=6){
-			angle = anglePas;
-			for (var c=b; c<b+6; c++){
-				this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'solid 2px blue');
-				this.children[c].style.height = this.children[c].style.width;
-				this.children[c].style.top = ecartTop + 'px';
-				this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
-				angle += 2* anglePas;
-			}
-			anglePasY +=7.5;
-			ecartTop += ecartTopPas;
-		}
-		angle = anglePas *1.5;
-		for (var c=121; c<124; c++){
-			console.log (c, angle);
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'solid 2px blue');
-			this.children[c].style.height = this.children[c].style.width;
-			this.children[c].style.top = ecartTop + 'px';
-			this.children[c].style.transform = this.children[c].style.transform.replace ('translateZ', 'rotateX(' + anglePasY + 'deg) translateZ');
-			angle += 4* anglePas;
-		}
-/*		var biseau =4;
-		for (var b=36; b< this.sideNb; b+=12){
-			for (var c=b; c<b+12; c++)
-				this.children[c].style.clipPath = 'polygon(' + biseau +'% 0%, ' + (100- biseau) +'% 0%, 100% 100%, 0% 100%)';
-			biseau +=4;
-		}*/
-		// le sommet
-	//	this.addCross();
-		this.children[0].style.position = 'absolute';
-		this.children[0].style.top = '0';
-		this.children[0].style.left = '50%';
-		this.children[0].style.width = this.children[1].style.width;
-		this.children[0].style.height = this.children[1].style.height;
-		this.children[0].style.background = 'red';
 		this.children[0].style.transform = 'rotateX(90deg)';
 		this.children[0].style.transformOrigin = 'top center';
 		this.children[0].style.borderBottomRightRadius = '50%';
@@ -536,12 +474,19 @@ class Boule extends Shape3d{
 	styleSides(){
 		this.appendChild (document.createElement ('boul-quart'));
 		this.appendChild (document.createElement ('boul-quart'));
-		console.log (this.height, this.sideWidth);
-		this.children[1].style.transform = 'rotateY(90deg) translateY(-' + (this.children[1].height + this.children[1].sideWidth /2) + 'px)';
-		/*
+		this.children[1].style.transform = 'rotateY(90deg) translateY(-100%)';
+		this.appendChild (document.createElement ('boul-quart'));
 		this.children[2].style.transform = 'rotateY(180deg) translateY(-200%)';
+		this.appendChild (document.createElement ('boul-quart'));
 		this.children[3].style.transform = 'rotateY(270deg) translateY(-300%)';
-		*/
+		this.appendChild (document.createElement ('boul-quart'));
+		this.children[4].style.transform = 'rotateX(180deg) translateY(400%)';
+		this.appendChild (document.createElement ('boul-quart'));
+		this.children[5].style.transform = 'rotateX(180deg) rotateY(90deg) translateY(500%)';
+		this.appendChild (document.createElement ('boul-quart'));
+		this.children[6].style.transform = 'rotateX(180deg) rotateY(180deg) translateY(600%)';
+		this.appendChild (document.createElement ('boul-quart'));
+		this.children[7].style.transform = 'rotateX(180deg) rotateY(270deg) translateY(700%)';
 }}
 customElements.define ('pole-3d', Pole);
 customElements.define ('cube-3d', Cube);
