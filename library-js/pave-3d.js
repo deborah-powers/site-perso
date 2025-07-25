@@ -1,6 +1,5 @@
 /* créer un cube en 3d et le styler avec du css
 inspiré de pave.css
-actuellement hs
 
 container {
 	perspective: 800px;
@@ -17,10 +16,10 @@ pave-3d { --depth: 3cm; }
 <pave-3d>
 	<p>top</p>
 	<p>bottom</p>
+	<p>front</p>
+	<p>right</p>
 	<p>back</p>
 	<p>left</p>
-	<p>right</p>
-	<p>front</p>
 </pave-3d>
 */
 
@@ -54,15 +53,21 @@ String.prototype.fromPx = function(){
 	var nb = parseInt (nbStr);
 	return nb;
 }
-const backgroundCross = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0849 49.5%, maroon 49.5% 50.5%, #0849 50.5%)';
+const backgroundCross = `
+		repeating-linear-gradient(90deg, transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(90deg, transparent 4.8em, maroon 4.8em 5em, transparent 5em 9.8em),
+		repeating-linear-gradient(transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(#0849 4.8em, maroon 4.8em 5em, wheat 5em 9.8em)`;
+// const backgroundCross = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0849 49.5%, maroon 49.5% 50.5%, #0849 50.5%)';
 HTMLElement.prototype.addCross = function(){
-	this.style.background = backgroundCross;
+	this.style.backgroundImage = backgroundCross;
 	const posF = this.children.length -1;
 	this.children[posF].style.transform = 'rotateY(90deg)';
 	this.children[posF].style.top = '0';
 	this.children[posF].style.left = '0';
 	this.children[posF].style.width = 'inherit';
 	this.children[posF].style.height = 'inherit';
+	this.children[posF].style.backgroundColor = 'none';
 	this.children[posF].style.background = backgroundCross;
 }
 HTMLElement.prototype.styleShape = function(){
@@ -116,6 +121,10 @@ class Shape3d extends HTMLElement{
 		this.setHeight();
 		this.setDepth();
 		this.background = this.vraiStyle.background;
+		if (! this.background){
+			if (this.vraiStyle.backgroundImage) this.background = this.vraiStyle.backgroundImage;
+			else if (this.vraiStyle.backgroundColor) this.background = this.vraiStyle.backgroundColor;
+		}
 		this.border = this.vraiStyle.border;
 		this.style.border = 'none';
 

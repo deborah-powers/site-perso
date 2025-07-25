@@ -130,10 +130,7 @@ String.prototype.toDefList = function(){
 	const textListLen = textList.length;
 	var d=-1; var t=0;
 	while (t< textListLen){
-		if (textList[t].includes (": ") && textList[t].count (": ") ===1 && d===-1){
-			d=t;
-			for (var p of punctuation) if (textList[t].includes (p)){ d=-1; }
-		}
+		if (textList[t].includes (": ") && textList[t].count (": ") ===1 && d===-1) d=t;
 		else if (! textList[t].includes (": ") && d>=0){
 			if (t-d >1){
 				for (var l=d; l<t; l++) textList[l] = '<dt>' + textList[l].replace (": ", '</dt><dd>') + '</dd>';
@@ -156,11 +153,11 @@ String.prototype.toTable = function(){
 		while (i< textList.length){
 			// rechercher une table
 			d=-1; c=-1;
-			if (d==-1 && c==-1 && textList[i].includes ('\t')){
+			if (textList[i].includes ('\t')){
 				c= textList[i].count ('\t');
 				d=i; i+=1;
 			}
-			while (i< textList.length && textList[i].count ('\t') ==c) i+=1;
+			while (i< textList.length && textList[i].count ('\t') ===c) i+=1;
 			c=i-d;
 			// une table a ete trouve
 			if (c>1 && d>0){
@@ -171,8 +168,8 @@ String.prototype.toTable = function(){
 					textList[j] = '<tr><td>' + textList[j] +'</td></tr>';
 				}
 				// les limites de la table
-				textList[d] = '<table>\n' + textList[d];
-				textList [i-1] = textList [i-1] +'\n</table>';
+				textList[d] = '<table>' + textList[d];
+				textList [i-1] = textList [i-1] +'</table>';
 			}
 			i+=1;
 		}
