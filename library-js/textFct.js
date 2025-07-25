@@ -103,8 +103,8 @@ String.prototype.cleanTxt = function(){
 	for (var t=0; t< textList.length -1; t++){
 		textLen = textList[t].length -1;
 		if (textLen >1 && textList[t+1].length >1
-			&& '012345'.includes (textList[t][textLen]) && '012345'.includes (textList[t][textLen -1])
-			&& '012345'.includes (textList[t+1][0]) && '012345'.includes (textList[t+1][1]))
+			&& '012345'.includes (textList[t][textLen]) && '0123456789'.includes (textList[t][textLen -1])
+			&& '012345'.includes (textList[t+1][0]) && '0123456789'.includes (textList[t+1][1]))
 			continue;
 		else textList[t+1] =" "+ textList[t+1];
 	}
