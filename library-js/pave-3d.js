@@ -121,10 +121,11 @@ class Shape3d extends HTMLElement{
 		this.setHeight();
 		this.setDepth();
 		this.background = this.vraiStyle.background;
+		/*
 		if (! this.background){
 			if (this.vraiStyle.backgroundImage) this.background = this.vraiStyle.backgroundImage;
 			else if (this.vraiStyle.backgroundColor) this.background = this.vraiStyle.backgroundColor;
-		}
+		}*/
 		this.border = this.vraiStyle.border;
 		this.style.border = 'none';
 
@@ -226,6 +227,10 @@ class TubeQuart extends ShapeQuart{
 }}}
 class BoulQuart extends ShapeQuart{
 	constructor(){ super (110); }
+	setHeight(){
+		this.height = this.width /2;
+		this.style.height = this.width /2 + 'px';
+	}
 	setSide(){ this.sideWidth = this.width * Math.PI /48; }	// 6.545%
 	styleSides(){
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
@@ -467,19 +472,6 @@ class Boule extends Shape3d{
 		this.style.width = this.width + 'px';
 		this.style.height = this.width + 'px';
 	}
-	styleHat(){
-		this.appendChild (document.createElement ('p'));
-		this.appendChild (document.createElement ('p'));
-		const ecartLeft = (this.width - this.sideWidth) /2;
-		this.children[0].style.width = '10%';
-		this.children[0].style.height = '10%';
-		this.children[0].style.transform = 'rotateX(90deg) translateZ(' + this.depth /10.0 + 'px)';
-		this.children[0].style.left = ecartLeft + 'px';
-		this.children[1].style.width = '10%';
-		this.children[1].style.height = '10%';
-		this.children[1].style.transform = 'rotateX(-90deg) translateZ(' + (this.height - this.depth /10.0) + 'px)';
-		this.children[1].style.left = ecartLeft + 'px';
-	}
 	styleSides(){
 		this.appendChild (document.createElement ('boul-quart'));
 		this.appendChild (document.createElement ('boul-quart'));
@@ -489,13 +481,42 @@ class Boule extends Shape3d{
 		this.appendChild (document.createElement ('boul-quart'));
 		this.children[3].style.transform = 'rotateY(270deg) translateY(-300%)';
 		this.appendChild (document.createElement ('boul-quart'));
-		this.children[4].style.transform = 'rotateX(180deg) translateY(400%)';
+		this.children[4].style.transform = 'rotateX(180deg) translateY(300%)';
 		this.appendChild (document.createElement ('boul-quart'));
-		this.children[5].style.transform = 'rotateX(180deg) rotateY(90deg) translateY(500%)';
+		this.children[5].style.transform = 'rotateX(180deg) rotateY(90deg) translateY(400%)';
 		this.appendChild (document.createElement ('boul-quart'));
-		this.children[6].style.transform = 'rotateX(180deg) rotateY(180deg) translateY(600%)';
+		this.children[6].style.transform = 'rotateX(180deg) rotateY(180deg) translateY(500%)';
 		this.appendChild (document.createElement ('boul-quart'));
-		this.children[7].style.transform = 'rotateX(180deg) rotateY(270deg) translateY(700%)';
+		this.children[7].style.transform = 'rotateX(180deg) rotateY(270deg) translateY(600%)';
+}}
+class Test3d extends Shape3d{
+	constructor(){ super (0); }
+	connectedCallback(){
+		this.styleShape();
+		// style des enfants
+		this.vraiStyle = getComputedStyle (this);
+		this.width = this.vraiStyle.width.fromPx();
+		this.setHeight();
+		this.setDepth();
+		this.background = 'none';
+		this.border = 'none';
+		// styler les enfants et corriger leur nombre
+		this.setSide();
+		this.styleSides();
+		this.style.background = 'none';
+		this.style.border = 'none';
+	}
+	styleSides(){
+		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (document.createElement ('tube-quart'));
+		var heightOffset = this.height - this.width;
+		if (heightOffset <=0){
+			heightOffset = this.width /2;
+			this.height = this.width;
+		}
+		this.style.height = this.height + 'px';
+		this.children[1].style.height = heightOffset + 'px';
+		this.children[1].height = heightOffset;
 }}
 customElements.define ('pole-3d', Pole);
 customElements.define ('cube-3d', Cube);
@@ -508,4 +529,5 @@ customElements.define ('cyld-3d', Cylindre);
 customElements.define ('boul-3d', Boule);
 customElements.define ('tube-quart', TubeQuart);
 customElements.define ('boul-quart', BoulQuart);
+customElements.define ('test-3d', Test3d);
 
