@@ -39,18 +39,37 @@ function mutationNb (mutations){
 	return nbChildren;
 }
 String.prototype.coorDtoPx = function(){
-	const extention = this.slice (-2);
-	const nbStr = this.slice (0, -2);
+	var pext =-2;
+	if ('%' === this [this.length -1]) pext =-1;
+	const extention = this.slice (pext);
+	const nbStr = this.slice (0, pext);
 	var nb = parseInt (nbStr);
-	if (extention === 'cm') nb = nb * uniTtoPx.cm;
+	if (extention === 'em') nb = nb * uniTtoPx.em;
+	else if (extention === 'cm') nb = nb * uniTtoPx.cm;
 	else if (extention === 'mm') nb = nb * uniTtoPx.mm;
 	else if (extention === 'in') nb = nb * uniTtoPx.in;
-	else if (extention === 'em') nb = nb * uniTtoPx.em;
+	else if (extention === '%') nb = nb /100.0;
+	return nb;
+}
+String.prototype.fromVraiStyle = function(){
+	var pext =-2;
+	if ('%' === this [this.length -1]) pext =-1;
+	const extention = this.slice (pext);
+	const nbStr = this.slice (0, pext);
+	var nb = parseInt (nbStr);
+	if (extention === '%') nb = nb /100.0;
 	return nb;
 }
 String.prototype.fromPx = function(){
 	const nbStr = this.slice (0, -2);
 	var nb = parseInt (nbStr);
+	return nb;
+}
+String.prototype.fromPercent = function (width){
+	// % --> px
+	const nbStr = this.slice (0, -1);
+	var nb = parseInt (nbStr);
+	nb = width * nb /100.0;
 	return nb;
 }
 const backgroundCross = `
@@ -134,12 +153,13 @@ class Shape3d extends HTMLElement{
 		var nbChildren =0;
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
-			if (nbChildren < self.sideNb +2) self.appendChild (document.createElement ('p'));
-			else{
+			if (nbChildren === self.sideNb +2){
 				self.setSide();
 				self.styleHat();
 				self.styleSides();
-		}});
+			}
+			else if (nbChildren < self.sideNb +2) self.appendChild (document.createElement ('p'));
+		});
 		observer.observe (this, { childList: true });
 		this.style.background = 'none';
 	}
@@ -195,6 +215,9 @@ class ShapeQuart extends Shape3d{
 		attributeObserver.observe (this, { attributes: true });
 		this.style.background = 'none';
 		this.styleSides();
+	}
+	setBackground (backgroundColor){
+		for (var child in this.children) child.style.backgroundColor = backgroundColor;
 	}
 //	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
 	setSide(){ this.sideWidth = this.width *0.25* Math.PI /12; }
@@ -489,27 +512,40 @@ class Boule extends Shape3d{
 		this.appendChild (document.createElement ('boul-quart'));
 		this.children[7].style.transform = 'rotateX(180deg) rotateY(270deg) translateY(600%)';
 }}
-class Test3d extends Shape3d{
-	constructor(){ super (0); }
+class Test3d extends Pole{
+	constructor(){
+		super();
+		this.rayon =0.25;
+	}
 	connectedCallback(){
-		this.styleShape();
-		// style des enfants
-		this.vraiStyle = getComputedStyle (this);
-		this.width = this.vraiStyle.width.fromPx();
-		this.setHeight();
-		this.setDepth();
-		this.background = 'none';
-		this.border = 'none';
-		// styler les enfants et corriger leur nombre
-		this.setSide();
-		this.styleSides();
-		this.style.background = 'none';
-		this.style.border = 'none';
+		super.connectedCallback();
+		if (this.vraiStyle.borderRadius){
+			this.rayon = this.vraiStyle.borderRadius.fromVraiStyle();
+			if (this.vraiStyle.borderRadius.includes ('%')) this.rayon = this.vraiStyle.borderRadius.fromPercent (this.width);
+			else this.rayon = this.vraiStyle.borderRadius.fromPx();
+		}
+	}
+	setSide(){ this.sideWidth = this.width - 2* this.rayon; }
+	styleHat(){
+		super.styleHat();
+		this.children[0].style.borderRadius = this.vraiStyle.borderRadius;
+		this.children[1].style.borderRadius = this.vraiStyle.borderRadius;
 	}
 	styleSides(){
+		super.styleSides();
+		this.style.background = this.background;
+		this.appendChild (document.createElement ('tube-quart'));
+		this.children[6].style.background = this.background;
+		this.children[6].width = this.rayon /4
+		this.children[6].style.width = '10%';
+		this.children[6].style.transform = 'translateX(50%)';
+		this.style.background = 'none';
+	//	for (var c=2; c< this.children; c++) this.children[c].width = this.width - this.height + 'px';
+	}
+	styleSides_va(){
 		this.appendChild (document.createElement ('boul-quart'));
 		this.appendChild (document.createElement ('tube-quart'));
-		var heightOffset = this.height - this.width;
+		var heightOffset = this.height - this.width /2;
 		if (heightOffset <=0){
 			heightOffset = this.width /2;
 			this.height = this.width;
