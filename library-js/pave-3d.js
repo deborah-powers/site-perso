@@ -72,12 +72,13 @@ String.prototype.fromPercent = function (width){
 	nb = width * nb /100.0;
 	return nb;
 }
-const backgroundCross = `
+const backgroundCrossA = `
 		repeating-linear-gradient(90deg, transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
 		repeating-linear-gradient(90deg, transparent 4.8em, maroon 4.8em 5em, transparent 5em 9.8em),
 		repeating-linear-gradient(transparent 0.9em, maroon 0.9em 1em, transparent 1em 1.9em),
 		repeating-linear-gradient(#0849 4.8em, maroon 4.8em 5em, wheat 5em 9.8em)`;
-// const backgroundCross = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0849 49.5%, maroon 49.5% 50.5%, #0849 50.5%)';
+const backgroundCross = 'linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, #0849 49.5%, maroon 49.5% 50.5%, #0849 50.5%)';
+
 HTMLElement.prototype.addCross = function(){
 	this.style.backgroundImage = backgroundCross;
 	const posF = this.children.length -1;
@@ -193,11 +194,18 @@ class Shape3d extends HTMLElement{
 		}*/
 }}
 class ShapeQuart extends Shape3d{
-	constructor (sideNb, width, height){
+	constructor (sideNb, color, width, height){
 		super (sideNb);
 		if (width  !== undefined && width >0) this.width = width;
 		if (height !== undefined) this.height = height;
+		if (color !== undefined) this.background = color;
 	}
+	setHeight(){
+		if (this.height) this.style.height = this.height + 'px';
+		else{
+			this.style.height = 'inherit';
+			this.height = this.parentElement.height;
+	}}
 	connectedCallback(){
 		this.styleShape();
 		this.vraiStyle = getComputedStyle (this.parentElement);
@@ -206,76 +214,26 @@ class ShapeQuart extends Shape3d{
 			this.style.width = 'inherit';
 			this.width = this.vraiStyle.width.fromPx();
 		}
-		if (this.height) this.style.height = this.height + 'px';
-		else{
-			this.style.height = 'inherit';
-			this.setHeight();
-		}
-		// infos pour styler les enfants
-		this.setDepth();
-		this.setSide();
-		this.background = this.vraiStyle.background;
-		this.border = 'none';
-		this.style.border = 'none';
-		// récupérer le style attribué à l'élément
-		var attributeObserver = new MutationObserver (function (mutations){
-			if ('style' === mutations[0].attributeName && 'none' !== mutations[0].target.style.background){
-				this.background = mutations[0].target.style.background;
-				mutations[0].target.style.background = 'none';
-		}});
-		attributeObserver.observe (this, { attributes: true });
-		this.style.background = 'none';
-		this.styleSides();
-	}
-}
-class ShapeQuart_va extends Shape3d{
-	connectedCallback(){
-		this.styleShape();
-		this.style.width = 'inherit';
-		this.style.height = 'inherit';
-		// infos pour styler les enfants
-		this.vraiStyle = getComputedStyle (this.parentElement);
-		this.width = this.vraiStyle.width.fromPx();
 		this.setHeight();
+		// infos pour styler les enfants
 		this.setDepth();
 		this.setSide();
-		this.background = this.vraiStyle.background;
+		if (""=== this.background) this.background = this.vraiStyle.background;
 		this.border = 'none';
 		this.style.border = 'none';
-		// récupérer le style attribué à l'élément
-		var attributeObserver = new MutationObserver (function (mutations){
-			if ('style' === mutations[0].attributeName && 'none' !== mutations[0].target.style.background){
-				this.background = mutations[0].target.style.background;
-				mutations[0].target.style.background = 'none';
-		}});
-		attributeObserver.observe (this, { attributes: true });
 		this.style.background = 'none';
-		this.styleSides();
-	}
-	setBackground (backgroundColor){
-		for (var child in this.children) child.style.backgroundColor = backgroundColor;
-	}
-//	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
-	setSide(){ this.sideWidth = this.width *0.25* Math.PI /12; }
-	styleSides(){
+	//	this.style.background = backgroundCross;
 		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
-		const rayon = this.width /2.0;
-		const ecartLeft = rayon -6;
-		const anglePas = 90 / 12;
-		var angle = anglePas /2.0;
-		for (var c=0; c<12; c++){
-			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
-			angle += anglePas;
-}}}
+		this.styleSides();
+}}
 class TubeQuart extends ShapeQuart{
-	constructor (width){ super (12, width); }
+	constructor (color, width){ super (12, color, width); }
 	connectedCallback(){
 		this.style.height = 'inherit';
 		super.connectedCallback();
 	}
 	setSide(){ this.sideWidth = this.width *0.25* Math.PI / this.sideNb; }
 	styleSides(){
-		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		const rayon = this.width /2.0;
 		const ecartLeft = rayon - this.sideWidth /2;
 		const anglePas = 90 / this.sideNb;
@@ -286,14 +244,13 @@ class TubeQuart extends ShapeQuart{
 			angle += anglePas;
 }}}
 class BoulQuart extends ShapeQuart{
-	constructor(){ super (110); }
+	constructor (color, width){ super (110, color, width); }
 	setHeight(){
 		this.height = this.width /2;
-		this.style.height = this.width /2 + 'px';
+		super.setHeight();
 	}
 	setSide(){ this.sideWidth = this.width * Math.PI /48; }	// 6.545%
 	styleSides(){
-		for (var c=0; c< this.sideNb; c++) this.appendChild (document.createElement ('p'));
 		// les cotés
 		const rayon = this.width /2.0;
 		const ecartLeft = rayon - this.sideWidth /2;
@@ -469,7 +426,8 @@ class Cylindre extends Shape3d{
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <2) self.appendChild (document.createElement ('p'));
-			else if (nbChildren <6) self.appendChild (document.createElement ('tube-quart'));
+			else if (nbChildren <6) self.appendChild (new TubeQuart (this.background));
+		//	else if (nbChildren <6) self.appendChild (document.createElement ('tube-quart'));
 			else{
 				self.styleHat();
 				self.styleSides();
@@ -519,7 +477,7 @@ class Boule extends Shape3d{
 		this.width = this.vraiStyle.width.fromPx();
 		this.setHeight();
 		this.setDepth();
-		this.background = 'none';
+	//	this.background = 'none';
 		this.border = 'none';
 		// styler les enfants et corriger leur nombre
 		this.setSide();
@@ -533,23 +491,23 @@ class Boule extends Shape3d{
 		this.style.height = this.width + 'px';
 	}
 	styleSides(){
-		this.appendChild (document.createElement ('boul-quart'));
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[1].style.transform = 'rotateY(90deg) translateY(-100%)';
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[2].style.transform = 'rotateY(180deg) translateY(-200%)';
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[3].style.transform = 'rotateY(270deg) translateY(-300%)';
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[4].style.transform = 'rotateX(180deg) translateY(300%)';
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[5].style.transform = 'rotateX(180deg) rotateY(90deg) translateY(400%)';
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[6].style.transform = 'rotateX(180deg) rotateY(180deg) translateY(500%)';
-		this.appendChild (document.createElement ('boul-quart'));
+		this.appendChild (new BoulQuart (this.background));
 		this.children[7].style.transform = 'rotateX(180deg) rotateY(270deg) translateY(600%)';
 }}
-class Test3d extends Pole{
+class BevelPole extends Pole{
 	constructor(){
 		super();
 		this.rayon =0.25;
@@ -571,17 +529,22 @@ class Test3d extends Pole{
 	}
 	styleSides(){
 		super.styleSides();
-		this.style.background = '#0684';
-		this.appendChild (new TubeQuart (this.rayon *2));
-	//	this.appendChild (document.createElement ('tube-quart'));
-		console.log (this.children[6].vraiStyle.transform, this.children[6].vraiStyle.top, this.children[6].vraiStyle.left);
-		this.children[6].style.position = 'absolute';
-		this.children[6].style.left = '25%';
-		this.children[6].style.transform = 'translateZ(100px)';
-	//	this.style.background = 'none';
-	}
-	styleSides_va(){
-		this.appendChild (document.createElement ('boul-quart'));
+		for (var c=2; c< this.children.length; c++) this.children[c].style.border = 'none';
+		for (var c=6; c<10; c++){
+			this.appendChild (new TubeQuart (this.background, this.rayon *2));
+			this.children[c].style.position = 'absolute';
+			this.children[c].style.top = '0';
+		}
+		this.children[6].style.left = this.width - 2* this.rayon + 'px';
+		this.children[6].style.transform = 'translateZ(' + (this.width /2 - this.rayon) + 'px)';
+		this.children[7].style.transform = 'rotateY(180deg) translateZ(' + (this.width /2 - this.rayon) + 'px)';
+		this.children[8].style.transform = 'rotateY(-90deg) translateX(' + (this.width /2 - this.rayon) + 'px)';
+		this.children[9].style.left = this.width - 2* this.rayon + 'px';
+		this.children[9].style.transform = 'rotateY(90deg) translateX(' + (this.width /2 - this.rayon) + 'px)';
+}}
+class Test3d extends Shape3d{
+	styleSides(){
+		this.appendChild (new BoulQuart (this.background));
 		this.appendChild (document.createElement ('tube-quart'));
 		var heightOffset = this.height - this.width /2;
 		if (heightOffset <=0){
@@ -603,5 +566,6 @@ customElements.define ('cyld-3d', Cylindre);
 customElements.define ('boul-3d', Boule);
 customElements.define ('tube-quart', TubeQuart);
 customElements.define ('boul-quart', BoulQuart);
+customElements.define ('bevl-3d', BevelPole);
 customElements.define ('test-3d', Test3d);
 
