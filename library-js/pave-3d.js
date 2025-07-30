@@ -193,6 +193,42 @@ class Shape3d extends HTMLElement{
 		}*/
 }}
 class ShapeQuart extends Shape3d{
+	constructor (sideNb, width, height){
+		super (sideNb);
+		if (width  !== undefined && width >0) this.width = width;
+		if (height !== undefined) this.height = height;
+	}
+	connectedCallback(){
+		this.styleShape();
+		this.vraiStyle = getComputedStyle (this.parentElement);
+		if (this.width) this.style.width = this.width + 'px';
+		else{
+			this.style.width = 'inherit';
+			this.width = this.vraiStyle.width.fromPx();
+		}
+		if (this.height) this.style.height = this.height + 'px';
+		else{
+			this.style.height = 'inherit';
+			this.setHeight();
+		}
+		// infos pour styler les enfants
+		this.setDepth();
+		this.setSide();
+		this.background = this.vraiStyle.background;
+		this.border = 'none';
+		this.style.border = 'none';
+		// récupérer le style attribué à l'élément
+		var attributeObserver = new MutationObserver (function (mutations){
+			if ('style' === mutations[0].attributeName && 'none' !== mutations[0].target.style.background){
+				this.background = mutations[0].target.style.background;
+				mutations[0].target.style.background = 'none';
+		}});
+		attributeObserver.observe (this, { attributes: true });
+		this.style.background = 'none';
+		this.styleSides();
+	}
+}
+class ShapeQuart_va extends Shape3d{
 	connectedCallback(){
 		this.styleShape();
 		this.style.width = 'inherit';
@@ -232,7 +268,7 @@ class ShapeQuart extends Shape3d{
 			angle += anglePas;
 }}}
 class TubeQuart extends ShapeQuart{
-	constructor(){ super (12); }
+	constructor (width){ super (12, width); }
 	connectedCallback(){
 		this.style.height = 'inherit';
 		super.connectedCallback();
@@ -246,6 +282,7 @@ class TubeQuart extends ShapeQuart{
 		var angle = anglePas /2.0;
 		for (var c=0; c< this.sideNb; c++){
 			this.children[c].styleSide (this.sideWidth, ecartLeft, rayon, angle, this.background, 'none');
+			this.children[c].style.width = this.sideWidth +'px';
 			angle += anglePas;
 }}}
 class BoulQuart extends ShapeQuart{
@@ -520,10 +557,11 @@ class Test3d extends Pole{
 	connectedCallback(){
 		super.connectedCallback();
 		if (this.vraiStyle.borderRadius){
-			this.rayon = this.vraiStyle.borderRadius.fromVraiStyle();
+		//	this.rayon = this.vraiStyle.borderRadius.fromVraiStyle();
 			if (this.vraiStyle.borderRadius.includes ('%')) this.rayon = this.vraiStyle.borderRadius.fromPercent (this.width);
 			else this.rayon = this.vraiStyle.borderRadius.fromPx();
 		}
+		else this.rayon = this.rayon * this.width;
 	}
 	setSide(){ this.sideWidth = this.width - 2* this.rayon; }
 	styleHat(){
@@ -533,14 +571,14 @@ class Test3d extends Pole{
 	}
 	styleSides(){
 		super.styleSides();
-		this.style.background = this.background;
-		this.appendChild (document.createElement ('tube-quart'));
-		this.children[6].style.background = this.background;
-		this.children[6].width = this.rayon /4
-		this.children[6].style.width = '10%';
-		this.children[6].style.transform = 'translateX(50%)';
-		this.style.background = 'none';
-	//	for (var c=2; c< this.children; c++) this.children[c].width = this.width - this.height + 'px';
+		this.style.background = '#0684';
+		this.appendChild (new TubeQuart (this.rayon *2));
+	//	this.appendChild (document.createElement ('tube-quart'));
+		console.log (this.children[6].vraiStyle.transform, this.children[6].vraiStyle.top, this.children[6].vraiStyle.left);
+		this.children[6].style.position = 'absolute';
+		this.children[6].style.left = '25%';
+		this.children[6].style.transform = 'translateZ(100px)';
+	//	this.style.background = 'none';
 	}
 	styleSides_va(){
 		this.appendChild (document.createElement ('boul-quart'));
