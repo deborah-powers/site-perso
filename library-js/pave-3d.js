@@ -515,7 +515,6 @@ class BevelPole extends Pole{
 	connectedCallback(){
 		super.connectedCallback();
 		if (this.vraiStyle.borderRadius){
-		//	this.rayon = this.vraiStyle.borderRadius.fromVraiStyle();
 			if (this.vraiStyle.borderRadius.includes ('%')) this.rayon = this.vraiStyle.borderRadius.fromPercent (this.width);
 			else this.rayon = this.vraiStyle.borderRadius.fromPx();
 		}
@@ -542,6 +541,33 @@ class BevelPole extends Pole{
 		this.children[9].style.left = this.width - 2* this.rayon + 'px';
 		this.children[9].style.transform = 'rotateY(90deg) translateX(' + (this.width /2 - this.rayon) + 'px)';
 }}
+class BevelDouble extends BevelPole{
+	connectedCallback(){
+		this.border = 'none';
+		this.style.border = 'none';
+		super.connectedCallback();
+	}
+	styleHat(){
+		super.styleHat();
+		const ecartLeft = (this.width - this.sideWidth) /2 + 'px';
+		const sideWidth = this.sideWidth + 'px';
+		for (var c=0; c<2; c++){
+			this.children[c].style.width = sideWidth;
+			this.children[c].style.height = sideWidth;
+			this.children[c].style.left = ecartLeft;
+			this.children[c].style.top = ecartLeft;
+	}}
+	styleSides(){
+		super.styleSides();
+		const ecartTop = this.height - 2* this.rayon + 'px';
+		const sideHeight = this.rayon + 'px';
+		for (var c=2; c< this.children.length; c++){
+			this.children[c].style.height = ecartTop;
+			this.children[c].style.top = sideHeight;
+		}
+		console.log (this.children[2].style.top);
+	}
+}
 class Test3d extends Shape3d{
 	styleSides(){
 		this.appendChild (new BoulQuart (this.background));
@@ -567,5 +593,5 @@ customElements.define ('boul-3d', Boule);
 customElements.define ('tube-quart', TubeQuart);
 customElements.define ('boul-quart', BoulQuart);
 customElements.define ('bevl-3d', BevelPole);
-customElements.define ('test-3d', Test3d);
+customElements.define ('test-3d', BevelDouble);
 
