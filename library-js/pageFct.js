@@ -226,6 +226,20 @@ HTMLElement.prototype.replaceTagList = function (tagName){
 		this.innerHTML = containerList[0].outerHTML;
 		for (var c=1; c< containerList.length; c++) this.innerHTML = this.innerHTML + containerList[c].outerHTML;
 }}
+Element.prototype.getInputsByType = function (typeName){ return []; }
+HTMLElement.prototype.getInputsByType = function (typeName){
+	var inputs =[];
+	var inputsTmp =[];
+	for (var child of this.children){
+		inputsTmp = child.getInputsByType (typeName);
+		for (var res of inputsTmp) inputs.push (res);
+	}
+	return inputs;
+}
+HTMLInputElement.prototype.getInputsByType = function (typeName){
+	if (this.type === typeName) return [ this, ];
+	else return [];
+}
 HTMLBodyElement.prototype.cleanBody = function(){
 	this.innerHTML = this.innerHTML.cleanHtml();
 //	const codeBlocs = document.getElementsByTagName ('xmp');
