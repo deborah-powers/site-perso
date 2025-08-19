@@ -559,13 +559,30 @@ class BevelDouble extends BevelPole{
 	}}
 	styleSides(){
 		super.styleSides();
-		const ecartTop = this.height - 2* this.rayon + 'px';
+		const ecartTop = this.height - 2* this.rayon;
+		var ecartTopPx = this.height - 2* this.rayon + 'px';
 		const sideHeight = this.rayon + 'px';
 		for (var c=2; c< this.children.length; c++){
-			this.children[c].style.height = ecartTop;
+			this.children[c].style.height = ecartTopPx;
 			this.children[c].style.top = sideHeight;
 		}
-		console.log (this.children[2].style.top);
+		for (var c=6; c< this.children.length; c++) this.children[c].height = ecartTop;
+		const height = this.width - 2* this.rayon;
+		const heightPx = height + 'px';
+		ecartTopPx = 2* this.rayon - this.width /2 + 'px';
+		for (var c=10; c<14; c++){
+			this.appendChild (new TubeQuart (this.background, this.rayon *2));
+			this.children[c].height = height;
+			this.children[c].style.height = heightPx;
+			this.children[c].style.position = 'absolute';
+			this.children[c].style.top = ecartTopPx;
+			this.children[c].style.left = this.width /2 - this.rayon + 'px';
+		//	this.children[c].style.left = '50%';
+			this.children[c].style.transform = 'rotateX(90deg) translateX(' + ecartTop + 'px)';
+		}
+		this.vraiStyle = window.getComputedStyle (this);
+		this.children[10].vraiStyle = window.getComputedStyle (this.children[10]);
+		console.log (this.vraiStyle.width, this.width, this.children[10].vraiStyle.width, this.rayon);
 	}
 }
 class Test3d extends Shape3d{
