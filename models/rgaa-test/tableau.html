@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='fr-FR'><head>
+	<title>tableau | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	table, tr { width: 100%; }
+	table { margin: 1em 0; }
+	caption {
+		font-size: 1em;
+		font-weight: bold;
+	}
+	[role='table'] {
+		width: 100%;
+		border-style: solid;
+	}
+	[role='row'] {
+		width: 100%;
+		border-style: inherit;
+		display: flex;
+		justify-content: space-around;
+		align-items: stretch;
+	}
+	[role='rowheader'], [role='columnheader'] {
+		border-style: inherit;
+		font-weight: bold;
+		flex-grow: 1;
+	}
+	[role='cell'] {
+		border-style: inherit;
+		flex-grow: 1;
+	}
+	[role='rowgroup'] {
+		width: 100%;
+		border-style: inherit;
+	}
+</style>
+</head><body>
+	<h1>les tableaux</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<h2>tableaux de présentation</h2>
+	<table role='presentation' class='coco' id='lolo'>
+		<tr><td>aa</td><td>ab</td><td>ac</td></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+	</table>
+	<table role='presentation'>
+		<caption>mauvais tableau de présentation</caption>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<table role='presentation'>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td colspan='2'>ba</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<h2>tableaux de données</h2>
+	<table>
+		<caption>tître du tableau</caption>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<table title='tître du tableau'>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<table aria-label='tître du tableau'>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<table aria-labelledby='tabla-bel'>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<p id='tabla-bel'>tître connecté via aria-labelledby</p>
+	<p>un tableau sans tître</p>
+	<table>
+		<tr><th>aa</th><th>ab</th><th>ac</th></tr>
+		<tr><td>ba</td><td>bb</td><td>bc</td></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+	</table>
+	<table>
+		<caption>tableau à deux entrée mal annoté</caption>
+		<tr><th>aa</th><th>ab</th><th>ac</th><th>ad</th></tr>
+		<tr><th>ba</th><td>bb</td><td>bc</td><td>bd</td></tr>
+		<tr><th>ca</th><td>cb</td><td>cc</td><td>cd</td></tr>
+	</table>
+	<table>
+		<caption>tableau à deux entrée</caption>
+		<tr><th scope='row'>aa</th><th scope='col'>ab</th><th scope='col'>ac</th><th scope='col'>ad</th></tr>
+		<tr><th scope='row'>ba</th><td>bb</td><td>bc</td><td>bd</td></tr>
+		<tr><th scope='row'>ca</th><td>cb</td><td>cc</td><td>cd</td></tr>
+	</table>
+	<table>
+		<caption>tableau complèxe mal annoté</caption>
+		<tr><th colspan='2'>aab</th><th>ac</th></tr>
+		<tr><th>ba</th><th>bb</th><th>bc</th></tr>
+		<tr><td>ca</td><td>cb</td><td>cc</td></tr>
+		<tr><td>da</td><td>db</td><td>dc</td></tr>
+	</table>
+	<table>
+		<caption>tableau complèxe. les deux rangs de tître ont des valeurs bidons. les tîtres et les données ne servent que pour l'exemple.</caption>
+		<tr><th id='aab' colspan='2'>aab</th><th id='ac'>ac</th></tr>
+		<tr><th id='ba'>ba</th><th id='bb'>bb</th><th id='bc'>bc</th></tr>
+		<tr><td headers='aab ba'>ca</td><td headers='aab bb'>cb</td><td headers='ac bc'>cc</td></tr>
+		<tr><td headers='aab ba'>da</td><td headers='aab bb'>db</td><td headers='ac bc'>dc</td></tr>
+	</table>
+	<div role='table' aria-labelledby='tab-div'>
+		<h2 id='tab-div'>tableau fait en div</h2>
+		<p role='row'>
+			<span role='columnheader'>aa</span><span role='columnheader'>ab</span>
+			<span role='columnheader'>ac</span><span role='columnheader'>ad</span>
+		</p>
+		<div role='rowgroup'>
+			<p role='row'><span role='rowheader'>ba</span><span role='cell'>bb</span><span role='cell'>bc</span><span role='cell'>bd</span></p>
+			<p role='row'><span role='rowheader'>ca</span><span role='cell'>cb</span><span role='cell'>cc</span><span role='cell'>cd</span></p>
+		</div>
+		<div role='rowgroup'>
+			<p role='row'><span role='rowheader'>da</span><span role='cell'>db</span><span role='cell'>dc</span><span role='cell'>dd</span></p>
+			<p role='row'><span role='rowheader'>ea</span><span role='cell'>eb</span><span role='cell'>ec</span><span role='cell'>ed</span></p>
+		</div>
+	</div>
+	<div role='table-casse' aria-labelledby='tab-div-casse'>
+		<h2 id='tab-div-casse'>tableau fait en div mal annoté</h2>
+		<p role='row'>
+			<span role='columnheader'>aa</span><span role='columnheader'>ab</span>
+			<span role='columnheader'>ac</span><span role='columnheader'>ad</span>
+		</p>
+		<div role='rowgroup'>
+			<p role='row'><span role='rowheader'>ba</span><span role='cell'>bb</span><span role='cell'>bc</span><span role='cell'>bd</span></p>
+			<p role='row'><span role='rowheader'>ca</span><span role='cell'>cb</span><span role='cell'>cc</span><span role='cell'>cd</span></p>
+		</div>
+		<div role='rowgroup'>
+			<p role='row'><span role='rowheader'>da</span><span role='cell'>db</span><span role='cell'>dc</span><span role='cell'>dd</span></p>
+			<p role='row'><span role='rowheader'>ea</span><span role='cell'>eb</span><span role='cell'>ec</span><span role='cell'>ed</span></p>
+		</div>
+	</div>
+<script type='text/javascript'></script></body></html>

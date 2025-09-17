@@ -1,0 +1,51 @@
+<!DOCTYPE html><html><head>
+	<title>téléchargement | rgaa test</title>
+	<base target='_blank'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<script type='text/javascript'></script>
+<style type='text/css'>
+	a { display: block; }
+	p#hello {
+		color: ivory;
+		background-color: ivory;
+		text-align: center;
+		height: 4em;
+		width: 50%;
+		margin: auto;
+		padding-top: 1em;
+		font-size: 1.5em;
+	}
+</style></head><body>
+	<h1>tester les téléchargements</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<a href='http://deborah-powers.fr'>lien simple</a>
+	<a href='http://deborah-powers.fr/data/CV%20developpeur%20deborah%20powers.pdf' download>lien de téléchargement anoté</a>
+	<a href='http://deborah-powers.fr/data/CV%20developpeur%20deborah%20powers.pdf'>lien de téléchargement</a>
+	<button onclick='downloadCV()'>bouton de téléchargement</button>
+	<button onclick='downloadCV()'>bouton sans mot-clef</button>
+	<button onmouseup='sayHello()'>bouton en mouse up</button>
+	<form method='get' onsubmit='return false'>
+		<input type='submit' onclick='downloadCV()' value='téléchargez mon cv via un bouton submit'/>
+		<input type='button' onclick='downloadCV()' value='téléchargez mon cv via un bouton input'/>
+		<input type='submit' onclick='downloadCV()' value='input sans mot-clef'/>
+		<input type='submit' onmouseup='sayHello()' value='input en mouse up'/>
+	</form>
+	<p onclick='sayHello()'>paragraphe cliquable</p>
+	<p>paragraphe attaché à un évênement</p>
+	<p id='hello'>hello</p>
+	<script type='text/javascript'>
+		function downloadCV(){
+			window.location.href = 'http://deborah-powers.fr/data/CV%20developpeur%20deborah%20powers.pdf';
+		}
+		const hello = document.getElementById ('hello');
+		function sayHello(){
+			hello.style.backgroundColor = 'deeppink';
+			setTimeout (function(){ hello.style.backgroundColor = 'ivory'; }, 2000);
+		}
+		const paragraph = document.getElementsByTagName ('p')[1];
+		paragraph.addEventListener ('click', sayHello);
+	</script>
+</body></html>

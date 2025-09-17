@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang='fr-FR'><head>
+	<title>formulaire | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+	<script type='text/javascript' src='../../library-js/textFct.js'></script>
+<style type='text/css'>
+	form#hidden-boxes input[type='radio'] { display: none; }
+	form#hidden-boxes label:hover, form#hidden-boxes label:focus { border: solid 2px deeppink; }
+	form#hidden-boxes-rgaa input[type='radio'] {
+		Clip: Rect(1px, 1px, 1px, 1px)!important;
+		-webkit-clip-path: Inset(50%)!important;
+		Clip-path: Inset(50%)!important;
+		Overflow: Hidden !important;
+		Width: 1px !important;
+		Height: 1px !important;
+		Margin: -1px !important;
+		White-space: Nowrap !important;
+		Padding: 0 !important;
+		Border: 0 !important;
+		Position: Absolute !important;
+	}
+	form#hidden-boxes-rgaa label:hover, form#hidden-boxes-rgaa label:focus { border: solid 2px deeppink; }
+	div#colors {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		justify-content: stretch;
+	}
+	div#colors >* {
+		flex-grow: 1;
+	}
+</style></head><body>
+	<h1>que choisirez-vous ?</h1>
+	<p>exemples de formulaires en js</p>
+<form method='get' onsubmit='return false'>
+	<h3>formulaire js classique</h3>
+	<label for='prenom'>prénom</label>
+	<input type='text' id='prenom' name='prenom' />
+	<label for='email'>couriel</label>
+	<input type='email' id='email' required />
+	<select>
+		<optgroup label='voyels'>
+		<option value='b'>option b</option>
+			<option value='a'>option a</option>
+			<option value='e'>option e</option>
+			<option value='i'>option i</option>
+			<option value='o'>option e</option>
+			<option value='u'>option u</option>
+		</optgroup>
+		<option value='d'>la réponse d</option>
+		<optgroup label='consomnes'>
+			<option value='r'>option r</option>
+			<option value='s'>option s</option>
+			<option value='t'>option t</option>
+		</optgroup>
+		<option value='w'>option w</option>
+		<option value='y'>option y</option>
+	</select>
+	<label for='option-1a'>option a</label><input type='radio' name='option-choix-1' ib='option-1a' value='option a' />
+	<label for='option-1b'>option b</label><input type='radio' name='option-choix-1' id='option-1b' value='option b' />
+	<input type='submit' value='allez-y' onclick='printChoice("1")' />
+</form>
+<form method='get' onsubmit='return false' id='hidden-boxes'>
+	<h3>coches masquées par une méthode classique, innadaptée au rgaa</h3>
+	<label for='option-2a' tabIndex='0'>option a</label><input type='radio' name='option-choix-2' id='option-2a' value='option a' />
+	<label for='option-2b' tabIndex='0'>option b</label><input type='radio' name='option-choix-2' id='option-2b' value='option b' />
+	<input type='submit' value='allez-y' onclick='printChoice("2")' />
+</form>
+<form method='get' onsubmit='return false' id='hidden-boxes-rgaa'>
+	<h3>coches masquées par une méthode adaptée au rgaa</h3>
+	<label for='option-3a'>option a</label><input type='radio' name='option-choix-3' id='option-3a' value='option a' />
+	<label for='option-3b'>option b</label><input type='radio' name='option-choix-3' id='option-3b' value='option b' />
+	<input type='submit' value='allez-y' onclick='printChoice("3")' />
+</form>
+<p>option à choisir</p>
+	<div id='colors'>
+		<p style='background-color:violet'>o</p>
+		<p style='background-color:purple'>o</p>
+		<p style='background-color:magenta'>o</p>
+		<p style='background-color:deeppink'>o</p>
+		<p style='background-color:hotpink'>o</p>
+		<p style='background-color:royalblue;'>o</p>
+		<p style='background-color:dodgerblue;'>o</p>
+		<p style='background-color:deepskyblue'>o</p>
+		<p style='background-color:blue'>o</p>
+		<p style='background-color:darkred;'>o</p>
+	</div>
+</body>
+<script type='text/javascript'>
+	function printChoice (formNum){
+		const checked = document.querySelector ('input[name="option-choix-' + formNum + '"]:checked');
+		const result = document.getElementsByTagName ('p')[1];
+		if (! checked) result.innerHTML = 'veuillez choisir une option.';
+		else{
+			var message = 'option choisie: '+ checked.value;
+			result.innerHTML = message;
+	}}
+	pag = document.getElementsByTagName ('p')[0];
+	pag.addEventListener ('click', function (event){ console.log ('coucou'); });
+</script>
+</html>

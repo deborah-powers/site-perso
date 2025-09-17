@@ -1,0 +1,118 @@
+<!DOCTYPE html><html><head>
+	<title>images | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	body {
+		display: grid;
+		grid-template-columns: 2fr 3fr 2fr 3fr 2fr 3fr;
+		grid-gap: 0.5em;
+/*		zoom: 200%;
+		-moz-transform: scale(2);
+*/
+	}
+	h1 {
+		grid-column: 1/6;
+	}
+	svg {
+		width: 72px;
+		height: 92px;
+	}
+	svg.texte { width: 150px; }
+	circle, ellipse {
+		fill: #C29FC2;
+		stroke: #342C37;
+	}
+	img, input { width: 100%; }
+	/*
+	img { border: solid 4px deeppink; }
+	img[src] { border-color: blue; }
+	img[src=""] { border-color: red; }
+	*/
+</style></head><body>
+	<h1>tester les images</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<p>image sans source</p>
+	<img alt='image sans source' role='img'>
+	<p>image avec source vide</p>
+	<img alt='image avec source vide' src="">
+	<p>image sans alt</p>
+	<img src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' />
+	<p>image avec alt vide</p>
+	<img tabindex='2' src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='' />
+	<p>image avec alt plein</p>
+	<img tabindex='1'src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' />
+	<p>image dans un lien</p>
+	<a href='https://deborah-powers.fr/cv.html'><img src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' /></a>
+	<p>input image</p>
+	<input type='image' src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' />
+	<p>svg sans rôle</p>
+	<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+		<title>svg sans rôle</title>
+		<ellipse id='corps' cx='36' cy='62' rx='20' ry='25'/><circle id='jambe-d' cx='12' cy='80' r='12'/>
+		<circle id='jambe-g' cx='60' cy='80' r='12'/><circle id='bras-d' cx='10' cy='50' r='10'/><circle id='bras-g' cx='62' cy='50' r='10'/>
+		<circle id='oreille-d' cx='18' cy='10' r='10'/><circle id='oreille-g' cx='54' cy='10' r='10'/><circle id='tete' cx='36' cy='20' r='18'/>
+	</svg>
+	<p>svg avec rôle innadapté</p>
+	<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' role='divers'>
+		<ellipse id='corps' cx='36' cy='62' rx='20' ry='25'/><circle id='jambe-d' cx='12' cy='80' r='12'/>
+		<circle id='jambe-g' cx='60' cy='80' r='12'/><circle id='bras-d' cx='10' cy='50' r='10'/><circle id='bras-g' cx='62' cy='50' r='10'/>
+		<circle id='oreille-d' cx='18' cy='10' r='10'/><circle id='oreille-g' cx='54' cy='10' r='10'/><circle id='tete' cx='36' cy='20' r='18'/>
+	</svg>
+	<p>svg avec rôle</p>
+	<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' role='presentation'>
+		<ellipse id='corps' cx='36' cy='62' rx='20' ry='25'/><circle id='jambe-d' cx='12' cy='80' r='12'/>
+		<circle id='jambe-g' cx='60' cy='80' r='12'/><circle id='bras-d' cx='10' cy='50' r='10'/><circle id='bras-g' cx='62' cy='50' r='10'/>
+		<circle id='oreille-d' cx='18' cy='10' r='10'/><circle id='oreille-g' cx='54' cy='10' r='10'/><circle id='tete' cx='36' cy='20' r='18'/>
+	</svg>
+	<p>svg avec texte</p>
+	<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' role='presentation' class='texte'>
+		<ellipse id='corps' cx='36' cy='62' rx='20' ry='25'/><circle id='jambe-d' cx='12' cy='80' r='12'/>
+		<circle id='jambe-g' cx='60' cy='80' r='12'/><circle id='bras-d' cx='10' cy='50' r='10'/><circle id='bras-g' cx='62' cy='50' r='10'/>
+		<circle id='oreille-d' cx='18' cy='10' r='10'/><circle id='oreille-g' cx='54' cy='10' r='10'/><circle id='tete' cx='36' cy='20' r='18'/>
+		<text x='20' y='65'>coucou</text>
+	</svg>
+	<p>canvas</p>
+	<canvas>image canvas, qui n'est pas supportée par votre navigateur.</canvas>
+	<script type='text/javascript'>
+		const canvas = document.getElementsByTagName ('canvas')[0];
+		var context = canvas.getContext ('2d');
+		context.fillStyle = 'pink';
+		context.strokeStyle = 'blue';
+		context.fillRect (10,10,70,90);
+		context.clearRect (40,40,60,70);
+		context.strokeRect (20,20,70,90);
+		context.strokeStyle = 'green';
+		context.beginPath();
+		context.moveTo (75, 50);
+		context.lineTo (100, 75);
+		context.lineTo (100, 25);
+		context.arc (75, 75, 35, 0, Math.PI /1.5, false);
+	//	context.fill();
+		context.stroke();
+	</script>
+	<p>pdf object</p>
+	<object type='application/pdf' src='../../data/CV%20developpeur%20deborah%20powers.pdf'>pdf object, qui n'est pas supportée par votre navigateur.</object>
+	<p>pdf object sans contenu</p>
+	<object type='application/pdf' src='../../data/CV%20developpeur%20deborah%20powers.pdf'></object>
+	<p>image object</p>
+	<object type='image/png' src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm'>image object, qui n'est pas supportée par votre navigateur.</object>
+<script type='text/javascript'>
+const blankChars = '\n \t';
+String.prototype.exists = function(){
+	var newString = this.replaceAll (blankChars[0], "");
+	for (var c=1; c< blankChars.length; c++) newString = newString.replaceAll (blankChars[c], "");
+	if (newString ==="") return false;
+	else return true;
+}
+String.prototype.isEmpty = function(){
+	if (! this.exists()) return true;
+	else if ([ 'absent', 'vide' ].includes (this)) return true;
+	else return false;
+}
+	const svg = document.getElementsByTagName ('svg')[1];
+//	console.log (svg.textContent.isEmpty(), svg.textContent);
+</script></body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang='fr-FR'><head>
+	<title>multi média | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<meta http-equiv='refresh' content='9000'>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	video, audio {
+		width: 40%;
+		margin: auto;
+	}
+	video::cue {
+		background-color: purple;
+		color: pink;
+		font-size: 3em;
+	}
+	/* le svg */
+	svg { border-style: solid; }
+	polygon.pt-pal { fill: darkturquoise; }
+	polygon.ombre {
+		fill: var(--bord-color);
+		fill-opacity: 0.3;
+	}
+	/* pour l'animation en css */
+	g#moulin {
+		animation-name: movement;
+		animation-duration: 4s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		transform-origin: center;
+	}
+	@keyframes movement {
+		to{ transform: rotate(180deg); }
+	}
+</style></head><body>
+	<h1>contenu multimédia</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<video controls>
+		<source src='multimedia-video.mp4' type='video/mp4' />
+		<track kind='captions' label='st fichier' srclang='fr' src='multimedia-stitre.vtt' />
+	</video>
+	<audio controls><source src='multimedia-video.mp4' type='video/mp4' /></audio>
+	<svg xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' width='450' height='450' role='presentation'>
+		<g id='moulin'>
+		<polygon points='25,150 25,300 425,150 425,300'/><polygon points='25,200 25,250 425,200 425,250' class='pt-pal'/>
+		<polygon points='150,25 300,25 150,425 300,425'/><polygon points='200,25 250,25 200,425 250,425' class='pt-pal'/>
+		<polygon points='206.25,175 243.75,275 231.25,275 200,25 250,25 237.5,125 262.5,125 281.25,75 168.75,75 187.5,125 237.5,125 200,425 250,425 237.5,325 262.5,325 281.25,375 168.75,375 187.5,325 237.5,325 231.25,275 206.25,275 243.75,175' class='ombre' transform='rotate(90,225,225)'/>
+		<polygon points='231.25,175 206.25,175 187.5,125 262.5,125 243.75,175 231.25,175 250,25 300,25 281.25,75 168.75,75 150,25 200,25 231.25,275 206.25,275 187.5,325 262.5,325 243.75,275 231.25,275 250,425 300,425 281.25,375 168.75,375 150,425 200,425' class='ombre'/>
+	</g></svg>
+	<a href='https://stackoverflow.com/questions/72811082/security-error-loading-subtitles-on-html-video'>le problème avec les sous-tîtres sur fichier</a>
+	<a href='https://developer.mozilla.org/en-US/docs/Web/CSS/::cue'>styler les sous-tîtres</a>
+	<script type='text/javascript'>
+		// les sous-tîtres de la vidéo
+		const myVideo = document.getElementsByTagName ('video')[0];
+		const myTrack = myVideo.addTextTrack ('captions', 'st js', 'fr');
+		myTrack.addCue (new VTTCue (1, 3, 'Bonjour Magritte'));
+		myTrack.addCue (new VTTCue (4, 6, 'As-tu soif ?'));
+		// l'animation svg
+	</script>
+</body></html>

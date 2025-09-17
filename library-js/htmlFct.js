@@ -52,6 +52,7 @@ String.prototype.toHtml = function(){
 	text = text.cleanHtml();
 	text = text.replaceAll ('/$', '\n');
 	text = text.replaceAll ('\\f', '\t');
+	console.log (text);
 	return text;
 }
 String.prototype.toCode = function(){
