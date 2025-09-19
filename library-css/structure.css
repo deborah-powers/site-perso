@@ -120,7 +120,10 @@ button, a.button, nav >*, input[type='button'], input[type='submit'], input[type
 	border-style: var(--button-border, none);
 }
 select { width: 100%; }
-select:focus { background-color: var(--text-color, black); }
+select:focus {
+	background-color: var(--text-color, black);
+	color: var(--fond-color, #EEE);
+}
 option {
 	background-color: var(--page-color, white);
 	color: var(--text-color, black);
@@ -200,8 +203,8 @@ dialog >* { margin-bottom: 0; }
 /* le svg */
 svg, svg * { box-sizing: content-box; }
 circle, ellipse, rect, polygon, polyline, line, path {
-	fill: var(--fond-color);
-	stroke: var(--bord-color);
+	fill: var(--fond-color, #EEE);
+	stroke: var(--bord-color, #AAA);
 	stroke-width: 2px;
 }
 text {
