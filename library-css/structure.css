@@ -1,14 +1,14 @@
 /* mise en forme de base sans couleurs */
 :root {
 	--fond-color: #EEE;
-	--bord-color: #AAA;
+	--bord-color: #CCC;
 	--text-color: black;
 	--page-color: white;
 	--button-height: 2em;
-	--button-bg: #DDD;
-	--button-bg-hover: var(--button-bg, #DDD);
+	--button-bg: #969696;
+	--button-bg-hover: #525252;
 	--button-color: black;
-	--button-color-hover: var(--button-color, black);
+	--button-color-hover: white;
 	--button-border: none;
 }
 /* je peux afficher le titre dans la page avec
@@ -39,7 +39,7 @@ body {
 	outline: none;
 	border-width: 2px;
 	border-style: none;
-	border-color: var(--bord-color, #AAA);
+	border-color: var(--bord-color, #CCC);
 }
 *:first-letter, title:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
@@ -62,7 +62,7 @@ table, caption, tr {
 }
 th, td {
 	padding: 0.2em;
-	border: solid 2px var(--button-bg, #DDD);
+	border: solid 2px var(--button-bg, #969696);
 }
 /* afficher le title comme un h1 */
 head > title, h1 {
@@ -116,7 +116,7 @@ button, a.button, nav >*, input[type='button'], input[type='submit'], input[type
 	line-height: var(--button-height, 2em);
 	*/
 	color: var(--button-color, black);
-	background-color: var(--button-bg, #DDD);
+	background-color: var(--button-bg, #969696);
 	border-style: var(--button-border, none);
 }
 select { width: 100%; }
@@ -127,8 +127,8 @@ option {
 }
 button:focus, a.button:focus, nav a:focus, input[type='button']:focus, input[type='submit']:focus, input[type='reset']:focus,
 button:hover, a.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
-	background-color: var(--button-bg-hover, #DDD);
-	color: var(--button-color-hover, black);
+	background-color: var(--button-bg-hover, #525252);
+	color: var(--button-color-hover, white);
 	font-weight: normal;
 }
 /* les champs de texte */
@@ -144,6 +144,11 @@ textarea, input[type='text'], input[type='password'], input[type='email'], input
 	background-color: var(--fond-color, #EEE);
 	border-style: var(--button-border, none);
 	margin-bottom: 1%;
+}textarea:hover, input[type='text']:hover, input[type='password']:hover, input[type='email']:hover,
+input[type='number']:hover, input[type='date']:hover, input[type='time']:hover,
+textarea:focus, input[type='text']:focus, input[type='password']:focus, input[type='email']:focus,
+input[type='number']:focus, input[type='date']:focus, input[type='time']:focus {
+	border-style: solid;
 }
 ::placeholder {
 	color: var(--text-color, black);
@@ -161,7 +166,7 @@ input[type='radio'], input[type='checkbox'] {
 	border-color: var(--text-color, black);
 }
 input[type='radio']:focus, input[type='checkbox']:focus { background-color: var(--fond-color, #EEE); }
-input[type='radio']:checked, input[type='checkbox']:checked { background-color: var(--button-bg, #DDD); }
+input[type='radio']:checked, input[type='checkbox']:checked { background-color: var(--button-bg, #969696); }
 /* barre de navigation */
 nav {
 	display: flex;

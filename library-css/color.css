@@ -3,10 +3,10 @@
 	--fond-color: #F5DEF5;
 	--bord-color: #C29FC2;
 	--page-color: ivory;
-	--button-color: #342C37;
-	--button-color-hover: #342C37;
-	--button-bg: #C29FC2;
-	--button-bg-hover: #9DB2E2;
+	--button-color: ivory;
+	--button-color-hover: ivory;
+	--button-bg: #754870;
+	--button-bg-hover: #3F5484;
 	--foldable-border: solid;
 }
 html { background-color: #C29FC2; }
