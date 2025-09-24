@@ -147,7 +147,9 @@ textarea, input[type='text'], input[type='password'], input[type='email'], input
 	background-color: var(--fond-color, #EEE);
 	border-style: var(--button-border, none);
 	margin-bottom: 1%;
-}textarea:hover, input[type='text']:hover, input[type='password']:hover, input[type='email']:hover,
+	min-height: 2em;
+}
+textarea:hover, input[type='text']:hover, input[type='password']:hover, input[type='email']:hover,
 input[type='number']:hover, input[type='date']:hover, input[type='time']:hover,
 textarea:focus, input[type='text']:focus, input[type='password']:focus, input[type='email']:focus,
 input[type='number']:focus, input[type='date']:focus, input[type='time']:focus {
