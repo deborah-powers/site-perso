@@ -135,19 +135,18 @@ octogone >*:nth-child(9){ transform: rotateY(45deg) translateZ(var(--depth-half)
 		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
 		linear-gradient(#0994 49.5%, maroon 49.5% 50.5%, #0994 50.5%);
 }
-
-@keyframes spin-horizontal {
-	from { transform: rotateY(0); }
-	to { transform: rotateY(360deg); }
-}
-@keyframes spin-vertical {
+@keyframes spin-x {
 	from { transform: rotateX(0); }
 	to { transform: rotateX(-360deg); }
 }
-@keyframes spin-transversal {
+@keyframes spin-y {
+	from { transform: rotateY(0); }
+	to { transform: rotateY(360deg); }
+}
+@keyframes spin-z {
 	from { transform: rotateZ(0); }
 	to { transform: rotateZ(-360deg); }
-
+}
 /* ------------------------ exemple ------------------------ */
 
 container {
