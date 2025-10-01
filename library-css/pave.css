@@ -154,7 +154,7 @@ container {
 	perspective-origin: -100% 100px;
 }
 pave#mycube {
-	animation: spin-vertical 5s infinite linear;
+	animation: spin-y 5s infinite linear;
 	--width: 4cm;
 	--bord: double 2px yellow;
 	--fond: turquoise;
