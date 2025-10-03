@@ -48,17 +48,26 @@ Element.prototype.childUnique = function (childNode, childClass, childRole){
 	const itemList0 = this.getElementsByTagName (childNode.tagName);
 	var itemList =[];
 	// vérifier qu'il n'y a qu'un seul élément possédant la combinaison tag - class - role
-	if (childRole && childClass){
+	if (childRole && childClass && childNode.className.constructor.name === 'String'){
 		for (var i=0; i< itemList0.length; i++)
 			if (childRole === itemList0[i].getAttribute ('role') && itemList0[i].className.includes (childClass)){
+				itemList.push (itemList0[i]);
+	}}
+	else if (childRole && childClass){
+		for (var i=0; i< itemList0.length; i++)
+			if (childRole === itemList0[i].getAttribute ('role') && itemList0[i].className.animVal.includes (childClass)){
 				itemList.push (itemList0[i]);
 	}}
 	else if (childRole){
 		for (var i=0; i< itemList0.length; i++) if (childRole === itemList0[i].getAttribute ('role')){
 			itemList.push (itemList0[i]);
 	}}
-	else if (childClass){
+	else if (childClass && childNode.className.constructor.name === 'String'){
 		for (var i=0; i< itemList0.length; i++) if (itemList0[i].className.includes (childClass)){
+			itemList.push (itemList0[i]);
+	}}
+	else if (childClass){
+		for (var i=0; i< itemList0.length; i++) if (itemList0[i].className.animVal.includes (childClass)){
 			itemList.push (itemList0[i]);
 	}}
 	var finalXpath ="";
