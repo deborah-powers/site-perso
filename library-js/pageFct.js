@@ -241,6 +241,7 @@ HTMLInputElement.prototype.getInputsByType = function (typeName){
 	else return [];
 }
 HTMLBodyElement.prototype.cleanBody = function(){
+	console.log ('cleanBody');
 	this.innerHTML = this.innerHTML.cleanHtml();
 //	const codeBlocs = document.getElementsByTagName ('xmp');
 //	for (var b=0; b< codeBlocs.length; b++) codeBlocs[b].simplifyNesting();
