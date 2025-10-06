@@ -193,13 +193,15 @@ dialog {
 	border-style: double;
 	border-width: 8px;
 	padding: 0.5em;
-	display: flex;
+/*	display: flex;	bloque le fonctionnement natif */
 	flex-direction: row;
 	align-items: stretch;
 	justify-content: space-between;
 	margin: 8em auto;
 	height: 8em;
 	width: 24em;
+	color: inherit;
+	background-color: inherit;
 }
 dialog >* { margin-bottom: 0; }
 /* le svg */

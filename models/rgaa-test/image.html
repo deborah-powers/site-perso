@@ -33,27 +33,6 @@
 	img[src=""] { border-color: red; }
 	*/
 </style></head><body>
-	<button type='button' aria-controls='dial-simple' id='btn-open-dialog'>ouvrir la dialog</button>
-	<dialog id='dial-simple' aria-labelledby='dialog simple' role=''>
-		<button type='button' aria-controls='dial-simple' id='btn-close-dialog'>Fermer</button>
-		<h2>bonjour, je suis une boîte de dialogue simple</h2>
-	</dialog>
-	<button type='button' aria-controls='dial-modal' id='btn-open-modal'>ouvrir la modale</button>
-	<dialog id='dial-modal' aria-labelledby='modale' role='' aria-modal='true'>
-		<button type='button' aria-controls='dial-modal' id='btn-close-modal'>Fermer</button>
-		<h2>bonjour, je suis une modale</h2>
-	</dialog>
-	<script type='text/javascript'>
-		const dialogs = document.getElementsByTagName ('dialog');
-		const buttons = document.getElementsByTagName ('button');
-		buttons[0].onclick = function(){ dialogs[0].show(); }
-		buttons[1].onclick = function(){ dialogs[0].close(); }
-		buttons[2].onclick = function(){ dialogs[1].showModal(); }
-		buttons[3].onclick = function(){ dialogs[1].close(); }
-		console.log (buttons[0]);
-		dialogs[0].close();
-		dialogs[1].close();
-	</script>
 	<h1>tester les images</h1>
 	<a href='./index.html'>retour à l'index</a>
 	<p>image sans source</p>
