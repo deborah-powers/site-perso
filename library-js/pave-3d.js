@@ -82,15 +82,18 @@ class Chfr3d extends Shape3d{
 		observer.observe (this, { childList: true });
 }}
 class Matl3d extends Shape3d{
-	constructor(){ super (26); }
+	constructor(){ super (14); }
 	connectedCallback(){
 		const self = this;
 		var nbChildren =0;
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <6) self.appendChild (document.createElement ('p'));
+			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cyl-q3d'));
+			/*
 			else if (nbChildren < self.faceNb -8) self.appendChild (document.createElement ('cyl-q3d'));
 			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('bol-q3d'));
+			*/
 		});
 		observer.observe (this, { childList: true });
 }}

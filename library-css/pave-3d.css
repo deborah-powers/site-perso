@@ -262,36 +262,64 @@ chfr-3d >*:nth-child(3), chfr-3d >*:nth-child(6)
 	{ width: calc(100% - 2* var(--bevwidth)); }
 chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5)
 	{ width: calc(var(--depth) - 2* var(--bevwidth)); }
-
-chfr-3d >*:nth-child(n+7){
+chfr-3d >*:nth-child(n+7), matl-3d >*:nth-child(n+7){
 	width: calc(2* var(--bevwidth));
 	--depth-half: var(--bevwidth);
-	left: calc(50% - var(--bevwidth));
 }
-chfr-3d >*:nth-child(7){
+chfr-3d >*:nth-child(n+7), matl-3d >*:nth-child(n+7):nth-child(-n+10){ left: calc(50% - var(--bevwidth)); }
+chfr-3d >*:nth-child(7), matl-3d >*:nth-child(7){
 	transform: translateX(calc(var(--width) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - 0.5* var(--depth)));
 }
-chfr-3d >*:nth-child(8){
+chfr-3d >*:nth-child(8), matl-3d >*:nth-child(8){
 	transform: rotateY(90deg)
-		translateX(calc(0.5* var(--depth) - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--width) /2));
+		translateX(calc(var(--depth) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--width) /2));
 }
-chfr-3d >*:nth-child(9){
+chfr-3d >*:nth-child(9), matl-3d >*:nth-child(9){
 	transform: rotateY(180deg)
 		translateX(calc(var(--width) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - 0.5* var(--depth)));
 }
-chfr-3d >*:nth-child(10){
+chfr-3d >*:nth-child(10), matl-3d >*:nth-child(10){
 	transform: rotateY(270deg)
-		translateX(calc(0.5* var(--depth) - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--width) /2));
+		translateX(calc(var(--depth) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--width) /2));
 }
-matl-3d >*:nth-child(-n+6){
-	height: calc(100% - 2* var(--bevwidth));
-	width: calc(100% - 2* var(--bevwidth));
+matl-3d >*:nth-child(-n+3), matl-3d >*:nth-child(6){
+	width: calc(var(--width) - 2* var(--bevwidth));
+	height: calc(var(--depth) - 2* var(--bevwidth));
+	left: calc(50% - var(--width) /2 + var(--bevwidth));
+	top: var(--bevwidth);
 }
-matl-3d >*:nth-child(1), matl-3d >*:nth-child(2){ left: calc(50% - var(--width) /2 + var(--bevwidth)); }
-
-
-
-
+matl-3d >*:nth-child(-n+2){ height: calc(var(--depth) - 2* var(--bevwidth)); }
+matl-3d >*:nth-child(3), matl-3d >*:nth-child(6){ height: calc(var(--height) - 2* var(--bevwidth)); }
+matl-3d >*:nth-child(4), matl-3d >*:nth-child(5){
+	width: calc(var(--depth) - 2* var(--bevwidth));
+	height: calc(var(--height) - 2* var(--bevwidth));
+	top: var(--bevwidth);
+	left: var(--bevwidth);
+}
+matl-3d >*:nth-child(n+7):nth-child(-n+10){
+	height: calc(var(--height) - 2* var(--bevwidth));
+	top: var(--bevwidth);
+}
+matl-3d >*:nth-child(n+11):nth-child(-n+14){
+	height: calc(var(--width) - 2* var(--bevwidth));
+/*	transform: rotateZ(90deg); */
+	left: calc(50% - var(--bevwidth));
+	top: calc(var(--bevwidth) + var(--height) /2 - var(--width) /2);
+}
+matl-3d >*:nth-child(11){
+	transform: rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
+}
+matl-3d >*:nth-child(12){
+	transform: rotateX(90deg) rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
+}
+matl-3d >*:nth-child(13){
+	transform: rotateX(180deg) rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
+}
+matl-3d >*:nth-child(14){
+	transform: rotateX(270deg) rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
+}
+/*
+*/
 .mesure {
 	/* objet en cours de création */
 	--fond:
@@ -326,5 +354,4 @@ matl-3d >*:nth-child(1), matl-3d >*:nth-child(2){ left: calc(50% - var(--width) 
 <octo-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>left</p><p>front left</p><p>front</p><p>front right</p><p>right</p><p>back right</p></octo-3d>
 <boul-3d></boul-3d>
 <cyld-3d><p>bottom</p><p>top</p></cyld-3d>
-<chfr-3d><p>bottom</p><p>top</p><p>back</p><p>left</p><p>right</p><p>front</p></chfr-3d>
 */
