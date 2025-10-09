@@ -302,7 +302,6 @@ matl-3d >*:nth-child(n+7):nth-child(-n+10){
 }
 matl-3d >*:nth-child(n+11):nth-child(-n+14){
 	height: calc(var(--width) - 2* var(--bevwidth));
-/*	transform: rotateZ(90deg); */
 	left: calc(50% - var(--bevwidth));
 	top: calc(var(--bevwidth) + var(--height) /2 - var(--width) /2);
 }
@@ -310,25 +309,83 @@ matl-3d >*:nth-child(11){
 	transform: rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
 }
 matl-3d >*:nth-child(12){
-	transform: rotateX(90deg) rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
+	transform: rotateX(90deg) rotateZ(90deg)
+		translateX(calc(var(--depth) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--height) /2));
 }
 matl-3d >*:nth-child(13){
 	transform: rotateX(180deg) rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
 }
 matl-3d >*:nth-child(14){
-	transform: rotateX(270deg) rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--bevwidth) - var(--depth) /2));
+	transform: rotateX(270deg) rotateZ(90deg)
+		translateX(calc(var(--depth) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--height) /2));
 }
 /*
-*/
+matl-3d >*:nth-child(n+15):nth-child(-n+18){
+	height: calc(var(--width) - 2* var(--bevwidth));
+	transform: rotateZ(90deg);
+	left: calc(50% - var(--bevwidth));
+	top: calc(var(--bevwidth) + var(--height) /2 - var(--width) /2);
+	background-color: #F084;
+	--fond: #F084;
+}*/
+matl-3d >*:nth-child(n+15):nth-child(-n+18){
+	height: calc(var(--depth) - 2* var(--bevwidth));
+	top: calc(50% - var(--depth) /2 + var(--bevwidth));
+	left: calc(var(--width) /2 - var(--bevwidth));
+}
+matl-3d >*:nth-child(15){
+	transform: rotateX(90deg) translateX(calc(var(--width) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--height) /2));
+}
+matl-3d >*:nth-child(16){
+	transform: rotateX(90deg) rotateY(180deg)
+		translateX(calc(var(--width) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--height) /2));
+}
+matl-3d >*:nth-child(17){
+	transform: rotateX(90deg) rotateY(90deg)
+		translateX(calc(var(--height) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--width) /2));
+}
+matl-3d >*:nth-child(18){
+	transform: rotateX(90deg) rotateY(270deg)
+		translateX(calc(var(--height) /2 - var(--bevwidth))) translateZ(calc(var(--bevwidth) - var(--width) /2));
+}
+matl-3d >*:nth-child(n+19){
+	--width: calc(2* var(--bevwidth));
+	top: calc(50% - var(--depth) /2 + var(--bevwidth));
+}
+matl-3d >*:nth-child(19){
+	transform: rotateY(90deg) translateY(calc(var(--height) /2 - var(--bevwidth))) translateZ(calc(var(--depth) /2 - var(--bevwidth)));
+	background-color: #F084;
+	--fond: #F084;
+	background-image:
+		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
+		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
+}
+/*
+matl-3d >*:nth-child(15){ transform: rotateX(90deg) rotateY(180deg); }
+matl-3d >*:nth-child(16){
+	transform: rotateX(90deg) rotateY(270deg);
+	left: calc(var(--width) - 2* var(--bevwidth));
+}
+matl-3d >*:nth-child(17){
+	transform: rotateX(90deg);
+	left: calc(var(--width) - 2* var(--bevwidth));
+	top: calc(var(--height) - 2* var(--bevwidth));
+	background-color: #F084;
+	--fond: #F084;
+	background-image:
+		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
+		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
+}*/
 .mesure {
 	/* objet en cours de création */
 	--fond:
 		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
 		linear-gradient(#0994 49.5%, maroon 49.5% 50.5%, #0994 50.5%);
 	--bord: none;
+	background-color: #0994;
 	background-image:
 		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
-		linear-gradient(#0994 49.5%, maroon 49.5% 50.5%, #0994 50.5%);
+		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
 }
 /* exemple */
 #mon-conteneur {
