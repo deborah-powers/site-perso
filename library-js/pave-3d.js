@@ -47,7 +47,6 @@ class Cyld3d extends Shape3d{
 			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cyl-q3d'));
 		});
 		observer.observe (this, { childList: true });
-	//	for (var c=2; c< this.faceNb; c++) this.appendChild (document.createElement ('cyl-q3d'));
 }}
 class BolQ3d extends Shape3d{
 	constructor(){ super (48); }
