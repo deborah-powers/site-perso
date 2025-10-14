@@ -71,11 +71,12 @@ progress {
 ::-moz-progress-bar { background-color: var(--text-color); }
 progress::-webkit-progress-value { background-color: var(--text-color); }
 progress::-webkit-progress-bar { background-color: var(--fond-color); }
+/*
 input[type='color'] {
 	border: none;
 	border-color: transparent;
-/*	background-color: même valeur que la value de l'imput; */
-}
+/*	background-color: même valeur que la value de l'imput; /
+}*/
 input[type='color']::-moz-color-swatch { border: none; }
 input[type='color']::-webkit-color-swatch-wrapper {
 	padding: 0;

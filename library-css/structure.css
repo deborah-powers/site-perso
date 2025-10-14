@@ -43,7 +43,7 @@ body {
 }
 *:first-letter, title:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
-p { line-height: 1.5em; }
+p { margin-bottom: 1em; }
 /* nouveauté, les blocs de code */
 xmp {
 	margin: 0 2%;
@@ -69,7 +69,7 @@ head > title, h1 {
 	text-align: center;
 	font-size: 2em;
 }
-h2, caption {
+h2, caption, legend {
 	text-align: center;
 	font-size: 1.5em;
 }
@@ -105,6 +105,7 @@ a { color: inherit; }
 a:hover, a:focus { font-weight: bold }
 body >a, div >a { display: block; }
 img { mix-blend-mode: multiply; }
+fieldset, legend { width: 100%; }
 /* les boutons */
 button, input[type='button'], input[type='submit'], input[type='reset'], select, textarea, nav >*, a.button { padding: 0.4em; }
 button, input, select, textarea { outline: none; }
@@ -141,20 +142,25 @@ input[type='radio'], input[type='checkbox'], input[type='number'], input[type='d
 	-o-appearance: none;
 	-webkit-appearance: none;
 }
-textarea, input[type='text'], input[type='password'], input[type='email'], input[type='number'], input[type='date'], input[type='time'] {
+textarea, input[type='text'], input[type='password'], input[type='email'], input[type='number'], input[type='tel'], input[type='url'],
+input[type='date'], input[type='time'], input[type='datetime-local'], input[type='datetime'], input[type='month'], input[type='week'],
+input[type='color'] {
 	width: 100%;
 	color: var(--text-color, black);
-	background-color: var(--fond-color, #EEE);
 	border-style: var(--button-border, none);
 	margin-bottom: 1%;
 	min-height: 2em;
 }
-textarea:hover, input[type='text']:hover, input[type='password']:hover, input[type='email']:hover,
-input[type='number']:hover, input[type='date']:hover, input[type='time']:hover,
-textarea:focus, input[type='text']:focus, input[type='password']:focus, input[type='email']:focus,
-input[type='number']:focus, input[type='date']:focus, input[type='time']:focus {
-	border-style: solid;
-}
+textarea, input[type='text'], input[type='password'], input[type='email'], input[type='number'], input[type='tel'], input[type='url'],
+input[type='date'], input[type='time'], input[type='datetime-local'], input[type='datetime'], input[type='month'], input[type='week']
+{ background-color: var(--fond-color, #EEE); }
+textarea:hover, input[type='text']:hover, input[type='password']:hover, input[type='email']:hover, input[type='number']:hover,
+input[type='tel']:hover, input[type='url']:hover, input[type='color']:hover, input[type='date']:hover, input[type='time']:hover,
+input[type='datetime-local']:hover, input[type='datetime']:hover, input[type='month']:hover, input[type='week']:hover,
+textarea:focus, input[type='text']:focus, input[type='password']:focus, input[type='email']:focus, input[type='number']:focus,
+input[type='tel']:focus, input[type='url']:focus, input[type='color']:focus, input[type='date']:focus, input[type='time']:focus,
+input[type='datetime-local']:focus, input[type='datetime']:focus, input[type='month']:focus, input[type='week']:focus
+	{ border-style: solid; }
 ::placeholder {
 	color: var(--text-color, black);
 	opacity: 0.6;
