@@ -31,13 +31,13 @@ class Trig3d extends Shape3d{ constructor(){ super (5); }}
 class Trec3d extends Shape3d{ constructor(){ super (5); }}
 class Hexa3d extends Shape3d{ constructor(){ super (8); }}
 class Octo3d extends Shape3d{ constructor(){ super (10); }}
-class CylQ3d extends Shape3d{
+class TubQ3d extends Shape3d{
 	constructor(){ super (4); }
 	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('p')); }
 }
 class Tube3d extends Shape3d{
 	constructor(){ super (4); }
-	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('cyl-q3d')); }
+	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('tub-q3d')); }
 }
 class Cyld3d extends Shape3d{
 	constructor(){ super (3); }
@@ -88,7 +88,7 @@ class Chfr3d extends Shape3d{
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <6) self.appendChild (document.createElement ('p'));
-			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cyl-q3d'));
+			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('tub-q3d'));
 		});
 		observer.observe (this, { childList: true });
 }}
@@ -100,7 +100,7 @@ class Matl3d extends Shape3d{
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <6) self.appendChild (document.createElement ('p'));
-			else if (nbChildren < self.faceNb -8) self.appendChild (document.createElement ('cyl-q3d'));
+			else if (nbChildren < self.faceNb -8) self.appendChild (document.createElement ('tub-q3d'));
 			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('bol-q3d'));
 		});
 		observer.observe (this, { childList: true });
@@ -120,7 +120,7 @@ class Cyld3db extends Shape3d{
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <2) self.appendChild (document.createElement ('p'));
-			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cyl-q3d'));
+			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('tub-q3d'));
 		});
 		observer.observe (this, { childList: true });
 }}
@@ -129,7 +129,7 @@ customElements.define ('tiso-3d', Trig3d);
 customElements.define ('trec-3d', Trec3d);
 customElements.define ('hexa-3d', Hexa3d);
 customElements.define ('octo-3d', Octo3d);
-customElements.define ('cyl-q3d', CylQ3d);
+customElements.define ('tub-q3d', TubQ3d);
 customElements.define ('tube-3d', Tube3d);
 customElements.define ('cyld-3d', Cyld3d);
 customElements.define ('bol-q3d', BolQ3d);
