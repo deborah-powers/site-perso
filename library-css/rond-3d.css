@@ -5,13 +5,13 @@ fonctionne avec pave-3d.css et pave-3d.js
 */
 tub-q3d, tube-3d {
 	height: inherit;
-	--radius: inherit;
 	--bord: inherit;
 	--fond: inherit;
-/*	background: none; */
-	width: var(--radius);
+	--radius: inherit;
+	background: none;
 	border: none;
 }
+tub-q3d { width: var(--radius); }
 tub-q3d >* {
 	border: none;
 	transform-style: preserve-3d;
@@ -45,4 +45,14 @@ tub-q3d >*:nth-child(1){ transform: rotateY(11.25deg) translateZ(var(--radius));
 tub-q3d >*:nth-child(2){ transform: rotateY(33.75deg) translateZ(var(--radius)); }
 tub-q3d >*:nth-child(3){ transform: rotateY(56.25deg) translateZ(var(--radius)); }
 tub-q3d >*:nth-child(4){ transform: rotateY(78.75deg) translateZ(var(--radius)); }
+tube-3d { width: calc(2* var(--radius)); }
+tube-3d >*:nth-child(1) { left: 50%; }
+tube-3d >*:nth-child(2) {
+	transform: rotateY(90deg) translateX(50%);
+	left: 25%;
+}
 tube-3d >*:nth-child(3) { transform: rotateY(180deg); }
+tube-3d >*:nth-child(4) {
+	transform: rotateY(270deg) translateX(50%);
+	left: 25%;
+}
