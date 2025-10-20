@@ -52,13 +52,13 @@ class Cyld3d extends Shape3d{
 		});
 		observer.observe (this, { childList: true });
 }}
-class BolQ3d extends Shape3d{
+class CwnQ3d extends Shape3d{
 	constructor(){ super (48); }
 	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('p')); }
 }
 class Hbol3d extends Shape3d{
 	constructor(){ super (4); }
-	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('bol-q3d')); }
+	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('cwn-q3d')); }
 }
 class Bole3d extends Shape3d{
 	constructor(){ super (5); }
@@ -68,7 +68,7 @@ class Bole3d extends Shape3d{
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <1) self.appendChild (document.createElement ('p'));
-			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('bol-q3d'));
+			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cwn-q3d'));
 		});
 		observer.observe (this, { childList: true });
 }}
@@ -78,7 +78,7 @@ class Boul3d extends Shape3d{
 }
 class Boul3db extends Shape3d{
 	constructor(){ super (8); }
-	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('bol-q3d')); }
+	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('cwn-q3d')); }
 }
 class Chfr3d extends Shape3d{
 	constructor(){ super (10); }
@@ -101,7 +101,7 @@ class Matl3d extends Shape3d{
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <6) self.appendChild (document.createElement ('p'));
 			else if (nbChildren < self.faceNb -8) self.appendChild (document.createElement ('tub-q3d'));
-			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('bol-q3d'));
+			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cwn-q3d'));
 		});
 		observer.observe (this, { childList: true });
 }}
@@ -131,11 +131,13 @@ customElements.define ('hexa-3d', Hexa3d);
 customElements.define ('octo-3d', Octo3d);
 customElements.define ('tub-q3d', TubQ3d);
 customElements.define ('tube-3d', Tube3d);
-customElements.define ('cyld-3d', Cyld3d);
-customElements.define ('bol-q3d', BolQ3d);
+customElements.define ('cwn-q3d', CwnQ3d);
 customElements.define ('hbol-3d', Hbol3d);
 customElements.define ('bole-3d', Bole3d);
+/*
+customElements.define ('cyld-3d', Cyld3d);
 customElements.define ('boul-3d', Boul3d);
 customElements.define ('chfr-3d', Chfr3d);
 customElements.define ('matl-3d', Matl3d);
 customElements.define ('sphd-3d', Sphd3d);
+*/

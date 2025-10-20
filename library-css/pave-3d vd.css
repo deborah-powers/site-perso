@@ -1,0 +1,381 @@
+boul-3d, bole-3d, cyl-q3d, cwn-q3d, tube-3d, chfr-3d, matl-3d {
+	/* propriétés modifiables */
+	--bord: solid 4px var(--bord-color);
+	--fond: #F084;
+	color: var(--text-color);
+	/* ------ */
+	border: none;
+	background: none;
+	width: var(--width);
+	height: inherit;
+	display: inline-block;
+	transform-style: preserve-3d;
+	padding: 0;
+	text-align: center;
+	background-position: center;
+}
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, cyld-3d, boul-3d, bole-3d, chfr-3d, matl-3d {
+	--width: 6cm;
+	--depth-half: calc(var(--width) /2);
+}
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, cyld-3d, chfr-3d, matl-3d {
+	--height: 5cm;
+	height: var(--height);
+}
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, chfr-3d, matl-3d {
+	--depth: 4cm;
+	--depth-half: calc(var(--depth) /2);
+}
+chfr-3d, matl-3d { --radius: 1cm; }
+cyl-q3d, cwn-q3d { --radius: inherit; }
+hexa-3d, tiso-3d { --depth: calc(var(--width) * 0.8660254037844386); }
+trec-3d { --depth: calc(var(--width) * 0.5); }
+pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*,
+cyld-3d >*, boul-3d >*, bole-3d >*, cyl-q3d >*, cwn-q3d >*, chfr-3d >*, matl-3d >* {
+	border: var(--bord);
+	background: var(--fond);
+	width: inherit;
+	height: inherit;
+	margin: 0;
+	color: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	background-position: center;
+	background-size: contain;
+	transform-origin: center center;
+}
+pave-3d >*:nth-child(1), tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1), hexa-3d >*:nth-child(1), octo-3d >*:nth-child(1),
+cyld-3d >*:nth-child(1), bole-3d >*:nth-child(1), chfr-3d >*:nth-child(1), matl-3d >*:nth-child(1)
+{
+	height: var(--width);
+	transform: rotateX(-90deg) translateZ(calc(var(--height) - var(--depth-half)));
+}
+pave-3d >*:nth-child(1), tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1), hexa-3d >*:nth-child(1), octo-3d >*:nth-child(1), chfr-3d >*:nth-child(1), matl-3d >*:nth-child(1)
+	{ height: var(--depth); }
+pave-3d >*:nth-child(2), tiso-3d >*:nth-child(2), trec-3d >*:nth-child(2), hexa-3d >*:nth-child(2), octo-3d >*:nth-child(2),
+cyld-3d >*:nth-child(2), chfr-3d >*:nth-child(2), matl-3d >*:nth-child(2)
+{
+	height: var(--width);
+	transform: rotateX(90deg) translateZ(var(--depth-half));
+}
+pave-3d >*:nth-child(2), tiso-3d >*:nth-child(2), trec-3d >*:nth-child(2), hexa-3d >*:nth-child(2), octo-3d >*:nth-child(2), chfr-3d >*:nth-child(2), matl-3d >*:nth-child(2)
+	{ height: var(--depth); }
+pave-3d >*:nth-child(3), tiso-3d >*:nth-child(3), trec-3d >*:nth-child(3), hexa-3d >*:nth-child(3), octo-3d >*:nth-child(3),
+chfr-3d >*:nth-child(3), matl-3d >*:nth-child(3)
+	{ transform: rotateY(180deg) translateZ(var(--depth-half)); }
+pave-3d >*:nth-child(6), chfr-3d >*:nth-child(6), matl-3d >*:nth-child(6) { transform: translateZ(var(--depth-half)); }
+pave-3d >*:nth-child(4), chfr-3d >*:nth-child(4), matl-3d >*:nth-child(4) {
+	width: var(--depth);
+	transform: rotateY(-90deg) translateZ(var(--depth-half));
+}
+pave-3d >*:nth-child(5), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(5) {
+	width: var(--depth);
+	transform: rotateY(90deg) translateZ(calc(var(--width) - var(--depth-half)));
+}
+pave-3d.vertical >*:nth-child(3), tiso-3d.vertical >*:nth-child(3), trec-3d.vertical >*:nth-child(3),
+hexa-3d.vertical >*:nth-child(3), octo-3d.vertical >*:nth-child(3), chfr-3d.vertical >*:nth-child(3), matl-3d.vertical >*:nth-child(3)
+	{ transform: rotateX(180deg) translateZ(var(--depth-half)); }
+pave-3d.pole, chfr-3d.pole, matl-3d.pole, octo-3d { --depth: var(--width); }
+pave-3d.cube, chfr-3d.cube, matl-3d.cube {
+	--depth: var(--width);
+	--height: var(--width);
+}
+hexa-3d >*:nth-child(1), hexa-3d >*:nth-child(2){ clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+hexa-3d >*:nth-child(n+3){
+	width: 50%;
+	left: 25%;
+}
+hexa-3d >*:nth-child(4){ transform: rotateY(240deg) translateZ(var(--depth-half)); }
+hexa-3d >*:nth-child(5){ transform: rotateY(300deg) translateZ(var(--depth-half)); }
+hexa-3d >*:nth-child(6){ transform: translateZ(var(--depth-half)); }
+hexa-3d >*:nth-child(7){ transform: rotateY(60deg) translateZ(var(--depth-half)); }
+hexa-3d >*:nth-child(8){ transform: rotateY(120deg) translateZ(var(--depth-half)); }
+tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1) { clip-path: polygon(0 100%, 100% 100%, 50% 0); }
+tiso-3d >*:nth-child(2), trec-3d >*:nth-child(2) { clip-path: polygon(0 0, 100% 0, 50% 100%); }
+tiso-3d >*:nth-child(4){ transform: rotateY(-60deg) translateZ(calc(var(--depth-half) * 0.5)) translateX(-12.5%); }
+tiso-3d >*:nth-child(5){ transform: rotateY(60deg) translateZ(calc(var(--depth-half) * 0.5)) translateX(12.5%); }
+trec-3d >*:nth-child(n+4){
+	width: 70.71067811865475%;
+	left: 14.644660940672622%;
+}
+trec-3d >*:nth-child(4){ transform: rotateY(-45deg) translateZ(calc(var(--depth-half) * 0.7071067811865475)) translateX(-25%); }
+trec-3d >*:nth-child(5){ transform: rotateY(45deg) translateZ(calc(var(--depth-half) * 0.7071067811865475)) translateX(25%); }
+octo-3d >*:nth-child(1), octo-3d >*:nth-child(2){
+	clip-path: polygon(29.28935% 0, 70.71065% 0, 100% 29.28935%, 100% 70.71065%, 70.71065% 100%, 29.28935% 100%, 0 70.71065%, 0 29.28935%);
+}
+octo-3d >*:nth-child(n+3){
+	width: 41.4213%;
+	left: calc(var(--depth-half) - 20.71065%);
+}
+octo-3d >*:nth-child(4){ transform: rotateY(225deg) translateZ(var(--depth-half)); }
+octo-3d >*:nth-child(5){ transform: rotateY(270deg) translateZ(var(--depth-half)); }
+octo-3d >*:nth-child(6){ transform: rotateY(315deg) translateZ(var(--depth-half)); }
+octo-3d >*:nth-child(7){ transform: translateZ(var(--depth-half)); }
+octo-3d >*:nth-child(8){ transform: rotateY(45deg) translateZ(var(--depth-half)); }
+octo-3d >*:nth-child(9){ transform: rotateY(90deg) translateZ(var(--depth-half)); }
+octo-3d >*:nth-child(10){ transform: rotateY(135deg) translateZ(var(--depth-half)); }
+cyl-q3d, cwn-q3d{
+	width: var(--radius);
+	--bord: inherit;
+	--fond: inherit;
+	border: none;
+	background: none;
+}
+bole-3d { height: calc(var(--width) /2); }
+boul-3d { height: var(--width); }
+cyl-q3d, cyl-q3d >* { height: inherit; }
+cwn-q3d{ height: var(--radius); }
+cyld-3d >*:nth-child(n+3), bole-3d >*:nth-child(n+2), boul-3d >*{ --radius: calc(var(--width) /2); }
+cyl-q3d >*, cwn-q3d >*{
+	border: none;
+	transform-style: preserve-3d;
+	width: 13%;
+	left: -6.5%;
+}
+cyl-q3d >*:before, cyl-q3d >*:after, cwn-q3d >*:before, cwn-q3d >*:after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	border: inherit;
+	background: inherit;
+	display: block;
+	position: absolute;
+	top: 0;
+	text-align: center;
+	background-position: center;
+	background-size: contain;
+}
+cyl-q3d >*:before {
+	transform-origin: center left;
+	left: 100%;
+	transform: rotateY(7.5deg);
+}
+cyl-q3d >*:after {
+	transform-origin: center right;
+	left: -100%;
+	transform: rotateY(-7.5deg);
+}
+cyld-3d >*:nth-child(1), cyld-3d >*:nth-child(2), bole-3d >*:nth-child(1){ border-radius: 50%; }
+cyl-q3d >*:nth-child(1){ transform: rotateY(11.25deg) translateZ(var(--radius)); }
+cyl-q3d >*:nth-child(2){ transform: rotateY(33.75deg) translateZ(var(--radius)); }
+cyl-q3d >*:nth-child(3){ transform: rotateY(56.25deg) translateZ(var(--radius)); }
+cyl-q3d >*:nth-child(4){ transform: rotateY(78.75deg) translateZ(var(--radius)); }
+cyld-3d >*:nth-child(4), cyld-3d >*:nth-child(6), bole-3d >*:nth-child(3), bole-3d >*:nth-child(5),
+boul-3d >*:nth-child(2), boul-3d >*:nth-child(4), boul-3d >*:nth-child(6), boul-3d >*:nth-child(8)
+	{ left: 25%; }
+cyld-3d >*:nth-child(3), bole-3d >*:nth-child(2), boul-3d >*:nth-child(1){ transform: translateX(100%); }
+cyld-3d >*:nth-child(4), bole-3d >*:nth-child(3), boul-3d >*:nth-child(2){ transform: rotateY(90deg) translateX(50%); }
+cyld-3d >*:nth-child(5), bole-3d >*:nth-child(4), boul-3d >*:nth-child(3){ transform: rotateY(180deg); }
+cyld-3d >*:nth-child(6), bole-3d >*:nth-child(5), boul-3d >*:nth-child(4){ transform: rotateY(270deg) translateX(50%); }
+boul-3d >*:nth-child(n+5){ top: 50%; }
+boul-3d >*:nth-child(5){ transform: rotateX(180deg) translateX(100%); }
+boul-3d >*:nth-child(6){ transform: rotateX(180deg) rotateY(90deg) translateX(50%); }
+boul-3d >*:nth-child(7){ transform: rotateX(180deg) rotateY(180deg); }
+boul-3d >*:nth-child(8){ transform: rotateX(180deg) rotateY(270deg) translateX(50%); }
+bole-3d >*:nth-child(1){
+	transform: rotateX(-90deg);
+	border: var(--bord);
+}
+cwn-q3d >*{
+	height: 13%;
+	top: unset;
+	bottom: -6.5%;
+}
+cwn-q3d >*:before {
+	transform-origin: top center;
+	transform: rotateX(-7.5deg);
+	top: 100%;
+}
+cwn-q3d >*:after {
+	transform-origin: bottom center;
+	transform: rotateX(7.5deg);
+	top: -100%;
+}
+cwn-q3d >*:nth-child(1){ transform: rotateY(93.75deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(2){ transform: rotateY(101.25deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(3){ transform: rotateY(108.75deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(4){ transform: rotateY(116.25deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(5){ transform: rotateY(123.75deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(6){ transform: rotateY(131.25deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(7){ transform: rotateY(138.75deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(8){ transform: rotateY(146.25deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(9){ transform: rotateY(153.75deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(10){ transform: rotateY(161.25deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(11){ transform: rotateY(168.75deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(12){ transform: rotateY(176.25deg) rotateX(10.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(13){ transform: rotateY(93.75deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(14){ transform: rotateY(101.25deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(15){ transform: rotateY(108.75deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(16){ transform: rotateY(116.25deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(17){ transform: rotateY(123.75deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(18){ transform: rotateY(131.25deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(19){ transform: rotateY(138.75deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(20){ transform: rotateY(146.25deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(21){ transform: rotateY(153.75deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(22){ transform: rotateY(161.25deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(23){ transform: rotateY(168.75deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(24){ transform: rotateY(176.25deg) rotateX(33.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(25){ transform: rotateY(93.75deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(26){ transform: rotateY(101.25deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(27){ transform: rotateY(108.75deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(28){ transform: rotateY(116.25deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(29){ transform: rotateY(123.75deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(30){ transform: rotateY(131.25deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(31){ transform: rotateY(138.75deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(32){ transform: rotateY(146.25deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(33){ transform: rotateY(153.75deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(34){ transform: rotateY(161.25deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(35){ transform: rotateY(168.75deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(36){ transform: rotateY(176.25deg) rotateX(55.75deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(37){ transform: rotateY(93.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(38){ transform: rotateY(101.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(39){ transform: rotateY(108.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(40){ transform: rotateY(116.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(41){ transform: rotateY(123.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(42){ transform: rotateY(131.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(43){ transform: rotateY(138.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(44){ transform: rotateY(146.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(45){ transform: rotateY(153.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(46){ transform: rotateY(161.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(47){ transform: rotateY(168.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
+cwn-q3d >*:nth-child(48){ transform: rotateY(176.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
+chfr-3d >*:nth-child(1), chfr-3d >*:nth-child(2){ border-radius: var(--radius); }
+chfr-3d >*:nth-child(n+3), matl-3d >*{ --bord: none; }
+
+chfr-3d >*:nth-child(n+3):nth-child(-n+6){ left: var(--radius); }
+chfr-3d >*:nth-child(3), chfr-3d >*:nth-child(6)
+	{ width: calc(100% - 2* var(--radius)); }
+chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5)
+	{ width: calc(var(--depth) - 2* var(--radius)); }
+
+chfr-3d >*:nth-child(7), matl-3d >*:nth-child(7){
+	left: unset;
+	right: 0%;
+	transform: translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+chfr-3d >*:nth-child(8), matl-3d >*:nth-child(8){
+	left: unset;
+	right: calc(var(--radius) /2);
+	transform: rotateY(90deg) translateX(calc(var(--depth) /2 - var(--radius) /2));
+}
+chfr-3d >*:nth-child(9), matl-3d >*:nth-child(9){ transform: rotateY(180deg) translateZ(calc(var(--depth) /2 - var(--radius))); }
+chfr-3d >*:nth-child(10), matl-3d >*:nth-child(10){
+	left: calc(var(--radius) /2);
+	transform: rotateY(270deg) translateX(calc(var(--depth) /2 - var(--radius) /2));
+}
+matl-3d >*:nth-child(-n+3), matl-3d >*:nth-child(6){
+	width: calc(var(--width) - 2* var(--radius));
+	left: calc(50% - var(--width) /2 + var(--radius));
+	top: var(--radius);
+}
+matl-3d >*:nth-child(-n+2){ height: calc(var(--depth) - 2* var(--radius)); }
+matl-3d >*:nth-child(3), matl-3d >*:nth-child(6){ height: calc(var(--height) - 2* var(--radius)); }
+matl-3d >*:nth-child(4), matl-3d >*:nth-child(5){
+	width: calc(var(--depth) - 2* var(--radius));
+	height: calc(var(--height) - 2* var(--radius));
+	top: var(--radius);
+	left: var(--radius);
+}
+matl-3d >*:nth-child(n+7):nth-child(-n+10){
+	height: calc(var(--height) - 2* var(--radius));
+	top: var(--radius);
+}
+matl-3d >*:nth-child(n+11):nth-child(-n+14){
+	height: calc(var(--width) - 2* var(--radius));
+	top: calc(var(--radius) + var(--height) /2 - var(--width) /2);
+	left: calc(var(--width) /2 - var(--radius) /2);
+}
+matl-3d >*:nth-child(11){
+	transform: rotateZ(90deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(12){
+	transform: rotateZ(270deg) translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(13){
+	transform: rotateZ(90deg) rotateY(180deg)
+		translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(14){
+	transform: rotateZ(270deg) rotateY(180deg)
+		translateX(calc(var(--height) /2 - 50%)) translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(n+15):nth-child(-n+18){
+	height: calc(var(--depth) - 2* var(--radius));
+	top: calc(var(--radius) + var(--height) /2 - var(--depth) /2);
+	left: calc(var(--width) /2 - var(--radius) /2);
+}
+matl-3d >*:nth-child(15){
+	transform: rotateX(90deg) translateX(calc(var(--width) /2 - 50%)) translateZ(calc(var(--height) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(16){
+	transform: rotateX(270deg) translateX(calc(var(--width) /2 - 50%)) translateZ(calc(var(--height) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(17){
+	transform: rotateX(90deg) rotateY(180deg)
+		translateX(calc(var(--width) /2 - 50%)) translateZ(calc(var(--height) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(18){
+	transform: rotateX(270deg) rotateY(180deg)
+		translateX(calc(var(--width) /2 - 50%)) translateZ(calc(var(--height) /2 - var(--radius)));
+}
+matl-3d >*:nth-child(19){ transform: translateX(calc(var(--width) - 100%)) translateZ(calc(var(--radius) - var(--depth) /2)); }
+matl-3d >*:nth-child(20){ transform: rotateY(90deg) translateX(calc(var(--depth) /2 - 50%)) translateZ(calc(var(--radius) /2)); }
+matl-3d >*:nth-child(21){ transform: rotateY(180deg) translateZ(calc(var(--radius) - var(--depth) /2)); }
+matl-3d >*:nth-child(22){
+	transform: rotateY(270deg) translateX(calc(var(--depth) /2 - 50%)) translateZ(calc(1.5 * var(--radius) - var(--width))); }
+matl-3d >*:nth-child(n+23){ top: calc(100% - var(--radius)); }
+matl-3d >*:nth-child(23){
+	transform: rotateX(180deg) translateX(calc(var(--width) - 100%)) translateZ(calc(var(--radius) - var(--depth) /2)); }
+matl-3d >*:nth-child(24){
+	transform: rotateX(180deg) rotateY(90deg) translateX(calc(var(--depth) /2 - 50%)) translateZ(calc(var(--radius) /2)); }
+matl-3d >*:nth-child(25){
+	transform: rotateX(180deg) rotateY(180deg) translateZ(calc(var(--radius) - var(--depth) /2)); }
+matl-3d >*:nth-child(26){
+	transform: rotateX(180deg) rotateY(270deg)
+		translateX(calc(var(--depth) /2 - 50%)) translateZ(calc(1.5 * var(--radius) - var(--width)));
+}
+.mesure {
+	/* objet en cours de création */
+	--fond:
+		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
+		linear-gradient(#0994 49.5%, maroon 49.5% 50.5%, #0994 50.5%);
+	--bord: none;
+	background-color: #0994;
+	background-image:
+		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
+		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
+}
+/* exemple */
+#mon-conteneur {
+	perspective: 800px;
+	perspective-origin: 10% 100px;
+}
+#mon-cube {
+	--width: 10cm;
+	--height: 20cm;
+	--depth: 20cm;
+	--bord: solid 4px var(--bord-color);
+	--fond: #F084;
+	color: var(--text-color);
+}
+#mon-cylindre {
+	height: 20cm;
+	--radius: 2cm;
+}
+#mon-chanfrein {
+	--width: 10cm;
+	--height: 20cm;
+	--depth: 20cm;
+	--radius: 2em;
+	animation: spin-x 10s infinite linear;
+}
+/*
+<trec-3d><p>bottom</p><p>top</p><p>back</p><p>left</p><p>right</p></trec-3d>
+<pave-3d class='cube'><p>bottom</p><p>top</p><p>back</p><p>left</p><p>right</p><p>front</p></pave-3d>
+<hexa-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>front left</p><p>front</p><p>front right</p><p>back right</p></hexa-3d>
+<octo-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>left</p><p>front left</p><p>front</p><p>front right</p><p>right</p><p>back right</p></octo-3d>
+<boul-3d></boul-3d>
+<cyld-3d><p>bottom</p><p>top</p></cyld-3d>
+*/
