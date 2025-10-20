@@ -61,14 +61,14 @@ class Hbol3d extends Shape3d{
 	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('cwn-q3d')); }
 }
 class Bole3d extends Shape3d{
-	constructor(){ super (5); }
+	constructor(){ super (2); }
 	connectedCallback(){
 		const self = this;
 		var nbChildren =0;
 		var observer = new MutationObserver (function (mutations){
 			nbChildren = nbChildren + mutationNb (mutations);
 			if (nbChildren <1) self.appendChild (document.createElement ('p'));
-			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('cwn-q3d'));
+			else if (nbChildren < self.faceNb) self.appendChild (document.createElement ('hbol-3d'));
 		});
 		observer.observe (this, { childList: true });
 }}
@@ -134,10 +134,8 @@ customElements.define ('tube-3d', Tube3d);
 customElements.define ('cwn-q3d', CwnQ3d);
 customElements.define ('hbol-3d', Hbol3d);
 customElements.define ('bole-3d', Bole3d);
-/*
 customElements.define ('cyld-3d', Cyld3d);
 customElements.define ('boul-3d', Boul3d);
 customElements.define ('chfr-3d', Chfr3d);
 customElements.define ('matl-3d', Matl3d);
 customElements.define ('sphd-3d', Sphd3d);
-*/

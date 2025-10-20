@@ -25,7 +25,7 @@ pave-3d.js créé automatiquement les faces
 		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
 		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
 }
-pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d {
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d {
 	/* propriétés modifiables */
 	height: 8cm;
 	--fond: #F084;
@@ -44,7 +44,8 @@ pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d {
 	--depth: 4cm;
 	--bord: solid 4px var(--bord-color);
 }
-pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*, tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >* {
+pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*,
+tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -67,7 +68,7 @@ tiso-3d >*:nth-child(1), tiso-3d >*:nth-child(2), trec-3d >*:nth-child(1), trec-
 	height: var(--depth);
 	transform-origin: top center;
 }
-pave-3d >*:nth-child(1), tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1), hexa-3d >*:nth-child(1), octo-3d >*:nth-child(1){
+pave-3d >*:nth-child(1), tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1), hexa-3d >*:nth-child(1), octo-3d >*:nth-child(1) {
 	transform: rotateX(-90deg) translateY(-50%);
 	top: 100%;
 }
