@@ -27,10 +27,11 @@ pave-3d.js créé automatiquement les faces
 }
 pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d {
 	/* propriétés modifiables */
-	height: 8cm;
-	--fond: #F084;
-	color: var(--text-color);
+/*	height: 8cm;
 	width: 8cm;
+	--fond: #F084;
+*/
+	color: var(--text-color);
 	/* ------ */
 	border: none;
 	background: none;
