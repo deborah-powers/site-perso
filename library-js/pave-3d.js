@@ -80,6 +80,13 @@ class Boul3db extends Shape3d{
 	constructor(){ super (8); }
 	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('cwn-q3d')); }
 }
+class Caps3d extends Shape3d{
+	constructor(){ super (3); }
+	connectedCallback(){
+		this.appendChild (document.createElement ('hbol-3d'));
+		this.appendChild (document.createElement ('hbol-3d'));
+		this.appendChild (document.createElement ('tube-3d'));
+}}
 class Chfr3d extends Shape3d{
 	constructor(){ super (10); }
 	connectedCallback(){
@@ -105,12 +112,6 @@ class Matl3d extends Shape3d{
 		});
 		observer.observe (this, { childList: true });
 }}
-class Sphd3d extends Shape3d{
-	constructor(){ super (2); }
-	connectedCallback(){ for (var c=0; c< this.faceNb; c++){
-		this.appendChild (document.createElement ('bole-3d'));
-		this.children[c].appendChild (document.createElement ('p'));
-}}}
 class Cyld3db extends Shape3d{
 	constructor(){ super (6); }
 	connectedCallback(){
@@ -136,6 +137,7 @@ customElements.define ('hbol-3d', Hbol3d);
 customElements.define ('bole-3d', Bole3d);
 customElements.define ('cyld-3d', Cyld3d);
 customElements.define ('boul-3d', Boul3d);
+
 customElements.define ('chfr-3d', Chfr3d);
 customElements.define ('matl-3d', Matl3d);
-customElements.define ('sphd-3d', Sphd3d);
+customElements.define ('caps-3d', Caps3d);
