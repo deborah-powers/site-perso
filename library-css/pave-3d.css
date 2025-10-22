@@ -25,12 +25,11 @@ pave-3d.js créé automatiquement les faces
 		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
 		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
 }
-pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d {
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d, chfr-3d, matl-3d {
 	/* propriétés modifiables */
-/*	height: 8cm;
+	height: 13cm;
 	width: 8cm;
 	--fond: #F084;
-*/
 	color: var(--text-color);
 	/* ------ */
 	border: none;
@@ -46,7 +45,7 @@ pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d {
 	--bord: solid 4px var(--bord-color);
 }
 pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*,
-tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >*, cyld-3d >*, caps-3d >* {
+tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >*, cyld-3d >*, caps-3d >*, chfr-3d >*, matl-3d >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -61,36 +60,37 @@ tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >*, cyld-3d 
 	background-size: contain;
 	transform-origin: center center;
 }
-pave-3d.pole, pave-3d.cube, octo-3d { width: var(--depth); }
-pave-3d.cube { height: var(--depth); }
+pave-3d.pole, pave-3d.cube, octo-3d, chfr-3d.pole, chfr-3d.cube, matl-3d.pole, matl-3d.cube { width: var(--depth); }
+pave-3d.cube, chfr-3d.cube, matl-3d.cube { height: var(--depth); }
 pave-3d >*:nth-child(1), pave-3d >*:nth-child(2),
 hexa-3d >*:nth-child(1), hexa-3d >*:nth-child(2), octo-3d >*:nth-child(1), octo-3d >*:nth-child(2),
-tiso-3d >*:nth-child(1), tiso-3d >*:nth-child(2), trec-3d >*:nth-child(1), trec-3d >*:nth-child(2){
+tiso-3d >*:nth-child(1), tiso-3d >*:nth-child(2), trec-3d >*:nth-child(1), trec-3d >*:nth-child(2),
+chfr-3d >*:nth-child(1), chfr-3d >*:nth-child(2), matl-3d >*:nth-child(1), matl-3d >*:nth-child(2){
 	height: var(--depth);
 	transform-origin: top center;
 }
 pave-3d >*:nth-child(1), tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1), hexa-3d >*:nth-child(1), octo-3d >*:nth-child(1),
-cyld-3d >*:nth-child(1) {
+cyld-3d >*:nth-child(1), chfr-3d >*:nth-child(1), matl-3d >*:nth-child(1) {
 	transform: rotateX(-90deg) translateY(-50%);
 	top: 100%;
 }
 pave-3d >*:nth-child(2), tiso-3d >*:nth-child(2), trec-3d >*:nth-child(2), hexa-3d >*:nth-child(2), octo-3d >*:nth-child(2),
-cyld-3d >*:nth-child(2)
+cyld-3d >*:nth-child(2), chfr-3d >*:nth-child(2), matl-3d >*:nth-child(2)
 	{ transform: rotateX(90deg) translateY(-50%); }
 pave-3d >*:nth-child(3), chfr-3d >*:nth-child(3), matl-3d >*:nth-child(3), tiso-3d >*:nth-child(3), trec-3d >*:nth-child(3),
-hexa-3d >*:nth-child(3), octo-3d >*:nth-child(3)
+hexa-3d >*:nth-child(3), octo-3d >*:nth-child(3), chfr-3d >*:nth-child(3), matl-3d >*:nth-child(3)
 	{ transform: rotateY(180deg) translateZ(calc(var(--depth) /2)); }
 pave-3d.vertical >*:nth-child(3), chfr-3d.vertical >*:nth-child(3), matl-3d.vertical >*:nth-child(3),
 tiso-3d.vertical >*:nth-child(3), trec-3d.vertical >*:nth-child(3), hexa-3d.vertical >*:nth-child(3),
-octo-3d.vertical >*:nth-child(3) { transform: rotateX(180deg) translateZ(calc(var(--depth) /2)); }
-pave-3d >*:nth-child(6), octo-3d >*:nth-child(7){ transform: translateZ(calc(var(--depth) /2)); }
-
-pave-3d >*:nth-child(4), pave-3d >*:nth-child(5){
+octo-3d.vertical >*:nth-child(3), chfr-3d.vertical >*:nth-child(3), matl-3d.vertical >*:nth-child(3)
+	{ transform: rotateX(180deg) translateZ(calc(var(--depth) /2)); }
+pave-3d >*:nth-child(6), octo-3d >*:nth-child(7), chfr-3d >*:nth-child(6), matl-3d >*:nth-child(6) { transform: translateZ(calc(var(--depth) /2)); }
+pave-3d >*:nth-child(4), pave-3d >*:nth-child(5), chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(4), matl-3d >*:nth-child(5){
 	width: var(--depth);
 	transform-origin: center left;
 }
-pave-3d >*:nth-child(4){ transform: rotateY(-90deg) translateX(-50%); }
-pave-3d >*:nth-child(5){
+pave-3d >*:nth-child(4), chfr-3d >*:nth-child(4), matl-3d >*:nth-child(4){ transform: rotateY(-90deg) translateX(-50%); }
+pave-3d >*:nth-child(5), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(5){
 	transform: rotateY(90deg) translateX(-50%);
 	left: 100%;
 }
@@ -159,4 +159,6 @@ octo-3d >*:nth-child(10){ transform: rotateY(135deg) translateZ(calc(var(--depth
 <pave-3d class='cube'><p>bottom</p><p>top</p><p>back</p><p>left</p><p>right</p><p>front</p></pave-3d>
 <hexa-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>front left</p><p>front</p><p>front right</p><p>back right</p></hexa-3d>
 <octo-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>left</p><p>front left</p><p>front</p><p>front right</p><p>right</p><p>back right</p></octo-3d>
+<cyld-3d><p>bottom</p><p>top</p></cyld-3d>
+<boul-3d></boul-3d>
 */

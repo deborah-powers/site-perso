@@ -241,14 +241,7 @@ cwn-q3d >*:nth-child(45){ transform: rotateY(153.75deg) rotateX(78.25deg) transl
 cwn-q3d >*:nth-child(46){ transform: rotateY(161.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
 cwn-q3d >*:nth-child(47){ transform: rotateY(168.75deg) rotateX(78.25deg) translateZ(var(--radius)); }
 cwn-q3d >*:nth-child(48){ transform: rotateY(176.25deg) rotateX(78.25deg) translateZ(var(--radius)); }
-chfr-3d >*:nth-child(1), chfr-3d >*:nth-child(2){ border-radius: var(--radius); }
-chfr-3d >*:nth-child(n+3), matl-3d >*{ --bord: none; }
 
-chfr-3d >*:nth-child(n+3):nth-child(-n+6){ left: var(--radius); }
-chfr-3d >*:nth-child(3), chfr-3d >*:nth-child(6)
-	{ width: calc(100% - 2* var(--radius)); }
-chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5)
-	{ width: calc(var(--depth) - 2* var(--radius)); }
 
 chfr-3d >*:nth-child(7), matl-3d >*:nth-child(7){
 	left: unset;

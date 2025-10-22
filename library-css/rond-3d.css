@@ -3,7 +3,7 @@ les figures peuvent être créées par css seul
 pave-3d.js créé automatiquement les faces
 fonctionne avec pave-3d.css et pave-3d.js
 */
-tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d {
+tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d, chfr-3d, matl-3d {
 	--radius: inherit;
 	--fond: inherit;
 	background: none;
@@ -143,3 +143,21 @@ caps-3d > tube-3d {
 	top: var(--radius);
 }
 caps-3d > tube-3d > tub-q3d { height: 100%; }
+
+chfr-3d >*:nth-child(1), chfr-3d >*:nth-child(2){ border-radius: var(--radius); }
+chfr-3d >*:nth-child(n+3), matl-3d >*{ --bord: none; }
+chfr-3d >*:nth-child(3), chfr-3d >*:nth-child(6), matl-3d >*:nth-child(3), matl-3d >*:nth-child(6) {
+	width: calc(100% - 2* var(--radius));
+	left: var(--radius);
+}
+chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(4), matl-3d >*:nth-child(5)
+	{ width: calc(var(--depth) - 2* var(--radius)); }
+chfr-3d >*:nth-child(7), matl-3d >*:nth-child(7){
+	left: calc(100% - var(--radius));
+	transform: translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+chfr-3d >*:nth-child(8), matl-3d >*:nth-child(8){
+	background-color: red;
+	transform: rotateY(90deg) translateX(var(--depth));
+	left: calc(100% - 1.5* var(--radius));
+}
