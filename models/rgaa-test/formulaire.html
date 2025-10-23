@@ -35,12 +35,12 @@
 </style></head><body>
 	<h1>que choisirez-vous ?</h1>
 	<p>exemples de formulaires en js</p>
-<form method='get' onsubmit='return false'>
+<form method='get' onsubmit='return false' autocomplete='on'>
 	<h3>formulaire js classique</h3>
 	<label for='prenom'>prénom</label>
-	<input type='text' id='prenom' name='prenom' />
+	<input type='text' id='prenom' name='prenom' autocomplete='name' />
 	<label for='email'>couriel</label>
-	<input type='email' id='email' required />
+	<input type='email' id='email' required autocomplete='email' />
 	<select>
 		<optgroup label='voyels'>
 		<option value='b'>option b</option>
