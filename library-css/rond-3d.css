@@ -152,12 +152,19 @@ chfr-3d >*:nth-child(3), chfr-3d >*:nth-child(6), matl-3d >*:nth-child(3), matl-
 }
 chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(4), matl-3d >*:nth-child(5)
 	{ width: calc(var(--depth) - 2* var(--radius)); }
+
 chfr-3d >*:nth-child(7), matl-3d >*:nth-child(7){
 	left: calc(100% - var(--radius));
 	transform: translateZ(calc(var(--depth) /2 - var(--radius)));
 }
 chfr-3d >*:nth-child(8), matl-3d >*:nth-child(8){
-	background-color: red;
-	transform: rotateY(90deg) translateX(var(--depth));
+	transform: rotateY(90deg) translateX(calc(var(--depth) /2 - var(--radius) /2));
 	left: calc(100% - 1.5* var(--radius));
+}
+chfr-3d >*:nth-child(9), matl-3d >*:nth-child(9){
+	transform: rotateY(180deg) translateZ(calc(var(--depth) /2 - var(--radius)));
+}
+chfr-3d >*:nth-child(10), matl-3d >*:nth-child(10){
+	transform: rotateY(270deg) translateX(calc(var(--depth) /2 - var(--radius) /2));
+	left: calc(var(--radius) /2);
 }
