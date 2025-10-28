@@ -49,7 +49,6 @@ tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >*, cyld-3d 
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
-	height: inherit;
 	margin: 0;
 	color: inherit;
 	position: absolute;
@@ -60,6 +59,7 @@ tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >*, cyld-3d 
 	background-size: contain;
 	transform-origin: center center;
 }
+pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >* { height: inherit; }
 pave-3d.pole, pave-3d.cube, octo-3d, chfr-3d.pole, chfr-3d.cube, matl-3d.pole, matl-3d.cube { width: var(--depth); }
 pave-3d.cube, chfr-3d.cube, matl-3d.cube { height: var(--depth); }
 pave-3d >*:nth-child(1), pave-3d >*:nth-child(2),
