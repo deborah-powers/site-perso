@@ -189,10 +189,16 @@ matl-3d >*:nth-child(13){ transform: rotateX(90deg) rotateY(180deg); }
 matl-3d >*:nth-child(14){ transform: rotateX(270deg) rotateY(180deg); }
 
 matl-3d >*:nth-child(15){
-	transform: rotateZ(90deg);
-	top: 0%;
+	transform: rotateZ(90deg) translateZ(var(--radius));
+	top: calc(50% - var(--radius) /2);
+	left: 50%;
 }
-
+matl-3d >*:nth-child(16){
+	transform: rotateZ(270deg) translateZ(var(--radius));
+	top: calc(var(--radius) /2 - 50%);
+	--fond: deeppink;
+	left: 50%;
+}
 
 matl-3d >*:nth-child(19){
 	left: calc(100% - var(--radius));
