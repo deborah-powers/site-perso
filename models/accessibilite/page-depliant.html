@@ -1,0 +1,152 @@
+<!DOCTYPE html><html><head>
+	<title>infobulle et accordéon, accessibilité en css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	#accordeon { display: none; }
+	[aria-expanded='false']:before { content: 'ouvrir '; }
+	[aria-expanded='true']:before { content: 'fermer '; }
+	[role='tooltip'] {
+		position: relative;
+		top: -1em;
+		left: 1em;
+		display: none;
+	}
+[role='tooltip']:hover, [role='tooltip']:focus,
+[aria-describedby]:hover + [role='tooltip'], [aria-describedby]:focus + [role='tooltip'] { display: inline-block; }
+</style></head><body>
+	<button onclick='openDialog()'>afficher la dialog</button>
+	<button onclick='openModal()'>afficher la modale</button>
+	<button type='button' aria-expanded='false' aria-controls='accordeon' onclick='toggleAccordion(this)'>l'accordéon</button>
+	<dialog>
+		<p>coucou je suis la boîte de dialogue.</p>
+		<button title='OK fermer' onclick='closeDialog(this.parentElement)'>OK</button>
+	</dialog>
+	<dialog>
+		<p>coucou je suis la modale.</p>
+		<button title='OK fermer' onclick='closeDialog(this.parentElement)'>OK</button>
+	</dialog>
+	<section id='accordeon' role='region'><p>coucou je suis l'accordéon</p></section>
+	<p aria-describedby='description-aria'>paragraphe survolable avec une description aria dans une infobulle simple.</p>
+	<p id='description-aria' role='tooltip' aria-hidden='true'>la description doit obligatoirement suivre son référent (+ dans le css).</p>
+	<p id='activateur-js-simple' aria-describedby='description-js-simple' tabindex='0'>paragraphe survolable avec une description dans une infobulle gérée par js.</p>
+	<p>paragraphe coupant l'affichage css.</p>
+	<p id='description-js-simple' role='tooltip' aria-hidden='true'>info-bulle simple ne prenant pas le focus</p>
+	<p id='activateur-js-focus' aria-describedby='description-js-focus' tabindex='0'>paragraphe survolable avec une description dans une infobulle gérée par js.</p>
+	<p>paragraphe coupant l'affichage css.</p>
+	<p id='description-js-focus' role='tooltip' aria-hidden='true' tabindex='0'>info-bulle prenant le focus</p>
+<script type='text/javascript'>
+	function openDialog(){
+		const dialog = document.getElementsByTagName ('dialog')[0];
+		dialog.show();
+	}
+	function openModal(){
+		const dialog = document.getElementsByTagName ('dialog')[1];
+		dialog.showModal();
+	}
+	function closeDialog (dialog){ dialog.close(); }
+	function toggleAccordion (button){
+		const accordionId = button.getAttribute ('aria-controls');
+		const accordion = document.getElementById (accordionId);
+		if (button.getAttribute ('aria-expanded') === 'true'){
+			accordion.style.display = 'none';
+			button.setAttribute ('aria-expanded', 'false');
+		}
+		else{
+			accordion.style.display = 'block';
+			button.setAttribute ('aria-expanded', 'true');
+	}}
+// l'info-bulle
+function showTooltipSimple (tooltip){
+	tooltip.style.display = 'block';
+	tooltip.setAttribute ('aria-hidden', 'false');
+}
+function closeTooltipSimple (tooltip){
+	tooltip.setAttribute ('aria-hidden', 'true');
+	tooltip.style.display = 'none';
+}
+function showTooltipFocus (tooltip){
+	tooltip.style.display = 'block';
+	tooltip.setAttribute ('aria-hidden', 'false');
+	tooltip.focus();
+}
+function closeTooltipFocus (tooltip){
+	tooltip.setAttribute ('aria-hidden', 'true');
+	tooltip.style.display = 'none';
+//	activator.focus();
+}
+function activateTooltipSimple (activatorId){
+	const activator = document.getElementById (activatorId);
+	const tooltipId = activator.getAttribute ('aria-describedby');
+	if (tooltipId){
+		const tooltip = document.getElementById (tooltipId);
+		if (tooltip){
+			activator.onfocus = function(){ showTooltipSimple (tooltip); }
+			activator.onmouseover = function(){ showTooltipSimple (tooltip); }
+			activator.onblur = function(){ closeTooltipSimple (tooltip); }
+	//		activator.onmouseleave = function(){ closeTooltipSimple (tooltip); };
+}}}
+function activateTooltipFocus (activatorId){
+	const activator = document.getElementById (activatorId);
+	const tooltipId = activator.getAttribute ('aria-describedby');
+	if (tooltipId){
+		const tooltip = document.getElementById (tooltipId);
+		if (tooltip){
+			activator.onfocus = function(){ showTooltipFocus (tooltip); }
+			activator.onmouseover = function(){ showTooltipFocus (tooltip); }
+			activator.onblur = function(){ closeTooltipFocus (tooltip); }
+	//		activator.onmouseleave = function(){ closeTooltipFocus (tooltip); };
+}}}
+Element.prototype.getTooltips = function(){
+	var items =[];
+	if ('tooltip' === this.role) items.push (this);
+	else if (this.children.length >0){
+		var itemsChild =[];
+		for (var c=0; c< this.children.length; c++){
+			itemsChild = this.children[c].getTooltips();
+			for (var d=0; d< itemsChild.length; d++) items.push (itemsChild[d]);
+	}}
+	return items;
+}
+function closeTooltips (event){
+	if (event.key === 'Escape'){
+		const tooltips = event.target.getTooltips();
+		for (var tooltip of tooltips) closeTooltipSimple (tooltip);
+}}
+/*
+function closeTooltipFromActivator (event){
+	console.log ('oui');
+	const tooltipId = event.target.getAttribute ('aria-describedby');
+	if (tooltipId){
+		const tooltip = document.getElementById (tooltipId);
+		if (tooltip) closeTooltip (tooltip);
+}}
+function showTooltipFromActivator (event){
+	const tooltipId = event.target.getAttribute ('aria-describedby');
+	if (tooltipId){
+		const tooltip = document.getElementById (tooltipId);
+		if (tooltip) showTooltip (tooltip);
+}}
+function closeTooltipByEscKeyFromTooltip (event){ if (event.key === 'Escape') closeTooltip (event.target); }
+function closeTooltipByEscKeyFromActivator (event){
+	if (event.key === 'Escape'){
+		const tooltipId = event.target.getAttribute ('aria-describedby');
+		if (tooltipId){
+			const tooltip = document.getElementById (tooltipId);
+			if (tooltip) closeTooltip (tooltip);
+}}}
+const activatorFocus = document.getElementById ('activateur-js-focus');
+const tooltipFocus = document.getElementById (activatorFocus.getAttribute ('aria-describedby'));
+activatorFocus.onfocus = showTooltipFromActivator;
+activatorFocus.onmouseover = showTooltipFromActivator;
+activatorFocus.onblur = closeTooltipFromActivator;
+tooltipFocus.onblur = function (event){ closeTooltip (event.target); }
+*/
+activateTooltipSimple ('activateur-js-simple');
+activateTooltipFocus ('activateur-js-focus');
+document.body.onkeydown = closeTooltips;
+</script></body></html>

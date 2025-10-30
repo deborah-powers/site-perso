@@ -200,9 +200,6 @@ dialog {
 	border-width: 8px;
 	padding: 0.5em;
 /*	display: flex;	bloque le fonctionnement natif */
-	flex-direction: row;
-	align-items: stretch;
-	justify-content: space-between;
 	margin: 8em auto;
 	height: 8em;
 	width: 24em;
