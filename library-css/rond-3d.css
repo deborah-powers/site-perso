@@ -11,6 +11,10 @@ tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d, chfr-3d,
 	background: none;
 	border: none;
 }
+matl-3d{
+	--width: 36em;
+	width: var(--width);
+}
 bole-3d, cyld-3d{ --bord: inherit; }
 tub-q3d, cwn-q3d{ width: var(--radius); }
 tub-q3d >*, cwn-q3d >*{
@@ -127,6 +131,7 @@ bole-3d >*:nth-child(1), cyld-3d >*:nth-child(1), cyld-3d >*:nth-child(2){
 	background: var(--fond);
 	border: var(--bord);
 }
+cyld-3d >*:nth-child(1), cyld-3d >*:nth-child(2){ transform-origin: top center; }
 bole-3d >*:nth-child(1){ transform: rotateX(-90deg); }
 boul-3d{ height: calc(2* var(--radius)); }
 boul-3d >*{ height: 50%; }
@@ -179,27 +184,29 @@ matl-3d >*:nth-child(11), matl-3d >*:nth-child(12){
 	left: unset;
 	right: 0%;
 }
+matl-3d >*:nth-child(11), matl-3d >*:nth-child(14){ top: calc(2* var(--radius) - var(--depth) /2); }
 matl-3d >*:nth-child(12), matl-3d >*:nth-child(13){
 	top: unset;
-	bottom: 0%;
+	bottom: calc(2* var(--radius) - var(--depth) /2);
 }
 matl-3d >*:nth-child(11){ transform: rotateX(90deg); }
 matl-3d >*:nth-child(12){ transform: rotateX(270deg); }
 matl-3d >*:nth-child(13){ transform: rotateX(90deg) rotateY(180deg); }
 matl-3d >*:nth-child(14){ transform: rotateX(270deg) rotateY(180deg); }
 
-matl-3d >*:nth-child(15){
-	transform: rotateZ(90deg) translateZ(var(--radius));
-	top: calc(50% - var(--radius) /2);
-	left: 50%;
+matl-3d >*:nth-child(n+15):nth-child(-n+18){
+	height: calc(var(--width) - 2* var(--radius));
+	left: calc(50% - var(--radius) /2);
 }
-matl-3d >*:nth-child(16){
-	transform: rotateZ(270deg) translateZ(var(--radius));
-	top: calc(var(--radius) /2 - 50%);
-	--fond: deeppink;
-	left: 50%;
+matl-3d >*:nth-child(15), matl-3d >*:nth-child(18){
+	top: unset;
+	bottom: calc(1.5* var(--radius) - var(--width) /2);
 }
-
+matl-3d >*:nth-child(16), matl-3d >*:nth-child(17){ top: calc(1.5* var(--radius) - var(--width) /2); }
+matl-3d >*:nth-child(15){ transform: rotateZ(90deg) translateZ(calc(var(--depth) /2 - var(--radius))); }
+matl-3d >*:nth-child(16){ transform: rotateZ(270deg) translateZ(calc(var(--depth) /2 - var(--radius))); }
+matl-3d >*:nth-child(17){ transform: rotateZ(90deg) rotateY(180deg) translateZ(calc(var(--depth) /2 - var(--radius))); }
+matl-3d >*:nth-child(18){ transform: rotateZ(270deg) rotateY(180deg) translateZ(calc(var(--depth) /2 - var(--radius))); }
 matl-3d >*:nth-child(19){
 	left: calc(100% - var(--radius));
 	transform: translateZ(calc(var(--radius) - var(--depth) /2));
@@ -217,7 +224,6 @@ matl-3d >*:nth-child(22){
 matl-3d >*:nth-child(n+23){
 	top: unset;
 	bottom: 0%;
-	rotate: ;
 }
 matl-3d >*:nth-child(23){
 	left: calc(100% - var(--radius));
