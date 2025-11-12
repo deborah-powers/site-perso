@@ -25,7 +25,7 @@ pave-3d.js créé automatiquement les faces
 		linear-gradient(90deg, transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%),
 		linear-gradient(transparent 49.5%, maroon 49.5% 50.5%, transparent 50.5%);
 }
-pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d, bole-3d, boul-3d, cyld-3d, caps-3d, chfr-3d, matl-3d {
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, prmd-3d, tub-q3d, tube-3d, cwn-q3d, bol-c3d, bole-3d, boul-3d, cyld-3d, caps-3d, con-c3d, con-q3d, cone-3d, chfr-3d, matl-3d {
 	/* propriétés modifiables */
 	height: 13cm;
 	width: 8cm;
@@ -40,12 +40,12 @@ pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, tub-q3d, tube-3d, cwn-q3d, hbol-3d,
 	text-align: center;
 	background-position: center;
 }
-pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d {
+pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, prmd-3d {
 	--depth: 4cm;
 	--bord: solid 4px var(--bord-color);
 }
-pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*,
-tub-q3d >*, tube-3d >*, cwn-q3d >*, hbol-3d >*, bole-3d >*, boul-3d >*, cyld-3d >*, caps-3d >*, chfr-3d >*, matl-3d >* {
+pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*, prmd-3d >*,
+tub-q3d >*, tube-3d >*, cwn-q3d >*, bol-c3d >*, bole-3d >*, boul-3d >*, cyld-3d >*, caps-3d >*, con-q3d >*, con-c3d >*, cone-3d >*, chfr-3d >*, matl-3d >* {
 	border: var(--bord);
 	background: var(--fond);
 	width: inherit;
@@ -82,7 +82,7 @@ hexa-3d >*:nth-child(3), octo-3d >*:nth-child(3), chfr-3d >*:nth-child(3), matl-
 	{ transform: rotateY(180deg) translateZ(calc(var(--depth) /2)); }
 pave-3d.vertical >*:nth-child(3), chfr-3d.vertical >*:nth-child(3), matl-3d.vertical >*:nth-child(3),
 tiso-3d.vertical >*:nth-child(3), trec-3d.vertical >*:nth-child(3), hexa-3d.vertical >*:nth-child(3),
-octo-3d.vertical >*:nth-child(3), chfr-3d.vertical >*:nth-child(3), matl-3d.vertical >*:nth-child(3)
+octo-3d.vertical >*:nth-child(3), prmd-3d.vertical >*:nth-child(2), chfr-3d.vertical >*:nth-child(3), matl-3d.vertical >*:nth-child(3)
 	{ transform: rotateX(180deg) translateZ(calc(var(--depth) /2)); }
 pave-3d >*:nth-child(6), octo-3d >*:nth-child(7), chfr-3d >*:nth-child(6), matl-3d >*:nth-child(6) { transform: translateZ(calc(var(--depth) /2)); }
 pave-3d >*:nth-child(4), pave-3d >*:nth-child(5), chfr-3d >*:nth-child(4), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(4), matl-3d >*:nth-child(5){
@@ -95,7 +95,8 @@ pave-3d >*:nth-child(5), chfr-3d >*:nth-child(5), matl-3d >*:nth-child(5){
 	left: 100%;
 }
 tiso-3d, hexa-3d { width: calc(var(--depth) / 0.8660254037844386); }
-tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1) { clip-path: polygon(0 100%, 100% 100%, 50% 0); }
+tiso-3d >*:nth-child(1), trec-3d >*:nth-child(1), prmd-3d >*:nth-child(n+2), con-q3d >*
+	{ clip-path: polygon(0 100%, 100% 100%, 50% 0); }
 tiso-3d >*:nth-child(2), trec-3d >*:nth-child(2) { clip-path: polygon(0 0, 100% 0, 50% 100%); }
 tiso-3d >*:nth-child(4), tiso-3d >*:nth-child(5){ transform-origin: center right; }
 tiso-3d >*:nth-child(4){ transform: rotateY(-60deg) translateX(12.5%) translateZ(calc(0.75 * var(--depth))); }
@@ -132,6 +133,38 @@ octo-3d >*:nth-child(8){ transform: rotateY(45deg) translateZ(calc(var(--depth) 
 octo-3d >*:nth-child(9){ transform: rotateY(90deg) translateZ(calc(var(--depth) /2)); }
 octo-3d >*:nth-child(10){ transform: rotateY(135deg) translateZ(calc(var(--depth) /2)); }
 
+prmd-3d {
+	height: calc(var(--depth) /2);
+	width: var(--depth);
+}
+prmd-3d >* {
+	width: inherit;
+	transform-origin: top center;
+}
+prmd-3d >*:nth-child(1) {
+	height: 200%;
+	transform: rotateX(-90deg) translateY(-50%);
+	top: 100%;
+}
+prmd-3d >*:nth-child(n+2), con-q3d >* { height: 141.4213562373095%; }
+prmd-3d >*:nth-child(2){ transform: rotateY(180deg) rotateX(45deg); }
+prmd-3d >*:nth-child(3){ transform: rotateY(-90deg) rotateX(45deg); }
+prmd-3d >*:nth-child(4){ transform: rotateY(90deg) rotateX(45deg); }
+prmd-3d >*:nth-child(5){ transform: rotateX(45deg); }
+
+prmd-3d-va {
+	/* préciser width mais pas height */
+	height: unset;
+	aspect-ratio: 2;
+}
+prmd-3d-va >*:nth-child(1) {
+	aspect-ratio: 1;
+	transform: rotateX(-90deg) translateY(-50%);
+	top: 100%;
+}
+prmd-3d-va >*:nth-child(n+2) { aspect-ratio: 1.414213562373095; }
+
+
 /* exemple */
 #mon-conteneur {
 	perspective: 800px;
@@ -157,6 +190,7 @@ octo-3d >*:nth-child(10){ transform: rotateY(135deg) translateZ(calc(var(--depth
 /*
 <trec-3d><p>bottom</p><p>top</p><p>back</p><p>left</p><p>right</p></trec-3d>
 <pave-3d class='cube'><p>bottom</p><p>top</p><p>back</p><p>left</p><p>right</p><p>front</p></pave-3d>
+<prmd-3d><p>bottom</p><p>back</p><p>left</p><p>right</p><p>front</p></prmd-3d>
 <hexa-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>front left</p><p>front</p><p>front right</p><p>back right</p></hexa-3d>
 <octo-3d><p>bottom</p><p>top</p><p>back</p><p>back left</p><p>left</p><p>front left</p><p>front</p><p>front right</p><p>right</p><p>back right</p></octo-3d>
 <cyld-3d><p>bottom</p><p>top</p></cyld-3d>
