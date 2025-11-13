@@ -1,0 +1,77 @@
+/* dessiner des pièces en 3D
+les figures peuvent être créées par css seul
+pave-3d.js créé automatiquement les faces
+fonctionne avec pave-3d.css et pave-3d.js
+1em = 10cm
+*/
+piece-3d {
+	width: 30em;
+	height: 25em;
+	--depth: 20em;
+	--plafond: wheat;
+	--plancher: rosybrown;
+	--fond: #0FB6;
+	--bord: solid 6px deeppink;
+	/* la fenêtre */
+	--fw: 8em; /* demi-largeur */
+	--fh: 6em; /* hauteur */
+	--fx: 50%; /* pos x, centre */
+	--fy: 50%; /* pos y, hauteur par rapport au sol */
+	--ffond: #04F4;
+	--fcadre: var(--plancher);
+}
+piece-3d >*:nth-child(n+1):nth-child(-n+6){ border: none; }
+piece-3d >*:nth-child(n+3):nth-child(-n+5){ border-bottom: var(--bord); }
+piece-3d >*:nth-child(1) { background: var(--plancher); }
+piece-3d >*:nth-child(2) { background: var(--plafond); }
+piece-3d >*:nth-child(6) { background: transparent; }
+piece-3d >*.porte {
+	clip-path: polygon(100% 100%, 100% 0%, 0% 0%, 0% 100%,
+		calc(var(--fx) - var(--fw)) 100%, calc(var(--fx) - var(--fw)) calc(100% - var(--fy) - var(--fh)),
+		calc(var(--fx) + var(--fw)) calc(100% - var(--fy) - var(--fh)), calc(var(--fx) + var(--fw)) 100%
+	);
+	clip-rule: evenodd;
+}
+piece-3d >*.fenetre {
+	clip-path: polygon(100% 100%, 100% 0%, 0% 0%, 0% 100%,
+		var(--fx) 100%, var(--fx) calc(100% - var(--fy)), calc(var(--fx) - var(--fw)) calc(100% - var(--fy)),
+		calc(var(--fx) - var(--fw)) calc(100% - var(--fy) - var(--fh)),
+		calc(var(--fx) + var(--fw)) calc(100% - var(--fy) - var(--fh)),
+		calc(var(--fx) + var(--fw)) calc(100% - var(--fy)), var(--fx) calc(100% - var(--fy)), var(--fx) 100%
+	);
+	clip-rule: evenodd;
+}
+fenetre, porte {
+	display: block;
+	width: calc(2* var(--fw));
+	position: absolute;
+	left: calc(var(--fx) - var(--fw));
+}
+fenetre {
+	height: var(--fh);
+	top: calc(100% - var(--fy) - var(--fh));
+	/* style par défaut */
+	border: solid 4px var(--fcadre);
+	background-color: #08F6;
+	background-image:
+		linear-gradient(90deg, transparent calc(50% - 2px), var(--fcadre) calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px)),
+		linear-gradient(transparent calc(50% - 2px), var(--fcadre) calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px));
+}
+porte {
+	height: calc(var(--fh) + var(--fy));
+	top: calc(100% - var(--fy) - var(--fh));
+	background-color: #F484;
+	border: var(--bord);
+	border-bottom: none;
+}
+fenetre.back, porte.back { transform: rotateY(180deg) translateZ(calc(var(--depth) /2)); }
+fenetre.left, porte.left {
+	transform-origin: center left;
+	transform: rotateY(-90deg) translateX(-50%);
+	left: 0%;
+}
+fenetre.right, porte.right {
+	transform-origin: center left;
+	transform: rotateY(90deg) translateX(-50%);
+	left: 100%;
+}

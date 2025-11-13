@@ -7,7 +7,8 @@ function mutationNb (mutations){
 	// mutations est un MutationRecord
 	var nbChildren =0;
 	mutations.forEach (function (mutation){
-		if (mutation.addedNodes.length && mutation.addedNodes[0].constructor.name !== 'Text') nbChildren +=1;
+		if (mutation.type === 'childList' && mutation.addedNodes.length && mutation.addedNodes[0].constructor.name !== 'Text')
+			nbChildren +=1;
 	});
 	return nbChildren;
 }
@@ -146,6 +147,23 @@ class Cyld3db extends Shape3d{
 		});
 		observer.observe (this, { childList: true });
 }}
+class Piece3d extends Shape3d{
+	constructor(){ super (6); }
+	connectedCallback(){
+		// compter les fenêtres
+		const nbwStr = this.getAttribute ('fenetres');
+		var nbWindows =0;
+		if (nbwStr !== null) nbWindows = parseInt (nbwStr);
+		// ajouter les enfants manquants
+		const self = this;
+		var nbChildren =0;
+		var observer = new MutationObserver (function (mutations){
+			nbChildren = nbChildren + mutationNb (mutations);
+			if (nbChildren < self.faceNb) self.appendChild (document.createElement ('p'));
+			else if (nbChildren < self.faceNb + nbWindows) self.appendChild (document.createElement ('fenetre'));
+		});
+		observer.observe (this, { childList: true });
+}}
 customElements.define ('pave-3d', Pave3d);
 customElements.define ('tiso-3d', Trig3d);
 customElements.define ('trec-3d', Trec3d);
@@ -165,3 +183,4 @@ customElements.define ('boul-3d', Boul3d);
 customElements.define ('chfr-3d', Chfr3d);
 customElements.define ('matl-3d', Matl3d);
 customElements.define ('caps-3d', Caps3d);
+customElements.define ('piece-3d', Piece3d);
