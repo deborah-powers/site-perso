@@ -75,3 +75,36 @@ fenetre.right, porte.right {
 	transform: rotateY(90deg) translateX(-50%);
 	left: 100%;
 }
+/* les papiers peints */
+piece-3d.rayure >*:nth-child(n+2):nth-child(-n+5) {
+	border-bottom-color: wheat;
+	background-image: repeating-linear-gradient(90deg, transparent 25px, wheat 25px 30px, transparent 30px 55px);
+}
+piece-3d.semi-losange >*:nth-child(n+2):nth-child(-n+5) {
+	background-image:
+		repeating-linear-gradient(135deg, skyblue 25px, transparent 25px 30px, skyblue 30px 55px),
+		repeating-linear-gradient(45deg, skyblue 25px, transparent 25px 30px, skyblue 30px 55px);
+}
+piece-3d.semi-point >*:nth-child(n+2):nth-child(-n+5) {
+	border-bottom-color: wheat;
+	background-image:
+		radial-gradient(circle at 0.2em 0.2em, wheat 0.2em, transparent 0.2em),
+		radial-gradient(circle at 1.2em 1.2em, wheat 0.2em, transparent 0.2em);
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+piece-3d.mesure {
+	border-style: solid;
+	border-width: 0.2em;
+	border-color: var(--text-color);
+}
+piece-3d.mesure >*:nth-child(-n+5){
+	background-image:
+		repeating-linear-gradient(90deg, transparent 0.9em, var(--text-color) 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(90deg, transparent 4.8em, var(--text-color) 4.8em 5em, transparent 5em 9.8em),
+		repeating-linear-gradient(transparent 0.9em, var(--text-color) 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(skyblue 4.8em, var(--text-color) 4.8em 5em, wheat 5em 9.8em);
+	border-style: solid;
+	border-width: 0.2em;
+	border-color: var(--text-color);
+}
