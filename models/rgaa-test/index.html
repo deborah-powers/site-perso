@@ -6,28 +6,50 @@
 	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
 	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
 <style type='text/css'>
-	nav {
-		display: flex;
-		flex-direction: row;
+	ul { list-style-type: none; }
+	li {
+		display: inline-block;
+		min-width: 4em;
+		max-width: 40%;
+		margin: 0.5em;
+	}
+	a {
+		border-radius: 0.5em;
+		color: var(--button-color);
+		background-color: var(--button-bg);
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+		padding: 0.5em;
+	}
+	a:focus, a:hover {
+		background-color: teal;
+		font-weight: normal;
+	}
+	h1 {
+		color: inherit;
+		background-color: inherit;
 	}
 </style></head><body>
 	<h1>tester mon extension pour le rgaa</h1>
-	<a href='image.html'>les images</a>
-	<a href='lien.html'>les liens</a>
-	<a href='iframe.html'>les cadres</a>
-	<a href='langue.html'>les langues</a>
-	<a href='titre.html'>les tîtres</a>
-	<a href='liste.html'>les listes</a>
-	<a href='formulaire.html'>les formulaires</a>
-	<a href='navigation.html'>la navigation</a>
-	<a href='structure.html'>la structure de la page</a>
-	<a href='balisage.html'>le balisage</a>
-	<a href='tableau.html'>les tableaux</a>
-	<a href='flash.html'>le clignotement</a>
-	<a href='tabulation.html'>la tabulation</a>
-	<a href='hidden.html'>le contenu caché</a>
-	<a href='multimedia.html'>le contenu multi-média</a>
-	<a href='download.html'>les téléchargements</a>
+	<ul aria-label='tester un sujet'>
+		<li><a href='image.html'>les images</a></li>
+		<li><a href='lien.html'>les liens</a></li>
+		<li><a href='iframe.html'>les cadres</a></li>
+		<li><a href='langue.html'>les langues</a></li>
+		<li><a href='titre.html'>les tîtres</a></li>
+		<li><a href='liste.html'>les listes</a></li>
+		<li><a href='formulaire.html'>les formulaires</a></li>
+		<li><a href='navigation.html'>la navigation</a></li>
+		<li><a href='structure.html'>la structure de la page</a></li>
+		<li><a href='balisage.html'>le balisage</a></li>
+		<li><a href='tableau.html'>les tableaux</a></li>
+		<li><a href='flash.html'>le clignotement</a></li>
+		<li><a href='tabulation.html'>la tabulation</a></li>
+		<li><a href='hidden.html'>le contenu caché</a></li>
+		<li><a href='multimedia.html'>le contenu multi-média</a></li>
+		<li><a href='download.html'>les téléchargements</a></li>
+	</ul>
 </body>
 <script type="text/javascript">
 /*
