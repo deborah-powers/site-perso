@@ -81,9 +81,10 @@ piece-3d.rayure >*:nth-child(n+2):nth-child(-n+5) {
 	background-image: repeating-linear-gradient(90deg, transparent 25px, wheat 25px 30px, transparent 30px 55px);
 }
 piece-3d.semi-losange >*:nth-child(n+2):nth-child(-n+5) {
-	background-image:
-		repeating-linear-gradient(135deg, skyblue 25px, transparent 25px 30px, skyblue 30px 55px),
-		repeating-linear-gradient(45deg, skyblue 25px, transparent 25px 30px, skyblue 30px 55px);
+	border-bottom-color: wheat;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10 0,5' fill='wheat' /><polygon points='25,20 30,25 25,30 20,25' fill='wheat' /></svg>");
+	background-size: 2em 2em;
+	background-repeat: repeat;
 }
 piece-3d.semi-point >*:nth-child(n+2):nth-child(-n+5) {
 	border-bottom-color: wheat;
@@ -92,6 +93,12 @@ piece-3d.semi-point >*:nth-child(n+2):nth-child(-n+5) {
 		radial-gradient(circle at 1.2em 1.2em, wheat 0.2em, transparent 0.2em);
 	background-size: 2em 2em;
 	background-repeat: repeat;
+}
+piece-3d.carrelage-cabochon >*:nth-child(1) {
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='20,10 30,20 20,30 10,20' fill='black' /></svg>");
+	background-size: 2em 2em;
+	background-repeat: repeat;
+	background-color: whitesmoke;
 }
 piece-3d.mesure {
 	border-style: solid;

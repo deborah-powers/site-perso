@@ -52,7 +52,6 @@ String.prototype.toHtml = function(){
 	text = text.cleanHtml();
 	text = text.replaceAll ('/$', '\n');
 	text = text.replaceAll ('\\f', '\t');
-	console.log (text);
 	return text;
 }
 String.prototype.toCode = function(){
@@ -290,7 +289,11 @@ String.prototype.findTitleFromUrl = function(){
 	if (this.includes ('\\')) pos = this.lastIndexOf ('\\');
 	pos +=1;
 	var title = this.substring (pos);
-	if (title.includes ('.')){
+	if (title.includes ('.gouv.fr')){
+		pos = title.lastIndexOf ('.gouv.fr');
+		title = title.substring (0, pos);
+	}
+	else if (title.includes ('.')){
 		pos = title.lastIndexOf ('.');
 		title = title.substring (0, pos);
 	}

@@ -16,7 +16,7 @@ const weirdChars =[
 	['&amp;', '&'], ['&#x27;', "'"], ['&#039', "'"], ['&#160;', ' '], ['&#39;', "'"], ['&#8217;', "'"], ['\n" ', '\n"']
 ];
 const urlWords =[
-	['. gif', '.gif'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. ico', '.ico'],
+	['. gif', '.gif'], ['. com', '.com'], ['. org', '.org'], ['. net', '.net'], ['. fr', '.fr'], ['. gouv.fr', '.gouv.fr'], ['. ico', '.ico'],
 	[': /', ':/'], [': \\', ':\\'], ['C:\\', 'file:///C:\\'], ['C:/', 'file:///C:/'], ['localhost: ', 'localhost:'], [': 80', ':80'], ['www. ', 'www.'],
 	['. bmp', '.bmp'], ['. jpeg', '.jpeg'], ['. jpg', '.jpg'], ['. png', '.png'], ['. css', '.css'], ['. js', '.js']
 ];
