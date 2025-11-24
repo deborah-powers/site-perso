@@ -166,6 +166,15 @@ class Piece3d extends Shape3d{
 		});
 		observer.observe (this, { childList: true });
 }}
+class Table3d extends Shape3d{
+	constructor(){ super (5); }
+	connectedCallback(){
+		for (var c=0; c< this.faceNb; c++){
+			var element = document.createElement ('pave-3d');
+			for (var d=0; d<6; d++) element.appendChild (document.createElement ('p'));
+			element.className = 'pole';
+			this.appendChild (element);
+}}}
 customElements.define ('pave-3d', Pave3d);
 customElements.define ('tiso-3d', Trig3d);
 customElements.define ('trec-3d', Trec3d);
@@ -216,4 +225,3 @@ class Table3d extends Shape3d{
 customElements.define ('piedcr-3d', piedCarre3d);
 customElements.define ('piedrd-3d', piedRond3d);
 customElements.define ('table-3d', Table3d);
-

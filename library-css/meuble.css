@@ -1,14 +1,14 @@
-/* dépend de pave.css, cylindre.css, boule.css */
+/* dépend de pave-3d.css, pave-3d.js, rond-3d.css */
 
-pave.table {
+pave-3d.table {
 	--height: 10em;
 	margin-top: 15em;
 }
-pave.table >* {
+pave-3d.table >* {
 	--fond: none;
 	--bord: solid 10px rosybrown;
 }
-pave.table >*:nth-child(1) { --fond: rosybrown; }
-pave.table >*:nth-child(2) { --bord: none; }
-pave.table >*:nth-child(n+2) { border-bottom: none; }
+pave-3d.table >*:nth-child(1) { --fond: rosybrown; }
+pave-3d.table >*:nth-child(2) { --bord: none; }
+pave-3d.table >*:nth-child(n+2) { border-bottom: none; }
 
