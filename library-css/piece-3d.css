@@ -11,12 +11,12 @@ piece-3d {
 	--fond: #084;
 	--bord: solid 6px deeppink;
 	--motif-color: pink;
+	--motif-semi: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10 0,5' fill='blue' /><polygon points='25,20 30,25 25,30 20,25' fill='blue' /></svg>");
 	/* la fenêtre */
 	--fw: 8em; /* demi-largeur */
 	--fh: 6em; /* hauteur */
 	--fx: 50%; /* pos x, centre */
 	--fy: 50%; /* pos y, hauteur par rapport au sol */
-	--ffond: #04F4;
 }
 piece-3d >*:nth-child(n+1):nth-child(-n+6){ border: none; }
 piece-3d >*:nth-child(n+3):nth-child(-n+5){
@@ -82,11 +82,6 @@ fenetre.right, porte.right {
 piece-3d.rayure >*:nth-child(n+3):nth-child(-n+5) {
 	background-image: repeating-linear-gradient(90deg, transparent 25px, var(--motif-color) 25px 30px, transparent 30px 55px);
 }
-piece-3d.semi-losange >*:nth-child(n+3):nth-child(-n+5) {
-	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><style type='text/css'><![CDATA[ polygon { fill: var(--motif-color); } ]]></style><polygon points='5,0 10,5 5,10 0,5' /><polygon points='25,20 30,25 25,30 20,25' /></svg>");
-	background-size: 2em 2em;
-	background-repeat: repeat;
-}
 piece-3d.semi-point >*:nth-child(n+3):nth-child(-n+5) {
 	background-image:
 		radial-gradient(circle at 0.2em 0.2em, var(--motif-color) 0.2em, transparent 0.2em),
@@ -94,6 +89,31 @@ piece-3d.semi-point >*:nth-child(n+3):nth-child(-n+5) {
 	background-size: 2em 2em;
 	background-repeat: repeat;
 }
+piece-3d.semi >*:nth-child(n+3):nth-child(-n+5) {
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+piece-3d.semi >*:nth-child(3):after, piece-3d.semi >*:nth-child(4):after, piece-3d.semi >*:nth-child(5):after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: var(--motif-color);
+	-webkit-mask: var(--motif-semi);
+	mask: var(--motif-semi);
+}
+piece-3d.semi.losange {
+	--motif-semi: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10 0,5' fill='blue' /><polygon points='25,20 30,25 25,30 20,25' fill='blue' /></svg>");
+}
+piece-3d.semi.divers {
+	--motif-semi: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10' fill='red' /></svg>");
+}
+piece-3d.semi-losange >*:nth-child(n+3):nth-child(-n+5) {
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><style type='text/css'><![CDATA[ polygon { fill: wheat; } ]]></style><polygon points='5,0 10,5 5,10 0,5' /><polygon points='25,20 30,25 25,30 20,25' /></svg>");
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+/* les sols */
 piece-3d.carrelage-cabochon >*:nth-child(1) {
 	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='20,10 30,20 20,30 10,20' fill='black' /></svg>");
 	background-size: 2em 2em;
