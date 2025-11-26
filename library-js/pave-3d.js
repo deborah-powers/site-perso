@@ -39,7 +39,9 @@ class TubQ3d extends Shape3d{
 }
 class Tube3d extends Shape3d{
 	constructor(){ super (4); }
-	connectedCallback(){ for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('tub-q3d')); }
+	connectedCallback(){
+		console.log ('Tube3d connectedCallback');
+		for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('tub-q3d')); }
 }
 class Cyld3d extends Shape3d{
 	constructor(){ super (3); }
@@ -184,3 +186,34 @@ customElements.define ('chfr-3d', Chfr3d);
 customElements.define ('matl-3d', Matl3d);
 customElements.define ('caps-3d', Caps3d);
 customElements.define ('piece-3d', Piece3d);
+
+// les meubles
+class piedCarre3d extends Shape3d{
+	constructor(){ super (4); }
+	connectedCallback(){
+		var child = null;
+		for (var c=0; c< this.faceNb; c++){
+			child = new Pave3d();
+			for (var d=0; d< child.faceNb; d++) child.appendChild (document.createElement ('p'));
+			child.className = 'pole';
+			this.appendChild (child);
+}}}
+class piedRond3d extends piedCarre3d{
+	connectedCallback(){
+		var child = null;
+		for (var c=0; c< this.faceNb; c++){
+			child = new Tube3d();
+			this.appendChild (child);
+}}}
+class Table3d extends Shape3d{
+	constructor(){ super (2); }
+	connectedCallback(){
+		var child = new Pave3d();
+		for (var p=0; p< child.faceNb; p++) child.appendChild (document.createElement ('p'));
+		this.appendChild (child);
+		this.appendChild (new piedRond3d());
+}}
+customElements.define ('piedcr-3d', piedCarre3d);
+customElements.define ('piedrd-3d', piedRond3d);
+customElements.define ('table-3d', Table3d);
+

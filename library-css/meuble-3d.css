@@ -1,0 +1,44 @@
+piedcr-3d, piedrd-3d, table-3d {
+	/* propriétés modifiables */
+	height: 10em;
+	width: 8em;
+	--depth: 4em;
+	--fond: #F084;
+	--depth-plate: var(--depth);
+	color: var(--text-color);
+	/* ------ */
+	border: none;
+	background: none;
+	display: inline-block;
+	transform-style: preserve-3d;
+	padding: 0;
+	margin: 0;
+	line-height: 0;
+	text-align: center;
+	background-position: center;
+}
+piedrd-3d { --radius: 0.5em; }
+piedcr-3d > pave-3d, piedrd-3d >*{
+	border: none;
+	background: none;
+	margin: 0;
+	color: inherit;
+	background-position: center;
+	background-size: contain;
+	transform-origin: center center;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+piedcr-3d > pave-3d { --depth: 1em; }
+piedcr-3d >*:nth-child(n+3), piedrd-3d >*:nth-child(n+3) { left: calc(100%); }
+piedcr-3d >*:nth-child(1){}
+/*
+piedcr-3d >*:nth-child(1), piedcr-3d >*:nth-child(3), piedrd-3d >*:nth-child(1), piedrd-3d >*:nth-child(3)
+	{ transform: translateZ(calc(var(--depth-plate) - var(--depth) /2)); }
+piedcr-3d >*:nth-child(2), piedcr-3d >*:nth-child(4), piedrd-3d >*:nth-child(2), piedrd-3d >*:nth-child(4)
+	{ transform: translateZ(calc(var(--depth) /2 - var(--depth-plate))); }
+table-3d >*:nth-child(1) { height: 0.5em; }
+table-3d >*:nth-child(2) { height: calc(100% - 0.5em); }
+*/
