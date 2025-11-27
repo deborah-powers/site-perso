@@ -3,8 +3,9 @@ piedcr-3d, piedrd-3d, table-3d {
 	height: 10em;
 	width: 8em;
 	--depth: 4em;
-	--fond: #F084;
+	--fond: #F08;
 	--depth-plate: var(--depth);
+	--bord: solid 4px green;
 	color: var(--text-color);
 	/* ------ */
 	border: none;
@@ -19,6 +20,8 @@ piedcr-3d, piedrd-3d, table-3d {
 }
 piedrd-3d { --radius: 0.5em; }
 piedcr-3d > pave-3d, piedrd-3d >*{
+	--fond: inherit;
+	--bord: inherit;
 	border: none;
 	background: none;
 	margin: 0;
@@ -32,13 +35,18 @@ piedcr-3d > pave-3d, piedrd-3d >*{
 	left: 0;
 }
 piedcr-3d > pave-3d { --depth: 1em; }
-piedcr-3d >*:nth-child(n+3), piedrd-3d >*:nth-child(n+3) { left: calc(100%); }
-piedcr-3d >*:nth-child(1){}
-/*
-piedcr-3d >*:nth-child(1), piedcr-3d >*:nth-child(3), piedrd-3d >*:nth-child(1), piedrd-3d >*:nth-child(3)
-	{ transform: translateZ(calc(var(--depth-plate) - var(--depth) /2)); }
-piedcr-3d >*:nth-child(2), piedcr-3d >*:nth-child(4), piedrd-3d >*:nth-child(2), piedrd-3d >*:nth-child(4)
-	{ transform: translateZ(calc(var(--depth) /2 - var(--depth-plate))); }
-table-3d >*:nth-child(1) { height: 0.5em; }
-table-3d >*:nth-child(2) { height: calc(100% - 0.5em); }
-*/
+piedcr-3d >*:nth-child(n+3) { left: calc(100% - var(--depth)); }
+piedcr-3d >*:nth-child(1), piedcr-3d >*:nth-child(3) { transform: translateZ(calc(var(--depth-plate) /2 - var(--depth) /2)); }
+piedcr-3d >*:nth-child(2), piedcr-3d >*:nth-child(4) { transform: translateZ(calc(var(--depth) /2 - var(--depth-plate) /2)); }
+piedrd-3d >*:nth-child(n+3) { left: calc(100% - var(--radius) *2); }
+piedrd-3d >*:nth-child(1), piedrd-3d >*:nth-child(3) { transform: translateZ(calc(var(--depth-plate) /2 - var(--radius))); }
+piedrd-3d >*:nth-child(2), piedrd-3d >*:nth-child(4) { transform: translateZ(calc(var(--radius) - var(--depth-plate) /2)); }
+table-3d >* {
+	width: inherit;
+	--depth: inherit;
+	--bord: inherit;
+	--fond: inherit;
+}
+table-3d > pave-3d { height: 0.5em; }
+table-3d > piedcr-3d, table-3d > piedrd-3d { height: calc(100% - 0.5em); }
+

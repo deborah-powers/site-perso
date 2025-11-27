@@ -46,7 +46,6 @@ piece-3d >*.fenetre {
 fenetre, porte {
 	display: block;
 	width: calc(2* var(--fw));
-	position: absolute;
 	left: calc(var(--fx) - var(--fw));
 }
 fenetre {

@@ -44,7 +44,7 @@ piece-3d, pave-3d, tiso-3d, trec-3d, hexa-3d, octo-3d, prmd-3d {
 	--depth: 4cm;
 	--bord: solid 4px var(--bord-color);
 }
-piece-3d >*:nth-child(-n+6), pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*, prmd-3d >*,
+piece-3d >*, pave-3d >*, tiso-3d >*, trec-3d >*, hexa-3d >*, octo-3d >*, prmd-3d >*,
 tub-q3d >*, tube-3d >*, cwn-q3d >*, bol-c3d >*, bole-3d >*, boul-3d >*, cyld-3d >*, caps-3d >*, con-q3d >*, con-c3d >*, cone-3d >*, chfr-3d >*, matl-3d >* {
 	border: var(--bord);
 	background: var(--fond);
