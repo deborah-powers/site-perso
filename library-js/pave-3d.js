@@ -166,15 +166,6 @@ class Piece3d extends Shape3d{
 		});
 		observer.observe (this, { childList: true });
 }}
-class Table3d extends Shape3d{
-	constructor(){ super (5); }
-	connectedCallback(){
-		for (var c=0; c< this.faceNb; c++){
-			var element = document.createElement ('pave-3d');
-			for (var d=0; d<6; d++) element.appendChild (document.createElement ('p'));
-			element.className = 'pole';
-			this.appendChild (element);
-}}}
 customElements.define ('pave-3d', Pave3d);
 customElements.define ('tiso-3d', Trig3d);
 customElements.define ('trec-3d', Trec3d);
@@ -222,6 +213,21 @@ class Table3d extends Shape3d{
 		this.appendChild (child);
 		this.appendChild (new piedRond3d());
 }}
+class Chaise3d extends Shape3d{
+	constructor(){ super (6); }
+	connectedCallback(){
+		var element = document.createElement ('pave-3d');	// assise
+		for (var d=0; d<6; d++) element.appendChild (document.createElement ('p'));
+		this.appendChild (element);
+		element = document.createElement ('pave-3d');	// dossier
+		for (var d=0; d<6; d++) element.appendChild (document.createElement ('p'));
+		this.appendChild (element);
+		this.appendChild (new Tube3d());
+		this.appendChild (new Tube3d());
+		this.appendChild (new Tube3d());
+		this.appendChild (new Tube3d());
+}}
 customElements.define ('piedcr-3d', piedCarre3d);
 customElements.define ('piedrd-3d', piedRond3d);
 customElements.define ('table-3d', Table3d);
+customElements.define ('chaise-3d', Chaise3d);

@@ -1,4 +1,4 @@
-piedcr-3d, piedrd-3d, table-3d {
+piedcr-3d, piedrd-3d, table-3d, chaise-3d {
 	/* propriétés modifiables */
 	height: 10em;
 	width: 8em;
@@ -19,7 +19,7 @@ piedcr-3d, piedrd-3d, table-3d {
 	background-position: center;
 }
 piedrd-3d { --radius: 0.5em; }
-piedcr-3d > pave-3d, piedrd-3d >*{
+piedcr-3d > pave-3d, piedrd-3d >*, chaise-3d > tube-3d {
 	--fond: inherit;
 	--bord: inherit;
 	border: none;
@@ -38,9 +38,11 @@ piedcr-3d > pave-3d { --depth: 1em; }
 piedcr-3d >*:nth-child(n+3) { left: calc(100% - var(--depth)); }
 piedcr-3d >*:nth-child(1), piedcr-3d >*:nth-child(3) { transform: translateZ(calc(var(--depth-plate) /2 - var(--depth) /2)); }
 piedcr-3d >*:nth-child(2), piedcr-3d >*:nth-child(4) { transform: translateZ(calc(var(--depth) /2 - var(--depth-plate) /2)); }
-piedrd-3d >*:nth-child(n+3) { left: calc(100% - var(--radius) *2); }
-piedrd-3d >*:nth-child(1), piedrd-3d >*:nth-child(3) { transform: translateZ(calc(var(--depth-plate) /2 - var(--radius))); }
-piedrd-3d >*:nth-child(2), piedrd-3d >*:nth-child(4) { transform: translateZ(calc(var(--radius) - var(--depth-plate) /2)); }
+piedrd-3d >*:nth-child(n+3), chaise-3d > tube-3d:nth-child(n+5) { left: calc(100% - var(--radius) *2); }
+piedrd-3d >*:nth-child(1), piedrd-3d >*:nth-child(3), chaise-3d > tube-3d:nth-child(3), chaise-3d > tube-3d:nth-child(5)
+	{ transform: translateZ(calc(var(--depth-plate) /2 - var(--radius))); }
+piedrd-3d >*:nth-child(2), piedrd-3d >*:nth-child(4), chaise-3d > tube-3d:nth-child(4), chaise-3d > tube-3d:nth-child(6)
+	{ transform: translateZ(calc(var(--radius) - var(--depth-plate) /2)); }
 table-3d >* {
 	width: inherit;
 	--depth: inherit;
@@ -49,4 +51,30 @@ table-3d >* {
 }
 table-3d > pave-3d { height: 0.5em; }
 table-3d > piedcr-3d, table-3d > piedrd-3d { height: calc(100% - 0.5em); }
-
+chaise-3d {
+	--depth: 5em;
+	height: 12em;
+	width: var(--depth);
+	--radius: 0.25em;
+}
+chaise-3d > pave-3d {
+	--bord: none;
+	--fond: inherit;
+	width: 100%;
+}
+chaise-3d > pave-3d:nth-child(1) {
+	--depth: inherit;
+	height: 0.5em;
+	top: 50%;
+	position: absolute;
+}
+chaise-3d > pave-3d:nth-child(2) {
+	--depth: 0.5em;
+	height: 30%;
+	transform: translateZ(calc(var(--depth) /2 - var(--depth-plate) /2));
+}
+chaise-3d > pave-3d:nth-child(2) >*:nth-child(n+3) { height: 100%; }
+chaise-3d > tube-3d:nth-child(3), chaise-3d > tube-3d:nth-child(5){
+	height: 50%;
+	top: 50%;
+}
