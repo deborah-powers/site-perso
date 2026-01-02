@@ -1,6 +1,6 @@
 /* fonctions pour ouvrir des fichiers utilisant un backend python
 dépendences:
-	text.js
+	textFct.js
 	fileBackend.py
 arguments:
 	fileName: chemin du fichier à partir du dossier où est le serveur
