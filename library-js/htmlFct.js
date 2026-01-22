@@ -438,7 +438,9 @@ window.onresize = resizeCodeBlocks;
 
 function prepareText(){
 	var metaText ="";
-	var text = document.body.children[0].innerHTML;
+	var text ="";
+	if (undefined === document.body.children[0]) text = document.body.innerHTML;
+	else text = document.body.children[0].innerHTML;
 	text = text.cleanTxt();
 	// trouver les métadonnées
 	// trouver la fin du texte, qui contient les métadonnées
