@@ -43,7 +43,7 @@ body {
 }
 *:first-letter, title:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
-p { margin-bottom: 1em; }
+h1, h2, h3, h4, h5, h6, div, figure, table, xmp, p { margin-bottom: 1em; }
 /* nouveauté, les blocs de code */
 xmp {
 	margin: 0 2%;
