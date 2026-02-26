@@ -25,10 +25,9 @@ const points =[ '\n', '. ', '! ', '? ', ': ', ':\t', '\n_ ', '\n* ', '\n- ', '\n
 const uppercaseLetters =[
 	'aA', 'àA', 'bB', 'cC', '\xe7\xc7', 'dD', 'eE', 'éE', 'èE', 'êE', 'ëE', 'fF', 'gG', 'hH', 'iI', 'îI', 'ïI', 'jJ', 'kK', 'lL', 'mM', 'nN', 'oO', '\xf4\xe4', 'pP', 'qQ', 'rR', 'sS', 'tT', 'uU', 'vV', 'wW', 'xX', 'yY', 'zZ'
 ];
-const wordsBeginMaj =[
-	'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre', 'deborah', 'powers', 'maman', 'mamie', 'papa', 'papi', 'victo', 'tony', 'robert', 'simplon', 'loïc', 'jared', 'leto', 'ville valo', 'valo', 'shelby', 'magritte', 'france', 'paris', 'rueil', 'malmaison', 'avon', 'fontainebleau', 'ivry', 'chateaudun', 'châteaudun', 'c://', 'c:\\'
-];
+const wordsBeginMaj =[ 'paris', 'rueil', 'avon', 'valo', 'leto', 'mars', 'mai', 'juin', 'papa', 'papi', 'victo', 'france', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche', 'janvier', 'février', 'avril', 'juillet', 'août', 'aout', 'septembre', 'octobre', 'novembre', 'décembre', 'decembre', 'deborah', 'powers', 'cadiot', 'maman', 'mamie', 'régine', 'tony', 'robert', 'simplon', 'loïc', 'jared', 'ville valo', 'shelby', 'magritte', 'gabin', 'makaron', 'malmaison', 'fontainebleau', 'issy', 'moulineaux', 'châte', 'chateaudun', 'michelet', 'chatelet', 'C:\\', 'users\\', 'desktop\\' ];
 const wordsBeginMin =[ 'Deborah.powers', 'Deborah.noisetier', 'Http', 'File:///', '\nPg_' ];
+const wordsFullMaj =[ '\\lenovo\\', 'i3f' ]
 const codeKeywords =[
 	'set schema', 'declare', 'begin', 'do $$', 'update', 'select', 'from', 'inner join', 'outer join', 'left outer join', 'where',
 	'having', 'group by', 'order by', 'insert into', 'if', 'elseif', 'end', 'loop', 'perform', 'drop ',
@@ -152,8 +151,13 @@ String.prototype.capitalize = function(){
 	var text ='\n'+ this+'\n';
 	for (var l of uppercaseLetters) for (var p of points){ text = text.replace (p + l[0], p + l[1]); }
 	for (var word of wordsBeginMin) text = text.replaceAll (word, word.toLowerCase());
-	for (var word of wordsBeginMaj) text = text.replaceAll (word, word.capitalizeOneWord());
-	// le code
+	for (var word of wordsFullMaj) text = text.replaceAll (word, word.toUpperCase());
+	const pointsEnd ='\n\t /\\:.,;!?}])';
+	const pointsStart ='\n\t ([{';
+	for (var w=0; w<12; w++){
+		for (var e of pointsEnd) for (var s of pointsStart){
+			text = text.replaceAll (s+ wordsBeginMaj[w] +e, s+ wordsBeginMaj[w].capitalizeOneWord() +e);
+	}}	// le code
 	for (artefact of codeKeywords){
 		text = text.replace ('\n'+ artefact.capitalizeOneWord() +' ', '\n'+ artefact +' ');
 		text = text.replace ('\t'+ artefact.capitalizeOneWord() +' ', '\t'+ artefact +' ');
