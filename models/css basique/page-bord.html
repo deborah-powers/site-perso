@@ -19,8 +19,12 @@
 		height: 7em;
 		width: 7em;
 	}
-	p.triangle#symetrie {
-		border-width: 2em 4em;
+	p.triangle#symetrie { border-width: 2em 4em; }
+	section.bord p.img { border-image-slice: 100; }
+	section.bord p.img.gardient { border-image-source: linear-gradient(90deg, #F00, #088); }
+	section.bord p.img.picture {
+		border-image-source: url('bordure.png');
+		border-image-repeat: round;
 	}
 	p.info {
 		height: 2em;
@@ -30,10 +34,16 @@
 	<h2>les bordures</h2>
 	<p></p>
 	<xmp>p {
-		border-color: #0CC;
-		border-width: 4px;
-		border-style: solid;
-	}</xmp>
+	border-color: #0CC;
+	border-width: 4px;
+	border-style: solid;
+}
+section.bord p.img { border-image-slice: 100; }
+section.bord p.img.gardient { border-image-source: linear-gradient(90deg, #F00, #088); }
+section.bord p.img.picture {
+	border-image-source: url('bordure.png');
+	border-image-repeat: round;
+}</xmp>
 	<p style='border-style:none'>border-style: none;</p>
 	<p style='border-style:dashed'>border-style: dashed;</p>
 	<p style='border-style:dotted'>border-style: dotted;</p>
@@ -42,5 +52,7 @@
 	<p style='border-radius:50%'>border-radius: 50%;</p>
 	<p class='triangle'></p><p class='info'>triangle. cotés: top, right, bottom, left</p>
 	<p class='triangle' id='symetrie'></p><p class='info'>triangle. cotés: top, right</p>
+	<p class='img gardient'>bordure dégradé</p>
+	<p class='img picture'>bordure image. seulement les png.</p>
 	<a href='index.html'>revenir au sommaire</a>
 </body></html>
