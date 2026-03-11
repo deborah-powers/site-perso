@@ -441,8 +441,6 @@ function prepareText(){
 	var text ="";
 	if (undefined === document.body.children[0]) text = document.body.innerHTML;
 	else text = document.body.children[0].innerHTML;
-	text = text.cleanTxt();
-	// trouver les métadonnées
 	// trouver la fin du texte, qui contient les métadonnées
 	if (text.includes ('\n==\n')
 		&& (text.includes ('\nJs: ') || text.includes ('\nJs bas: ') || metaText.includes ('\nScript:\n')
@@ -453,6 +451,7 @@ function prepareText(){
 			|| metaText.includes ('\nCss: ') || metaText.includes (' {') || metaText.includes (': '))
 			text = text.substring (0,d);
 	}
+	text = text.cleanTxt();
 	// transformer le texte en html
 	text = text.toHtml();
 	text = text.toHtmlShapes();
@@ -540,7 +539,8 @@ String.prototype.findScript = function(){
 String.prototype.findScriptInterne = function(){
 	if (this.includes ('\nScript\n')){
 		const d= this.indexOf ('\nScript\n');
-		const code = "<script type='text/javascript'>" + this.substring (d+9).strip() + '</script>';
+		var code = this.substring (d+8).strip();
+		code = "<script type='text/javascript' defer>" + code + '</script>';
 		return [ this.substring (0,d), code ];
 	}
 	else return [ this, "" ];
