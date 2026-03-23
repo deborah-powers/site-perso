@@ -168,7 +168,41 @@ String.prototype.capitalize = function(){
 	return text;
 }
 String.prototype.capitalizeOneWord = function(){ return this[0].toUpperCase() + this.substring (1); }
-String.prototype.fromModel = function (model){
+
+String.prototype.fromModel = function (textMdl){
+	// préparer les textes
+	var textSrc = this.cleanTxt();
+	textSrc = textSrc.replaceAll ('\n\n', '\n');
+	textSrc = textSrc.strip();
+	textMdl = textMdl.cleanTxt();
+	textMdl = textMdl.replaceAll ('\n\n', '\n');
+	textMdl = textMdl.strip();
+	// récupérer les données
+	var templateList = textMdl.split ('$');
+	for (var t=0; t< templateList.length; t=t+2) if (""!== templateList[t] && ! "\n ".includes (templateList[t])){
+		textSrc = textSrc.replace (templateList[t], '$');
+	}
+	if (""=== templateList [0] || "\n ".includes (templateList [0])) textSrc = '$'+ textSrc;
+	if (""=== templateList [templateList.length -1] || "\n ".includes (templateList [templateList.length -1])) textSrc = textSrc +'$';
+	textSrc = htmlLib.strip (textSrc);
+	// récupérer le nom des blocs
+	var t= templateList.length -1;
+	for (; t>=0; t=t-2) templateList.splice (t,1);
+	// transformer le tout en dictionnaire
+	var textList = textSrc.split ('$');
+	textList.splice (0,1);
+	textList.splice (textList.length -1, 1);
+	var dataDict ={};
+	for (var d=0; d< textList.length; d++) dataDict[templateList[d]] = textList[d];
+	return dataDict;
+}
+String.prototype.toModel = function (dataDict){
+	var textDst = this;
+	const dataList = Object.entries (dataDict);
+	for (var [key, value] of dataList) textDst = textDst.replace ('$'+ key, value);
+	return textDst;
+}
+String.prototype.fromModel_va = function (model){
 	model = model.cleanTxt().replaceAll ('%%', '$');
 	const modelPieces = model.split ('%');
 	var text = this.cleanTxt();
@@ -190,7 +224,7 @@ String.prototype.fromModel = function (model){
 	}
 	return data;
 }
-String.prototype.toModel = function (data){
+String.prototype.toModel_va = function (data){
 	text = this.replaceAll ('%s', '%$');
 	text = text.replaceAll ('%d', '%$');
 	text = text.replaceAll ('%f', '%$');
@@ -202,11 +236,11 @@ String.prototype.strip = function (char){
 	var toStrip = '\n \t';
 	if (char !== undefined) toStrip = toStrip + char;
 	var d=0;
-	while (d< this.length && toStrip.includes (this[d])) d++;
+	while (d< this.length && toStrip.includes (this[d])) d=d+1;
 	var f= this.length -1;
-	while (f>=0 && toStrip.includes (this[f])) f--;
+	while (f>=0 && toStrip.includes (this[f])) f=f-1;
 	f=f+1;
-	return this.slice (d,f);
+	return this.substring (d,f);
 }
 String.prototype.count = function (char){
 	if (! this.includes (char)) return 0;
