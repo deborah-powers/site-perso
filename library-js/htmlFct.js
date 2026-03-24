@@ -583,5 +583,5 @@ HTMLHeadElement.prototype.linkOpeningMethod = function(){
 	}
 	baseElement.target = '_blank';
 }
-document.head.linkOpeningMethod();
+// document.head.linkOpeningMethod();
 
