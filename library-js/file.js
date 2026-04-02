@@ -25,7 +25,16 @@ String.prototype.shortcut = function(){
 	for (var shortcut in pathShortcut) if (start == shortcut) start = this.replace (shortcut, pathShortcut[shortcut]);
 	return start;
 }
-function fromFile (fileName, callback){
+function fromFile (fileName){
+	// méthode synchrone
+	var reqHttp = new XMLHttpRequest();
+	reqHttp.open ('GET', fileName, false);
+	reqHttp.send();
+	var textRes ="";
+	if (reqHttp.status ==0 || reqHttp.status ==200) textRes = reqHttp.responseText;
+	return textRes;
+}
+function fromFile_va (fileName, callback){
 	var reqHttp = new XMLHttpRequest();
 	if (callback){
 		// méthode assynchrone
@@ -42,6 +51,16 @@ function fromFile (fileName, callback){
 		if (reqHttp.status ==0 || reqHttp.status ==200) textRes = reqHttp.responseText;
 		return textRes;
 }}
+function openWEfile (fileName){
+	// fileName est dans le dossier de l'extension
+	const filePath = chrome.extension.getURL (fileName);
+	var reqHttp = new XMLHttpRequest();
+	reqHttp.open ('GET', filePath, false);
+	reqHttp.send();
+	var fileText ="";
+	if (reqHttp.status ==0 || reqHttp.status ==200) fileText = reqHttp.responseText;
+	return fileText;
+}
 function readFileBackend (fileName, typeFile, callback){
 	/* activer le serveur python, serverFile.py
 	fileName est le chemin du fichier à partir du dossier où est le serveur
