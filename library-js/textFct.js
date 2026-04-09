@@ -184,7 +184,7 @@ String.prototype.fromModel = function (textMdl){
 	}
 	if (""=== templateList [0] || "\n ".includes (templateList [0])) textSrc = '$'+ textSrc;
 	if (""=== templateList [templateList.length -1] || "\n ".includes (templateList [templateList.length -1])) textSrc = textSrc +'$';
-	textSrc = htmlLib.strip (textSrc);
+	textSrc = textSrc.trim();
 	// récupérer le nom des blocs
 	var t= templateList.length -1;
 	for (; t>=0; t=t-2) templateList.splice (t,1);
@@ -199,7 +199,7 @@ String.prototype.fromModel = function (textMdl){
 String.prototype.toModel = function (dataDict){
 	var textDst = this;
 	const dataList = Object.entries (dataDict);
-	for (var [key, value] of dataList) textDst = textDst.replace ('$'+ key, value);
+	for (var [key, value] of dataList) textDst = textDst.replace ('$'+ key +'$', value);
 	return textDst;
 }
 String.prototype.fromModel_va = function (model){

@@ -109,9 +109,9 @@ body >a, div >a { display: block; }
 img { mix-blend-mode: multiply; }
 fieldset, legend { width: 100%; }
 /* les boutons */
-button, input[type='button'], input[type='submit'], input[type='reset'], select, textarea, nav >*, a.button { padding: 0.4em; }
+button, input[type='button'], input[type='submit'], input[type='reset'], select, textarea, nav >*, a.button, label.button { padding: 0.4em; }
 button, input, select, textarea { outline: none; }
-button, a.button, nav >*, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'], select {
+button, a.button, label.button, nav >*, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'], select {
 	text-align: center;
 	display: inline-block;
 	/*
@@ -131,8 +131,8 @@ option {
 	background-color: var(--page-color, white);
 	color: var(--text-color, black);
 }
-button:focus, a.button:focus, nav a:focus, input[type='button']:focus, input[type='submit']:focus, input[type='reset']:focus,
-button:hover, a.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
+button:focus, a.button:focus, label.button:focus, nav a:focus, input[type='button']:focus, input[type='submit']:focus, input[type='reset']:focus,
+button:hover, a.button:hover, label.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
 	background-color: var(--button-bg-hover, #525252);
 	color: var(--button-color-hover, white);
 	font-weight: normal;
