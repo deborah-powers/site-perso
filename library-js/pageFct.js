@@ -202,6 +202,32 @@ SVGSVGElement.prototype.delIds = function(){
 	this.removeAttribute ('class');
 	this.removeAttribute ('id');
 }
+HTMLElement.prototype.getByInnerText = function (message){
+	if (this.innerText.includes (message)){
+		var tagRes = null;
+		var c=0;
+		while (c< this.children.length && tagRes === null){
+			tagRes = this.children[c].getByInnerText (message);
+			c+=1;
+		}
+		if (tagRes === null) return this;
+		else return tagRes;
+	}
+	else return null;
+}
+HTMLElement.prototype.getElementsByInnerText = function (message){
+	if (this.innerText.includes (message)){
+		var elements =[];
+		var elementsChild =[];
+		for (var c=0; c< this.children.length; c++){
+			elementsChild = this.children[c].getElementsByInnerText (message);
+			for (var child of elementsChild) elements.push (child);
+		}
+		if (this.innerText.count (message) > elements.length) elements.push (this);
+		return elements;
+	}
+	else return [];
+}
 HTMLElement.prototype.findTag = function (tagName){
 	var container = this.getElementsByTagName (tagName)[0];
 	if (! exists (container)) container = document.getElementById (tagName);
