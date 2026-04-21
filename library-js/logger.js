@@ -5,8 +5,8 @@ const logStates =[ 'debug', 'info', 'warn', 'error'];
 // mise en forme des lignes
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var debugNb =0;
-const debugStyleLog = 'color: magenta; font-size: 1em;';
-const debugStyleMessage = 'color: magenta; font-size: 1.4em;';
+const debugStyleLog = 'color: purple; font-family: calibri; font-size: 1em;';
+const debugStyleMessage = 'color: purple; font-family: calibri; font-size: 1.4em;';
 
 function getStackChrome (stackText){
 	const stack ={ func: 'view', line: '0', file: "rien" };
@@ -53,23 +53,6 @@ function getStack(){
 	else stack = getStackGeneral (stackText);
 	return stack;
 }
-function getStack_va(){
-	console.log (navigator.userAgent);
-	console.log (stack);
-	trash = stack.pop();
-	var stackList =[];
-	var stackFinal =[];
-	for (var l=0; l< stack.length; l++){
-		stackList = stack[l].split (':');
-		stackFinal.push ({
-			func: stackList[0],
-			line: stackList[2],
-			file: stackList[1]
-		});
-		if (! stackFinal [stackFinal.length -1].func) stackFinal [stackFinal.length -1].func = 'view';
-	}
-	return stackFinal[0];
-}
 function toMessage (object){
 	if (object === null || object === undefined) return 'objet nul';
 	else{
@@ -82,7 +65,7 @@ function log(){
 	var message ="";
 	for (var a=0; a< arguments.length; a++) message = message +'\n'+ toMessage (arguments[a]);
 	message = message.trim();
-	console.log ('%c'+ stack.func +' '+ stack.line +': %c '+ message, debugStyleLog, debugStyleMessage);
+	console.log ('%c'+ stack.file +' '+ stack.line +': %c '+ message, debugStyleLog, debugStyleMessage);
 }
 function logCondition (condition){ if (condition) log(); }
 function logLetter(){
@@ -101,6 +84,7 @@ Element.prototype.toMessageTag = function(){
 	var message = this.tagName;
 	if (this.id) message = message +' #'+ this.id;
 	if (this.className) message = message +' .'+ this.className;
+	if (this.getAttribute ('role')) message = message +' :'+ this.getAttribute ('role');
 	return message;
 }
 Element.prototype.toMessage = function(){
@@ -168,37 +152,3 @@ function logError(){ log (arguments); }
 function logWarn(){ if (logStates.splice (0, 3).includes (logState)) log (arguments); }
 function logInfo(){ if (logStates.splice (0, 2).includes (logState)) log (arguments); }
 function logDebug(){ if (logStates[0] == logState) log (arguments); }
-
-// fonction re-crée indépendament du reste
-
-function logMessage (...messages){
-	const messageStyle = 'color: magenta; font-size: 1.5em;';
-	// le message
-	var message ="";
-	for (var msg of messages){
-		if (msg === null) message = message +"; null";
-		else if (msg === undefined) message = message +"; indefini";
-		else if (msg === true) message = message +"; oui";
-		else if (msg === false) message = message +"; non";
-		else if (typeof (msg) === Array) message = message + msg.join (", ");
-		else if (typeof (msg) === String) message = message +"; "+ msg;
-		else if (typeof (msg) === Number) message = message +"; "+ msg.toString();
-		else message = message +"; "+ msg.toString();
-	}
-	message = message.substring (2);
-	message = '%c'+ message;
-	// origine du message
-	const error = new Error();
-	var stackText = error.stack.split ('at ')[2];
-	var p= stackText.indexOf (' (');
-	var logTrace = stackText.substring (0,p);
-	stackText = stackText.substring (p+2, stackText.length -1);
-	if (stackText.includes ('\\')) p= stackText.lastIndexOf ('\\');
-	else p= stackText.lastIndexOf ('/');
-	stackText = stackText.substring (p+1);
-	p= stackText.lastIndexOf (':');
-	stackText = stackText.substring (0,p);
-	logTrace = stackText.replace (':', " "+ logTrace +" ");
-	// https://stackoverflow.com/questions/13815640/a-proper-wrapper-for-console-log-with-correct-line-number
-	console.log (message, messageStyle, logTrace);
-}
