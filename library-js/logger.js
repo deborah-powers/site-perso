@@ -5,26 +5,66 @@ const logStates =[ 'debug', 'info', 'warn', 'error'];
 // mise en forme des lignes
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var debugNb =0;
-const debugStyleLog = 'color: #B09; font-size: 1em;';
-const debugStyleMessage = 'color: #B09; font-size: 1.4em;';
+const debugStyleLog = 'color: magenta; font-size: 1em;';
+const debugStyleMessage = 'color: magenta; font-size: 1.4em;';
 
+function getStackChrome (stackText){
+	const stack ={ func: 'view', line: '0', file: "rien" };
+	var p= stackText.lastIndexOf (':');
+	stackText = stackText.substring (3,p);
+	p= stackText.indexOf (' (');
+	const stackList = stackText.split (':');
+	if (stackList[0]) stack.func = stackList[0];
+	stack.line = stackList[2];
+	stack.file = stackList[1];
+	if (stack.file.includes ('\\')) p= stack.file.lastIndexOf ('\\');
+	else p= stack.file.lastIndexOf ('/');
+	p+=1;
+	stack.file = stack.file.substring (p);
+	return stack;
+}
+function getStackGeneral (stackText){
+	const stack ={ func: 'view', line: '0', file: "rien" };
+	var p= stackText.lastIndexOf (':');
+	stackText = stackText.substring (3,p);
+	p= stackText.indexOf (' (');
+	const stackList = stackText.split (':');
+	if (stackList[0]) stack.func = stackList[0];
+	stack.line = stackList[2];
+	stack.file = stackList[1];
+	if (stack.file.includes ('\\')) p= stack.file.lastIndexOf ('\\');
+	else p= stack.file.lastIndexOf ('/');
+	p+=1;
+	stack.file = stack.file.substring (p);
+	return stack;
+}
 function getStack(){
 	var stackText = new Error().stack;
 	stackText = stackText.replaceAll ('file:///',"");
 	stackText = stackText.replaceAll ('C:/',"");
 	stackText = stackText.replaceAll ('@',':');
-	stack = stackText.split ('\n');
-	var trash = stack.shift();
-	while (stack[0].includes ('logger.js')) trash = stack.shift();
+	stackText = stackText.replaceAll (' (chrome-extension://',':');
+	var stackList = stackText.split ('\n');
+	var trash = stackList.shift();
+	while (stackList[0].includes ('logger.js')) trash = stackList.shift();
+	stackText = stackList[0].trim();
+	var stack ={};
+	if (navigator.userAgent.includes ('Chrome/')) stack = getStackChrome (stackText);
+	else stack = getStackGeneral (stackText);
+	return stack;
+}
+function getStack_va(){
+	console.log (navigator.userAgent);
+	console.log (stack);
 	trash = stack.pop();
-	var tmpList =[];
+	var stackList =[];
 	var stackFinal =[];
 	for (var l=0; l< stack.length; l++){
-		tmpList = stack[l].split (':');
+		stackList = stack[l].split (':');
 		stackFinal.push ({
-			func: tmpList[0],
-			line: tmpList[2],
-			file: tmpList[1]
+			func: stackList[0],
+			line: stackList[2],
+			file: stackList[1]
 		});
 		if (! stackFinal [stackFinal.length -1].func) stackFinal [stackFinal.length -1].func = 'view';
 	}
@@ -41,8 +81,8 @@ function log(){
 	const stack = getStack();
 	var message ="";
 	for (var a=0; a< arguments.length; a++) message = message +'\n'+ toMessage (arguments[a]);
-	message = message.strip();
-	console.log (' %c'+ stack.func +' '+ stack.line +': %c '+ message, debugStyleLog, debugStyleMessage);
+	message = message.trim();
+	console.log ('%c'+ stack.func +' '+ stack.line +': %c '+ message, debugStyleLog, debugStyleMessage);
 }
 function logCondition (condition){ if (condition) log(); }
 function logLetter(){
@@ -128,3 +168,37 @@ function logError(){ log (arguments); }
 function logWarn(){ if (logStates.splice (0, 3).includes (logState)) log (arguments); }
 function logInfo(){ if (logStates.splice (0, 2).includes (logState)) log (arguments); }
 function logDebug(){ if (logStates[0] == logState) log (arguments); }
+
+// fonction re-crée indépendament du reste
+
+function logMessage (...messages){
+	const messageStyle = 'color: magenta; font-size: 1.5em;';
+	// le message
+	var message ="";
+	for (var msg of messages){
+		if (msg === null) message = message +"; null";
+		else if (msg === undefined) message = message +"; indefini";
+		else if (msg === true) message = message +"; oui";
+		else if (msg === false) message = message +"; non";
+		else if (typeof (msg) === Array) message = message + msg.join (", ");
+		else if (typeof (msg) === String) message = message +"; "+ msg;
+		else if (typeof (msg) === Number) message = message +"; "+ msg.toString();
+		else message = message +"; "+ msg.toString();
+	}
+	message = message.substring (2);
+	message = '%c'+ message;
+	// origine du message
+	const error = new Error();
+	var stackText = error.stack.split ('at ')[2];
+	var p= stackText.indexOf (' (');
+	var logTrace = stackText.substring (0,p);
+	stackText = stackText.substring (p+2, stackText.length -1);
+	if (stackText.includes ('\\')) p= stackText.lastIndexOf ('\\');
+	else p= stackText.lastIndexOf ('/');
+	stackText = stackText.substring (p+1);
+	p= stackText.lastIndexOf (':');
+	stackText = stackText.substring (0,p);
+	logTrace = stackText.replace (':', " "+ logTrace +" ");
+	// https://stackoverflow.com/questions/13815640/a-proper-wrapper-for-console-log-with-correct-line-number
+	console.log (message, messageStyle, logTrace);
+}
