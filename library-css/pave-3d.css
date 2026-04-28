@@ -14,6 +14,10 @@ pave-3d.js créé automatiquement les faces
 	from { transform: rotateZ(0); }
 	to { transform: rotateZ(-360deg); }
 }
+@keyframes spin-yz {
+	from { transform: rotateY(0) rotateZ(0); }
+	to { transform: rotateY(360deg) rotateZ(-360deg); }
+}
 .mesure {
 	/* objet en cours de création */
 	--fond:
