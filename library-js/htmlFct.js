@@ -241,6 +241,7 @@ String.prototype.toLinkProtocol = function (protocol){
 String.prototype.toImage = function(){
 	// traiter les images
 	var text = this;
+	if (text.includes ('C:\\') && ! text.includes ('file:///')) text = text.replaceAll ('C:\\', 'file:///C:\\');
 	for (var protocol of protocols) for (var extension of imgExtension){
 		text = text.toImageProtocolExtension (protocol, extension);
 	}
@@ -249,7 +250,7 @@ String.prototype.toImage = function(){
 String.prototype.toImageProtocolExtension = function (protocol, extension){
 	extension = '.'+ extension;
 	if (! this.includes (protocol) || ! this.includes (extension)) return this;
-	const endingChars = '<>;, "!\t\n\t\'';
+	const endingChars = '<>;,"!\t\n\t\'';
 	var textList = this.split (extension);
 	for (var i=0; i< textList.length -1; i++){
 		// éliminer les cas ne concernant pas le protocole
