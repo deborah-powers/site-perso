@@ -64,14 +64,12 @@ chaise-3d > pave-3d {
 	width: 100%;
 }
 chaise-3d > pave-3d:nth-child(1) {
-	border: solid 8px pink;
 	--depth: inherit;
 	height: 0.5em;
 	top: 50%;
 	position: absolute;
 }
 chaise-3d > pave-3d:nth-child(2) {
-	border: solid 8px orange;
 	--depth: 0.5em;
 	height: 30%;
 	transform: translateZ(calc(var(--depth) /2 - var(--depth-plate) /2));
