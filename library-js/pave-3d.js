@@ -3,6 +3,46 @@ fonctionne avec pave-3d.css
 créer automatiquement les faces des formes
 nécessaire pour les formes comportant des courbes
 */
+// tourner la pièce
+function turnLeft (roomid){
+	const room = document.getElementById (roomid);
+	const roomStyle = window.getComputedStyle (room);
+	if (roomStyle.transform ==="" || roomStyle.transform === 'none') room.style.transform = 'rotateY(' + Math.PI /24.0 + 'rad)';
+	else{
+		// récupérer la rotation d'origine
+		const matrixString = roomStyle.transform.substring (9, roomStyle.transform.length -1);	// matrix3d(...)
+		const matrixValues = matrixString.split (', ');
+		const sinY = parseFloat (matrixValues[8]);	// sinus en radian
+		var angleRotationY = Math.asin (sinY);		// angle en radian
+		if (angleRotationY < Math.PI /2){
+			angleRotationY += Math.PI /24.0;
+			room.style.transform = 'rotateY(' + angleRotationY.toString() + 'rad)';
+}}}
+function turnRigth (roomid){
+	const room = document.getElementById (roomid);
+	const roomStyle = window.getComputedStyle (room);
+	if (roomStyle.transform ==="" || roomStyle.transform === 'none') room.style.transform = 'rotateY(-' + Math.PI /24.0 + 'rad)';
+	else{
+		// récupérer la rotation d'origine
+		var matrixString = roomStyle.transform.substring (9, roomStyle.transform.length -1);	// matrix3d(...)
+		var matrixValues = matrixString.split (', ');
+		var sinY = parseFloat (matrixValues[8]);	// sinus en radian
+		var angleRotationY = Math.asin (sinY);		// angle en radian
+		if (angleRotationY >- Math.PI /2){
+			angleRotationY -= Math.PI /24.0;
+			room.style.transform = 'rotateY(' + angleRotationY.toString() + 'rad)';
+}}}
+function turnStraigth (roomid){
+	const room = document.getElementById (roomid);
+	room.style.transform ="";
+}
+const turnButtonTemplate =`
+	<ul title='pivoter la pièce'>
+<li><button onclick='turnLeft ("test-room")'>gauche</button></li>
+<li><button onclick='turnStraigth ("test-room")'>centré</button></li>
+<li><button onclick='turnRigth ("test-room")'>droite</button></li>
+	</ul>`;
+// les objets
 function mutationNb (mutations){
 	// mutations est un MutationRecord
 	var nbChildren =0;
@@ -40,7 +80,6 @@ class TubQ3d extends Shape3d{
 class Tube3d extends Shape3d{
 	constructor(){ super (4); }
 	connectedCallback(){
-		console.log ('Tube3d connectedCallback');
 		for (var c=0; c< this.faceNb; c++) this.appendChild (document.createElement ('tub-q3d')); }
 }
 class Cyld3d extends Shape3d{
