@@ -51,7 +51,7 @@ function fromFile_va (fileName, callback){
 		if (reqHttp.status ==0 || reqHttp.status ==200) textRes = reqHttp.responseText;
 		return textRes;
 }}
-function openWEfile (fileName){
+function openfileWebExt (fileName){
 	// fileName est dans le dossier de l'extension
 	const filePath = chrome.extension.getURL (fileName);
 	var reqHttp = new XMLHttpRequest();
