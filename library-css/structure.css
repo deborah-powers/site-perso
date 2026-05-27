@@ -122,6 +122,7 @@ button, a.button, label.button, nav >*, input[type='button'], input[type='submit
 	color: var(--button-color, black);
 	background-color: var(--button-bg, #969696);
 	border-style: var(--button-border, none);
+	width: 50%;
 }
 select { width: 100%; }
 select:focus {
