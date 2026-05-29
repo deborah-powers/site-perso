@@ -395,6 +395,58 @@ String.prototype.toSql = function(){
 	text = text.toSqlOne ('select');
 	return text;
 }
+HTMLPreElement.prototype.resizeText = function(){
+	var newText = this.innerHTML.replaceAll ('\n', " ");
+	newText = newText.trim();
+	while (newText.includes ("  ")) newText = newText.replaceAll ("  ", " ");
+	// couper les lignes au niveau de marqueurs
+//	const artefacts =[ ['> ','>\n'], [' <', '\n<'], ['; ',';\n'], ['} ','}\n' ], [' }','\n}'], ['{ ','{\n'], ['] ',']\n'] ];
+	const artefacts =[ ['> ','>\n'], [' <', '\n<'], ['; ',';\n'], ['): ','):\n'], ['){ ','){\n'] ];
+	for (var char of artefacts) newText = newText.replaceAll (char[0], char[1]);
+	while (newText.includes ('\n\n')) newText = newText.replaceAll ('\n\n', '\n');
+	// ajuster les lignes restantes selon les espaces
+	const charNb = this.clientWidth /9;
+	var lineList = newText.split ('\n');
+	for (var l=0; l< lineList.length; l++) if (lineList[l].length >charNb){
+		lineList[l] = lineList[l].replaceAll (": ", ": $");
+		lineList[l] = lineList[l].replaceAll (". ", ". $");
+		lineList[l] = lineList[l].replaceAll ("! ", "! $");
+		lineList[l] = lineList[l].replaceAll ("? ", "? $");
+		lineList[l] = lineList[l].replaceAll (", ", ", $");
+		const wordList = lineList[l].split (" $");
+		lineList[l] = wordList.resizeText (charNb);
+	}
+	newText = lineList.join ('\n');
+	lineList = newText.split ('\n');
+	for (var l=0; l< lineList.length; l++) if (lineList[l].length >charNb){
+		const wordList = lineList[l].split (" ");
+		lineList[l] = wordList.resizeText (charNb);
+	}
+	this.innerHTML = lineList.join ('\n');
+}
+Array.prototype.resizeText = function (charNb){
+	var newLine ="";
+	var newText ="";
+	for (var word of this){
+		if (word.length >= charNb){
+			newText = newText +'\n'+ newLine +'\n'+ word;
+			newLine ="";
+		}
+		else if (newLine.length >= charNb){
+			newText = newText +'\n'+ newLine;
+			newLine = word;
+		}
+		else if ((newLine.length + word.length) <= charNb) newLine = newLine +" "+ word;
+		else{
+			newText = newText +'\n'+ newLine;
+			newLine = word;
+	}}
+	newText = newText +'\n'+ newLine;
+	newText = newText.trim();
+	newText = newText.replaceAll ("\n ", '\n');
+	while (newText.includes ('\n\n')) newText = newText.replaceAll ('\n\n', '\n');
+	return newText;
+}
 HTMLPreElement.prototype.computeWidth = function(){
 	var text = this.innerHTML.replaceAll ('\n', " ");
 	while (text.includes ("  ")) text = text.replaceAll ("  ", " ");
@@ -431,7 +483,7 @@ HTMLPreElement.prototype.computeWidth = function(){
 }
 function resizeCodeBlocks(){
 	const pres = document.getElementsByTagName ('xmp');
-	for (var pre of pres) pre.computeWidth();
+	for (var pre of pres) pre.resizeText();
 }
 window.onresize = resizeCodeBlocks;
 
