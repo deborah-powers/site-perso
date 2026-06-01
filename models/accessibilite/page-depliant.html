@@ -16,11 +16,13 @@
 		left: 1em;
 		display: none;
 	}
-[role='tooltip']:hover, [role='tooltip']:focus,
-[aria-describedby]:hover + [role='tooltip'], [aria-describedby]:focus + [role='tooltip'] { display: inline-block; }
+	[role='tooltip']:hover, [role='tooltip']:focus,
+	[aria-describedby]:hover + [role='tooltip'], [aria-describedby]:focus + [role='tooltip'] { display: inline-block; }
 </style></head><body>
 	<button onclick='openDialog()'>afficher la dialog</button>
 	<button onclick='openModal()'>afficher la modale</button>
+	<button popovertargetaction='show' popovertarget='popover-nojs'>ouvrir la popover sans js</button>
+	<button command='show-modal' commandfor='modale-nojs'>ouvrir la modale sans js</button>
 	<button type='button' aria-expanded='false' aria-controls='accordeon' onclick='toggleAccordion(this)'>l'accordéon</button>
 	<dialog>
 		<p>coucou je suis la boîte de dialogue.</p>
@@ -29,6 +31,14 @@
 	<dialog>
 		<p>coucou je suis la modale.</p>
 		<button title='OK fermer' onclick='closeDialog(this.parentElement)'>OK</button>
+	</dialog>
+	<dialog id='popover-nojs' popover>
+		<p>coucou je suis la popover sans js.</p>
+		<button popovertargetaction='hide' popovertarget='popover-nojs'>OK</button>
+	</dialog>
+	<dialog id='modale-nojs'>
+		<p>coucou je suis la modale sans js.</p>
+		<button command='close' commandfor='modale-nojs'>OK</button>
 	</dialog>
 	<section id='accordeon' role='region'><p>coucou je suis l'accordéon</p></section>
 	<p aria-describedby='description-aria'>paragraphe survolable avec une description aria dans une infobulle simple.</p>
