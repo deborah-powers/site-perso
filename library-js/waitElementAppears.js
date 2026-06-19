@@ -25,3 +25,7 @@ const elementAssync = waitElementAppears ('Oui');
 elementAssync.then (function (element){ console.log ('assynchrone', element); });
 const elementSync = await waitElementAppears ('Non');
 console.log ('synchrone', elementSync);
+
+document.body.addEventListener ('change', function (event){ setTimeout (function(){
+	if (document.body.includes ('Peut-être')) console.log ('Peut-être que oui');
+}, 500); });
