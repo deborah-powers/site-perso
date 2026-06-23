@@ -293,3 +293,24 @@ HTMLBodyElement.prototype.cleanBody = function(){
 	this.simplifyNesting();
 	this.delAttributes();
 }
+function extractWindowUserProperties(){
+	var windowProps = Object.getOwnPropertyNames (window);
+	for (var wp= windowProps.length -1; wp>=0; wp--){
+		if (windowProps[wp].includes ('webkit') || windowProps[wp].includes ('webpack') || windowProps[wp].includes ('WebGL'))
+			windowProps.splice (wp,1);
+		else if (windowProps[wp].includes ('SVG') || windowProps[wp].includes ('ABT') || windowProps[wp].includes ('URL'))
+			windowProps.splice (wp,1);
+		else if (windowProps[wp].includes ('_zone_')) windowProps.splice (wp,1);
+		else if (window [windowProps[wp]] === undefined || window [windowProps[wp]] === null) windowProps.splice (wp,1);
+		else if ('function' === typeof (window[windowProps[wp]])) windowProps.splice (wp,1);
+	}
+	const iframe = document.createElement ('iframe');
+	iframe.style.display = 'none';
+	document.body.appendChild (iframe);
+	for (var wp= windowProps.length -1; wp>=0; wp--){
+		if (iframe.contentWindow.hasOwnProperty (windowProps[wp])) windowProps.splice (wp,1);
+	}
+	document.body.removeChild (iframe);
+//	for (var wp of windowProps) console.log (wp, window[wp]);
+	return windowProps;
+}
