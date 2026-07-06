@@ -281,6 +281,22 @@ HTMLInputElement.prototype.getInputsByType = function (typeName){
 	if (this.type === typeName) return [ this, ];
 	else return [];
 }
+HTMLElement.prototype.getElementsByProperties = function (tagName, className){
+	var elements = null;
+	var elementsFin =[]
+	if (tagName){
+		elements = this.getElementsByTagName (tagName);
+		if (className) for (var elm of elements){
+			if (elm.className.includes (className)) elementsFin.push (elm);
+		}
+		else for (var elm of elements){ elementsFin.push (elm); }
+	}
+	else if (className){
+		elements = this.getElementsByClassName (className)
+		for (var elm of elements) elementsFin.push (elm);
+	}
+	return elementsFin;
+}
 HTMLBodyElement.prototype.cleanBody = function(){
 	console.log ('cleanBody');
 	this.innerHTML = this.innerHTML.cleanHtml();
