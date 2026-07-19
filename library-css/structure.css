@@ -60,6 +60,8 @@ table, caption, tr {
 	/* width: 100%; */
 	border-collapse: collapse;
 }
+table.reverse { writing-mode: vertical-lr; }
+table.reverse > tr { writing-mode: horizontal-tb; }
 th, td {
 	padding: 0.2em;
 	border: solid 2px var(--button-bg, #969696);
@@ -277,6 +279,7 @@ a.sr-only:focus, a.sr-only:active {
 }
 @media print{}
 /* dimensions de ma liseuse kobo touch: 295px * 380px */
+/* dimensions de mon smartphone: 384px * 694 - 832px */
 @media (width: 295px) and (height: 380px){}
 /* pour mes pwa */
 button#install-pwa { display: none; }
