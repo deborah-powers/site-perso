@@ -281,6 +281,17 @@ a.sr-only:focus, a.sr-only:active {
 /* dimensions de ma liseuse kobo touch: 295px * 380px */
 /* dimensions de mon smartphone: 384px * 694 - 832px */
 @media (width: 295px) and (height: 380px){}
+.bord-img {
+	border-image-slice: 100;
+	border-image-repeat: round;		/* repère les coins et les bords de l'image. dupplique le motif de bord */
+/*	border-image-repeat: stretch;	repère les coins et les bords de l'image. agrandi le motif de bord
+	border-width: 20px;				nécessaire
+	border-image-source: repeating-linear-gradient(45deg, var(--bord-color) 5%, var(--text-color) 15%, var(--bord-color) 20%);
+	border-image-source: linear-gradient(90deg, #F00, #088);
+	border-image-source: url("data:image/svg+xml;utf8,<svg version='1.1' width='300' height='300' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><circle cx='50' cy='50' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='50' cy='250' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='50' cy='150' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='250' cy='50' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='250' cy='250' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='250' cy='150' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='150' cy='50' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='150' cy='250' r='45' stroke-width='10' fill='none' stroke='maroon' /></svg>");
+	border-image: url() 100;
+*/
+}
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }

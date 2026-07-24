@@ -4,10 +4,21 @@ créer automatiquement les faces des formes
 nécessaire pour les formes comportant des courbes
 */
 // tourner la pièce
+HTMLCollection.prototype.deRotateY = function (angleInverseRad){
+	angleInverseRad *=-1;
+	const rotateStyle = 'rotateY(' + angleInverseRad.toString() + 'rad)';
+	for (var item of this) item.style.transform = rotateStyle;
+}
 function turnLeft (roomid){
 	const room = document.getElementById (roomid);
 	const roomStyle = window.getComputedStyle (room);
-	if (roomStyle.transform ==="" || roomStyle.transform === 'none') room.style.transform = 'rotateY(' + Math.PI /24.0 + 'rad)';
+	const ronds = room.getElementsByClassName ('rond');
+	const light = room.getElementsByClassName ('light');
+	if (roomStyle.transform ==="" || roomStyle.transform === 'none'){
+		room.style.transform = 'rotateY(' + Math.PI /24.0 + 'rad)';
+		ronds.deRotateY (Math.PI /24.0);
+		light.deRotateY (Math.PI /24.0);
+	}
 	else{
 		// récupérer la rotation d'origine
 		const matrixString = roomStyle.transform.substring (9, roomStyle.transform.length -1);	// matrix3d(...)
@@ -17,11 +28,19 @@ function turnLeft (roomid){
 		if (angleRotationY < Math.PI /2){
 			angleRotationY += Math.PI /24.0;
 			room.style.transform = 'rotateY(' + angleRotationY.toString() + 'rad)';
+			ronds.deRotateY (angleRotationY);
+			light.deRotateY (angleRotationY);
 }}}
 function turnRigth (roomid){
 	const room = document.getElementById (roomid);
 	const roomStyle = window.getComputedStyle (room);
-	if (roomStyle.transform ==="" || roomStyle.transform === 'none') room.style.transform = 'rotateY(-' + Math.PI /24.0 + 'rad)';
+	const ronds = room.getElementsByClassName ('rond');
+	const light = room.getElementsByClassName ('light');
+	if (roomStyle.transform ==="" || roomStyle.transform === 'none'){
+		room.style.transform = 'rotateY(-' + Math.PI /24.0 + 'rad)';
+		ronds.deRotateY (-Math.PI /24.0);
+		light.deRotateY (-Math.PI /24.0);
+	}
 	else{
 		// récupérer la rotation d'origine
 		var matrixString = roomStyle.transform.substring (9, roomStyle.transform.length -1);	// matrix3d(...)
@@ -31,10 +50,16 @@ function turnRigth (roomid){
 		if (angleRotationY >- Math.PI /2){
 			angleRotationY -= Math.PI /24.0;
 			room.style.transform = 'rotateY(' + angleRotationY.toString() + 'rad)';
+			ronds.deRotateY (angleRotationY);
+			light.deRotateY (angleRotationY);
 }}}
 function turnStraigth (roomid){
 	const room = document.getElementById (roomid);
+	const ronds = room.getElementsByClassName ('rond');
+	const light = room.getElementsByClassName ('light');
 	room.style.transform ="";
+	for (var rond of ronds) rond.style.transform ="";
+	for (var rond of light) rond.style.transform ="";
 }
 const turnButtonTemplate =`
 	<ul title='pivoter la pièce'>
