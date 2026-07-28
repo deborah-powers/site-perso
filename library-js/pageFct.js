@@ -297,8 +297,7 @@ HTMLElement.prototype.getElementsByProperties = function (tagName, className){
 	}
 	return elementsFin;
 }
-HTMLBodyElement.prototype.cleanBody = function(){
-	console.log ('cleanBody');
+HTMLElement.prototype.cleanBody = function(){
 	this.innerHTML = this.innerHTML.cleanHtml();
 //	const codeBlocs = document.getElementsByTagName ('xmp');
 //	for (var b=0; b< codeBlocs.length; b++) codeBlocs[b].simplifyNesting();
