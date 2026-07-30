@@ -7,7 +7,14 @@ nécessaire pour les formes comportant des courbes
 HTMLCollection.prototype.deRotateY = function (angleInverseRad){
 	angleInverseRad *=-1;
 	const rotateStyle = 'rotateY(' + angleInverseRad.toString() + 'rad)';
-	for (var item of this) item.style.transform = rotateStyle;
+	for (var item of this){
+		if (item.tagName === 'BOLE-3D'){
+			var style = document.getElementsByTagName ('style')[0];
+		//	style = document.createElement ('style');
+			style.innerHTML = 'bole-3d.light:before { transform: ' + rotateStyle +'; }';
+		}
+		else item.style.transform = rotateStyle;
+	}
 }
 function turnLeft (roomid){
 	const room = document.getElementById (roomid);
