@@ -5,6 +5,7 @@ nécessaire pour les formes comportant des courbes
 */
 // tourner la pièce
 HTMLCollection.prototype.deRotateY = function (angleInverseRad){
+	// comment gérer la position Z des éléments ? transform: translateZ(2em)
 	angleInverseRad *=-1;
 	const rotateStyle = 'rotateY(' + angleInverseRad.toString() + 'rad)';
 	for (var item of this){
@@ -14,8 +15,7 @@ HTMLCollection.prototype.deRotateY = function (angleInverseRad){
 			style.innerHTML = 'bole-3d.light:before { transform: ' + rotateStyle +'; }';
 		}
 		else item.style.transform = rotateStyle;
-	}
-}
+}}
 function turnLeft (roomid){
 	const room = document.getElementById (roomid);
 	const roomStyle = window.getComputedStyle (room);
