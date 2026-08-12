@@ -43,6 +43,19 @@ function downloadFileFromButton (fileName, fileText){
 	downloadLink.setAttribute ('download', fileName);
 	downloadLink.click();
 }
+HTMLElement.prototype.getElementsByRole = function (roleName){
+	if (this.outerHTML.includes (roleName)){
+		var listRes =[];
+		var listTmp =[];
+		if (this.role === roleName) listRes.push (this);
+		for (var element of this.children){
+			listTmp = element.findListByRole (roleName);
+			for (var child of listTmp) listRes.push (child);
+		}
+		return listRes;
+	}
+	else return [];
+}
 Element.prototype.removeComments = function(){
 	if (this.innerHTML.includes ('<!--')){
 		var f=0;
