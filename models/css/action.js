@@ -15,6 +15,7 @@ angular.module ('cssApp').config (function ($stateProvider, $urlRouterProvider, 
 	$stateProvider.state ({ name: 'query', url: '/media-query', templateUrl: 'page-query.html' });
 	$stateProvider.state ({ name: 'image', url: '/image-et-lien', templateUrl: 'page-image.html' });
 	$stateProvider.state ({ name: 'position', url: '/position', templateUrl: 'page-position.html' });
+	$stateProvider.state ({ name: 'input', url: '/input', templateUrl: 'page-input.html' });
 	$stateProvider.state ({ name: 'gnrl', url: '/generalites', templateUrl: 'page-general.html' });
 	$urlRouterProvider.otherwise ('/generalites');
 	$locationProvider.hashPrefix ('');

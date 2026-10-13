@@ -42,9 +42,9 @@ p.arrow:before, span.arrow:before {
 .icon {
 	width: 3em;
 	height: 3em;
+	text-align: center;
 	background-color: var(--bord-color);
 	background-image: radial-gradient(var(--bord-color) 60%, var(--text-color) 60%);
-	text-align: center;
 }
 .icon.modify {
 	clip-path: polygon(0 20%, 20% 0, 90% 72%, 100% 100%, 72% 90%);
@@ -57,14 +57,14 @@ p.arrow:before, span.arrow:before {
 .shape {
 	width: 3em;
 	height: 3em;
+	text-align: center;
+	background-color: var(--fond-color, #AAA);
 	margin-left: 1em;
 	z-index: 2;
 	position: relative;
-	background-color: var(--fond-color, #AAA);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
-	text-align: center;
 }
 .shape:before, .shape:after {
 	content: "";
@@ -100,16 +100,16 @@ p.arrow:before, span.arrow:before {
 	mask-position: center;
 	mask-size: contain;
 }
-.arrow-left { clip-path: polygon(0% 50%, 50% 0%, 100% 0%, 50% 50%, 100% 100%, 50% 100%); }
-.arrow-left.reverse { transform: scaleX(-1); }
+.outline.arrow-left { clip-path: polygon(0% 50%, 50% 0%, 100% 0%, 50% 50%, 100% 100%, 50% 100%); }
+.outline.arrow-left.reverse { transform: scaleX(-1); }
 .outline.arrow-up { clip-path: polygon(50% 0%, 100% 30%, 70% 30%, 70% 100%, 30% 100%, 30% 30%, 0% 30%, 50% 0%); }
 .outline.arrow-up.reverse { transform: scaleX(-1); }
-.cross {
+.outline.cross {
 	background-image:
 		linear-gradient(45deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%),
 		linear-gradient(135deg, transparent 45%, var(--bord-color) 45%, var(--bord-color) 55%, transparent 55%);
 }
-.moon {
+.outline.moon {
 	background-color: transparent;
 	border-radius: 50%;	padding-top: 1em;
 	box-shadow: -1em 0 0 0 var(--fond-color, #AAA);

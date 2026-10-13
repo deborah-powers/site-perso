@@ -1,0 +1,28 @@
+<style type='text/css'>
+	input + label { color: purple; }	/* label directement après l'imput */
+	input ~ label { color: teal; }	/* label séparé de son imput, mais dans le même conteneur */
+	*:has(input) ~ * label { color: blue; }	/* label et imput emballés dans des conteneurs différents */
+	input, label { display: block; }
+	#deployer-section { display: none; }
+</style><section>
+	<h2>quelques inputs</h2>
+	<input type='checkbox' id='deployer-bouton-voisin' aria-controls='deployer-section' /><label>label voisin de son input</label>
+	<input type='checkbox' id='deployer-bouton-separe' aria-expended='false' aria-controls='deployer-section' />
+	<p>bla bla</p><p>bla</p>
+	<label for='deployer-bouton-separe'>label séparé de son input</label>
+	<p><input type='checkbox' id='deployer-bouton-emballe' aria-expended='false' aria-controls='deployer-section' /></p>
+	<p><label for='deployer-bouton-emballe'>label et input emballés</label></p>
+	<div id='deployer-section' aria-live='polite'><p>bonjour je suis la section à déployer</p></div>
+<script type='text/javascript'>
+	const boutons = document.getElementsByTagName ('input');
+	const section = document.getElementById ('deployer-section');
+	HTMLInputElement.prototype.deploiSection = function(){
+		if (this.checked){
+			section.style.display = 'block';
+			this.setAttribute ('aria-expended', true);
+		}else{
+			section.style.display = 'none';
+			this.setAttribute ('aria-expended', false);
+	}}
+	for (var bouton of boutons) bouton.addEventListener ('click', function (event){ event.target.deploiSection(); });
+</section>
