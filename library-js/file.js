@@ -1,42 +1,147 @@
-// dépendence: text.js
+/* fonctions pour ouvrir des fichiers
+dépendence: text.js et text-clean.js
+j'aurai souvent besoin d'utiliser un serveur afin d'ouvrir des fichiers
+cd dossier/contenant/mon.fichier
+python -m http.server
+fileName = 'http://localhost:8000/mon.fichier';
+*/
+const extentionsImg =[ 'bmp', 'svg', 'jpg', 'jpeg', 'png', 'gif' ];
+const extentions =[ 'js', 'py', 'php', 'java', 'sql', 'css', 'txt', 'html', 'htm', 'xml', 'json', 'csv', 'tsv', 'mp3', 'mp4' ]
+	.concat (extentionsImg);
 
-// les fichiers
+// variables à modifier selon votre ordinateur
+const sep = '\\';
+const pathRoot = 'C:\\Users\\LENOVO' + sep;
+const pathDesktop = pathRoot + 'Desktop' + sep;
+const pathArticles = pathDesktop + 'articles' + sep;
+const pathShortcut ={
+	'r/': pathRoot,
+	'b/': pathDesktop,
+	'a/': pathArticles,
+};
+String.prototype.shortcut = function(){
+	if (this.contain (pathRoot)) return this;
+	var start = this.slice (0,2);
+	for (var shortcut in pathShortcut) if (start == shortcut) start = this.replace (shortcut, pathShortcut[shortcut]);
+	return start;
+}
 function fromFile (fileName){
-	// mes fichiers sont petits, j'utilise les requêtes synchrones, simples à traiter
-	var xhttp = new XMLHttpRequest();
-	xhttp.open ('GET', fileName, false);
-	xhttp.send();
+	// méthode synchrone
+	var reqHttp = new XMLHttpRequest();
+	reqHttp.open ('GET', fileName, false);
+	reqHttp.send();
 	var textRes ="";
-	if (xhttp.status ==0 || xhttp.status ==200) textRes = xhttp.responseText;
+	if (reqHttp.status ==0 || reqHttp.status ==200) textRes = reqHttp.responseText;
 	return textRes;
 }
-function fromFileAssync (fileName, callback){
+function fromFile_va (fileName, callback){
+	var reqHttp = new XMLHttpRequest();
 	if (callback){
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
-		xhttp.open ('GET', jsonFile, true);
-		xhttp.send();
+		// méthode assynchrone
+		reqHttp.onreadystatechange = function(){ if (this.readyState ==4) callback (this.responseText); };
+		reqHttp.open ('GET', fileName, true);
+		reqHttp.send();
+		return null;
 	}
-	else console.log ('pas de callback, les données de', fileName, 'ne peuvent pas être utilisée');
+	else{
+		// méthode synchrone
+		reqHttp.open ('GET', fileName, false);
+		reqHttp.send();
+		var textRes = null;
+		if (reqHttp.status ==0 || reqHttp.status ==200) textRes = reqHttp.responseText;
+		return textRes;
+}}
+function openfileWebExt (fileName){
+	// fileName est dans le dossier de l'extension
+	const filePath = chrome.extension.getURL (fileName);
+	var reqHttp = new XMLHttpRequest();
+	reqHttp.open ('GET', filePath, false);
+	reqHttp.send();
+	var fileText ="";
+	if (reqHttp.status ==0 || reqHttp.status ==200) fileText = reqHttp.responseText;
+	return fileText;
 }
-function useJson (jsonFile){ return JSON.parse (fromFile (jsonFile)); }
-function useTsv (tsvFile){
-	var textRes = fromFile (tsvFile);
-	textRes = textRes.clean();
-	var listRes =[];
-	if (textRes){
-		listRes = textRes.split ('\n');
-		for (var l=0; l< listTmp.length; l++) listRes[l] = listRes[l].split ('\t');
-	}
-	return listRes;
-}
+function readFileBackend (fileName, typeFile, callback){
+	/* activer le serveur python, serverFile.py
+	fileName est le chemin du fichier à partir du dossier où est le serveur
+	action: read ou write
+	typeFile: article ou text
+	*/
+	const url = 'http://localhost:1407/serverFile.py';
+	const data = { action: action, type: typeFile, file: fileName };
+	const dataJson = JSON.stringify (data);
+	var reqHttp = new XMLHttpRequest();
+	if (callback){
+		// méthode assynchrone
+		reqHttp.onreadystatechange = function(){ if (this.readyState ==4){
+			var resJson = JSON.parse (this.responseText);
+			callback (resJson);
+		}};
+		reqHttp.open ('POST', url, true);
+		reqHttp.send (dataJson);
+		return null;
+	}else{
+		// méthode synchrone
+		reqHttp.open ('POST', url, false);
+		reqHttp.send (dataJson);
+		var jsonRes = null;
+		if (reqHttp.status ==0 || reqHttp.status ==200) jsonRes = JSON.parse (reqHttp.responseText);
+		return jsonRes;
+}}
+function fromJson (jsonFile, callback){
+	var reqHttp = new XMLHttpRequest();
+	if (callback){
+		// méthode assynchrone
+		reqHttp.onreadystatechange = function(){ if (this.readyState ==4){
+			var jsonRes = JSON.parse (this.responseText);
+			callback (jsonRes);
+		}};
+		reqHttp.open ('GET', jsonFile, true);
+		reqHttp.send();
+		return null;
+	}else{
+		// méthode synchrone
+		reqHttp.open ('GET', jsonFile, false);
+		reqHttp.send();
+		var jsonRes = null;
+		if (reqHttp.status ==0 || reqHttp.status ==200) jsonRes = JSON.parse (reqHttp.responseText);
+		return jsonRes;
+}}
+function fromTsv (tsvFile, callback){
+	var reqHttp = new XMLHttpRequest();
+	if (callback){
+		// méthode assynchrone
+		reqHttp.onreadystatechange = function(){
+			if (this.readyState ==4){
+				var textRes = this.responseText.cleanTxt();
+				var listRes =[];
+				if (textRes) listRes = textRes.fromTsv();
+				callback (listRes);
+		}};
+		reqHttp.open ('GET', tsvFile, true);
+		reqHttp.send();
+		return null;
+	}else{
+		// méthode synchrone
+		reqHttp.open ('GET', tsvFile, false);
+		reqHttp.send();
+		var listRes =[];
+		if (reqHttp.status ==0 || reqHttp.status ==200){
+			var textRes = reqHttp.responseText.cleanTxt();
+			if (textRes) listRes = textRes.fromTsv();
+		}
+		return listRes;
+}}
 // les url
 charToEncode =[ ['=', 'xxx'], ['?', 'qqq'], ['&', 'ddd'] ];
+charToEncodePlus =[ ['%20', ' '] ];
 paramToUrl = function (url, params){
 	if (params){
 		url = url +'?';
-		for (p in params){
-			for (var c=0; c< charToEncode.length; c++) params[p] = params[p].replace (charToEncode[c][0], charToEncode[c][1]);
+		for (p in params) if (p !== 'fill'){
+			if (typeof (params[p]) == 'string') for (var c=0; c< charToEncode.length; c++)
+				params[p] = params[p].replace (charToEncode[c][0], charToEncode[c][1]);
+			else params[p] = params[p].toString();
 			url = url +p+'='+ params[p] +'&';
 		}
 		url = url.slice (0,-1);
@@ -58,13 +163,47 @@ paramFromUrl = function (url){
 	}
 	return params;
 }
-function useBackend (url, params){
-	var url = paramToUrl (url, params);
-	var textRes = fromFile (url);
-	var value = JSON.parse (textRes);
-	return value;
+Location.prototype.getParams = function(){
+	let params ={};
+	if (this.search && this.search.length >1){
+		let queryStr = this.search.slice (1, this.search.length);
+		queryStr = queryStr.replace ('=', '&')
+		const queryLst = queryStr.split ('&');
+		for (var i=0; i< queryLst.length; i=i+2) params [queryLst[i]] = queryLst[i+1];
+	}
+	return params;
 }
-function useBackendAssync (url, callback, params){
-	var url = paramToUrl (url, params);
-	fromFileAssync (url, callback);
+function fromBackend (url, params, callback){
+	url = paramToUrl (url, params);
+	var res = fromJson (url, callback);
+	return res;
+}
+String.prototype.isFile = function(){
+	// pour les fichiers locaux ou en ligne
+	if (! this.contain ('.')) return null;
+	var text = this.strip();
+	var forbinddenChar ='\n\t\r';
+	var isAfile = true;
+	var c=0;
+	while (isAfile && c< forbinddenChar.length){
+		if (this.contain (forbinddenChar[c])) isAfile = false;
+	c++; }
+	if (! isAfile) return null;
+	// identifier l'extention
+	var textList = this.split ('.');
+	var title = textList.pop();
+	if (! title ||! title.containList (extentions)) return null;
+	else if (title.contain ('/') || title.contain (sep)) return null;
+	title = textList.pop();
+	if (! title) return null;
+	// identifier le titre
+	if (title.contain ('/')){
+		var pos = title.rindex ('/') +1;
+		title = title.slice (pos);
+	}
+	if (title.contain (sep)){
+		var pos = title.rindex (sep) + sep.length;
+		title = title.slice (pos);
+	}
+	return title;
 }

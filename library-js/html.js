@@ -1,19 +1,19 @@
 /* remplacer markdown en utilisant ma mise en forme personelle.
 j'affiche des fichiers .txt dans des pages web.
-dépendence: text.js
+dépendence: text.js, file.js, éventuellement file-perso.js
 utilisation:
 	var fileName = '/path/to/my/fileName.txt';
 	fileName.getFile();
 */
 String.prototype.getFile = function(){
 	// la string est un fichier
-	var text = this.fromFile();
+	var text = fromFile (this);
 	text.showTxt();
 }
 String.prototype.showTxt = function (node){
 	// le texte est du txt
 	text = this.toHtml();
-	text.show (node);
+	node.innerHTML = text;
 }
 String.prototype.toHtml = function(){
 	var text = this.clean();
@@ -30,7 +30,7 @@ String.prototype.toHtml = function(){
 	text = text.replace ('<p>\t','<li>');
 	addTag (text, 'p', 'li');
 	// les liens
-	if (text.contain ('http')){
+	if (text.contain ('http') && false){
 		var ficList = text.split ('http');
 		for (var l in ficList){
 			var f= ficList[l].index (' ');

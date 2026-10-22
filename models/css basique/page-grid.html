@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head>
+	<title>grid - notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../site-dp/data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	div {
+		display: grid;
+		grid-template-columns: 1fr 50% 1fr;
+		justify-items: stretch;
+		align-items: stretch;
+		border: solid 4px var(--button-bg);
+		height: 6em;
+	}
+	div p {
+		border: solid 6px var(--button-bg-hover);
+		margin: 0;
+	}
+</style></head><body>
+	<h2>framework grid</h2>
+	<div><p></p><p></p><p></p><p></p><p></p><p></p></div>
+	<xmp>div {
+	display: grid;
+	grid-template-columns: 1fr 50% 1fr;
+}</xmp>
+	<p>trois colonnes. également grid-template-rows. 1fr représente une fraction de l'espace restant.</p>
+	<div style='grid-gap:1em 1em'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+	<p>grid-gap: 1em 1em; grid-row-gap + grid-column-gap</p>
+	<div style='justify-items:end'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+	<p>justify-items: end; start, center. stretch est la valeur par défaut si les éléments n'ont pas de largeur.</p>
+	<div style='height:4em;align-items:end'><p></p><p></p><p></p><p></p><p></p><p></p></div>
+	<p>align-items: end; start, center. stretch est la valeur par défaut si les éléments n'ont pas de largeur.</p>
+	<div style='grid-template-areas: "a a b" "c c b"'>
+		<p style='grid-area:a'></p><p style='grid-area:b'></p><p style='grid-area:c'></p></div>
+	<p>pour le conteneur: grid-template-areas: "a a b" "c c b"; pour les carrés: grid-area: a;</p>
+	<div><p style='grid-column:1/4'></p><p></p><p></p><p></p><p></p><p></p></div>
+	<p>pour un carré: grid-column: 1/4; grid-column-start + grid-column-end. également avec row.</p>
+	<a href='index.html'>revenir au sommaire</a>
+</body></html>

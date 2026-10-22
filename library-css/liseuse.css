@@ -1,0 +1,50 @@
+/* mise en forme de base */
+* {
+	outline: none;
+	text-decoration: none;
+	font-size: 1em;
+	color: black;
+}
+*:first-letter { text-transform: uppercase; }
+xmp {
+	margin: 0 2%;
+	padding: 1%;
+	border-style: dotted;
+	background-color: #EEE;
+	white-space: pre;
+}
+xmp:first-letter { text-transform: none; }
+h1 {
+	text-align: center;
+	font-size: 2em;
+}
+h2 {
+	text-align: center;
+	font-size: 1.5em;
+}
+h3, th { font-weight: bold; }
+th, td { border: solid 2px #777; }
+.hidden { display: none; }
+/* les symboles mathématiques */
+f {
+	margin: 0 0.2em;
+	vertical-align: middle;
+	display: inline-block;
+	text-align: center;
+}
+f >* { display: block; }
+f >*.d, f>d {
+	border-width: 0.1em;
+	border-top-style: solid;
+}
+r {
+	display: inline-block;
+	transform: skew(-15deg);
+	transform-origin: bottom left;
+	padding-left: 0.1em;
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+	border-width: 0.1em;
+	border-top-style: solid;
+	border-left-style: solid;
+}

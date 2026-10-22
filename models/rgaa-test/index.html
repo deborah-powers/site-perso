@@ -1,0 +1,82 @@
+<!DOCTYPE html><html><head>
+	<title>rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	ul { list-style-type: none; }
+	li {
+		display: inline-block;
+		min-width: 4em;
+		max-width: 40%;
+		margin: 0.5em;
+	}
+	a {
+		border-radius: 0.5em;
+		color: var(--button-color);
+		background-color: var(--button-bg);
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+		padding: 0.5em;
+	}
+	a:focus, a:hover {
+		background-color: teal;
+		font-weight: normal;
+	}
+	h1 {
+		color: inherit;
+		background-color: inherit;
+	}
+</style></head><body>
+	<h1>tester mon extension pour le rgaa</h1>
+	<ul aria-label='tester un sujet'>
+		<li><a href='image.html'>les images</a></li>
+		<li><a href='lien.html'>les liens</a></li>
+		<li><a href='iframe.html'>les cadres</a></li>
+		<li><a href='langue.html'>les langues</a></li>
+		<li><a href='titre.html'>les tîtres</a></li>
+		<li><a href='liste.html'>les listes</a></li>
+		<li><a href='formulaire.html'>les formulaires</a></li>
+		<li><a href='navigation.html'>la navigation</a></li>
+		<li><a href='structure.html'>la structure de la page</a></li>
+		<li><a href='balisage.html'>le balisage</a></li>
+		<li><a href='tableau.html'>les tableaux</a></li>
+		<li><a href='flash.html'>le clignotement</a></li>
+		<li><a href='tabulation.html'>la tabulation</a></li>
+		<li><a href='hidden.html'>le contenu caché</a></li>
+		<li><a href='multimedia.html'>le contenu multi-média</a></li>
+		<li><a href='download.html'>les téléchargements</a></li>
+	</ul>
+</body>
+<script type="text/javascript">
+/*
+console.log ('user', navigator.userAgent);
+console.log ('ordinateur', navigator.oscpu);
+console.log ('browser', browser);
+console.log ('navigator', navigator);
+console.log ('window', window);
+console.log ('document', document);
+console.log ('screen', Screen);
+console.log ('performance', window.performance);
+console.log ('screen', window.screen);
+*/
+const title = document.getElementsByTagName ('h1')[0];
+const trueStyleText = window.getComputedStyle (title);
+const baseStyleText = window.getDefaultComputedStyle (title);
+const link = document.getElementsByTagName ('a')[0];
+const trueStyleLink = window.getComputedStyle (link);
+const baseStyleLink = window.getDefaultComputedStyle (link);
+const baseStyleLinkVisited = window.getDefaultComputedStyle (link, ':visited');
+console.dir (baseStyleLink.color);
+console.dir (baseStyleLinkVisited.color);
+/*
+console.log ('true style text', trueStyleText.color, trueStyleText.backgroundColor);
+console.log ('base style text', baseStyleText.color, baseStyleText.backgroundColor);
+console.log ('true style link', trueStyleLink.color, trueStyleLink.backgroundColor);
+console.log ('base style link', baseStyleLink.color, baseStyleLink.backgroundColor);
+*/
+</script>
+</html>

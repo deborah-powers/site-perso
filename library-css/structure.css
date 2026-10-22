@@ -1,15 +1,14 @@
 /* mise en forme de base sans couleurs */
 :root {
 	--fond-color: #EEE;
-	--bord-color: #AAA;
-	--bord-epaisseur: 2px;
-	--bord-style: none;
+	--bord-color: #CCC;
 	--text-color: black;
+	--page-color: white;
 	--button-height: 2em;
-	--button-bg: #DDD;
-	--button-bg-hover: var(--button-bg, #DDD);
+	--button-bg: #969696;
+	--button-bg-hover: #525252;
 	--button-color: black;
-	--button-color-hover: var(--button-color, black);
+	--button-color-hover: white;
 	--button-border: none;
 }
 /* je peux afficher le titre dans la page avec
@@ -18,8 +17,8 @@ body, head, head > title {}
 */
 body {
 	margin: auto;
-	padding: 0 0 1em 0;
-	background-color: white;
+	padding: 0;
+	background-color: var(--page-color, white);
 	color: var(--text-color, black);
 	font-family: serif;
 	font-size: 1em;
@@ -29,75 +28,117 @@ body {
 	padding: 0;
 	margin: 0;
 	font-size: 1em;
-	line-height: 2em;
+	line-height: 1.5em;
 	vertical-align: top;
 	font-family: inherit;
 	font-style: normal;
 	font-weight: normal;
 	text-decoration: none;
 	color: inherit;
-	background: none;
+	background-color: inherit;
 	outline: none;
-	border-width: var(--bord-epaisseur, 2px);
-	border-style: var(--bord-style, none);
-	border-color: var(--bord-color, #AAA);
+	border-width: 2px;
+	border-style: none;
+	border-color: var(--bord-color, #CCC);
 }
-*:first-letter { text-transform: uppercase; }
+*:first-letter, title:first-letter { text-transform: uppercase; }
 *:before, *:after { box-sizing: border-box; }
+h1, h2, h3, h4, h5, h6, div, figure, table, xmp, p { margin-bottom: 1em; }
 /* nouveauté, les blocs de code */
-code {
-	display: block;
+xmp {
 	margin: 0 2%;
 	padding: 1%;
 	border-style: dotted;
 	background-color: var(--fond-color, #EEE);
 	white-space: pre;
 }
-p.indent-1 { margin-left: 2em; }
-p.indent-2 { margin-left: 4em; }
-p.indent-3 { margin-left: 6em; }
+figure {
+	text-align: center;
+	margin-bottom: 1em;
+}
 table, caption, tr {
 	/* width: 100%; */
 	border-collapse: collapse;
 }
+table.reverse { writing-mode: vertical-lr; }
+table.reverse > tr { writing-mode: horizontal-tb; }
 th, td {
 	padding: 0.2em;
-	border: solid 2px var(--button-bg, #DDD);
+	border: solid 2px var(--button-bg, #969696);
 }
-li { margin-left: 2%; }
 /* afficher le title comme un h1 */
 head > title, h1 {
 	text-align: center;
 	font-size: 2em;
 }
-h2 {
+h2, caption, legend {
 	text-align: center;
 	font-size: 1.5em;
 }
-h3, th { font-weight: bold; }
+h3, h4, th { font-weight: bold; }
+h3 { margin-left: 4em; }
 hr {
 	height: 0.1em;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	background-color: var(--text-color, black);
+	border-radius: 50%;
 }
-/* a { display: block } */
-a:hover { font-weight: bold }
+a, b, em, i, span, strong { padding: 0 0.2em; }
+strong { font-weight: bold; }
+ul, ol {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 2%;
+}
+ul >*, ol >* {
+	display: list-item;
+	margin: 0;
+}
+dl {
+	display: grid;
+	grid-template-columns: 1fr 3fr;
+	grid-gap: 0.5em;
+	margin-bottom: 1em;
+}
+dt:after { content: ' :'; }
+/*
+li { margin-left: 2%; }
+a { display: block }
+*/
+a { color: inherit; }
+a:hover, a:focus { font-weight: bold }
+body >a, div >a { display: block; }
+img { mix-blend-mode: multiply; }
+fieldset, legend { width: 100%; }
 /* les boutons */
-button, input, select, textarea, nav a, a.button { padding: 0.4em; }
+button, input[type='button'], input[type='submit'], input[type='reset'], select, textarea, nav >*, a.button, label.button { padding: 0.4em; }
 button, input, select, textarea { outline: none; }
-button, a.button, nav a, input[type='button'], input[type='submit'], input[type='reset'], select {
+button, a.button, label.button, nav >*, input[type='button'], input[type='submit'], input[type='reset'], input[type='file'], select {
 	text-align: center;
 	display: inline-block;
+	/*
 	height: var(--button-height, 2em);
 	line-height: var(--button-height, 2em);
+	*/
 	color: var(--button-color, black);
-	background-color: var(--button-bg, #DDD);
+	background-color: var(--button-bg, #969696);
 	border-style: var(--button-border, none);
+	width: 50%;
 }
-button:hover, a.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
-	background-color: var(--button-bg-hover, #DDD);
-	color: var(--button-color-hover, black);
+select { width: 100%; }
+select:focus {
+	background-color: var(--text-color, black);
+	color: var(--fond-color, #EEE);
+}
+option {
+	background-color: var(--page-color, white);
+	color: var(--text-color, black);
+}
+button:focus, a.button:focus, label.button:focus, nav a:focus, input[type='button']:focus, input[type='submit']:focus, input[type='reset']:focus,
+button:hover, a.button:hover, label.button:hover, nav a:hover, input[type='button']:hover, input[type='submit']:hover, input[type='reset']:hover {
+	background-color: var(--button-bg-hover, #525252);
+	color: var(--button-color-hover, white);
 	font-weight: normal;
 }
 /* les champs de texte */
@@ -107,27 +148,42 @@ input[type='radio'], input[type='checkbox'], input[type='number'], input[type='d
 	-o-appearance: none;
 	-webkit-appearance: none;
 }
-textarea, input[type='text'], input[type='email'], input[type='number'], input[type='date'], input[type='time'] {
+textarea, input[type='text'], input[type='password'], input[type='email'], input[type='number'], input[type='tel'], input[type='url'],
+input[type='date'], input[type='time'], input[type='datetime-local'], input[type='datetime'], input[type='month'], input[type='week'],
+input[type='color'] {
 	width: 100%;
 	color: var(--text-color, black);
-	background-color: var(--fond-color, #EEE);
 	border-style: var(--button-border, none);
 	margin-bottom: 1%;
+	min-height: 2em;
 }
+textarea, input[type='text'], input[type='password'], input[type='email'], input[type='number'], input[type='tel'], input[type='url'],
+input[type='date'], input[type='time'], input[type='datetime-local'], input[type='datetime'], input[type='month'], input[type='week']
+{ background-color: var(--fond-color, #EEE); }
+textarea:hover, input[type='text']:hover, input[type='password']:hover, input[type='email']:hover, input[type='number']:hover,
+input[type='tel']:hover, input[type='url']:hover, input[type='color']:hover, input[type='date']:hover, input[type='time']:hover,
+input[type='datetime-local']:hover, input[type='datetime']:hover, input[type='month']:hover, input[type='week']:hover,
+textarea:focus, input[type='text']:focus, input[type='password']:focus, input[type='email']:focus, input[type='number']:focus,
+input[type='tel']:focus, input[type='url']:focus, input[type='color']:focus, input[type='date']:focus, input[type='time']:focus,
+input[type='datetime-local']:focus, input[type='datetime']:focus, input[type='month']:focus, input[type='week']:focus
+	{ border-style: solid; }
 ::placeholder {
 	color: var(--text-color, black);
 	opacity: 0.6;
 }
-textarea { height: 3em; }
+textarea {
+	height: 3em;
+	max-width: 100%;
+}
 /* les boutons radio */
 input[type='radio'], input[type='checkbox'] {
 	width: 1em;
 	height: 1em;
-	border: solid 2px black;
+	border-style: solid;
 	border-color: var(--text-color, black);
-	margin-top: 1%;
 }
-input[type='radio']:checked, input[type='checkbox']:checked { background-color: var(--button-bg, #DDD); }
+input[type='radio']:focus, input[type='checkbox']:focus { background-color: var(--fond-color, #EEE); }
+input[type='radio']:checked, input[type='checkbox']:checked { background-color: var(--button-bg, #969696); }
 /* barre de navigation */
 nav {
 	display: flex;
@@ -136,40 +192,121 @@ nav {
 	margin: 0;
 }
 nav >* {
+	flex-basis: 1;
 	flex-grow: 1;
 	flex-shrink: 1;
+}
+sup { font-size: 0.6em; }
+sub {
+	font-size: 0.6em;
+	vertical-align: bottom;
+}
+dialog {
+	border-style: double;
+	border-width: 8px;
+	padding: 0.5em;
+/*	display: flex;	bloque le fonctionnement natif */
+	margin: 8em auto;
+	height: 8em;
+	width: 24em;
+	color: inherit;
+	background-color: inherit;
+}
+dialog >* { margin-bottom: 0; }
+/* le svg */
+svg, svg * { box-sizing: content-box; }
+circle, ellipse, rect, polygon, polyline, line, path {
+	fill: var(--fond-color, #EEE);
+	stroke: var(--bord-color, #AAA);
+	stroke-width: 2px;
+}
+text {
+	fill: var(--text-color);
+	stroke: none;
+	dominant-baseline: auto;
+	text-anchor: middle;
+	font-family: sans-serif;
+	font-size: 1em;
+}
+/* l'infobulle ou tooltip
+<p aria-describedby='description-aria'>paragraphe survolable avec une description aria.</p>
+<p id='description-aria' role='tooltip' aria-hidden='true'>la description doit obligatoirement suivre son référent (+ dans le css).</p>
+si une infobulle est fermable via js (touche echap), elle doit être ouverte par js. les modifications du style via js masquent celles via css.
+*/
+[role='tooltip'] {
+	position: relative;
+	top: -2em;
+	left: 1em;
+	border: solid 2px var(--bord-color);
+	border-radius: 1em;
+	text-align: center;
+	padding: 1%;
+	display: none;
+}
+[role='tooltip']:hover, [role='tooltip']:focus,
+[aria-describedby]:hover + [role='tooltip'], [aria-describedby]:focus + [role='tooltip'] { display: inline-block; }
+/* pour les lecteurs d'écran */
+.sr-only {
+	/* source: https://gist.github.com/ffoodd/000b59f431e3e64e4ce1a24d5bb36034 */
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%); 
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	white-space: nowrap;
+	padding: 0;
+	border: 0;
+	position: absolute;
+}
+a.sr-only:focus, a.sr-only:active {
+	clip: auto;
+	-webkit-clip-path: none;
+	clip-path: none;
+	overflow: visible;
+	width: auto;
+	height: auto;
+	margin: auto;
+	white-space: normal;
 }
 /* affichage pour les tablettes */
 @media (max-width: 992px){}
 /* affichage pour les smartphones */
 @media (max-width: 768px){
-	body.banner {
-		background: none;
-		padding-top: 0;
- }
-	img { max-width: 100%; }
 	img +*, .right +* { clear: right }
 	nav { flex-wrap: wrap }
 }
-@media print{
-	body.banner {
-		background: none;
-		padding-top: 0;
- }
-}
-/* deux methodes pour faire une banniere */
-body.banner {
-/*	background-image: url('../data/banniere.jpg'); */
-	background-repeat: no-repeat;
-	background-size: 100% 10cm;
-	padding-top: 10cm;
-}
-img#banner {
-	width: 100%;
-	height: 10cm;
-	object-fit: cover;
-	margin: 0;
+@media print{}
+/* dimensions de ma liseuse kobo touch: 295px * 380px */
+/* dimensions de mon smartphone: 384px * 694 - 832px */
+@media (width: 295px) and (height: 380px){}
+.bord-img {
+	border-image-slice: 100;
+	border-image-repeat: round;		/* repère les coins et les bords de l'image. dupplique le motif de bord */
+/*	border-image-repeat: stretch;	repère les coins et les bords de l'image. agrandi le motif de bord
+	border-width: 20px;				nécessaire
+	border-image-source: repeating-linear-gradient(45deg, var(--bord-color) 5%, var(--text-color) 15%, var(--bord-color) 20%);
+	border-image-source: linear-gradient(90deg, #F00, #088);
+	border-image-source: url("data:image/svg+xml;utf8,<svg version='1.1' width='300' height='300' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><circle cx='50' cy='50' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='50' cy='250' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='50' cy='150' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='250' cy='50' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='250' cy='250' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='250' cy='150' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='150' cy='50' r='45' stroke-width='10' fill='none' stroke='maroon' /><circle cx='150' cy='250' r='45' stroke-width='10' fill='none' stroke='maroon' /></svg>");
+	border-image: url() 100;
+*/
 }
 /* pour mes pwa */
 button#install-pwa { display: none; }
 .hidden { display: none; }
+/* scroll bar de firefox */
+:root {
+	overflow: auto;
+	scrollbar-color: var(--text-color, black) var(--page-color, white);
+	scrollbar-width: 1em;
+}
+/* scroll bar de chrome
+div::-webkit-scrollbar { width: 1em; }
+*/
+::-webkit-scrollbar { width: 1em; }
+::-webkit-scrollbar-track { background-color: var(--page-color, white); }
+::-webkit-scrollbar-thumb {
+	background-color: var(--text-color, black);
+	border-radius: 1em;
+}

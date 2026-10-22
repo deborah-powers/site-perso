@@ -1,0 +1,14 @@
+selector {
+	display: block;
+	border-style: solid;
+	border-width: 4px;
+	padding: 0;
+}
+selector * { margin: 0; }
+selector p { display: none; }
+selector:hover p { display: block; }
+selector p:hover { background-color: var(--fond-color, #EEE); }
+selector h3 {
+	background-color: var(--bord-color);
+	color: var(--page-color);
+}

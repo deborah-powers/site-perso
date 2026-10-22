@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang='fr-FR'><head>
+	<title>contenu caché | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	p.hide-css { display: none; }
+	p.invisible { visibility: hidden; }
+	p.font-null { font-size: 0; }
+</style></head><body>
+	<h1>différentes façon de cacher du contenu</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<p class='hide-css'>contenu caché avec display: none.</p>
+	<p class='hide-css' aria-hidden='true'>contenu caché avec display: none et l'attribut aria-hidden.</p>
+	<p class='hide-css' aria-hidden='false'>contenu caché avec display: none et l'attribut aria-hidden faux.</p>
+	<p class='hide-css' aria-hidden>contenu caché avec display: none et l'attribut aria-hidden vide.</p>
+	<p class='invisible'>contenu caché avec visibility: hidden.</p>
+	<p class='font-null'>contenu caché avec font-size: 0.</p>
+	<p hidden>contenu caché avec l'attribut hidden. <a href='#'>lien recevant le focus mais caché</a></p>
+	<p hidden aria-hidden='true'>contenu caché avec l'attribut aria-hidden.</p>
+	<p hidden aria-hidden='false'>contenu caché avec l'attribut aria-hidden faux.</p>
+	<p aria-hidden='true'>contenu visible avec l'attribut aria-hidden. <a href='#'>lien recevant le focus mais caché</a></p>
+	<p aria-hidden>contenu visible avec l'attribut aria-hidden vide. <a href='#'>lien recevant le focus mais caché</a></p>
+	<p>paragraphe visible.</p>
+</body></html>

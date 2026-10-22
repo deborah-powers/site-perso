@@ -1,11 +1,10 @@
 /*
 css pour les fichiers svg.
-*/
 * {
-	/* rotation centrée */
+	/ rotation centrée /
 	transform-box: fill-box;
 	transform-origin: center;
-}
+}*/
 /* cacher des formes */
 .hidden { display: none; }
 /* guides pour tracer des formes */
@@ -13,23 +12,42 @@ css pour les fichiers svg.
 	fill: ivory;
 	stroke: brown;
 	stroke-width: 2px;
+	r: 1em;
+	rx: 2em;
+	ry: 1em;
 }
 svg {
 	border-style: solid;
 	border-color: brown;
 	background-color: ivory;
 }
-svg.grid { background: url(/home/lenovo/Bureau/html/quadrillage.svg#quadrillage-r); }
+svg.grid {
+	background-image: url('file:///C:/wamp64/www/site-dp/data/grid.svg');
+/*	background-image: url('file:///C:/Users/deborah.powers/Desktop/site-dp/data/grid.svg');
+	background-image: url('file:///C:/Users/dpowers-consultant01/Desktop/site-dp/data/grid.svg');
+	background-image: url('/var/www/html/site-dp/data/grid.svg'); */
+}
 text {
-	fill: brown;
 	stroke: none;
-	stroke-width: 2px;
-	font-size: 2em;
-	alignment-baseline: before-edge;
+	dominant-baseline: middle;
+	text-anchor: middle;
 	font-family: serif;
+	font-size: 20px;
 }
 circle.marker {
 	r: 4px;
 	stroke: none;
 	fill: green;
+}
+.skin {
+	fill: #FC9;
+	stroke: #DA7;
+}
+.hair {
+	fill: #963;
+	stroke: #741;
+}
+.shadow {
+	fill: #2226;
+	stroke: #2226;
 }

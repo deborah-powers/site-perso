@@ -2,17 +2,18 @@
 	--text-color: #342C37;
 	--fond-color: #F5DEF5;
 	--bord-color: #C29FC2;
-	--button-color: #342C37;
-	--button-color-hover: #342C37;
-	--button-bg: #C29FC2;
-	--button-bg-hover: #9DB2E2;
+	--page-color: ivory;
+	--button-color: ivory;
+	--button-color-hover: ivory;
+	--button-bg: #754870;
+	--button-bg-hover: #3F5484;
 	--foldable-border: solid;
 }
 html { background-color: #C29FC2; }
 body {
 	max-width: 36cm;
 	min-height: 20cm;
-	background-color: ivory;
+	padding: 0 0 1em 0;
 }
 div.container >* { margin: 0 2%; }
 div.container > nav {
@@ -49,8 +50,39 @@ section.fiche img {
 	margin: 0;
 	max-width: 100%;
 }
+.text-gradient{
+	background: linear-gradient(90deg, teal, 10%, #603);
+	color: transparent;
+	-webkit-background-clip: text;
+}
+/*
+https://www.w3docs.com/snippets/css/how-to-change-the-default-text-selection-color-with-css.html#google_vignette
+*/
 /* affichage pour les smartphones */
 @media (max-width: 768px){
 	section.fiche { width: 98%; }
 	div.container > section { margin: 0 0 1em 0; }
 }
+/* deux methodes pour faire une banniere */
+body.banner {
+/*	background-image: url('../data/banniere.jpg'); */
+	background-repeat: no-repeat;
+	background-size: 100% 10cm;
+	padding-top: 10cm;
+}
+img#banner {
+	width: 100%;
+	height: 10cm;
+	object-fit: cover;
+	margin: 0;
+}
+@media (max-width: 768px){
+	body.banner {
+		background-image: none;
+		padding-top: 0;
+}}
+@media print{
+	body.banner {
+		background: none;
+		padding-top: 0;
+}}

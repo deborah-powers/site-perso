@@ -1,0 +1,144 @@
+/* dessiner des pièces en 3D
+les figures peuvent être créées par css seul
+pave-3d.js créé automatiquement les faces
+fonctionne avec pave-3d.css et pave-3d.js
+1em = 10cm
+*/
+piece-3d {
+	width: 30em;
+	height: 25em;
+	--depth: 20em;
+	--fond: #084;
+	--bord: solid 6px deeppink;
+	--motif-color: pink;
+	--motif-semi: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10 0,5' fill='blue' /><polygon points='25,20 30,25 25,30 20,25' fill='blue' /></svg>");
+	/* la fenêtre */
+	--fw: 8em; /* demi-largeur */
+	--fh: 6em; /* hauteur */
+	--fx: 50%; /* pos x, centre */
+	--fy: 50%; /* pos y, hauteur par rapport au sol */
+}
+piece-3d >*:nth-child(n+1):nth-child(-n+6){ border: none; }
+piece-3d >*:nth-child(n+3):nth-child(-n+5){
+	border-bottom-color: var(--motif-color);
+	border-bottom-width: 6px;
+	border-bottom-style: solid;
+}
+piece-3d >*:nth-child(1) { background-color: rosybrown; }
+piece-3d >*:nth-child(2) { background-color: wheat; }
+piece-3d >*:nth-child(6) { background: transparent; }
+piece-3d.night >*:nth-child(6), piece-3d >*:nth-child(6).night {
+	background-color: transparent;
+	background-image: radial-gradient(at 50% -10%, transparent, #0008, black);
+}
+piece-3d >*.porte {
+	clip-path: polygon(100% 100%, 100% 0%, 0% 0%, 0% 100%,
+		calc(var(--fx) - var(--fw)) 100%, calc(var(--fx) - var(--fw)) calc(100% - var(--fy) - var(--fh)),
+		calc(var(--fx) + var(--fw)) calc(100% - var(--fy) - var(--fh)), calc(var(--fx) + var(--fw)) 100%
+	);
+	clip-rule: evenodd;
+}
+piece-3d >*.fenetre {
+	clip-path: polygon(100% 100%, 100% 0%, 0% 0%, 0% 100%,
+		var(--fx) 100%, var(--fx) calc(100% - var(--fy)), calc(var(--fx) - var(--fw)) calc(100% - var(--fy)),
+		calc(var(--fx) - var(--fw)) calc(100% - var(--fy) - var(--fh)),
+		calc(var(--fx) + var(--fw)) calc(100% - var(--fy) - var(--fh)),
+		calc(var(--fx) + var(--fw)) calc(100% - var(--fy)), var(--fx) calc(100% - var(--fy)), var(--fx) 100%
+	);
+	clip-rule: evenodd;
+}
+fenetre, porte {
+	display: block;
+	width: calc(2* var(--fw));
+	left: calc(var(--fx) - var(--fw));
+}
+fenetre {
+	height: var(--fh);
+	top: calc(100% - var(--fy) - var(--fh));
+	--fcadre: rosybrown;
+	/* style par défaut */
+	border: solid 4px var(--fcadre);
+	background-color: #08F6;
+	background-image:
+		linear-gradient(90deg, transparent calc(50% - 2px), var(--fcadre) calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px)),
+		linear-gradient(transparent calc(50% - 2px), var(--fcadre) calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px));
+}
+porte {
+	height: calc(var(--fh) + var(--fy));
+	top: calc(100% - var(--fy) - var(--fh));
+	background-color: #F484;
+	border: var(--bord);
+	border-bottom: none;
+}
+fenetre.back, porte.back { transform: rotateY(180deg) translateZ(calc(var(--depth) /2)); }
+fenetre.left, porte.left {
+	transform-origin: center left;
+	transform: rotateY(-90deg) translateX(-50%);
+	left: 0%;
+}
+fenetre.right, porte.right {
+	transform-origin: center left;
+	transform: rotateY(90deg) translateX(-50%);
+	left: 100%;
+}
+/* les papiers peints */
+piece-3d.rayure >*:nth-child(n+3):nth-child(-n+5) {
+	background-image: repeating-linear-gradient(90deg, transparent 25px, var(--motif-color) 25px 30px, transparent 30px 55px);
+}
+piece-3d.semi-point >*:nth-child(n+3):nth-child(-n+5) {
+	background-image:
+		radial-gradient(circle at 0.2em 0.2em, var(--motif-color) 0.2em, transparent 0.2em),
+		radial-gradient(circle at 1.2em 1.2em, var(--motif-color) 0.2em, transparent 0.2em);
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+piece-3d.semi >*:nth-child(n+3):nth-child(-n+5) {
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+piece-3d.semi >*:nth-child(3):after, piece-3d.semi >*:nth-child(4):after, piece-3d.semi >*:nth-child(5):after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: var(--motif-color);
+	-webkit-mask: var(--motif-semi);
+	mask: var(--motif-semi);
+}
+piece-3d.semi.losange {
+	--motif-semi: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10 0,5' fill='blue' /><polygon points='25,20 30,25 25,30 20,25' fill='blue' /></svg>");
+}
+piece-3d.semi.divers {
+	--motif-semi: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='5,0 10,5 5,10' fill='red' /></svg>");
+}
+piece-3d.semi-losange >*:nth-child(n+3):nth-child(-n+5) {
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><style type='text/css'><![CDATA[ polygon { fill: wheat; } ]]></style><polygon points='5,0 10,5 5,10 0,5' /><polygon points='25,20 30,25 25,30 20,25' /></svg>");
+	background-size: 2em 2em;
+	background-repeat: repeat;
+}
+/* les sols */
+piece-3d.carrelage-cabochon >*:nth-child(1) {
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><polygon points='20,10 30,20 20,30 10,20' fill='black' /></svg>");
+	background-size: 2em 2em;
+	background-repeat: repeat;
+	background-color: whitesmoke;
+}
+piece-3d.plancher >*:nth-child(1) {
+	background-image: repeating-linear-gradient(90deg, transparent 25px, #0004 25px 30px, transparent 30px 55px);
+	background-color: rosybrown;
+}
+piece-3d.mesure {
+	border-style: solid;
+	border-width: 0.2em;
+	border-color: var(--text-color);
+}
+piece-3d.mesure >*:nth-child(-n+5){
+	background-image:
+		repeating-linear-gradient(90deg, transparent 0.9em, var(--text-color) 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(90deg, transparent 4.8em, var(--text-color) 4.8em 5em, transparent 5em 9.8em),
+		repeating-linear-gradient(transparent 0.9em, var(--text-color) 0.9em 1em, transparent 1em 1.9em),
+		repeating-linear-gradient(skyblue 4.8em, var(--text-color) 4.8em 5em, wheat 5em 9.8em);
+	border-style: solid;
+	border-width: 0.2em;
+	border-color: var(--text-color);
+}

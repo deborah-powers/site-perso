@@ -1,0 +1,45 @@
+section {
+	border: solid 4px #3C3;
+	padding: 1em;
+}
+h3 {
+	font-weight: bold;
+	text-align: center;
+}
+table {
+	width: 100%;
+	margin-bottom: 1em;
+}
+caption, th, td { border: solid 2px var(--button-bg); }
+img, a { display: block; }
+p.info { border-style: none; }
+xmp {
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+}
+body.list3 {
+	column-count: 3;
+	break-inside: column;
+}
+body.list2 {
+	column-count: 2;
+	break-inside: column;
+}
+section.bord p, math { border: solid 4px var(--button-bg); }
+h2 { column-span: all; }
+div.column p { height: 3em; }
+section#summary {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+section#summary a {
+	border-radius: 1em;
+	padding: 2px;
+	margin: 4px;
+	width: 12em;
+	background-color: var(--fond-color);
+}

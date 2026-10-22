@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head>
+	<title>cadres | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	iframe {
+		width: 80%;
+		height: 6cm;
+	}
+	img { width: 30%; }
+</style></head><body>
+	<h1>tester les cadres et les images légendées</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<p>cadre sans titre</p>
+	<iframe src='https://deborah-powers.fr/cv.html'>votre navigateur ne prend pas les iframe en charge.</iframe>
+	<p>cadre sans message de remplacement</p>
+	<iframe src='https://deborah-powers.fr/cv.html' title="exemple d'iframe"></iframe>
+	<p>cadre avec titre</p>
+	<iframe src='https://deborah-powers.fr/cv.html' title="exemple d'iframe">votre navigateur ne prend pas les iframe en charge.</iframe>
+	<p>figure sans rôle</p>
+	<figure>
+		<figcaption>figure sans rôle ni titre</figcaption>
+		<img src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' />
+	</figure>
+	<p>figure avec rôle</p>
+	<figure role='figure'>
+		<figcaption>figure avec rôle</figcaption>
+		<img src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' />
+	</figure>
+	<p>figure avec rôle et titre inadapté</p>
+	<figure role='figure' aria-label='figure de test'>
+		<figcaption>figure avec rôle et aria-label inadapté</figcaption>
+		<img src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' />
+	</figure>
+	<p>figure avec rôle et titre ok</p>
+	<figure role='figure' aria-label='figure de test'>
+		<figcaption>figure de test dont la caption reprend le titre</figcaption>
+		<img src='https://lh3.googleusercontent.com/pw/AP1GczOT7pmJXrqv3kGhNKdNz94vGTfNx75GiyNx9ltDhL1Cvu_kcfbzIU_cQFsTDb7h164rRkck5suVWHpALAlI5zuSDuaWEs8hvv-I-mN2V3qAmVwOYytYIG57Vb75Tviv4nVHgej8bhRXVGpw9CCk4AHw=w800-h800-s-no-gm' alt='ma photo' />
+	</figure>
+</body></html>

@@ -1,0 +1,43 @@
+<style type='text/css'>
+	fieldset.table {
+		display: grid;
+		grid-template-columns: 2em 1fr;
+		border-bottom: dashed 2px var(--button-bg);
+		margin-bottom: 1em;
+	}
+</style><section>
+	<h2>les formulaires</h2>
+	<form method='get' action=none>
+		<p>les attributs name et value permettent de traiter les données du formulaire.</p>
+		<fieldset id='table'>
+			<span>date, type='date'</span><input type='date'>
+			<span>heure, type='time'</span><input type='time'>
+			<p>les champs date et heure sont difficilement stylisables.</p>
+		</fieldset>
+		<fieldset>
+			<input type='hidden'/>
+			<input type='text' name='ip-line' placeholder='input texte' required/>
+			<textarea name='ip-text' placeholder='textarea' disabled></textarea>
+		</fieldset>
+		<fieldset class='table'>
+			<input type='radio' name='bt-radio' value=''/><span>type='radio'</span>
+			<input type='radio' name='bt-radio' value=''/><span>un seul name pour tous les éléments d'un même block.</span>
+			<input type='radio' name='bt-radio' value='' checked/><span>attribut checked afin de cocher une valeur par défaut.</span>
+			<input type='radio' name='bt-radio' value=''/><span>attribut required afin de rendre la saisie du champ obligatoire.</span>
+			<input type='radio' name='bt-radio' value='' disabled/><span>attribut disabled afin d'empêcher le remplissage par l'utilisateur.</span>
+			<input type='radio' name='bt-radio' value=''/><span>un seul champ sélectionnable à la fois.</span>
+			<input type='radio' name='bt-radio' value=''/><span>type='hidden' afin de passer des infos à l'action sans prévenir l'utilisateur.</span>
+		</fieldset>
+		<fieldset class='table'>
+			<input type='checkbox' name='bt-checkbox' value=''/><span>type='checkbox'</span>
+			<input type='checkbox' name='bt-checkbox' value=''/><span>mêmes infos que pour radio.</span>
+			<input type='checkbox' name='bt-checkbox' value=''/><span>plusieurs champs sélectionnables à la fois.</span>
+		</fieldset>
+		<fieldset>
+			<input type='submit'/>
+			<input type='reset' style='border:solid 4px var(--input-bg);outline:solid 2px var(--button-bg-hover);margin-left:3em'/>
+			<p>type='submit' ou reset. l'attribut value permet de choisir ce que le bouton affiche.</p>
+			<p>input:hover {background-color: #399; } input { border: solid 2px orange; outline: solid 4px #6F6; } outline est une sorte de border autour des input, button, select, textarea.</p>
+		</fieldset>
+	</form>
+</section>

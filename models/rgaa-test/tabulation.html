@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang='fr-FR'><head>
+	<title>tabulation | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	section, form {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+	[tabindex]:focus { border-style: dotted; }
+[aria-describedby].aria-js:hover + [role='tooltip'], [aria-describedby].aria-js:focus + [role='tooltip'] { display: none; }
+</style></head><body>
+	<h1>l'enfer de la tabulation</h1>
+	<a href='./index.html'>retour à l'index</a>
+	<section>
+		<div tabindex='1'>
+			<p tabindex='0'>bloc 1, ligne 1</p>
+			<p tabindex='0'>bloc 1, ligne 2</p>
+			<p tabindex='0'>bloc 1, ligne 3</p>
+		</div>
+		<div tabindex='1'>
+			<p tabindex='0'>bloc 2, ligne 1</p>
+			<p tabindex='0'>bloc 2, ligne 2</p>
+			<p tabindex='0'>bloc 2, ligne 3</p>
+		</div>
+		<div tabindex='1'>
+			<p tabindex='0'>bloc 3, ligne 1</p>
+			<p tabindex='0'>bloc 3, ligne 2</p>
+			<p tabindex='0'>bloc 3, ligne 3</p>
+		</div>
+	</section>
+	<form method='get' onsubmit='return false'>
+		<fieldset>
+			<h2>vos couleurs préférées</h2>
+			<label for='c-rouge'>le rouge</label>
+			<input type='checkbox' name='couleur' id='c-rouge' value='rouge'/>
+			<label for='c-violet'>le violet</label>
+			<input type='checkbox' name='couleur' id='c-violet' value='violet'/>
+			<label for='c-bleu'>le bleu</label>
+			<input type='checkbox' name='couleur' id='c-bleu' value='bleu'/>
+			<label for='c-vert'>le vert</label>
+			<input type='checkbox' name='couleur' id='c-vert' value='vert'/>
+		</fieldset>
+		<fieldset>
+			<h2>votre forme préférée</h2>
+			<label for='f-carre'>le carré</label>
+			<input type='radio' name='forme' id='f-carre' value='carré'/>
+			<label for='f-rond'>le rond</label>
+			<input type='radio' name='forme' id='f-rond' value='rond'/>
+			<label for='f-triangle'>le triangle</label>
+			<input type='radio' name='forme' id='f-triangle' value='triangle'/>
+		</fieldset>
+		<fieldset>
+			<h2>votre humeur</h2>
+			<select>
+				<option value='joyeuse'>joyeuse</option>
+				<option value='sereine'>sereine</option>
+				<option value='rageuse'>colèrique</option>
+				<option value='triste'>triste</option>
+			</select>
+		</fieldset>
+		<input type='reset'/>
+		<input type='submit' onclick='printShape()'/>
+	</form>
+	<p id='resultat'>répondez au questionnaire.</p>
+	<p title='première infobulle'>infobulle utilisant l'attribut title.</p>
+	<p tabindex='0' aria-describedby='description-aria'>paragraphe survolable avec une description aria. le block contenant la description doit obligatoirement suivre son référent.</p>
+	<p id='description-aria' role='tooltip' aria-hidden='true'>je suis la description.</p>
+	<p tabindex='0' aria-describedby='description-js' class='aria-js'>paragraphe survolable dont l'infobulle est gérée par js.</p>
+	<p tabindex='0' id='description-js' role='tooltip' aria-hidden='true'>je suis la description gérée avec js.</p>
+<script type='text/javascript'>
+	// le formulaire
+	const showShape = document.getElementById ('resultat');
+	function printShape(){
+		const shape = document.querySelector ('input[name="forme"]:checked');
+		const colors = document.querySelectorAll ('input[name="couleur"]:checked');
+		if (! shape || colors.length ===0) showShape.innerHTML = 'veuillez choisir une forme et des couleurs';
+		else{
+			var message = 'vous aimez le: '+ shape.value +" "+ colors[0].value;
+			for (var c=1; c< colors.length -1; c++) message = message +", "+ colors[c].value;
+			if (colors.length >1) message = message +" et "+ colors [colors.length-1].value;
+			showShape.innerHTML = message;
+	}}
+	// l'infobulle. une infobulle close avec js (escape) doit être ré-ouverte avec js aussi. js masque le css.
+	Element.prototype.AttributePresent = function (attrName){
+		if (this.attributes[attrName] === undefined) return false;
+		else if (this.attributes[attrName].value ==="" || " \t".includes (this.attributes[attrName].value)) return false;
+		else return true;
+	}
+	HTMLElement.prototype.getByAttribute = function (attrName, attrValue){
+		var element = null;
+		if (this.AttributePresent (attrName) && this.getAttribute (attrName) === attrValue) return this;
+		else{
+			var c=0;
+			while (c< this.children.length){
+				element = this.children[c].getByAttribute (attrName, attrValue);
+				if (element === null) c+=1;
+				else c= this.children.length;
+		}}	
+		return element;
+	}
+	window.addEventListener ('keydown', function (event){
+		if (event.key === 'Escape'){
+			var activeElement = document.querySelector ('[role="tooltip"]:focus');
+			if (activeElement){
+				const reference = activeElement.parentElement.getByAttribute ('aria-describedby', activeElement.id);
+				console.log (reference.className, reference);
+				if (reference.className.includes ('aria-js')){
+					reference.focus();
+					activeElement.style.display = 'none';
+			}}else{
+				activeElement = document.querySelector ('[aria-describedby].aria-js:focus');
+				if (activeElement){
+					const tooltip = document.getElementById (activeElement.getAttribute ('aria-describedby'));
+					tooltip.style.display = 'none';
+	}}}});
+	function showTooltip (event){
+		const descId = event.target.getAttribute ('aria-describedby');
+		if (descId !== undefined){
+			const tooltip = document.getElementById (descId);
+			if (tooltip !== undefined){
+				if (tooltip.style.display === 'inline-block') tooltip.style.display = 'none';
+				else{
+					tooltip.style.display = 'inline-block';
+					tooltip.focus();
+	}}}}
+	var paragraphes = document.getElementsByClassName ('aria-js');
+	for (var p=0; p< paragraphes.length; p++) paragraphes[p].addEventListener ('click', showTooltip);
+</script></body></html>

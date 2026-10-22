@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang='fr-FR'><head>
+	<title>langue | rgaa test</title>
+	<base target='_self'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+<style type='text/css'>
+	/* body { -moz-transform: scale(2); } */
+	span.bulle, [role='tooltip'] {
+		position: relative;
+		top: -2em;
+		left: 1em;
+		border: solid 2px var(--bord-color);
+		border-radius: 1em;
+		text-align: center;
+		padding: 1%;
+		display: none;
+	}
+	p:hover, p:focus { border-style: solid; }
+	p:hover > span.bulle, p:focus > span.bulle, [aria-describedby]:hover + [role='tooltip'], [aria-describedby]:focus + [role='tooltip'] {
+		display: inline-block;
+	}
+	[role='tooltip']:hover { display: inline-block; }
+</style>
+</head><body>
+	<a href='./index.html'>retour à l'index</a>
+	<p tabindex='0' title='je suis le titre'>paragraphe survolable avec un tître.</p>
+	<p tabindex='0'>paragraphe survolable avec une bulle personelle. elle est survolable: <span class='bulle'>je suis la bulle</span></p>
+	<ul>
+		<li>si elle est incluse dans son parent</li>
+		<li>et si ses positions top et left la font chevaucher son parent</li>
+		<li>ou si elle aussi possède une règle css :hover display: inline-block</li>
+	</ul>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p lang='en'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p lang='es' dir='rtl'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p dir='etf'>lolo Lorem ipsum dolor sit amet.</p>
+	<p dir='rtl'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p dir='ltr'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</body></html>

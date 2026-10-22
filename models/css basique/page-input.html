@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head>
+	<title>input - notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	*:has(input) ~ * label { color: blue; }	/* label et imput emballés dans des conteneurs différents */
+	input ~ label { color: teal; }	/* label séparé de son imput, mais dans le même conteneur */
+	input + label { color: purple; }	/* label directement après l'imput */
+	input, label { display: block; }
+</style></head><body>
+	<h2>quelques inputs</h2>
+	<input type='checkbox' id='deployer-bouton-voisin' aria-controls='deployer-section' /><label>label voisin de son input</label>
+	<input type='checkbox' id='deployer-bouton-separe' aria-expended='false' aria-controls='deployer-section' />
+	<p>bla bla</p><p>bla</p>
+	<label for='deployer-bouton-separe'>label séparé de son input</label>
+	<p><input type='checkbox' id='deployer-bouton-emballe' aria-expended='false' aria-controls='deployer-section' /></p>
+	<p><label for='deployer-bouton-emballe'>label et input emballés</label></p>
+	<div id='deployer-section' aria-live='polite' class='sr-only'></div>
+	<p>l'alert doit être vide si on veut utiliser aria-live. display: bloc est interdit.</p>
+<script type='text/javascript'>
+	const boutons = document.getElementsByTagName ('input');
+	const section = document.getElementById ('deployer-section');
+	HTMLInputElement.prototype.deploiSection = function(){
+		if (this.checked){
+			section.innerHTML = '<p>bonjour je suis la section à déployer</p>';
+			section.className ="";
+			this.setAttribute ('aria-expended', true);
+		}else{
+			section.innerHTML ="";
+			section.className = 'sr-only';
+			this.setAttribute ('aria-expended', false);
+	}}
+	for (var bouton of boutons) bouton.addEventListener ('click', function (event){ event.target.deploiSection(); });
+</script></body></html>

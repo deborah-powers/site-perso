@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head>
+	<title>math ml - notes de css</title>
+	<meta name='viewport' content='width=device-width,initial-scale=1'/>
+	<meta charset='utf-8'/>
+	<link rel='icon' type='image/x-icon' href='../../site-dp/data/nounours-perso.svg'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/structure.css'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/perso.css' media='screen'/>
+	<link rel='stylesheet' type='text/css' href='../../site-dp/library-css/shapes.css'/>
+	<link rel='stylesheet' type='text/css' href='base.css'/>
+<style type='text/css'>
+	math {
+		display: block;
+		padding: 1em;
+		margin-bottom: 1em;
+	}
+</style></head><body class='list3'>
+	<h2>math ml</h2>
+	<a href='https://developer.mozilla.org/fr/docs/Web/MathML/Element/math'>source</a>
+	<p>un mrow représente une expression. ici, j'ai rangé chaque équation dans sa propre balise math, mais je peux en mettre plusieurs dans la même balise.</p>
+	<math id='racine'><mi>a</mi><mo>=</mo><msqrt><mn>2</mn><mo>&InvisibleTimes;</mo><mi>b</mi></msqrt></math>
+	<math id='fraction'><mi>a</mi><mo>=</mo><mfrac>
+		<mrow><mi>b</mi><mo>&PlusMinus;</mo><mn>5</mn></mrow>
+		<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+	</mfrac></math>
+	<math id='exposant'><mi>a</mi><mo>=</mo><msup>
+		<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+	</msup></math>
+	<math id='sub'><mi>a</mi><mo>=</mo><msub>
+		<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+	</msub></math>
+	<math id='parentheses'><mrow><mi>a</mi><mo>=</mo><mo>(</mo><mfrac>
+		<mrow><mi>b</mi><mo>&PlusMinus;</mo><mn>5</mn></mrow>
+		<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+	</mfrac><mo>)</mo><mo>*</mo><mi>d</mi></mrow></math>
+	<math id='dessous'><mi>a</mi><mo>=</mo><munder>
+		<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+	</munder></math>
+	<math id='dessus'><mi>a</mi><mo>=</mo><mover>
+		<mi>b</mi><mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+	</mover></math>
+	<math id='matrice'><mrow><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>=</mo><mo>{</mo><mtable>
+		<mtr><mtd>b</mtd><mtd>c</mtd></mtr><mtr><mtd>d</mtd><mtd>e</mtd></mtr>
+	</mtable><mo>}</mo></mrow></math>
+	<math id='subsup'><mi>a</mi><mo>=</mo><msubsup>
+		<mi>b</mi>
+		<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>c</mi></mrow>
+		<mrow><mn>4</mn><mo>&InvisibleTimes;</mo><mi>d</mi></mrow>
+	</msubsup></mrow></math>
+	<a href='index.html'>revenir au sommaire</a>
+</body></html>
